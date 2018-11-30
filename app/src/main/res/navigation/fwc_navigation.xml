@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fwc_navigation"
+    app:startDestination="@+id/home_dest">
+
+    <fragment
+        android:id="@+id/home_dest"
+        android:name="uk.airbyte.fwc.HomeFragment"
+        android:label="vm fragment"
+        tools:layout="@layout/home_fragment">
+
+        <action
+            android:id="@+id/action_home_dest_to_loginFragment"
+            app:destination="@id/splash_fragment" />
+        <action
+            android:id="@+id/action_home_dest_to_homeFragment"
+            app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_home_dest_to_topicsFragment"
+            app:destination="@id/topicsFragment" />
+        <action
+            android:id="@+id/action_home_dest_to_accountFragment"
+            app:destination="@id/accountFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/splash_fragment"
+        android:name="uk.airbyte.fwc.splashFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_splash" />
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="uk.airbyte.fwc.HomeFragment"
+        android:label="home_fragment"
+        tools:layout="@layout/home_fragment" />
+    <fragment
+        android:id="@+id/topicsFragment"
+        android:name="uk.airbyte.fwc.TopicsFragment"
+        android:label="topics_fragment"
+        tools:layout="@layout/topics_fragment" />
+    <fragment
+        android:id="@+id/accountFragment"
+        android:name="uk.airbyte.fwc.AccountFragment"
+        android:label="fragment_account"
+        tools:layout="@layout/fragment_account" />
+
+</navigation>
