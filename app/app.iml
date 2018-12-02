@@ -21,12 +21,35 @@
         <option name="ASSETS_FOLDER_RELATIVE_PATH" value="/src/main/assets" />
       </configuration>
     </facet>
+    <facet type="kotlin-language" name="Kotlin">
+      <configuration version="3" platform="JVM 1.6" useProjectSettings="false">
+        <compilerSettings />
+        <compilerArguments>
+          <option name="destination" value="$MODULE_DIR$/build/tmp/kotlin-classes/debug" />
+          <option name="classpath" value="$USER_HOME$/.gradle/caches/transforms-1/files-1.1/navigation-ui-1.0.0-alpha07.aar/cbfb30aa124c4dbc0c0c19d7a41e431b/jars/classes.jar:/Users/izzystannett/.gradle/caches/transforms-1/files-1.1/design-28.0.0.aar/97527bcea721d69e52af60bc416728df/jars/classes.jar:/Users/izzystannett/.gradle/caches/transforms-1/files-1.1/appcompat-v7-28.0.0.aar/7b633088fad5b3adf07d9d6654d7e9e1/jars/classes.jar:/Users/izzystannett/.gradle/caches/transforms-1/files-1.1/constraint-layout-1.1.3.aar/e9dd63bc7cc180c1ce12973efe9eb58a/jars/classes.jar:/Users/izzystannett/.gradle/caches/transforms-1/files-1.1/support-v4-28.0.0.aar/7b9c2ba1a95459f8e5ad0f648d148306/jars/classes.jar:/Users/izzystannett/.gradle/caches/transforms-1/files-1.1/extensions-1.1.1.aar/3456c7394a9de75500d3336a1c392846/jars/classes.jar:/Users/izzystannett/.gradle/caches/transforms-1/files-1.1/navigation-fragment-1.0.0-alpha07.aar/27d6836d9069150a8794f040cb19bf57/jars/classes.jar:/Users/izzystannett/.gradle/caches/transforms-1/files-1.1/support-media-compat-28.0.0.aar/34f71712edfbd8faffe3aefbef72c763/jars/classes.jar:/Users/izzystannett/.gradle/caches/transforms-1/files-1.1/animated-vector-drawable-28.0.0.aar/6c4d76129a8b3326592db03fbd0f2790/jars/classes.jar:/Users/izzystannett/.gradle/caches/transforms-1/files-1.1/support-vector-drawable-28.0.0.aar/fc10734ea48e18ab9eb728cd08a01ee1/jars/classes.jar:/Users/izzystannett/.gradle/caches/transforms-1/files-1.1/support-fragment-28.0.0.aar/ad617c6d2a984c20f03ad6a99f4504ee/jars/classes.jar:/Users/izzystannett/.gradle/caches/transforms-1/files-1.1/recyclerview-v7-28.0.0.aar/ed069484634439a832641adf93b94629/jars/classes.jar:/Users/izzystannett/.gradle/caches/transforms-1/files-1.1/support-core-ui-28.0.0.aar/4194cb82dc8ffaacc3f3a4872084c30a/jars/classes.jar:/Users/izzystannett/.gradle/caches/transforms-1/files-1.1/viewpager-28.0.0.aar/0c04006459bacddc3cb3f4da5bc95dac/jars/classes.jar:/Users/izzystannett/.gradle/caches/transforms-1/files-1.1/coordinatorlayout-28.0.0.aar/24a3bd1d18d8a3fea6f7284b12b47087/jars/classes.jar:/Users/izzystannett/.gradle/caches/transforms-1/files-1.1/drawerlayout-28.0.0.aar/b915fa79bef9aeb27016a102fa3f102e/jars/classes.jar:/Users/izzystannett/.gradle/caches/transforms-1/files-1.1/slidingpanelayout-28.0.0.aar/39c990b4a4e9394460664217f358e68a/jars/classes.jar:/Users/izzystannett/.gradle/caches/transforms-1/files-1.1/customview-28.0.0.aar/d927a06231f5280a40553ecb4e31db00/jars/classes.jar:/Users/izzystannett/.gradle/caches/transforms-1/files-1.1/swiperefreshlayout-28.0.0.aar/4d8f7487350b86d058819fc9329fc15e/jars/classes.jar:/Users/izzystannett/.gradle/caches/transforms-1/files-1.1/asynclayoutinflater-28.0.0.aar/2806accec14322fec016a799ea880832/jars/classes.jar:/Users/izzystannett/.gradle/caches/transforms-1/files-1.1/navigation-runtime-1.0.0-alpha07.aar/4d96994512a153157bbad58a9f598bbf/jars/classes.jar:/Users/izzystannett/.gradle/caches/transforms-1/files-1.1/navigation-common-1.0.0-alpha07.aar/ff95d5d45c2cec77f135e4ed5844e9e0/jars/classes.jar:/Users/izzystannett/.gradle/caches/transforms-1/files-1.1/support-core-utils-28.0.0.aar/68b03036ebc67a4ab2ae3cb9da2dba61/jars/classes.jar:/Users/izzystannett/.gradle/caches/transforms-1/files-1.1/loader-28.0.0.aar/c863f0e70e24c6f6f30b4d8f23b16d3e/jars/classes.jar:/Users/izzystannett/.gradle/caches/transforms-1/files-1.1/transition-28.0.0.aar/1856b488e68a28f8265203254b7a306e/jars/classes.jar:/Users/izzystannett/.gradle/caches/transforms-1/files-1.1/support-compat-28.0.0.aar/cf054362e999349be3270c5611208c72/jars/classes.jar:/Users/izzystannett/.gradle/caches/transforms-1/files-1.1/versionedparcelable-28.0.0.aar/20317d23abf5184d1df2f384480d0cb1/jars/classes.jar:/Users/izzystannett/.gradle/caches/modules-2/files-2.1/com.android.support/collections/28.0.0/c1bcdade4d3cc2836130424a3f3e4182c666a745/collections-28.0.0.jar:/Users/izzystannett/.gradle/caches/transforms-1/files-1.1/cursoradapter-28.0.0.aar/17c68ae6c171cfbbefb099fb4f2bfea9/jars/classes.jar:/Users/izzystannett/.gradle/caches/transforms-1/files-1.1/runtime-1.1.1.aar/8bcd284f8a0dd44d78b8892205f320c2/jars/classes.jar:/Users/izzystannett/.gradle/caches/transforms-1/files-1.1/livedata-1.1.1.aar/99c0ed0cfa94cc9673c91ca72304e065/jars/classes.jar:/Users/izzystannett/.gradle/caches/transforms-1/files-1.1/livedata-core-1.1.1.aar/4b41dd2fe568c98edc4c28374c938be8/jars/classes.jar:/Users/izzystannett/.gradle/caches/transforms-1/files-1.1/runtime-1.1.1.aar/5a74db551a48f5932640bf513ea33cba/jars/classes.jar:/Users/izzystannett/.gradle/caches/modules-2/files-2.1/android.arch.core/common/1.1.1/e55b70d1f5620db124b3e85a7f4bdc7bd48d9f95/common-1.1.1.jar:/Users/izzystannett/.gradle/caches/modules-2/files-2.1/android.arch.lifecycle/common/1.1.1/207a6efae6a3555e326de41f76bdadd9a239cbce/common-1.1.1.jar:/Users/izzystannett/.gradle/caches/transforms-1/files-1.1/viewmodel-1.1.1.aar/4adee69d1cdf5cef8ea5d3f122c4026c/jars/classes.jar:/Users/izzystannett/.gradle/caches/transforms-1/files-1.1/interpolator-28.0.0.aar/35733843d885e7ffa9aec953694d7303/jars/classes.jar:/Users/izzystannett/.gradle/caches/transforms-1/files-1.1/cardview-v7-28.0.0.aar/52b6673692adfad671da4c4f6045ff00/jars/classes.jar:/Users/izzystannett/.gradle/caches/transforms-1/files-1.1/documentfile-28.0.0.aar/051cac4d82561e6cc73925834c4abe40/jars/classes.jar:/Users/izzystannett/.gradle/caches/transforms-1/files-1.1/localbroadcastmanager-28.0.0.aar/d5338ad6ea0bbc7914678d44cf5f92dc/jars/classes.jar:/Users/izzystannett/.gradle/caches/transforms-1/files-1.1/print-28.0.0.aar/be12a6c5a604520456819debadcd6d13/jars/classes.jar:/Users/izzystannett/.gradle/caches/modules-2/files-2.1/com.android.support/support-annotations/28.0.0/ed73f5337a002d1fd24339d5fb08c2c9d9ca60d8/support-annotations-28.0.0.jar:/Users/izzystannett/.gradle/caches/modules-2/files-2.1/com.android.support.constraint/constraint-layout-solver/1.1.3/bde0667d7414c16ed62d3cfe993cff7f9d732373/constraint-layout-solver-1.1.3.jar:/Users/izzystannett/Library/Android/sdk/platforms/android-28/android.jar" />
+          <option name="noStdlib" value="true" />
+          <option name="noReflect" value="true" />
+          <option name="moduleName" value="app_debug" />
+          <option name="addCompilerBuiltIns" value="true" />
+          <option name="loadBuiltInsFromDependencies" value="true" />
+          <option name="languageVersion" value="1.3" />
+          <option name="apiVersion" value="1.3" />
+          <option name="pluginOptions">
+            <array />
+          </option>
+          <option name="pluginClasspaths">
+            <array />
+          </option>
+        </compilerArguments>
+      </configuration>
+    </facet>
   </component>
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_7">
     <output url="file://$MODULE_DIR$/build/intermediates/javac/debug/compileDebugJavaWithJavac/classes" />
     <output-test url="file://$MODULE_DIR$/build/intermediates/javac/debugUnitTest/compileDebugUnitTestJavaWithJavac/classes" />
     <exclude-output />
     <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/navigation-args/debug" isTestSource="false" generated="true" />
       <sourceFolder url="file://$MODULE_DIR$/build/generated/source/apt/debug" isTestSource="false" generated="true" />
       <sourceFolder url="file://$MODULE_DIR$/build/generated/not_namespaced_r_class_sources/debug/processDebugResources/r" isTestSource="false" generated="true" />
       <sourceFolder url="file://$MODULE_DIR$/build/generated/source/aidl/debug" isTestSource="false" generated="true" />
@@ -103,6 +126,7 @@
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/instant_run_split_apk_resources" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/javac" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/jniLibs" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/lint_jar" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/manifest-checker" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/merged_assets" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/merged_manifests" />
@@ -141,6 +165,7 @@
     <orderEntry type="library" scope="TEST" name="Gradle: com.android.support.test:monitor-1.0.2" level="project" />
     <orderEntry type="library" name="Gradle: com.android.support:loader-28.0.0" level="project" />
     <orderEntry type="library" name="Gradle: com.android.support:support-v4-28.0.0" level="project" />
+    <orderEntry type="library" name="Gradle: android.arch.navigation:navigation-ui-1.0.0-alpha07" level="project" />
     <orderEntry type="library" name="Gradle: com.android.support:viewpager-28.0.0" level="project" />
     <orderEntry type="library" name="Gradle: com.android.support:support-annotations:28.0.0@jar" level="project" />
     <orderEntry type="library" name="Gradle: com.android.support.constraint:constraint-layout-solver:1.1.3@jar" level="project" />
