@@ -84,27 +84,16 @@
         <action
             android:id="@+id/action_forgotFragment_to_signInFragment"
             app:destination="@id/signInFragment" />
-        <action
-            android:id="@+id/action_forgotFragment_to_pwLinkFragment"
-            app:destination="@id/pwLinkFragment" />
     </fragment>
-    <fragment
-        android:id="@+id/pwLinkFragment"
-        android:name="uk.airbyte.fwc.fragments.PwLinkFragment"
-        android:label="fragment_pw_link"
-        tools:layout="@layout/fragment_pw_link" >
-        <action
-            android:id="@+id/action_pwLinkFragment_to_signInFragment"
-            app:destination="@id/signInFragment" />
-    </fragment>
+
     <fragment
         android:id="@+id/resetPwFragment"
         android:name="uk.airbyte.fwc.fragments.ResetPwFragment"
         android:label="fragment_reset_pw"
         tools:layout="@layout/fragment_reset_pw" >
         <action
-            android:id="@+id/action_resetPwFragment_to_home_dest"
-            app:destination="@id/home_dest" />
+            android:id="@+id/action_resetPwFragment_to_signInFragment"
+            app:destination="@id/signInFragment" />
     </fragment>
 
 </navigation>

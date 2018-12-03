@@ -141,18 +141,9 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="-290" />
-                            <option name="y" value="408" />
+                            <option name="x" value="-952" />
+                            <option name="y" value="342" />
                           </Point>
-                        </option>
-                        <option name="myPositions">
-                          <map>
-                            <entry key="action_resetPwFragment_to_home_dest">
-                              <value>
-                                <LayoutPositions />
-                              </value>
-                            </entry>
-                          </map>
                         </option>
                       </LayoutPositions>
                     </value>
