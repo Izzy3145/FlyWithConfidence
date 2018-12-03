@@ -31,12 +31,18 @@ public class MainActivity extends AppCompatActivity {
         navController = Navigation.findNavController(this, R.id.my_nav_host_fragment);
 
         sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        //TODO: fix this up
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString(Const.LOGGED_IN_STATUS, Const.LOGGED_OUT);
+        editor.apply();
+
         loggedInStatus = sharedPref.getString(Const.LOGGED_IN_STATUS, Const.LOGGED_OUT);
         if(loggedInStatus.equals(Const.LOGGED_IN)){
             BottomNavigationView bottomNavigation = (BottomNavigationView) findViewById(R.id.btm_navigation);
             bottomNavigation.setVisibility(VISIBLE);
             NavigationUI.setupWithNavController(bottomNavigation, navController);
         } else {
+            //TODO: toggle for reset password deeplink?
             navController.navigate(R.id.splash_fragment);
             }
         }

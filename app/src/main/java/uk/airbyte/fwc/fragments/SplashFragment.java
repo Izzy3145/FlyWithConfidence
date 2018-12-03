@@ -34,19 +34,9 @@ public class SplashFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_splash, container, false);
         getStartedBtn = (Button) view.findViewById(R.id.startButton);
-        getStartedBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Navigation.findNavController(getView()).navigate(R.id.registerFragment);
-            }
-        });
+        getStartedBtn.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_splash_fragment_to_registerFragment));
         registeredBtn = (Button) view.findViewById(R.id.registeredBtn);
-        registeredBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Navigation.findNavController(getView()).navigate(R.id.signInFragment);
-            }
-        });
+        registeredBtn.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_splash_fragment_to_signInFragment));
         return view;
     }
 

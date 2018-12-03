@@ -6,7 +6,9 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
+import androidx.navigation.Navigation;
 import uk.airbyte.fwc.R;
 
 /**
@@ -14,6 +16,7 @@ import uk.airbyte.fwc.R;
  */
 public class ResetPwFragment extends Fragment {
 
+    private Button setPasswordBtn;
 
     public ResetPwFragment() {
         // Required empty public constructor
@@ -24,7 +27,10 @@ public class ResetPwFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_reset_pw, container, false);
+        View view =  inflater.inflate(R.layout.fragment_reset_pw, container, false);
+        setPasswordBtn = (Button) view.findViewById(R.id.btnSetPassword);
+        setPasswordBtn.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_resetPwFragment_to_signInFragment));
+        return view;
     }
 
 }

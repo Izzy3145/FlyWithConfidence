@@ -29,7 +29,12 @@
     <string name="create_account">CREATE ACCOUNT</string>
     <string name="forgot_password">I FORGOT MY PASSWORD</string>
     <string name="back_sign_in">BACK TO SIGN IN</string>
+    <string name="reset_password">RESET YOUR PASSWORD</string>
+
 
     <string name="network_error">Looks like something went wrong. Try again in a few seconds</string>
     <string name="description">The British Airways Flying With Confidence has been running for over 30 years and helped over 50,000 people overcome their fears. The courses take place throughout the year at airports throughout the UK.</string>
+    <string name="set_new_password">SET NEW PASSWORD</string>
+    <string name="confirm_new_password">Confirm new password</string>
+    <string name="choose_a_new_password">Choose a new password</string>
 </resources>

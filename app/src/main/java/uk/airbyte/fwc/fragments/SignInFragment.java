@@ -31,27 +31,12 @@ public class SignInFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_sign_in, container, false);
         signInBtn = (Button) view.findViewById(R.id.btnSignIn);
-        signInBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Navigation.findNavController(getView()).navigate(R.id.home_dest);
-            }
-        });
+        signInBtn.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_signInFragment_to_home_dest));
         forgotBtn = (Button) view.findViewById(R.id.forgotPasswordBtn);
-        forgotBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Navigation.findNavController(getView()).navigate(R.id.forgotFragment);
-            }
-        });
+        forgotBtn.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_signInFragment_to_forgotFragment));
         createAccountBtn = (Button) view.findViewById(R.id.createAccountBtn);
-        createAccountBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Navigation.findNavController(getView()).navigate(R.id.registerFragment);
-            }
-        });
-    return view;
+        createAccountBtn.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_signInFragment_to_registerFragment));
+        return view;
     }
 
 }

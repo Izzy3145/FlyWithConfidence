@@ -30,20 +30,9 @@ public class RegisterFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_register, container, false);
         createAccountBtn = (Button) view.findViewById(R.id.createAccountBtn);
-        createAccountBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Navigation.findNavController(getView()).navigate(R.id.home_dest);
-                //TODO: send signed in status to activity, for bottom nav view
-            }
-        });
+        createAccountBtn.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_registerFragment_to_home_dest));
         registeredBtn = (Button) view.findViewById(R.id.alreadyRegisteredBtn);
-        registeredBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Navigation.findNavController(getView()).navigate(R.id.signInFragment);
-            }
-        });
+        registeredBtn.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_registerFragment_to_signInFragment));
         return view;
     }
 }

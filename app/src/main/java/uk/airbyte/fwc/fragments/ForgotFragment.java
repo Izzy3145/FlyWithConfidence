@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.navigation.Navigation;
 import uk.airbyte.fwc.R;
@@ -32,16 +33,11 @@ public class ForgotFragment extends Fragment {
         signInBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Navigation.findNavController(getView()).navigate(R.id.resetPwFragment);
+                Toast.makeText(getActivity(),"Check your emails", Toast.LENGTH_SHORT).show();
             }
         });
-        signInBtn = (Button) view.findViewById(R.id.backSignIn);
-        signInBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Navigation.findNavController(getView()).navigate(R.id.signInFragment);
-            }
-        });
+        backSignInBtn = (Button) view.findViewById(R.id.backSignIn);
+        backSignInBtn.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_forgotFragment_to_signInFragment));
         return view;
     }
 }
