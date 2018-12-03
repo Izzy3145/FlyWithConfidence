@@ -6,4 +6,30 @@
     <string name="home">Home</string>
     <string name="topics">Topics</string>
     <string name="account">Account</string>
+
+    <string name="welcome_subtitle">The pocket-sized way to overcome your fear of flying</string>
+    <string name="get_started">GET STARTED</string>
+    <string name="already_registered">I\'M ALREADY REGISTERED</string>
+    <string name="create_boarding_pass">CREATE YOUR BOARDING PASS</string>
+    <string name="hint_first_name">First name</string>
+    <string name="hint_last_name">Last name</string>
+    <string name="choose_password">Choose a password</string>
+
+    <string name="hint_email_address">Email address</string>
+    <string name="hint_password">Password</string>
+
+    <string name="err_msg_first_name">Enter a valid first name</string>
+    <string name="err_msg_last_name">Enter a valid last name</string>
+    <string name="err_msg_email">Enter a valid email address</string>
+    <string name="err_msg_password">Enter the password</string>
+
+    <string name="terms_agreement">By signing up you agree to our terms of use and privacy policy</string>
+    <string name="sign_in">SIGN IN</string>
+    <string name="welcome_back">WELCOME BACK</string>
+    <string name="create_account">CREATE ACCOUNT</string>
+    <string name="forgot_password">I FORGOT MY PASSWORD</string>
+    <string name="back_sign_in">BACK TO SIGN IN</string>
+
+    <string name="network_error">Looks like something went wrong. Try again in a few seconds</string>
+    <string name="description">The British Airways Flying With Confidence has been running for over 30 years and helped over 50,000 people overcome their fears. The courses take place throughout the year at airports throughout the UK.</string>
 </resources>

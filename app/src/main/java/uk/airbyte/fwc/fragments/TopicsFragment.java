@@ -1,4 +1,4 @@
-package uk.airbyte.fwc;
+package uk.airbyte.fwc.fragments;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
@@ -9,24 +9,27 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class HomeFragment extends Fragment {
+import uk.airbyte.fwc.R;
+import uk.airbyte.fwc.viewmodels.TopicsViewModel;
 
-    private HomeViewModel mViewModel;
+public class TopicsFragment extends Fragment {
 
-    public static HomeFragment newInstance() {
-        return new HomeFragment();
+    private TopicsViewModel mViewModel;
+
+    public static TopicsFragment newInstance() {
+        return new TopicsFragment();
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.home_fragment, container, false);
+        return inflater.inflate(R.layout.topics_fragment, container, false);
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
+        mViewModel = ViewModelProviders.of(this).get(TopicsViewModel.class);
         // TODO: Use the ViewModel
     }
 

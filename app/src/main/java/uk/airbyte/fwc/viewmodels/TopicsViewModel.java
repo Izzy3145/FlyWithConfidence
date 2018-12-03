@@ -1,4 +1,4 @@
-package uk.airbyte.fwc;
+package uk.airbyte.fwc.viewmodels;
 
 import android.arch.lifecycle.ViewModel;
 

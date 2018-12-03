@@ -7,13 +7,10 @@
 
     <fragment
         android:id="@+id/home_dest"
-        android:name="uk.airbyte.fwc.HomeFragment"
+        android:name="uk.airbyte.fwc.fragments.HomeFragment"
         android:label="vm fragment"
         tools:layout="@layout/home_fragment">
 
-        <action
-            android:id="@+id/action_home_dest_to_loginFragment"
-            app:destination="@id/splash_fragment" />
         <action
             android:id="@+id/action_home_dest_to_homeFragment"
             app:destination="@id/homeFragment" />
@@ -27,23 +24,87 @@
 
     <fragment
         android:id="@+id/splash_fragment"
-        android:name="uk.airbyte.fwc.splashFragment"
+        android:name="uk.airbyte.fwc.fragments.SplashFragment"
         android:label="fragment_login"
-        tools:layout="@layout/fragment_splash" />
+        tools:layout="@layout/fragment_splash" >
+        <action
+            android:id="@+id/action_splash_fragment_to_registerFragment"
+            app:destination="@id/registerFragment" />
+        <action
+            android:id="@+id/action_splash_fragment_to_signInFragment"
+            app:destination="@id/signInFragment" />
+    </fragment>
     <fragment
         android:id="@+id/homeFragment"
-        android:name="uk.airbyte.fwc.HomeFragment"
+        android:name="uk.airbyte.fwc.fragments.HomeFragment"
         android:label="home_fragment"
         tools:layout="@layout/home_fragment" />
     <fragment
         android:id="@+id/topicsFragment"
-        android:name="uk.airbyte.fwc.TopicsFragment"
+        android:name="uk.airbyte.fwc.fragments.TopicsFragment"
         android:label="topics_fragment"
         tools:layout="@layout/topics_fragment" />
     <fragment
         android:id="@+id/accountFragment"
-        android:name="uk.airbyte.fwc.AccountFragment"
+        android:name="uk.airbyte.fwc.fragments.AccountFragment"
         android:label="fragment_account"
-        tools:layout="@layout/fragment_account" />
+        tools:layout="@layout/account_fragment" />
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="uk.airbyte.fwc.fragments.RegisterFragment"
+        android:label="fragment_register"
+        tools:layout="@layout/fragment_register" >
+        <action
+            android:id="@+id/action_registerFragment_to_signInFragment"
+            app:destination="@id/signInFragment" />
+        <action
+            android:id="@+id/action_registerFragment_to_home_dest"
+            app:destination="@id/home_dest" />
+    </fragment>
+    <fragment
+        android:id="@+id/signInFragment"
+        android:name="uk.airbyte.fwc.fragments.SignInFragment"
+        android:label="fragment_sign_in"
+        tools:layout="@layout/fragment_sign_in" >
+        <action
+            android:id="@+id/action_signInFragment_to_registerFragment"
+            app:destination="@id/registerFragment" />
+        <action
+            android:id="@+id/action_signInFragment_to_forgotFragment"
+            app:destination="@id/forgotFragment" />
+        <action
+            android:id="@+id/action_signInFragment_to_home_dest"
+            app:destination="@id/home_dest" />
+    </fragment>
+    <fragment
+        android:id="@+id/forgotFragment"
+        android:name="uk.airbyte.fwc.fragments.ForgotFragment"
+        android:label="fragment_forgot"
+        tools:layout="@layout/fragment_forgot" >
+        <action
+            android:id="@+id/action_forgotFragment_to_signInFragment"
+            app:destination="@id/signInFragment" />
+        <action
+            android:id="@+id/action_forgotFragment_to_pwLinkFragment"
+            app:destination="@id/pwLinkFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/pwLinkFragment"
+        android:name="uk.airbyte.fwc.fragments.PwLinkFragment"
+        android:label="fragment_pw_link"
+        tools:layout="@layout/fragment_pw_link" >
+        <action
+            android:id="@+id/action_pwLinkFragment_to_signInFragment"
+            app:destination="@id/signInFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/resetPwFragment"
+        android:name="uk.airbyte.fwc.fragments.ResetPwFragment"
+        android:label="fragment_reset_pw"
+        tools:layout="@layout/fragment_reset_pw" >
+        <action
+            android:id="@+id/action_resetPwFragment_to_home_dest"
+            app:destination="@id/home_dest" />
+    </fragment>
 
 </navigation>
