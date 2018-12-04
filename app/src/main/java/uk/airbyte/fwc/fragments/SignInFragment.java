@@ -1,6 +1,7 @@
 package uk.airbyte.fwc.fragments;
 
 
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.os.Bundle;
@@ -21,6 +22,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import uk.airbyte.fwc.R;
+import uk.airbyte.fwc.model.User;
 import uk.airbyte.fwc.viewmodels.AuthViewModel;
 
 
@@ -85,7 +87,13 @@ public class SignInFragment extends Fragment {
         //TODO: send to view model to receive accessToken, to pass to OnSignInListener
 
         Navigation.findNavController(getActivity(), R.id.my_nav_host_fragment).navigate(R.id.action_signInFragment_to_home_dest);
-
+        mAuthViewModel.getUser("morpheus", "leader").observe(this, new Observer<User>() {
+            @Override
+            public void onChanged(@Nullable User user) {
+                Log.d(TAG, "Response user name: " + user.name);
+                Log.d(TAG, "Response user id: " + user.id);
+            }
+        });
     }
 
     private Boolean validateEmail(){
