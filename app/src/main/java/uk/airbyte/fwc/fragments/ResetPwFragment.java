@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import androidx.navigation.Navigation;
+import butterknife.ButterKnife;
 import uk.airbyte.fwc.R;
 
 /**
@@ -28,6 +29,7 @@ public class ResetPwFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_reset_pw, container, false);
+        //ButterKnife.bind(this, view);
         setPasswordBtn = (Button) view.findViewById(R.id.btnSetPassword);
         setPasswordBtn.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_resetPwFragment_to_signInFragment));
         return view;

@@ -4,19 +4,22 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.navigation.NavController;
 import androidx.navigation.NavHost;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
+import uk.airbyte.fwc.fragments.RegisterFragment;
+import uk.airbyte.fwc.fragments.SignInFragment;
 import uk.airbyte.fwc.utils.Const;
 
-import static android.view.View.VISIBLE;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements SignInFragment.OnSignInListener, RegisterFragment.OnRegisterListener {
 
     private SharedPreferences sharedPref;
     private NavHost navHost;
@@ -39,11 +42,22 @@ public class MainActivity extends AppCompatActivity {
         loggedInStatus = sharedPref.getString(Const.LOGGED_IN_STATUS, Const.LOGGED_OUT);
         if(loggedInStatus.equals(Const.LOGGED_IN)){
             BottomNavigationView bottomNavigation = (BottomNavigationView) findViewById(R.id.btm_navigation);
-            bottomNavigation.setVisibility(VISIBLE);
+            bottomNavigation.setVisibility(View.VISIBLE);
             NavigationUI.setupWithNavController(bottomNavigation, navController);
         } else {
             //TODO: toggle for reset password deeplink?
             navController.navigate(R.id.splash_fragment);
             }
         }
+
+
+    @Override
+    public void onSignIn(String accessToken) {
+            //TODO: get accessToken, use it to control flow
+    }
+
+    @Override
+    public void onRegister(String accessToken) {
+        //TODO: get accessToken, use it to control flow
+    }
 }

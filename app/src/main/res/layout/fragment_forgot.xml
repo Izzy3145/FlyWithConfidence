@@ -7,6 +7,8 @@
     tools:context=".fragments.SignInFragment"
     android:clickable="true">
 
+    <!-- TODO: add groups for two stages -->
+
     <LinearLayout
         android:id="@+id/boardingPass"
         android:layout_width="match_parent"

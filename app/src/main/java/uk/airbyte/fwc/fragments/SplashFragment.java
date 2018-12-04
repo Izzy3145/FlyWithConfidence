@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import androidx.navigation.Navigation;
+import butterknife.ButterKnife;
 import uk.airbyte.fwc.R;
 
 
@@ -33,6 +34,7 @@ public class SplashFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_splash, container, false);
+        //ButterKnife.bind(this, view);
         getStartedBtn = (Button) view.findViewById(R.id.startButton);
         getStartedBtn.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_splash_fragment_to_registerFragment));
         registeredBtn = (Button) view.findViewById(R.id.registeredBtn);
