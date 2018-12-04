@@ -1,10 +1,8 @@
 package uk.airbyte.fwc.fragments;
 
 
-import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
@@ -17,7 +15,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 
 import androidx.navigation.Navigation;
 import butterknife.BindView;
@@ -25,7 +22,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import uk.airbyte.fwc.R;
 import uk.airbyte.fwc.viewmodels.AuthViewModel;
-import uk.airbyte.fwc.viewmodels.TopicsViewModel;
 
 
 public class SignInFragment extends Fragment {
