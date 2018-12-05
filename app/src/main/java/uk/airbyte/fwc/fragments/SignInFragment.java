@@ -4,7 +4,9 @@ package uk.airbyte.fwc.fragments;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
@@ -23,6 +25,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import uk.airbyte.fwc.R;
 import uk.airbyte.fwc.model.User;
+import uk.airbyte.fwc.utils.Const;
 import uk.airbyte.fwc.viewmodels.AuthViewModel;
 
 
@@ -47,9 +50,12 @@ public class SignInFragment extends Fragment {
 
     private String email;
     private String password;
+    private User signedInUser;
     private OnSignInListener mListener;
     private String accessToken;
     private AuthViewModel mAuthViewModel;
+    private SharedPreferences sharedPref;
+    private SharedPreferences.Editor editor;
 
 
     public SignInFragment() {
@@ -62,6 +68,10 @@ public class SignInFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_sign_in, container, false);
         ButterKnife.bind(this, view);
+
+        sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        editor = sharedPref.edit();
+
         //signInBtn.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_signInFragment_to_home_dest));
         forgotBtn.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_signInFragment_to_forgotFragment));
         createAccountBtn.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_signInFragment_to_registerFragment));
@@ -84,16 +94,21 @@ public class SignInFragment extends Fragment {
         Log.d(TAG, "Email address: " + email);
         Log.d(TAG, " Password: " + password);
 
-        //TODO: send to view model to receive accessToken, to pass to OnSignInListener
-
-        Navigation.findNavController(getActivity(), R.id.my_nav_host_fragment).navigate(R.id.action_signInFragment_to_home_dest);
-        mAuthViewModel.getUser("morpheus", "leader").observe(this, new Observer<User>() {
+        mAuthViewModel.getUser("izzy", "engineer").observe(this, new Observer<User>() {
             @Override
             public void onChanged(@Nullable User user) {
-                Log.d(TAG, "Response user name: " + user.name);
-                Log.d(TAG, "Response user id: " + user.id);
+                if(user != null){
+                    editor.putString(Const.USER_ID, user.getId());
+                    Log.d(TAG, "User id: " + user.getId());
+                }
             }
         });
+
+        //TODO: send to view model to receive accessToken, to pass to OnSignInListener
+
+        //Navigation.findNavController(getActivity(), R.id.my_nav_host_fragment).navigate(R.id.action_signInFragment_to_home_dest);
+
+
     }
 
     private Boolean validateEmail(){
@@ -129,7 +144,9 @@ public class SignInFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         //tells the fragment that its activity has completed its own Activity.onCreate()
-        mAuthViewModel = ViewModelProviders.of(this).get(AuthViewModel.class);
+        mAuthViewModel = ViewModelProviders.of(getActivity()).get(AuthViewModel.class);
+
+
     }
 
     @Override

@@ -7,6 +7,7 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import androidx.navigation.NavController;
@@ -17,14 +18,18 @@ import androidx.navigation.ui.NavigationUI;
 import uk.airbyte.fwc.fragments.RegisterFragment;
 import uk.airbyte.fwc.fragments.SignInFragment;
 import uk.airbyte.fwc.utils.Const;
+import uk.airbyte.fwc.viewmodels.AuthViewModel;
 
 
 public class MainActivity extends AppCompatActivity implements SignInFragment.OnSignInListener, RegisterFragment.OnRegisterListener {
+
+    private static final String TAG = MainActivity.class.getSimpleName();
 
     private SharedPreferences sharedPref;
     private NavHost navHost;
     private NavController navController;
     private String loggedInStatus;
+    private String userID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +43,9 @@ public class MainActivity extends AppCompatActivity implements SignInFragment.On
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putString(Const.LOGGED_IN_STATUS, Const.LOGGED_OUT);
         editor.apply();
+
+        userID = sharedPref.getString(Const.USER_ID, "100");
+        Log.d(TAG, "UserID from shared pref: " + userID);
 
         loggedInStatus = sharedPref.getString(Const.LOGGED_IN_STATUS, Const.LOGGED_OUT);
         if(loggedInStatus.equals(Const.LOGGED_IN)){
