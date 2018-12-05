@@ -5,54 +5,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class User {
 
-    @SerializedName("name")
-    public String name;
-    @SerializedName("job")
-    public String job;
-    @SerializedName("id")
-    public String id;
-    @SerializedName("createdAt")
-    public String createdAt;
-
-    public User(String name, String job) {
-        this.name = name;
-        this.job = job;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getJob() {
-        return job;
-    }
-
-    public void setJob(String job) {
-        this.job = job;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(String createdAt) {
-        this.createdAt = createdAt;
-    }
-}
-
-  /*      @SerializedName("id")
+        @SerializedName("id")
         @Expose
         private String id;
         @SerializedName("first_name")
@@ -72,7 +25,7 @@ public class User {
          * No args constructor for use in serialization
          *
          */
-       /* public User() {
+        public User() {
         }
 
         /**
@@ -83,7 +36,7 @@ public class User {
          * @param emailAddress
          * @param firstName
          */
-        /*public User(String id, String firstName, String lastName, String emailAddress, String accessToken) {
+        public User(String id, String firstName, String lastName, String emailAddress, String accessToken) {
             super();
             this.id = id;
             this.firstName = firstName;
@@ -132,4 +85,4 @@ public class User {
             this.accessToken = accessToken;
         }
 
-}*/
+}

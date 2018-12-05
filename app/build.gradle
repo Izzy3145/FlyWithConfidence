@@ -13,6 +13,10 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
+        debug {
+            buildConfigField "String", "API_BASE_URL", "\"https://api.app.flyingwithconfidence.com\""
+            buildConfigField "String", "DEBUG_API_KEY", "\"f11f50e7840f6a6ba11a6b95d4b8c0b12a3d9da3\""
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'

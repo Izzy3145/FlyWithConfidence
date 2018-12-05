@@ -1,6 +1,7 @@
 package uk.airbyte.fwc.fragments;
 
 
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,12 +22,15 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import uk.airbyte.fwc.R;
+import uk.airbyte.fwc.model.User;
 import uk.airbyte.fwc.viewmodels.AuthViewModel;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class RegisterFragment extends Fragment {
+
+    private static final String TAG = RegisterFragment.class.getSimpleName();
 
     @BindView(R.id.createAccountBtn)
     Button createAccountBtn;
@@ -97,9 +102,21 @@ public class RegisterFragment extends Fragment {
         password = inputPassword.getText().toString().trim();
 
         //TODO: send to view model to receive accessToken, to pass to OnRegisterListener
-
-        Navigation.findNavController(getActivity(), R.id.my_nav_host_fragment).navigate(R.id.action_registerFragment_to_home_dest);
-
+        mAuthViewModel.getUserTwo(password, email, lastName,firstName).observe(this, new Observer<User>() {
+            @Override
+            public void onChanged(@Nullable User user) {
+                if(user != null){
+                    //editor.putString(Const.USER_ID, user.getId());
+                    Log.d(TAG, "User first name: " + user.getFirstName());
+                    Log.d(TAG, "User last name: " + user.getLastName());
+                    Log.d(TAG, "User id: " + user.getId());
+                    Log.d(TAG, "User accessToken: " + user.getAccessToken());
+                    mListener.onRegister(user.getAccessToken());
+                    Navigation.findNavController(getActivity(), R.id.my_nav_host_fragment).
+                            navigate(R.id.action_registerFragment_to_home_dest);
+                }
+            }
+        });
     }
 
     private Boolean validateFirstName(){
@@ -159,7 +176,6 @@ public class RegisterFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mAuthViewModel = ViewModelProviders.of(this).get(AuthViewModel.class);
-        //mListener.onRegister();
     }
 
     @Override

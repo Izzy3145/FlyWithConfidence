@@ -10,45 +10,71 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import uk.airbyte.fwc.api.APIClient;
 import uk.airbyte.fwc.api.APIService;
+import uk.airbyte.fwc.model.Login;
 import uk.airbyte.fwc.model.User;
 
 public class AuthViewModel extends ViewModel {
 
     private static final String TAG = AuthViewModel.class.getSimpleName();
 
-
     private MutableLiveData<User> user;
 
+    private APIService apiService = APIClient.getClient().create(APIService.class);
+
     //we will call this method to get the data
-    public LiveData<User> getUser(String name, String leader) {
+    public LiveData<User> getUser(String password, String email) {
         if (user == null) {
             user = new MutableLiveData<User>();
             //we will load it asynchronously from server in this method
-            loadUser(name, leader);
+            loginUser(password, email);
         }
-
-        //finally we will return the list
-        Log.d(TAG, "Response getUser(): " + user.toString());
 
         return user;
     }
 
-    private void loadUser(String name, String leader){
-        APIService apiService = APIClient.getClient().create(APIService.class);
-        Call<User> call = apiService.createUser(new User(name, leader));
+    //TODO: remove/adapt?
+    //we will call this method to get the data
+    public LiveData<User> getUserTwo(String password, String email, String lName, String fName) {
+        if (user == null) {
+            user = new MutableLiveData<User>();
+            //we will load it asynchronously from server in this method
+            registerUser(password, email, lName, fName);
+        }
 
-        call.enqueue(new Callback<User>() {
+        return user;
+    }
+
+    private void loginUser(String password, String email) {
+        apiService.login(new Login(password, email))
+                .enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
-                Log.d(TAG, "Response loadUser() success: " + response.body());
+                Log.d(TAG, "Response loginUser() success: " + response.body());
                 user.postValue(response.body());
             }
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
-                Log.d(TAG, "Response loadUser() failure");
+                Log.d(TAG, "Response loginUser() failure");
                 user.postValue(null);
             }
         });
+    }
+
+    private void registerUser(String password, String email, String lName, String fName) {
+        apiService.registerUser(new Login(password, email, lName, fName))
+                .enqueue(new Callback<User>() {
+                    @Override
+                    public void onResponse(Call<User> call, Response<User> response) {
+                        Log.d(TAG, "Response loginUser() success: " + response.body());
+                        user.postValue(response.body());
+                    }
+
+                    @Override
+                    public void onFailure(Call<User> call, Throwable t) {
+                        Log.d(TAG, "Response loginUser() failure");
+                        user.postValue(null);
+                    }
+                });
     }
 }

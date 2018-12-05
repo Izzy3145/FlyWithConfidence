@@ -69,6 +69,9 @@ public class MainActivity extends AppCompatActivity implements SignInFragment.On
 
     @Override
     public void onRegister(String accessToken) {
+        userID = accessToken;
+        Log.d(TAG, "UserID from onRegister listener: " + userID);
+
         //TODO: get accessToken, use it to control flow
     }
 }

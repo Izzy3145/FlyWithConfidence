@@ -2,18 +2,21 @@ package uk.airbyte.fwc.api;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.Headers;
 import retrofit2.http.POST;
+import uk.airbyte.fwc.BuildConfig;
+import uk.airbyte.fwc.model.Login;
 import uk.airbyte.fwc.model.User;
 
 public interface APIService {
 
     @POST("/auth/register")
-    Call<User> registerUser();
-    //add in @Body User user
+    Call<User> registerUser(@Body Login login);
 
     @POST("/auth")
-    Call<User> login();
-    //pass in @Field("email") String email,  @Field("password") String password
+    Call<User> login(@Body Login login);
 
     @POST("/auth/forgot")
     Call<Boolean> forgotPassword();

@@ -89,16 +89,16 @@ public class SignInFragment extends Fragment {
         Log.d(TAG, " Password: " + password);
 
         //TODO: link up actual API, and pass in email and password
-        mAuthViewModel.getUser("izzy", "engineer").observe(this, new Observer<User>() {
+        mAuthViewModel.getUser(password, email).observe(this, new Observer<User>() {
             @Override
             public void onChanged(@Nullable User user) {
                 if(user != null){
                     //editor.putString(Const.USER_ID, user.getId());
-                    Log.d(TAG, "User name: " + user.getName());
-                    Log.d(TAG, "User job: " + user.getJob());
+                    Log.d(TAG, "User first name: " + user.getFirstName());
+                    Log.d(TAG, "User last name: " + user.getLastName());
                     Log.d(TAG, "User id: " + user.getId());
-                    Log.d(TAG, "User createdAt: " + user.getCreatedAt());
-                    mListener.onSignIn(user.getId());
+                    Log.d(TAG, "User accessToken: " + user.getAccessToken());
+                    mListener.onSignIn(user.getAccessToken());
                     Navigation.findNavController(getActivity(), R.id.my_nav_host_fragment).
                             navigate(R.id.action_signInFragment_to_home_dest);
                 }
