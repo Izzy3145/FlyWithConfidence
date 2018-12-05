@@ -10,7 +10,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import uk.airbyte.fwc.api.APIClient;
 import uk.airbyte.fwc.api.APIService;
-import uk.airbyte.fwc.fragments.SignInFragment;
 import uk.airbyte.fwc.model.User;
 
 public class AuthViewModel extends ViewModel {
@@ -28,11 +27,11 @@ public class AuthViewModel extends ViewModel {
             loadUser(name, leader);
         }
 
+        //finally we will return the list
         Log.d(TAG, "Response getUser(): " + user.toString());
 
         return user;
-        }
-
+    }
 
     private void loadUser(String name, String leader){
         APIService apiService = APIClient.getClient().create(APIService.class);

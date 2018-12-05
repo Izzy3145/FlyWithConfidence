@@ -54,8 +54,6 @@ public class SignInFragment extends Fragment {
     private OnSignInListener mListener;
     private String accessToken;
     private AuthViewModel mAuthViewModel;
-    private SharedPreferences sharedPref;
-    private SharedPreferences.Editor editor;
 
 
     public SignInFragment() {
@@ -68,10 +66,6 @@ public class SignInFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_sign_in, container, false);
         ButterKnife.bind(this, view);
-
-        sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        editor = sharedPref.edit();
-
         //signInBtn.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_signInFragment_to_home_dest));
         forgotBtn.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_signInFragment_to_forgotFragment));
         createAccountBtn.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_signInFragment_to_registerFragment));
@@ -98,16 +92,16 @@ public class SignInFragment extends Fragment {
             @Override
             public void onChanged(@Nullable User user) {
                 if(user != null){
-                    editor.putString(Const.USER_ID, user.getId());
+                    //editor.putString(Const.USER_ID, user.getId());
                     Log.d(TAG, "User id: " + user.getId());
+                    mListener.onSignIn(user.getId());
+                    Navigation.findNavController(getActivity(), R.id.my_nav_host_fragment).
+                            navigate(R.id.action_signInFragment_to_home_dest);
                 }
             }
         });
 
         //TODO: send to view model to receive accessToken, to pass to OnSignInListener
-
-        //Navigation.findNavController(getActivity(), R.id.my_nav_host_fragment).navigate(R.id.action_signInFragment_to_home_dest);
-
 
     }
 

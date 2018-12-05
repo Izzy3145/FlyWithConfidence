@@ -44,8 +44,8 @@ public class MainActivity extends AppCompatActivity implements SignInFragment.On
         editor.putString(Const.LOGGED_IN_STATUS, Const.LOGGED_OUT);
         editor.apply();
 
-        userID = sharedPref.getString(Const.USER_ID, "100");
-        Log.d(TAG, "UserID from shared pref: " + userID);
+        //userID = sharedPref.getString(Const.USER_ID, "100");
+        //Log.d(TAG, "UserID from shared pref: " + userID);
 
         loggedInStatus = sharedPref.getString(Const.LOGGED_IN_STATUS, Const.LOGGED_OUT);
         if(loggedInStatus.equals(Const.LOGGED_IN)){
@@ -62,6 +62,9 @@ public class MainActivity extends AppCompatActivity implements SignInFragment.On
     @Override
     public void onSignIn(String accessToken) {
             //TODO: get accessToken, use it to control flow
+        userID = accessToken;
+        Log.d(TAG, "UserID from onSignIn listener: " + userID);
+
     }
 
     @Override
