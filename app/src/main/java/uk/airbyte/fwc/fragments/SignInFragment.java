@@ -47,11 +47,8 @@ public class SignInFragment extends Fragment {
 
     private String email;
     private String password;
-    private User signedInUser;
     private OnSignInListener mListener;
-    private String accessToken;
     private AuthViewModel mAuthViewModel;
-
 
     public SignInFragment() {
         // Required empty public constructor

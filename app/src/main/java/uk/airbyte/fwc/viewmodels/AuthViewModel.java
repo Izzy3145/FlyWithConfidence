@@ -4,12 +4,15 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.util.Log;
+import android.widget.Toast;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import uk.airbyte.fwc.api.APIClient;
+import uk.airbyte.fwc.api.APIError;
 import uk.airbyte.fwc.api.APIService;
+import uk.airbyte.fwc.api.ErrorUtils;
 import uk.airbyte.fwc.model.Login;
 import uk.airbyte.fwc.model.Reminder;
 import uk.airbyte.fwc.model.User;
@@ -59,8 +62,18 @@ public class AuthViewModel extends ViewModel {
                 .enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
-                Log.d(TAG, "Response loginCall() success: " + response.body());
-                user.postValue(response.body());
+                if (response.isSuccessful()) {
+
+                    Log.d(TAG, "Response loginCall() success: " + response.body());
+                    user.postValue(response.body());
+                } else {
+                    APIError error = ErrorUtils.parseError(response);
+                    // … and use it to show error information
+                    //TODO: make this work
+                    // … or just log the issue like we’re doing :)
+                    Log.d("loginCall() error message", error.message());
+                }
+
             }
 
             @Override
@@ -76,8 +89,17 @@ public class AuthViewModel extends ViewModel {
                 .enqueue(new Callback<User>() {
                     @Override
                     public void onResponse(Call<User> call, Response<User> response) {
-                        Log.d(TAG, "Response registerCall() success: " + response.body());
-                        user.postValue(response.body());
+                        if (response.isSuccessful()) {
+
+                            Log.d(TAG, "Response registerCall() success: " + response.body());
+                            user.postValue(response.body());
+                        } else {
+                            APIError error = ErrorUtils.parseError(response);
+                            // … and use it to show error information
+                            //TODO: make this work
+                            // … or just log the issue like we’re doing :)
+                            Log.d("registerCall() error message", error.message());
+                        }
                     }
 
                     @Override
@@ -92,8 +114,16 @@ public class AuthViewModel extends ViewModel {
         apiService.forgotPassword(email).enqueue(new Callback<Reminder>() {
             @Override
             public void onResponse(Call<Reminder> call, Response<Reminder> response) {
-                Log.d(TAG, "Response forgotCall() success: " + response.body());
-                reminderSent.postValue(response.body());
+                if (response.isSuccessful()) {
+                    Log.d(TAG, "Response forgotCall() success: " + response.body());
+                    reminderSent.postValue(response.body());
+                } else {
+                    APIError error = ErrorUtils.parseError(response);
+                    // … and use it to show error information
+                    //TODO: make this work
+                    // … or just log the issue like we’re doing :)
+                    Log.d("forgotCall() error message", error.message());
+                }
             }
 
             @Override

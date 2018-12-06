@@ -54,7 +54,13 @@ public class MainActivity extends AppCompatActivity implements SignInFragment.On
             NavigationUI.setupWithNavController(bottomNavigation, navController);
         } else {
             //TODO: toggle for reset password deeplink?
-            navController.navigate(R.id.splash_fragment);
+            //TODO: reverse these changes to get startup screen
+            //navController.navigate(R.id.splash_fragment);
+
+            BottomNavigationView bottomNavigation = (BottomNavigationView) findViewById(R.id.btm_navigation);
+            bottomNavigation.setVisibility(View.VISIBLE);
+            NavigationUI.setupWithNavController(bottomNavigation, navController);
+
             }
         }
 

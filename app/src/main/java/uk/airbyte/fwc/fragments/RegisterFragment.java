@@ -101,7 +101,6 @@ public class RegisterFragment extends Fragment {
         email = inputEmailAddress.getText().toString().trim();
         password = inputPassword.getText().toString().trim();
 
-        //TODO: send to view model to receive accessToken, to pass to OnRegisterListener
         mAuthViewModel.getUserFromRegister(password, email, lastName,firstName).observe(this, new Observer<User>() {
             @Override
             public void onChanged(@Nullable User user) {

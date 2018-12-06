@@ -5,6 +5,7 @@ import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.constraint.Group;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
@@ -15,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.navigation.Navigation;
@@ -25,6 +27,8 @@ import uk.airbyte.fwc.R;
 import uk.airbyte.fwc.model.Reminder;
 import uk.airbyte.fwc.model.User;
 import uk.airbyte.fwc.viewmodels.AuthViewModel;
+
+import static android.view.View.GONE;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -41,6 +45,12 @@ public class ForgotFragment extends Fragment {
     TextInputEditText inputEmailAddress;
     @BindView(R.id.inputLayoutEmailAddress)
     TextInputLayout inputLayoutEmailAddress;
+    @BindView(R.id.sendGroup)
+    Group sendGroup;
+    @BindView(R.id.sentGroup)
+    Group sentGroup;
+    @BindView(R.id.sentEmailTv)
+    TextView sentEmailTv;
 
     private String email;
     private AuthViewModel mAuthViewModel;
@@ -55,12 +65,6 @@ public class ForgotFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_forgot, container, false);
         ButterKnife.bind(this, view);
-        /*signInBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getActivity(),"Check your emails", Toast.LENGTH_SHORT).show();
-            }
-        });*/
         backSignInBtn.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_forgotFragment_to_signInFragment));
         return view;
     }
@@ -78,9 +82,17 @@ public class ForgotFragment extends Fragment {
         mAuthViewModel.getForgottenPw(email).observe(this, new Observer<Reminder>() {
             @Override
             public void onChanged(@Nullable Reminder reminder) {
-                if(reminder != null){
+                if (reminder != null) {
+                    if (reminder.getSent()) {
+                        //TODO: check this works, make email address bold somehow
+                        sentEmailTv.setText(String.format(getResources().getString(R.string.sent_reminder_email),
+                                String.valueOf(email)));
+                        sendGroup.setVisibility(GONE);
+                        sentGroup.setVisibility(View.VISIBLE);
+                    } else {
+                        Toast.makeText(getActivity(), "Email address not registered", Toast.LENGTH_SHORT).show();
+                    }
                     Log.d(TAG, "Boolean received: " + reminder.toString());
-                    Toast.makeText(getActivity(),"Check your emails", Toast.LENGTH_SHORT).show();
                 }
             }
         });

@@ -19,7 +19,4 @@ public interface APIService {
     @POST("/auth/forgot")
     Call<Reminder> forgotPassword(@Body String email);
 
-    //TEST
-    @POST("/api/users")
-    Call<User> createUser(@Body User user);
 }

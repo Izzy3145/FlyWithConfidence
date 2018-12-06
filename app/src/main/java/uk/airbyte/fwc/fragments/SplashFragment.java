@@ -25,6 +25,7 @@ public class SplashFragment extends Fragment {
     //private SplashFragmentListener mListener;
     private Button getStartedBtn;
     private Button registeredBtn;
+
     public SplashFragment() {
         // Required empty public constructor
     }

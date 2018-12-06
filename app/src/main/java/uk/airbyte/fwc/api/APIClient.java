@@ -16,7 +16,7 @@ import uk.airbyte.fwc.BuildConfig;
 
 public class APIClient {
 
-    private static String API_KEY = "f11f50e7840f6a6ba11a6b95d4b8c0b12a3d9da3";
+    private static String API_KEY = BuildConfig.DEBUG_API_KEY;
     private static Retrofit retrofit = null;
 
     public static Retrofit getClient() {

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/fwc_navigation"
-    app:startDestination="@id/splash_fragment">
+    app:startDestination="@id/home_dest">
 
     <fragment
         android:id="@+id/home_dest"
@@ -34,7 +34,7 @@
             app:exitAnim="@anim/slide_out_left"
             app:launchSingleTop="true"
             app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_left" />
+            app:popExitAnim="@anim/slide_out_right" />
         <action
             android:id="@+id/action_splash_fragment_to_signInFragment"
             app:destination="@id/signInFragment"
@@ -42,7 +42,7 @@
             app:exitAnim="@anim/slide_out_left"
             app:launchSingleTop="true"
             app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_left" />
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
@@ -56,9 +56,19 @@
         tools:layout="@layout/topics_fragment" />
     <fragment
         android:id="@+id/accountFragment"
-        android:name="uk.airbyte.fwc.fragments.AccountFragment"
+        android:name="uk.airbyte.fwc.fragments.account.AccountFragment"
         android:label="fragment_account"
-        tools:layout="@layout/account_fragment" />
+        tools:layout="@layout/account_fragment" >
+        <action
+            android:id="@+id/action_accountFragment_to_updateDetailsFragment"
+            app:destination="@id/updateDetailsFragment" />
+        <action
+            android:id="@+id/action_accountFragment_to_changePwFragment"
+            app:destination="@id/changePwFragment" />
+        <action
+            android:id="@+id/action_accountFragment_to_coursesFragment2"
+            app:destination="@id/coursesFragment2" />
+    </fragment>
     <fragment
         android:id="@+id/registerFragment"
         android:name="uk.airbyte.fwc.fragments.RegisterFragment"
@@ -71,14 +81,14 @@
             app:exitAnim="@anim/slide_out_left"
             app:launchSingleTop="true"
             app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_left" />
+            app:popExitAnim="@anim/slide_out_right" />
         <action
             android:id="@+id/action_registerFragment_to_home_dest"
             app:destination="@id/home_dest"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_left" />
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/signInFragment"
@@ -92,7 +102,7 @@
             app:exitAnim="@anim/slide_out_left"
             app:launchSingleTop="true"
             app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_left" />
+            app:popExitAnim="@anim/slide_out_right" />
         <action
             android:id="@+id/action_signInFragment_to_forgotFragment"
             app:destination="@id/forgotFragment"
@@ -100,14 +110,14 @@
             app:exitAnim="@anim/slide_out_left"
             app:launchSingleTop="true"
             app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_left" />
+            app:popExitAnim="@anim/slide_out_right" />
         <action
             android:id="@+id/action_signInFragment_to_home_dest"
             app:destination="@id/home_dest"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_left" />
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/forgotFragment"
@@ -121,7 +131,7 @@
             app:exitAnim="@anim/slide_out_right"
             app:launchSingleTop="true"
             app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_left" />
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
 
     <fragment
@@ -136,7 +146,22 @@
             app:exitAnim="@anim/slide_out_left"
             app:launchSingleTop="true"
             app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_left" />
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
+    <fragment
+        android:id="@+id/updateDetailsFragment"
+        android:name="uk.airbyte.fwc.fragments.account.UpdateDetailsFragment"
+        android:label="fragment_update_details"
+        tools:layout="@layout/fragment_update_details" />
+    <fragment
+        android:id="@+id/coursesFragment2"
+        android:name="uk.airbyte.fwc.fragments.account.CoursesFragment"
+        android:label="fragment_courses"
+        tools:layout="@layout/fragment_courses" />
+    <fragment
+        android:id="@+id/changePwFragment"
+        android:name="uk.airbyte.fwc.fragments.account.ChangePwFragment"
+        android:label="fragment_change_pw"
+        tools:layout="@layout/fragment_change_pw" />
 
 </navigation>
