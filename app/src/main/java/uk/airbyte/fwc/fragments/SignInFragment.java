@@ -4,9 +4,7 @@ package uk.airbyte.fwc.fragments;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
@@ -25,7 +23,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import uk.airbyte.fwc.R;
 import uk.airbyte.fwc.model.User;
-import uk.airbyte.fwc.utils.Const;
 import uk.airbyte.fwc.viewmodels.AuthViewModel;
 
 
@@ -88,8 +85,7 @@ public class SignInFragment extends Fragment {
         Log.d(TAG, "Email address: " + email);
         Log.d(TAG, " Password: " + password);
 
-        //TODO: link up actual API, and pass in email and password
-        mAuthViewModel.getUser(password, email).observe(this, new Observer<User>() {
+        mAuthViewModel.getUserFromLogin(password, email).observe(this, new Observer<User>() {
             @Override
             public void onChanged(@Nullable User user) {
                 if(user != null){
@@ -140,8 +136,6 @@ public class SignInFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         //tells the fragment that its activity has completed its own Activity.onCreate()
         mAuthViewModel = ViewModelProviders.of(getActivity()).get(AuthViewModel.class);
-
-
     }
 
     @Override
@@ -162,7 +156,6 @@ public class SignInFragment extends Fragment {
     }
 
     public interface OnSignInListener {
-        // TODO: Update argument type and name
         void onSignIn(String accessToken);
     }
 
