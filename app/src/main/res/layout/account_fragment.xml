@@ -16,7 +16,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:padding="16dp"
-        android:text="MY ACCOUNT"
+        android:text="@string/my_account"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -29,11 +29,23 @@
         android:layout_marginBottom="4dp"
         android:backgroundTint="@color/colorWhite"
         android:padding="16dp"
-        android:text="Udpate my details"
+        android:clickable="true"
+        android:text="@string/udpate_my_details"
         app:layout_constraintBottom_toTopOf="@+id/changePasswordTv"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:src="@drawable/arrow"
+        app:layout_constraintBottom_toBottomOf="@+id/updateDetailsTv"
+        app:layout_constraintEnd_toEndOf="@+id/updateDetailsTv"
+        app:layout_constraintHorizontal_bias="0.96"
+        app:layout_constraintStart_toStartOf="@+id/updateDetailsTv"
+        app:layout_constraintTop_toTopOf="@+id/updateDetailsTv" />
 
     <TextView
         android:id="@+id/changePasswordTv"
@@ -43,11 +55,23 @@
         android:layout_marginBottom="4dp"
         android:backgroundTint="@color/colorWhite"
         android:padding="16dp"
-        android:text="Change my password"
+        android:clickable="true"
+        android:text="@string/change_my_password"
         app:layout_constraintBottom_toTopOf="@+id/textView6"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/updateDetailsTv" />
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:src="@drawable/arrow"
+        app:layout_constraintBottom_toBottomOf="@+id/changePasswordTv"
+        app:layout_constraintEnd_toEndOf="@+id/changePasswordTv"
+        app:layout_constraintHorizontal_bias="0.96"
+        app:layout_constraintStart_toStartOf="@+id/changePasswordTv"
+        app:layout_constraintTop_toTopOf="@+id/changePasswordTv" />
 
 
     <TextView
@@ -56,7 +80,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:padding="16dp"
-        android:text="ATTEND A COURSE"
+        android:text="@string/attend_a_course"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/changePasswordTv" />
@@ -82,12 +106,25 @@
         android:layout_marginTop="4dp"
         android:layout_marginBottom="4dp"
         android:padding="16dp"
-        android:text="Find out more"
+        android:text="@string/find_out_more"
+        android:clickable="true"
         app:layout_constraintBottom_toTopOf="@+id/upcomingCoursesTv"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView7" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:src="@drawable/arrow"
+        app:layout_constraintBottom_toBottomOf="@+id/findOutMoreTv"
+        app:layout_constraintEnd_toEndOf="@+id/findOutMoreTv"
+        app:layout_constraintHorizontal_bias="0.96"
+        app:layout_constraintStart_toStartOf="@+id/findOutMoreTv"
+        app:layout_constraintTop_toTopOf="@+id/findOutMoreTv" />
+
 
     <TextView
         android:id="@+id/upcomingCoursesTv"
@@ -95,10 +132,22 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:padding="16dp"
-        android:text="Upcoming course dates"
+        android:clickable="true"
+        android:text="@string/upcoming_course_dates"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/findOutMoreTv" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:src="@drawable/arrow"
+        app:layout_constraintBottom_toBottomOf="@+id/upcomingCoursesTv"
+        app:layout_constraintEnd_toEndOf="@+id/upcomingCoursesTv"
+        app:layout_constraintHorizontal_bias="0.96"
+        app:layout_constraintStart_toStartOf="@+id/upcomingCoursesTv"
+        app:layout_constraintTop_toTopOf="@+id/upcomingCoursesTv" />
 
 </android.support.constraint.ConstraintLayout>

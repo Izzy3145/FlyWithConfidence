@@ -14,7 +14,7 @@
         android:layout_height="340dp"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:background="@drawable/roundedlayout"
+        android:background="@drawable/roundwhiteback"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:padding="10dp"

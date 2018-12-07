@@ -14,4 +14,8 @@
     <color name="lighter_grey">#eff3f6</color>
     <color name="colorWhite">#FFFFFF</color>
 
+    <color name="mustard">#ffdb58</color>
+    <color name="trans_mustard">#90ffdb58</color>
+
+
 </resources>
