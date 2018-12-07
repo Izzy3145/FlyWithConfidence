@@ -3,13 +3,17 @@ package uk.airbyte.fwc.fragments;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.constraint.Group;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
+import android.text.style.StyleSpan;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
@@ -84,15 +88,19 @@ public class ForgotFragment extends Fragment {
             public void onChanged(@Nullable Reminder reminder) {
                 if (reminder != null) {
                     if (reminder.getSent()) {
-                        //TODO: check this works, make email address bold somehow
+
+                        //TODO: make email address bold
+                        SpannableStringBuilder boldEmail = new SpannableStringBuilder(email);
+                        boldEmail.setSpan(new StyleSpan(Typeface.BOLD), 0, email.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
                         sentEmailTv.setText(String.format(getResources().getString(R.string.sent_reminder_email),
-                                String.valueOf(email)));
+                                boldEmail));
                         sendGroup.setVisibility(GONE);
                         sentGroup.setVisibility(View.VISIBLE);
                     } else {
                         Toast.makeText(getActivity(), "Email address not registered", Toast.LENGTH_SHORT).show();
                     }
-                    Log.d(TAG, "Boolean received: " + reminder.toString());
+                    Log.d(TAG, "Reminder received: " + reminder.toString());
                 }
             }
         });

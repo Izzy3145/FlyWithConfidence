@@ -25,11 +25,10 @@ public class Login {
     public Login() {
     }
 
-    /**
-     *
-     * @param emailAddress
-     * @param password
-     */
+    public Login(String emailAddress) {
+        super();
+        this.emailAddress = emailAddress;
+    }
 
     public Login(String password, String emailAddress) {
         super();

@@ -5,10 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:backgroundTint="@color/video_grey_background"
     tools:context=".fragments.account.AccountFragment">
-
-    <!--TODO: background color not showing up -->
 
     <TextView
         android:id="@+id/textView3"
@@ -27,7 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:layout_marginBottom="4dp"
-        android:backgroundTint="@color/colorWhite"
+        android:background="@color/colorWhite"
         android:padding="16dp"
         android:clickable="true"
         android:text="@string/udpate_my_details"
@@ -41,6 +38,7 @@
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:src="@drawable/arrow"
+
         app:layout_constraintBottom_toBottomOf="@+id/updateDetailsTv"
         app:layout_constraintEnd_toEndOf="@+id/updateDetailsTv"
         app:layout_constraintHorizontal_bias="0.96"
@@ -53,7 +51,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:layout_marginBottom="4dp"
-        android:backgroundTint="@color/colorWhite"
+        android:background="@color/colorWhite"
         android:padding="16dp"
         android:clickable="true"
         android:text="@string/change_my_password"
@@ -92,6 +90,7 @@
         android:layout_marginTop="4dp"
         android:layout_marginBottom="4dp"
         android:padding="16dp"
+        android:background="@color/colorWhite"
         android:text="@string/description"
         app:layout_constraintBottom_toTopOf="@+id/findOutMoreTv"
         app:layout_constraintEnd_toEndOf="parent"
@@ -106,6 +105,7 @@
         android:layout_marginTop="4dp"
         android:layout_marginBottom="4dp"
         android:padding="16dp"
+        android:background="@color/colorWhite"
         android:text="@string/find_out_more"
         android:clickable="true"
         app:layout_constraintBottom_toTopOf="@+id/upcomingCoursesTv"
@@ -132,6 +132,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:padding="16dp"
+        android:background="@color/colorWhite"
         android:clickable="true"
         android:text="@string/upcoming_course_dates"
         app:layout_constraintEnd_toEndOf="parent"

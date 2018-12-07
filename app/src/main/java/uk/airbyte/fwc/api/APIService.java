@@ -17,6 +17,6 @@ public interface APIService {
     Call<User> login(@Body Login login);
 
     @POST("/auth/forgot")
-    Call<Reminder> forgotPassword(@Body String email);
+    Call<Reminder> forgotPassword(@Body Login login);
 
 }

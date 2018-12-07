@@ -69,7 +69,7 @@ public class AuthViewModel extends ViewModel {
                 } else {
                     APIError error = ErrorUtils.parseError(response);
                     // … and use it to show error information
-                    //TODO: make this work
+                    //TODO: post a toast message to activity with error message shown
                     // … or just log the issue like we’re doing :)
                     Log.d("loginCall() error message", error.message());
                 }
@@ -96,7 +96,7 @@ public class AuthViewModel extends ViewModel {
                         } else {
                             APIError error = ErrorUtils.parseError(response);
                             // … and use it to show error information
-                            //TODO: make this work
+                            //TODO: post a toast message to activity with error message shown
                             // … or just log the issue like we’re doing :)
                             Log.d("registerCall() error message", error.message());
                         }
@@ -111,7 +111,7 @@ public class AuthViewModel extends ViewModel {
     }
 
     private void forgotCall(String email) {
-        apiService.forgotPassword(email).enqueue(new Callback<Reminder>() {
+        apiService.forgotPassword(new Login(email)).enqueue(new Callback<Reminder>() {
             @Override
             public void onResponse(Call<Reminder> call, Response<Reminder> response) {
                 if (response.isSuccessful()) {
@@ -120,7 +120,7 @@ public class AuthViewModel extends ViewModel {
                 } else {
                     APIError error = ErrorUtils.parseError(response);
                     // … and use it to show error information
-                    //TODO: make this work
+                    //TODO: post a toast message to activity with error message shown
                     // … or just log the issue like we’re doing :)
                     Log.d("forgotCall() error message", error.message());
                 }

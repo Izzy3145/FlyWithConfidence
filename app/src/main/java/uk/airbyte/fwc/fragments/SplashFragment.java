@@ -42,26 +42,4 @@ public class SplashFragment extends Fragment {
         registeredBtn.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_splash_fragment_to_signInFragment));
         return view;
     }
-
-    // TODO: Rename method, update argument and hook method into UI event
-    /*public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }*/
-
-    /*@Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof SplashFragmentListener) {
-            mListener = (SplashFragmentListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement SplashFragmentListener");
-        }
-    }
-
-    public interface SplashFragmentListener {
-        // TODO: Update argument type and name
-        void onFragmentInter*/
 }
