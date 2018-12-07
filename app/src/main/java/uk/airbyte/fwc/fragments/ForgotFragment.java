@@ -29,7 +29,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import uk.airbyte.fwc.R;
 import uk.airbyte.fwc.model.Reminder;
-import uk.airbyte.fwc.model.User;
 import uk.airbyte.fwc.viewmodels.AuthViewModel;
 
 import static android.view.View.GONE;

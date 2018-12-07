@@ -21,6 +21,7 @@ import androidx.navigation.Navigation;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.realm.Realm;
 import uk.airbyte.fwc.R;
 import uk.airbyte.fwc.model.User;
 import uk.airbyte.fwc.viewmodels.AuthViewModel;
@@ -59,12 +60,18 @@ public class RegisterFragment extends Fragment {
     private String password;
     private OnRegisterListener mListener;
     private AuthViewModel mAuthViewModel;
+    private Realm realm;
 
 
     public RegisterFragment() {
         // Required empty public constructor
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+       // realm = Realm.getDefaultInstance();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -80,21 +87,13 @@ public class RegisterFragment extends Fragment {
     @OnClick(R.id.createAccountBtn)
     public void createNewAccount(){
 
-        if (!validateFirstName()) {
-            return;
-        }
+        if (!validateFirstName()) { return; }
 
-        if (!validateLastName()) {
-            return;
-        }
+        if (!validateLastName()) { return; }
 
-        if (!validateEmail()) {
-            return;
-        }
+        if (!validateEmail()) { return; }
 
-        if (!validatePassword()) {
-            return;
-        }
+        if (!validatePassword()) { return; }
 
         firstName = inputFirstName.getText().toString().trim();
         lastName = inputLastName.getText().toString().trim();
@@ -110,7 +109,14 @@ public class RegisterFragment extends Fragment {
                     Log.d(TAG, "User last name: " + user.getLastName());
                     Log.d(TAG, "User id: " + user.getId());
                     Log.d(TAG, "User accessToken: " + user.getAccessToken());
+
                     mListener.onRegister(user.getAccessToken());
+
+                    //realm.beginTransaction();
+                    //realm.copyToRealm(user);
+                    //realm.commitTransaction();
+
+
                     Navigation.findNavController(getActivity(), R.id.my_nav_host_fragment).
                             navigate(R.id.action_registerFragment_to_home_dest);
                 }

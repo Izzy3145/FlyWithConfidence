@@ -44,4 +44,11 @@
     <string name="change_my_password">Change my password</string>
     <string name="udpate_my_details">Udpate my details</string>
     <string name="my_account">MY ACCOUNT</string>
+    <string name="cancel">Cancel</string>
+    <string name="save">Save</string>
+    <string name="upcoming_course_dates">Upcoming course dates</string>
+    <string name="primary_courses">PRIMARY COURSES</string>
+    <string name="there_are_currently_no_primary_ncourse_dates_available">There are currently no primary  course dates available</string>
+    <string name="premium_courses">PREMIUM COURSES</string>
+    <string name="there_are_currently_no_premium_ncourse_dates_available">There are currently no premium  course dates available</string>
 </resources>

@@ -7,7 +7,31 @@
     android:layout_height="match_parent"
     tools:context=".fragments.account.CoursesFragment">
 
-    <!-- TODO: toolbar/other layout with back button and title -->
+    <TextView
+        android:id="@+id/coursesTv"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:background="@color/colorWhite"
+        android:gravity="center_vertical"
+        android:text="@string/upcoming_course_dates"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- TODO: change arrow direction -->
+
+    <ImageView
+        android:id="@+id/leftArrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/arrow"
+        app:layout_constraintBottom_toBottomOf="@+id/coursesTv"
+        app:layout_constraintEnd_toEndOf="@+id/coursesTv"
+        app:layout_constraintHorizontal_bias="0.04"
+        app:layout_constraintStart_toStartOf="@+id/coursesTv"
+        app:layout_constraintTop_toTopOf="@+id/coursesTv" />
 
     <TextView
         android:id="@+id/textView1"
@@ -15,11 +39,11 @@
         android:layout_height="49dp"
         android:layout_marginTop="8dp"
         android:padding="16dp"
-        android:text="PRIMARY COURSES"
+        android:text="@string/primary_courses"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/coursesTv" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/primaryCoursesRv"
@@ -42,7 +66,7 @@
         android:layout_marginBottom="8dp"
         android:background="@drawable/roundmustardback"
         android:padding="16dp"
-        android:text="There are currently no primary \ncourse dates available"
+        android:text="@string/there_are_currently_no_primary_ncourse_dates_available"
         android:textAlignment="center"
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/textView2"
@@ -58,7 +82,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:padding="16dp"
-        android:text="PREMIUM COURSES"
+        android:text="@string/premium_courses"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -85,7 +109,7 @@
         android:layout_marginBottom="8dp"
         android:background="@drawable/roundmustardback"
         android:padding="16dp"
-        android:text="There are currently no premium \ncourse dates available"
+        android:text="@string/there_are_currently_no_premium_ncourse_dates_available"
         android:textAlignment="center"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"

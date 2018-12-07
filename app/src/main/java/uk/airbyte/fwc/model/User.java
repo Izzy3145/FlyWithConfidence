@@ -3,8 +3,12 @@ package uk.airbyte.fwc.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class User {
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
+public class User extends RealmObject {
+
+        @PrimaryKey
         @SerializedName("id")
         @Expose
         private String id;

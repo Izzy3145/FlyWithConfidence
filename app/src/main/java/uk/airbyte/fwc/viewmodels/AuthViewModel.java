@@ -6,6 +6,7 @@ import android.arch.lifecycle.ViewModel;
 import android.util.Log;
 import android.widget.Toast;
 
+import io.realm.Realm;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

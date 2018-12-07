@@ -7,27 +7,67 @@
     android:layout_height="match_parent"
     tools:context=".fragments.account.ChangePwFragment">
 
-    <!-- TODO: best way to put cancel and save buttons in? -->
+    <TextView
+        android:id="@+id/changePwToolbar"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:background="@color/colorWhite"
+        android:gravity="center_vertical"
+        android:text="Change password"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/cancelBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="37dp"
+        android:layout_marginStart="8dp"
+        android:text="@string/cancel"
+        android:background="@null"
+        android:textAllCaps="false"
+        android:textColor="@color/fwc_blue"
+        app:layout_constraintBottom_toBottomOf="@+id/changePwToolbar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/changePwToolbar" />
+
+    <Button
+        android:id="@+id/saveBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="37dp"
+        android:layout_marginEnd="8dp"
+        android:background="@null"
+        android:text="@string/save"
+        android:textAllCaps="false"
+        android:textColor="@color/fwc_blue"
+        app:layout_constraintBottom_toBottomOf="@+id/changePwToolbar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/changePwToolbar" />
 
     <TextView
         android:id="@+id/textView3"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:padding="16dp"
         android:text="CHANGE PASSWORD"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/changePwToolbar" />
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/inputLayoutCurrentPw"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="1dp"
+        android:background="@color/colorWhite"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
-        android:background="@color/colorWhite"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
+        app:layout_constraintBottom_toTopOf="@+id/inputLayoutNewPw"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3"
@@ -46,13 +86,14 @@
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/inputLayoutNewPw"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="1dp"
+        android:background="@color/colorWhite"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
-        android:background="@color/colorWhite"
-        android:layout_marginBottom="20dp"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
         app:layout_constraintBottom_toTopOf="@+id/inputLayoutConfPw"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -71,13 +112,14 @@
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/inputLayoutConfPw"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginTop="1dp"
+        android:background="@color/colorWhite"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
-        android:background="@color/colorWhite"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/inputLayoutNewPw"
@@ -92,5 +134,6 @@
             android:inputType="textPassword" />
 
     </android.support.design.widget.TextInputLayout>
+
 
 </android.support.constraint.ConstraintLayout>
