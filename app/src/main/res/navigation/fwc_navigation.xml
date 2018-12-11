@@ -152,16 +152,28 @@
         android:id="@+id/updateDetailsFragment"
         android:name="uk.airbyte.fwc.fragments.account.UpdateDetailsFragment"
         android:label="fragment_update_details"
-        tools:layout="@layout/fragment_update_details" />
+        tools:layout="@layout/fragment_update_details" >
+        <action
+            android:id="@+id/action_updateDetailsFragment_to_accountFragment"
+            app:destination="@id/accountFragment" />
+    </fragment>
     <fragment
         android:id="@+id/coursesFragment2"
         android:name="uk.airbyte.fwc.fragments.account.CoursesFragment"
         android:label="fragment_courses"
-        tools:layout="@layout/fragment_courses" />
+        tools:layout="@layout/fragment_courses" >
+        <action
+            android:id="@+id/action_coursesFragment2_to_accountFragment"
+            app:destination="@id/accountFragment" />
+    </fragment>
     <fragment
         android:id="@+id/changePwFragment"
         android:name="uk.airbyte.fwc.fragments.account.ChangePwFragment"
         android:label="fragment_change_pw"
-        tools:layout="@layout/fragment_change_pw" />
+        tools:layout="@layout/fragment_change_pw" >
+        <action
+            android:id="@+id/action_changePwFragment_to_accountFragment"
+            app:destination="@id/accountFragment" />
+    </fragment>
 
 </navigation>

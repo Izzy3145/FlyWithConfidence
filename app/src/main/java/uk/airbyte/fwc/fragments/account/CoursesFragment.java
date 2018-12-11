@@ -6,7 +6,12 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
 
+import androidx.navigation.Navigation;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import uk.airbyte.fwc.R;
 
 /**
@@ -14,6 +19,8 @@ import uk.airbyte.fwc.R;
  */
 public class CoursesFragment extends Fragment {
 
+    @BindView(R.id.leftArrow)
+    ImageView backArrow;
 
     public CoursesFragment() {
         // Required empty public constructor
@@ -25,6 +32,8 @@ public class CoursesFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_courses, container, false);
+        ButterKnife.bind(this, view);
+        backArrow.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_coursesFragment2_to_accountFragment));
         return view;
     }
 

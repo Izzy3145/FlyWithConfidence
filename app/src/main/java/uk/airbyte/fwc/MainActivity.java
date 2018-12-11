@@ -38,8 +38,6 @@ public class MainActivity extends AppCompatActivity implements SignInFragment.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //Realm.init(this);
-
         navHost = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.my_nav_host_fragment);
         navController = Navigation.findNavController(this, R.id.my_nav_host_fragment);
 
@@ -59,11 +57,11 @@ public class MainActivity extends AppCompatActivity implements SignInFragment.On
             NavigationUI.setupWithNavController(bottomNavigation, navController);
         } else {
             //TODO: toggle for reset password deeplink?
-            //navController.navigate(R.id.splash_fragment);
+            navController.navigate(R.id.splash_fragment);
 
-            BottomNavigationView bottomNavigation = (BottomNavigationView) findViewById(R.id.btm_navigation);
-            bottomNavigation.setVisibility(View.VISIBLE);
-            NavigationUI.setupWithNavController(bottomNavigation, navController);
+            //BottomNavigationView bottomNavigation = (BottomNavigationView) findViewById(R.id.btm_navigation);
+            //bottomNavigation.setVisibility(View.VISIBLE);
+            //NavigationUI.setupWithNavController(bottomNavigation, navController);
 
             }
         }

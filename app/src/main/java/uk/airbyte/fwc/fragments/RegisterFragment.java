@@ -58,6 +58,7 @@ public class RegisterFragment extends Fragment {
     private String lastName;
     private String email;
     private String password;
+    private String userID;
     private OnRegisterListener mListener;
     private AuthViewModel mAuthViewModel;
     private Realm realm;
@@ -70,7 +71,7 @@ public class RegisterFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       // realm = Realm.getDefaultInstance();
+        realm = Realm.getDefaultInstance();
     }
 
     @Override
@@ -112,10 +113,29 @@ public class RegisterFragment extends Fragment {
 
                     mListener.onRegister(user.getAccessToken());
 
-                    //realm.beginTransaction();
-                    //realm.copyToRealm(user);
-                    //realm.commitTransaction();
+                    userID = user.getId();
+                    realm.executeTransaction(new Realm.Transaction(){
 
+                        @Override
+                        public void execute(Realm realm) {
+                            User user = realm.createObject(User.class, userID);
+                            user.setFirstName(user.getFirstName());
+                            user.setLastName(user.getLastName());
+                            //user.setId(user.getId());
+                            user.setAccessToken(user.getAccessToken());
+                        }
+                    });
+
+                    /*realm.executeTransactionAsync(new Realm.Transaction() {
+                        @Override
+                        public void execute(Realm bgRealm) {
+                            User user = bgRealm.createObject(User.class);
+                            user.setFirstName(user.getFirstName());
+                            user.setLastName(user.getLastName());
+                            user.setId(user.getId());
+                            user.setAccessToken(user.getAccessToken());
+                        }
+                    }, null);*/
 
                     Navigation.findNavController(getActivity(), R.id.my_nav_host_fragment).
                             navigate(R.id.action_registerFragment_to_home_dest);
@@ -202,6 +222,12 @@ public class RegisterFragment extends Fragment {
 
     public interface OnRegisterListener {
         void onRegister(String accessToken);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        realm.close();
     }
 }
 

@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
+apply plugin: 'realm-android'
 apply plugin: 'kotlin-android'
 apply plugin: 'androidx.navigation.safeargs'
-apply plugin: 'realm-android'
 
 
 android {
@@ -24,6 +24,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+}
+
+realm {
+    syncEnabled = true
 }
 
 dependencies {

@@ -3,6 +3,7 @@ package uk.airbyte.fwc.api;
 import android.util.Log;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
