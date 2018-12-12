@@ -34,14 +34,15 @@ public class User extends RealmObject {
         public User() {
         }
 
-        /**
-         *
-         * @param id
-         * @param lastName
-         * @param accessToken
-         * @param emailAddress
-         * @param firstName
-         */
+
+        public User(String id, String firstName, String lastName, String emailAddress) {
+            super();
+            this.id = id;
+            this.firstName = firstName;
+            this.lastName = lastName;
+            this.emailAddress = emailAddress;
+        }
+
         public User(String id, String firstName, String lastName, String emailAddress, String accessToken) {
             super();
             this.id = id;

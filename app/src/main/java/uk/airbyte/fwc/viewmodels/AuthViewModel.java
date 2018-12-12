@@ -6,6 +6,8 @@ import android.arch.lifecycle.ViewModel;
 import android.util.Log;
 import android.widget.Toast;
 
+import org.json.JSONObject;
+
 import io.realm.Realm;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -24,8 +26,6 @@ public class AuthViewModel extends ViewModel {
 
     private MutableLiveData<User> user;
     private MutableLiveData<Reminder> reminderSent;
-
-
     private APIService apiService = APIClient.getClient().create(APIService.class);
 
     //we will call this method to get the data
@@ -94,6 +94,7 @@ public class AuthViewModel extends ViewModel {
 
                             Log.d(TAG, "Response registerCall() success: " + response.body());
                             user.postValue(response.body());
+
                         } else {
                             APIError error = ErrorUtils.parseError(response);
                             // … and use it to show error information
@@ -133,6 +134,5 @@ public class AuthViewModel extends ViewModel {
                 reminderSent.postValue(null);
             }
         });
-
     }
 }

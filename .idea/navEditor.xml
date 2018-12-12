@@ -29,6 +29,11 @@
                                 <LayoutPositions />
                               </value>
                             </entry>
+                            <entry key="action_accountFragment_to_home_dest">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
                             <entry key="action_accountFragment_to_updateDetailsFragment">
                               <value>
                                 <LayoutPositions />

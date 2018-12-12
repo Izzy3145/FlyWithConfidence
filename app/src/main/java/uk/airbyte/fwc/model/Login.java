@@ -36,6 +36,13 @@ public class Login {
         this.emailAddress = emailAddress;
     }
 
+    public Login(String emailAddress, String lastName, String firstName) {
+        super();
+        this.emailAddress = emailAddress;
+        this.lastName = lastName;
+        this.firstName = firstName;
+    }
+
     public Login(String password, String emailAddress, String lastName, String firstName) {
         super();
         this.password = password;

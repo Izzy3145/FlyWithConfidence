@@ -128,7 +128,8 @@ public class RegisterFragment extends Fragment {
                     userID = user.getId();
                     accessToken = user.getAccessToken();
 
-                    realm.executeTransaction(new Realm.Transaction(){
+                    //TODO: move realm stuff to viewmodel
+                    realm.executeTransactionAsync(new Realm.Transaction(){
 
                         @Override
                         public void execute(Realm realm) {
@@ -139,20 +140,6 @@ public class RegisterFragment extends Fragment {
                             user.setAccessToken(accessToken);
                         }
                     });
-
-                    /*realm.executeTransactionAsync(new Realm.Transaction() {
-                        @Override
-                        public void execute(Realm bgRealm) {
-                            User user = bgRealm.createObject(User.class);
-                            user.setFirstName(user.getFirstName());
-                            user.setLastName(user.getLastName());
-                            user.setId(user.getId());
-                            user.setAccessToken(user.getAccessToken());
-                        }
-                    }, null);*/
-
-                    //Navigation.findNavController(getActivity(), R.id.my_nav_host_fragment).
-                    //        navigate(R.id.action_registerFragment_to_home_dest);
 
                     Intent openMain = new Intent(getActivity(), MainActivity.class);
                     startActivity(openMain);
