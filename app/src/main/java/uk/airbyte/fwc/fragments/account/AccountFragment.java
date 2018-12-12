@@ -1,9 +1,14 @@
 package uk.airbyte.fwc.fragments.account;
 
 
+import android.accounts.Account;
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
@@ -11,11 +16,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.navigation.Navigation;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+import uk.airbyte.fwc.MainActivity;
 import uk.airbyte.fwc.R;
+import uk.airbyte.fwc.fragments.RegisterFragment;
+import uk.airbyte.fwc.utils.Const;
 
 public class AccountFragment extends Fragment {
 
@@ -27,10 +37,22 @@ public class AccountFragment extends Fragment {
     TextView findOutMoreTv;
     @BindView(R.id.upcomingCoursesTv)
     TextView upcomingCoursesTv;
+    @BindView(R.id.logoutBtn)
+    Button logoutBtn;
+    private OnLogoutListener mListener;
+    private SharedPreferences sharedPref;
+    private SharedPreferences.Editor editor;
 
 
     public AccountFragment() {
         // Required empty public constructor
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+
     }
 
     @Override
@@ -46,6 +68,39 @@ public class AccountFragment extends Fragment {
         //findOutMoreTv.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_accountFragment_to_));
         upcomingCoursesTv.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_accountFragment_to_coursesFragment2));
         return view;
+    }
+
+    @OnClick(R.id.logoutBtn)
+    public void logout(){
+        //mListener.onLogout("");
+        //Toast.makeText(getActivity(), "Log Out Clicked", Toast.LENGTH_SHORT).show();
+        editor = sharedPref.edit();
+        editor.putString(Const.ACCESS_TOKEN, "");
+        editor.apply();
+
+        Intent openMain = new Intent(getActivity(), MainActivity.class);
+        startActivity(openMain);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof AccountFragment.OnLogoutListener) {
+            mListener = (AccountFragment.OnLogoutListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnLogoutListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
+
+    public interface OnLogoutListener {
+        void onLogout(String accessToken);
     }
 
     //TODO: add SnackBar with message confirming profile/password? has been udpated

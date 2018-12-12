@@ -4,7 +4,10 @@ package uk.airbyte.fwc.fragments;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
@@ -22,8 +25,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.realm.Realm;
+import uk.airbyte.fwc.MainActivity;
 import uk.airbyte.fwc.R;
 import uk.airbyte.fwc.model.User;
+import uk.airbyte.fwc.utils.Const;
 import uk.airbyte.fwc.viewmodels.AuthViewModel;
 
 /**
@@ -59,8 +64,11 @@ public class RegisterFragment extends Fragment {
     private String email;
     private String password;
     private String userID;
+    private String accessToken;
     private OnRegisterListener mListener;
     private AuthViewModel mAuthViewModel;
+    private SharedPreferences sharedPref;
+    private SharedPreferences.Editor editor;
     private Realm realm;
 
 
@@ -72,6 +80,7 @@ public class RegisterFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         realm = Realm.getDefaultInstance();
+        sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
     }
 
     @Override
@@ -111,18 +120,23 @@ public class RegisterFragment extends Fragment {
                     Log.d(TAG, "User id: " + user.getId());
                     Log.d(TAG, "User accessToken: " + user.getAccessToken());
 
-                    mListener.onRegister(user.getAccessToken());
+                    //mListener.onRegister(user.getAccessToken());
+                    editor = sharedPref.edit();
+                    editor.putString(Const.ACCESS_TOKEN, user.getAccessToken());
+                    editor.apply();
 
                     userID = user.getId();
+                    accessToken = user.getAccessToken();
+
                     realm.executeTransaction(new Realm.Transaction(){
 
                         @Override
                         public void execute(Realm realm) {
                             User user = realm.createObject(User.class, userID);
-                            user.setFirstName(user.getFirstName());
-                            user.setLastName(user.getLastName());
-                            //user.setId(user.getId());
-                            user.setAccessToken(user.getAccessToken());
+                            user.setFirstName(firstName);
+                            user.setLastName(lastName);
+                            user.setEmailAddress(email);
+                            user.setAccessToken(accessToken);
                         }
                     });
 
@@ -137,8 +151,11 @@ public class RegisterFragment extends Fragment {
                         }
                     }, null);*/
 
-                    Navigation.findNavController(getActivity(), R.id.my_nav_host_fragment).
-                            navigate(R.id.action_registerFragment_to_home_dest);
+                    //Navigation.findNavController(getActivity(), R.id.my_nav_host_fragment).
+                    //        navigate(R.id.action_registerFragment_to_home_dest);
+
+                    Intent openMain = new Intent(getActivity(), MainActivity.class);
+                    startActivity(openMain);
                 }
             }
         });
@@ -194,8 +211,6 @@ public class RegisterFragment extends Fragment {
     private Boolean isValidEmail(String email){
         return !TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
-
-
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {

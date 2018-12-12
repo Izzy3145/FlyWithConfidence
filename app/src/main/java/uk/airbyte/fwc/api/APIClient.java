@@ -41,7 +41,12 @@ public class APIClient {
             }
         });
 
-        OkHttpClient client = httpClient.addInterceptor(interceptor).build();
+        OkHttpClient client = httpClient
+                .connectTimeout(45, TimeUnit.SECONDS)
+                .writeTimeout(45, TimeUnit.SECONDS)
+                .readTimeout(45, TimeUnit.SECONDS)
+                .addInterceptor(interceptor)
+                .build();
 
         retrofit = new Retrofit.Builder()
                 .baseUrl(BuildConfig.API_BASE_URL)

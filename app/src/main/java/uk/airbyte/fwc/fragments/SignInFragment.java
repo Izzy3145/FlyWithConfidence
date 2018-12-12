@@ -4,7 +4,10 @@ package uk.airbyte.fwc.fragments;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
@@ -21,8 +24,10 @@ import androidx.navigation.Navigation;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import uk.airbyte.fwc.MainActivity;
 import uk.airbyte.fwc.R;
 import uk.airbyte.fwc.model.User;
+import uk.airbyte.fwc.utils.Const;
 import uk.airbyte.fwc.viewmodels.AuthViewModel;
 
 
@@ -49,9 +54,17 @@ public class SignInFragment extends Fragment {
     private String password;
     private OnSignInListener mListener;
     private AuthViewModel mAuthViewModel;
+    private SharedPreferences sharedPref;
+    private SharedPreferences.Editor editor;
 
     public SignInFragment() {
         // Required empty public constructor
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
     }
 
     @Override
@@ -91,9 +104,16 @@ public class SignInFragment extends Fragment {
                     Log.d(TAG, "User last name: " + user.getLastName());
                     Log.d(TAG, "User id: " + user.getId());
                     Log.d(TAG, "User accessToken: " + user.getAccessToken());
-                    mListener.onSignIn(user.getAccessToken());
-                    Navigation.findNavController(getActivity(), R.id.my_nav_host_fragment).
-                            navigate(R.id.action_signInFragment_to_home_dest);
+
+                    editor = sharedPref.edit();
+                    editor.putString(Const.ACCESS_TOKEN, user.getAccessToken());
+                    editor.apply();
+
+                    //mListener.onSignIn(user.getAccessToken());
+                    //Navigation.findNavController(getActivity(), R.id.my_nav_host_fragment).
+                     //       navigate(R.id.action_signInFragment_to_home_dest);
+                    Intent openMain = new Intent(getActivity(), MainActivity.class);
+                    startActivity(openMain);
                 }
             }
         });

@@ -68,6 +68,9 @@
         <action
             android:id="@+id/action_accountFragment_to_coursesFragment2"
             app:destination="@id/coursesFragment2" />
+        <action
+            android:id="@+id/action_accountFragment_to_home_dest"
+            app:destination="@id/home_dest" />
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
