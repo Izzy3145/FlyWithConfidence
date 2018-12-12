@@ -8,7 +8,9 @@ import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import uk.airbyte.fwc.model.Login;
+import uk.airbyte.fwc.model.Password;
 import uk.airbyte.fwc.model.Reminder;
+import uk.airbyte.fwc.model.Success;
 import uk.airbyte.fwc.model.User;
 
 public interface APIService {
@@ -27,4 +29,7 @@ public interface APIService {
 
     @PUT("/profile")
     Call<User> updateUserProfile(@Header("User-Token") String accessToken, @Body Login login);
+
+    @PUT("/profile/password")
+    Call<Success> updateUserPassword(@Header("User-Token") String accessToken, @Body Password password);
 }

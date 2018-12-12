@@ -87,6 +87,7 @@ public class UpdateDetailsFragment extends Fragment {
             @Override
             public void onChanged(@Nullable User user) {
                 //TODO: show some snackbar with confirmation of update
+                //TODO: update Realm object
                 Navigation.findNavController(getActivity(), R.id.my_nav_host_fragment).
                         navigate(R.id.action_updateDetailsFragment_to_accountFragment);
             }

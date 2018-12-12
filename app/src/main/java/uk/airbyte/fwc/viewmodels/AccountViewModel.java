@@ -13,7 +13,9 @@ import uk.airbyte.fwc.api.APIError;
 import uk.airbyte.fwc.api.APIService;
 import uk.airbyte.fwc.api.ErrorUtils;
 import uk.airbyte.fwc.model.Login;
+import uk.airbyte.fwc.model.Password;
 import uk.airbyte.fwc.model.Reminder;
+import uk.airbyte.fwc.model.Success;
 import uk.airbyte.fwc.model.User;
 
 public class AccountViewModel extends ViewModel {
@@ -21,6 +23,8 @@ public class AccountViewModel extends ViewModel {
     private static final String TAG = AccountViewModel.class.getSimpleName();
 
     private MutableLiveData<User> user;
+    private MutableLiveData<Success> success;
+
     private APIService apiService = APIClient.getClient().create(APIService.class);
 
     //we will call this method to get the data
@@ -42,6 +46,15 @@ public class AccountViewModel extends ViewModel {
             putUserProfile(accessToken, fName, lName, email);
         }
         return user;
+    }
+
+    //we will call this method to get the data
+    public LiveData<Success> getUserPassword(String accessToken, String currentPassword, String newPassword) {
+
+        success = new MutableLiveData<Success>();
+        //we will load it asynchronously from server in this method
+        putNewPassword(accessToken, currentPassword, newPassword);
+        return success;
     }
 
     private void profileCall(String accessToken) {
@@ -94,6 +107,33 @@ public class AccountViewModel extends ViewModel {
                     public void onFailure(Call<User> call, Throwable t) {
                         Log.d(TAG, "Response registerCall() failure");
                         user.postValue(null);
+                    }
+                });
+    }
+
+    private void putNewPassword(String accessToken, String currentPassword, String newPassword) {
+        apiService.updateUserPassword(accessToken, new Password(currentPassword, newPassword))
+                .enqueue(new Callback<Success>() {
+                    @Override
+                    public void onResponse(Call<Success> call, Response<Success> response) {
+                        if (response.isSuccessful()) {
+                            //TODO: show snackbar on success
+                            Log.d(TAG, "Response profileCall() success: " + response.body());
+                        } else {
+                            APIError error = ErrorUtils.parseError(response);
+                            // … and use it to show error information
+                            //TODO: post a toast message to activity with error message shown
+                            // … or just log the issue like we’re doing :)
+                            Log.d("profileCall() error message", error.message());
+                        }
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<Success> call, Throwable t) {
+                        Log.d(TAG, "Response profileCall() failure");
+                        //TODO: post a toast message to activity with error message shown
+
                     }
                 });
     }
