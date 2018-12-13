@@ -66,9 +66,6 @@
             android:id="@+id/action_accountFragment_to_changePwFragment"
             app:destination="@id/changePwFragment" />
         <action
-            android:id="@+id/action_accountFragment_to_coursesFragment2"
-            app:destination="@id/coursesFragment2" />
-        <action
             android:id="@+id/action_accountFragment_to_home_dest"
             app:destination="@id/home_dest" />
     </fragment>
@@ -158,15 +155,6 @@
         tools:layout="@layout/fragment_update_details" >
         <action
             android:id="@+id/action_updateDetailsFragment_to_accountFragment"
-            app:destination="@id/accountFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/coursesFragment2"
-        android:name="uk.airbyte.fwc.fragments.account.CoursesFragment"
-        android:label="fragment_courses"
-        tools:layout="@layout/fragment_courses" >
-        <action
-            android:id="@+id/action_coursesFragment2_to_accountFragment"
             app:destination="@id/accountFragment" />
     </fragment>
     <fragment

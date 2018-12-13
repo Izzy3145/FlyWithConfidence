@@ -53,4 +53,5 @@
     <string name="about_me">ABOUT ME</string>
     <string name="first_name">First Name</string>
     <string name="last_name">Last Name</string>
+    <string name="log_out">Log out</string>
 </resources>

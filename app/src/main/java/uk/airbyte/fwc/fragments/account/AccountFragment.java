@@ -35,10 +35,8 @@ public class AccountFragment extends Fragment {
     TextView changePwTv;
     @BindView(R.id.findOutMoreTv)
     TextView findOutMoreTv;
-    @BindView(R.id.upcomingCoursesTv)
-    TextView upcomingCoursesTv;
-    @BindView(R.id.logoutBtn)
-    Button logoutBtn;
+    @BindView(R.id.logoutTv)
+    TextView logoutTv;
     private OnLogoutListener mListener;
     private SharedPreferences sharedPref;
     private SharedPreferences.Editor editor;
@@ -68,20 +66,20 @@ public class AccountFragment extends Fragment {
         findOutMoreTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent coursesWebsiteIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(Const.FWC_WEBSITE));
+                Intent coursesWebsiteIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(Const.COURSES_WEBSITE));
                 startActivity(coursesWebsiteIntent);
             }
         });
-        upcomingCoursesTv.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_accountFragment_to_coursesFragment2));
         return view;
     }
 
-    @OnClick(R.id.logoutBtn)
+    @OnClick(R.id.logoutTv)
     public void logout() {
         //mListener.onLogout("");
         //Toast.makeText(getActivity(), "Log Out Clicked", Toast.LENGTH_SHORT).show();
         editor = sharedPref.edit();
         editor.putString(Const.ACCESS_TOKEN, "");
+        editor.putString(Const.USER_ID, "");
         editor.apply();
 
         Intent openMain = new Intent(getActivity(), MainActivity.class);

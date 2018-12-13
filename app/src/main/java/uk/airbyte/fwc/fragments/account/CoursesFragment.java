@@ -19,6 +19,8 @@ import uk.airbyte.fwc.R;
  */
 public class CoursesFragment extends Fragment {
 
+    //TODO: remove
+
     @BindView(R.id.leftArrow)
     ImageView backArrow;
 
@@ -33,7 +35,6 @@ public class CoursesFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_courses, container, false);
         ButterKnife.bind(this, view);
-        backArrow.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_coursesFragment2_to_accountFragment));
         return view;
     }
 
