@@ -37,7 +37,7 @@ public class AccountFragment extends Fragment {
     TextView findOutMoreTv;
     @BindView(R.id.logoutTv)
     TextView logoutTv;
-    private OnLogoutListener mListener;
+    //private OnLogoutListener mListener;
     private SharedPreferences sharedPref;
     private SharedPreferences.Editor editor;
 
@@ -86,7 +86,7 @@ public class AccountFragment extends Fragment {
         startActivity(openMain);
     }
 
-    @Override
+    /*@Override
     public void onAttach(Context context) {
         super.onAttach(context);
         if (context instanceof AccountFragment.OnLogoutListener) {
@@ -105,7 +105,7 @@ public class AccountFragment extends Fragment {
 
     public interface OnLogoutListener {
         void onLogout(String accessToken);
-    }
+    }*/
 
     //TODO: add SnackBar with message confirming profile/password? has been udpated
 }

@@ -65,7 +65,7 @@ public class RegisterFragment extends Fragment {
     private String password;
     private String userID;
     private String accessToken;
-    private OnRegisterListener mListener;
+    //private OnRegisterListener mListener;
     private AuthViewModel mAuthViewModel;
     private SharedPreferences sharedPref;
     private SharedPreferences.Editor editor;
@@ -206,7 +206,7 @@ public class RegisterFragment extends Fragment {
         mAuthViewModel = ViewModelProviders.of(this).get(AuthViewModel.class);
     }
 
-    @Override
+    /*@Override
     public void onAttach(Context context) {
         super.onAttach(context);
         if (context instanceof OnRegisterListener) {
@@ -226,7 +226,7 @@ public class RegisterFragment extends Fragment {
     public interface OnRegisterListener {
         void onRegister(String accessToken);
     }
-
+*/
     @Override
     public void onDestroy() {
         super.onDestroy();

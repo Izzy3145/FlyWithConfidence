@@ -24,11 +24,6 @@
                                 <LayoutPositions />
                               </value>
                             </entry>
-                            <entry key="action_accountFragment_to_coursesFragment2">
-                              <value>
-                                <LayoutPositions />
-                              </value>
-                            </entry>
                             <entry key="action_accountFragment_to_home_dest">
                               <value>
                                 <LayoutPositions />
@@ -56,27 +51,6 @@
                         <option name="myPositions">
                           <map>
                             <entry key="action_changePwFragment_to_accountFragment">
-                              <value>
-                                <LayoutPositions />
-                              </value>
-                            </entry>
-                          </map>
-                        </option>
-                      </LayoutPositions>
-                    </value>
-                  </entry>
-                  <entry key="coursesFragment2">
-                    <value>
-                      <LayoutPositions>
-                        <option name="myPosition">
-                          <Point>
-                            <option name="x" value="448" />
-                            <option name="y" value="963" />
-                          </Point>
-                        </option>
-                        <option name="myPositions">
-                          <map>
-                            <entry key="action_coursesFragment2_to_accountFragment">
                               <value>
                                 <LayoutPositions />
                               </value>

@@ -52,13 +52,14 @@ public class ChangePwFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_change_pw, container, false);
         ButterKnife.bind(this, view);
         cancelBtn.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_changePwFragment_to_accountFragment));
-        //TODO: save button update info in Realm
         return view;
     }
 
     @OnClick(R.id.saveBtn)
     public void savePassword(){
         //TODO: pass info to viewmodel
+        //TODO: save button update info in Realm
+
     }
 
     @Override

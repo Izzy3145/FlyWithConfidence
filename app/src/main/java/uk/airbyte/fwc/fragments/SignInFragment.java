@@ -52,7 +52,7 @@ public class SignInFragment extends Fragment {
 
     private String email;
     private String password;
-    private OnSignInListener mListener;
+    //private OnSignInListener mListener;
     private AuthViewModel mAuthViewModel;
     private SharedPreferences sharedPref;
     private SharedPreferences.Editor editor;
@@ -155,7 +155,7 @@ public class SignInFragment extends Fragment {
         mAuthViewModel = ViewModelProviders.of(getActivity()).get(AuthViewModel.class);
     }
 
-    @Override
+    /*@Override
     public void onAttach(Context context) {
         super.onAttach(context);
         if (context instanceof OnSignInListener) {
@@ -174,6 +174,6 @@ public class SignInFragment extends Fragment {
 
     public interface OnSignInListener {
         void onSignIn(String accessToken);
-    }
+    }*/
 
 }

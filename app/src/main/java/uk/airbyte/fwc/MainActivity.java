@@ -7,7 +7,6 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 
@@ -16,17 +15,11 @@ import androidx.navigation.NavHost;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
-import io.realm.Realm;
-import uk.airbyte.fwc.fragments.RegisterFragment;
-import uk.airbyte.fwc.fragments.SignInFragment;
-import uk.airbyte.fwc.fragments.account.AccountFragment;
 import uk.airbyte.fwc.utils.Const;
-import uk.airbyte.fwc.viewmodels.AuthViewModel;
 
 
-public class MainActivity extends AppCompatActivity implements SignInFragment.OnSignInListener, RegisterFragment.OnRegisterListener,
-        AccountFragment.OnLogoutListener {
-//TODO: should this extend LifecycleActivity
+public class MainActivity extends AppCompatActivity {
+//TODO: should this extend LifecycleActivity?
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
@@ -87,9 +80,8 @@ public class MainActivity extends AppCompatActivity implements SignInFragment.On
         }
     }
 
-    @Override
+    /*@Override
     public void onSignIn(String accessToken) {
-            //TODO: remove this?
         mAccessToken = accessToken;
         Log.d(TAG, "UserID from onSignIn listener: " + userID);
         editor = sharedPref.edit();
@@ -105,7 +97,6 @@ public class MainActivity extends AppCompatActivity implements SignInFragment.On
         editor = sharedPref.edit();
         editor.putString(Const.ACCESS_TOKEN, mAccessToken);
         editor.apply();
-        //TODO: remove this?
     }
 
     @Override
@@ -115,5 +106,4 @@ public class MainActivity extends AppCompatActivity implements SignInFragment.On
         editor = sharedPref.edit();
         editor.putString(Const.ACCESS_TOKEN, mAccessToken);
         editor.apply();*/
-    }
 }
