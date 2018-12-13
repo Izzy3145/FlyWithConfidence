@@ -120,13 +120,14 @@ public class RegisterFragment extends Fragment {
                     Log.d(TAG, "User id: " + user.getId());
                     Log.d(TAG, "User accessToken: " + user.getAccessToken());
 
-                    //mListener.onRegister(user.getAccessToken());
-                    editor = sharedPref.edit();
-                    editor.putString(Const.ACCESS_TOKEN, user.getAccessToken());
-                    editor.apply();
-
                     userID = user.getId();
                     accessToken = user.getAccessToken();
+
+                    //mListener.onRegister(user.getAccessToken());
+                    editor = sharedPref.edit();
+                    editor.putString(Const.USER_ID, userID);
+                    editor.putString(Const.ACCESS_TOKEN, accessToken);
+                    editor.apply();
 
                     //TODO: move realm stuff to viewmodel
                     realm.executeTransactionAsync(new Realm.Transaction(){

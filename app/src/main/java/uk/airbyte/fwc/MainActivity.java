@@ -47,13 +47,6 @@ public class MainActivity extends AppCompatActivity implements SignInFragment.On
         navController = Navigation.findNavController(this, R.id.my_nav_host_fragment);
 
         sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        //TODO: fix this up
-        //editor = sharedPref.edit();
-        //editor.putString(Const.ACCESS_TOKEN, Const.LOGGED_OUT);
-        //editor.apply();
-
-        //userID = sharedPref.getString(Const.USER_ID, "100");
-        //Log.d(TAG, "UserID from shared pref: " + userID);
 
         mAccessToken = sharedPref.getString(Const.ACCESS_TOKEN, "");
         Log.d(TAG, "AccessToken from shared pref: " + mAccessToken);
@@ -96,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements SignInFragment.On
 
     @Override
     public void onSignIn(String accessToken) {
-            //TODO: get accessToken, use it to control flow
+            //TODO: remove this?
         mAccessToken = accessToken;
         Log.d(TAG, "UserID from onSignIn listener: " + userID);
         editor = sharedPref.edit();
@@ -112,7 +105,7 @@ public class MainActivity extends AppCompatActivity implements SignInFragment.On
         editor = sharedPref.edit();
         editor.putString(Const.ACCESS_TOKEN, mAccessToken);
         editor.apply();
-        //TODO: get accessToken, use it to control flow
+        //TODO: remove this?
     }
 
     @Override

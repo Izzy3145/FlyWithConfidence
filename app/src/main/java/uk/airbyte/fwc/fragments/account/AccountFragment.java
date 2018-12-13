@@ -65,13 +65,19 @@ public class AccountFragment extends Fragment {
         updateDetailsTv.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_accountFragment_to_updateDetailsFragment));
         changePwTv.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_accountFragment_to_changePwFragment));
         //TODO: add link to website
-        //findOutMoreTv.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_accountFragment_to_));
+        findOutMoreTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent coursesWebsiteIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(Const.FWC_WEBSITE));
+                startActivity(coursesWebsiteIntent);
+            }
+        });
         upcomingCoursesTv.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_accountFragment_to_coursesFragment2));
         return view;
     }
 
     @OnClick(R.id.logoutBtn)
-    public void logout(){
+    public void logout() {
         //mListener.onLogout("");
         //Toast.makeText(getActivity(), "Log Out Clicked", Toast.LENGTH_SHORT).show();
         editor = sharedPref.edit();

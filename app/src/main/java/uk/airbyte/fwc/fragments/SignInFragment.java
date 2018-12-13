@@ -73,7 +73,6 @@ public class SignInFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_sign_in, container, false);
         ButterKnife.bind(this, view);
-        //signInBtn.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_signInFragment_to_home_dest));
         forgotBtn.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_signInFragment_to_forgotFragment));
         createAccountBtn.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_signInFragment_to_registerFragment));
         return view;
@@ -107,6 +106,7 @@ public class SignInFragment extends Fragment {
 
                     editor = sharedPref.edit();
                     editor.putString(Const.ACCESS_TOKEN, user.getAccessToken());
+                    editor.putString(Const.USER_ID, user.getId());
                     editor.apply();
 
                     //mListener.onSignIn(user.getAccessToken());
