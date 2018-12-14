@@ -27,7 +27,7 @@
     <string name="terms_agreement">By signing up you agree to our terms of use and privacy policy</string>
     <string name="sign_in">SIGN IN</string>
     <string name="welcome_back">WELCOME BACK</string>
-    <string name="create_account">CREATE ACCOUNT</string>
+    <string name="create_account">CREATE AN ACCOUNT</string>
     <string name="forgot_password">I FORGOT MY PASSWORD</string>
     <string name="back_sign_in">BACK TO SIGN IN</string>
     <string name="reset_password">RESET YOUR PASSWORD</string>
