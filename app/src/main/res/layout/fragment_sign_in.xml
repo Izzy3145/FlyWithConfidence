@@ -7,7 +7,6 @@
     android:background="@color/fwc_blue"
     tools:context=".fragments.SignInFragment">
 
-
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="wrap_content"
@@ -149,15 +148,12 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/boardingPass"
         android:layout_centerHorizontal="true"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
         android:background="@null"
         android:text="@string/forgot_password"
         android:textColor="@android:color/white"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/boardingPass" />
 
@@ -167,11 +163,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/forgotPasswordBtn"
         android:layout_centerHorizontal="true"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginTop="4dp"
         android:background="@null"
-        android:text="@string/create_account"
+        android:text="@string/create_an_account"
         android:textColor="@android:color/white"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"

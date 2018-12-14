@@ -9,7 +9,6 @@
     tools:context=".fragments.ResetPwFragment"
     android:clickable="true">
 
-    <!-- TODO: (2) change to constraint layout -->
 
     <ImageView
         android:id="@+id/imageView"
