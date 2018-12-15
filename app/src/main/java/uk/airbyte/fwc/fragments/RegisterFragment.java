@@ -110,7 +110,7 @@ public class RegisterFragment extends Fragment {
         email = inputEmailAddress.getText().toString().trim();
         password = inputPassword.getText().toString().trim();
 
-        mAuthViewModel.getUserFromRegister(password, email, lastName,firstName).observe(this, new Observer<User>() {
+        mAuthViewModel.getUserFromRegister(getActivity(), password, email, lastName,firstName).observe(this, new Observer<User>() {
             @Override
             public void onChanged(@Nullable User user) {
                 if(user != null){

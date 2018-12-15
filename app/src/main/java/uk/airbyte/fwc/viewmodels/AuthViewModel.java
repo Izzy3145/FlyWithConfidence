@@ -3,12 +3,9 @@ package uk.airbyte.fwc.viewmodels;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
+import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
-
-import org.json.JSONObject;
-
-import io.realm.Realm;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -20,6 +17,7 @@ import uk.airbyte.fwc.model.Login;
 import uk.airbyte.fwc.model.Reminder;
 import uk.airbyte.fwc.model.User;
 
+
 public class AuthViewModel extends ViewModel {
 
     private static final String TAG = AuthViewModel.class.getSimpleName();
@@ -27,38 +25,39 @@ public class AuthViewModel extends ViewModel {
     private MutableLiveData<User> user;
     private MutableLiveData<Reminder> reminderSent;
     private APIService apiService = APIClient.getClient().create(APIService.class);
+    //private onErrorListener mListener;
 
     //we will call this method to get the data
-    public LiveData<User> getUserFromLogin(String password, String email) {
+    public LiveData<User> getUserFromLogin(Context context, String password, String email) {
         if (user == null) {
             user = new MutableLiveData<User>();
             //we will load it asynchronously from server in this method
-            loginCall(password, email);
+            loginCall(context, password, email);
         }
 
         return user;
     }
 
     //we will call this method to get the data
-    public LiveData<User> getUserFromRegister(String password, String email, String lName, String fName) {
+    public LiveData<User> getUserFromRegister(Context context, String password, String email, String lName, String fName) {
         if (user == null) {
             user = new MutableLiveData<User>();
             //we will load it asynchronously from server in this method
-            registerCall(password, email, lName, fName);
+            registerCall(context, password, email, lName, fName);
         }
         return user;
     }
 
-    public LiveData<Reminder> getForgottenPw(String email) {
+    public LiveData<Reminder> getForgottenPw(Context context, String email) {
 
             reminderSent = new MutableLiveData<Reminder>();
             //we will load it asynchronously from server in this method
-            forgotCall(email);
+            forgotCall(context, email);
 
             return reminderSent;
     }
 
-    private void loginCall(String password, String email) {
+    private void loginCall(final Context context, String password, String email) {
         apiService.login(new Login(password, email))
                 .enqueue(new Callback<User>() {
             @Override
@@ -69,9 +68,9 @@ public class AuthViewModel extends ViewModel {
                     user.postValue(response.body());
                 } else {
                     APIError error = ErrorUtils.parseError(response);
-                    // … and use it to show error information
-                    //TODO: post a toast message to activity with error message shown
-                    // … or just log the issue like we’re doing :)
+                    String errorCode = String.valueOf(error.status());
+                    String errorMessage = error.message();
+                    Toast.makeText(context, "Error: " + errorCode + " " + errorMessage, Toast.LENGTH_SHORT).show();
                     Log.d("loginCall() error message", error.message());
                 }
 
@@ -85,7 +84,7 @@ public class AuthViewModel extends ViewModel {
         });
     }
 
-    private void registerCall(String password, String email, String lName, String fName) {
+    private void registerCall(final Context context, String password, String email, String lName, String fName) {
         apiService.registerUser(new Login(password, email, lName, fName))
                 .enqueue(new Callback<User>() {
                     @Override
@@ -97,9 +96,9 @@ public class AuthViewModel extends ViewModel {
 
                         } else {
                             APIError error = ErrorUtils.parseError(response);
-                            // … and use it to show error information
-                            //TODO: post a toast message to activity with error message shown
-                            // … or just log the issue like we’re doing :)
+                            String errorCode = String.valueOf(error.status());
+                            String errorMessage = error.message();
+                            Toast.makeText(context, "Error: " + errorCode + " " + errorMessage, Toast.LENGTH_SHORT).show();
                             Log.d("registerCall() error message", error.message());
                         }
                     }
@@ -112,7 +111,7 @@ public class AuthViewModel extends ViewModel {
                 });
     }
 
-    private void forgotCall(String email) {
+    private void forgotCall(final Context context, String email) {
         apiService.forgotPassword(new Login(email)).enqueue(new Callback<Reminder>() {
             @Override
             public void onResponse(Call<Reminder> call, Response<Reminder> response) {
@@ -121,9 +120,9 @@ public class AuthViewModel extends ViewModel {
                     reminderSent.postValue(response.body());
                 } else {
                     APIError error = ErrorUtils.parseError(response);
-                    // … and use it to show error information
-                    //TODO: post a toast message to activity with error message shown
-                    // … or just log the issue like we’re doing :)
+                    String errorCode = String.valueOf(error.status());
+                    String errorMessage = error.message();
+                    Toast.makeText(context, "Error: " + errorCode + " " + errorMessage, Toast.LENGTH_SHORT).show();
                     Log.d("forgotCall() error message", error.message());
                 }
             }

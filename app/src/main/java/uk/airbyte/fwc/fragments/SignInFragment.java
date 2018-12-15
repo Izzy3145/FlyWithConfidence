@@ -3,9 +3,9 @@ package uk.airbyte.fwc.fragments;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
@@ -26,6 +26,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import uk.airbyte.fwc.MainActivity;
 import uk.airbyte.fwc.R;
+import uk.airbyte.fwc.api.APIError;
 import uk.airbyte.fwc.model.User;
 import uk.airbyte.fwc.utils.Const;
 import uk.airbyte.fwc.viewmodels.AuthViewModel;
@@ -94,7 +95,7 @@ public class SignInFragment extends Fragment {
         Log.d(TAG, "Email address: " + email);
         Log.d(TAG, " Password: " + password);
 
-        mAuthViewModel.getUserFromLogin(password, email).observe(this, new Observer<User>() {
+        mAuthViewModel.getUserFromLogin(getActivity() ,password, email).observe(this, new Observer<User>() {
             @Override
             public void onChanged(@Nullable User user) {
                 if(user != null){

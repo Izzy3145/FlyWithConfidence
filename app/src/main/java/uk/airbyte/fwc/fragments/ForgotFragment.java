@@ -82,7 +82,7 @@ public class ForgotFragment extends Fragment {
 
         Log.d(TAG, "Email address: " + email);
 
-        mAuthViewModel.getForgottenPw(email).observe(this, new Observer<Reminder>() {
+        mAuthViewModel.getForgottenPw(getActivity(), email).observe(this, new Observer<Reminder>() {
             @Override
             public void onChanged(@Nullable Reminder reminder) {
                 if (reminder != null) {
