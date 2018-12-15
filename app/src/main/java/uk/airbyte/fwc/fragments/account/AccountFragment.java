@@ -62,7 +62,6 @@ public class AccountFragment extends Fragment {
         ButterKnife.bind(this, view);
         updateDetailsTv.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_accountFragment_to_updateDetailsFragment));
         changePwTv.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_accountFragment_to_changePwFragment));
-        //TODO: add link to website
         findOutMoreTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -107,5 +106,4 @@ public class AccountFragment extends Fragment {
         void onLogout(String accessToken);
     }*/
 
-    //TODO: add SnackBar with message confirming profile/password? has been udpated
 }

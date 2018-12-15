@@ -22,7 +22,6 @@ import uk.airbyte.fwc.R;
  */
 public class SplashFragment extends Fragment {
 
-    //private SplashFragmentListener mListener;
     private Button getStartedBtn;
     private Button registeredBtn;
 
@@ -33,7 +32,6 @@ public class SplashFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_splash, container, false);
         //ButterKnife.bind(this, view);
         getStartedBtn = (Button) view.findViewById(R.id.startButton);

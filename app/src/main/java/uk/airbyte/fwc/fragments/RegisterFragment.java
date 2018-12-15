@@ -65,7 +65,6 @@ public class RegisterFragment extends Fragment {
     private String password;
     private String userID;
     private String accessToken;
-    //private OnRegisterListener mListener;
     private AuthViewModel mAuthViewModel;
     private SharedPreferences sharedPref;
     private SharedPreferences.Editor editor;
@@ -86,10 +85,8 @@ public class RegisterFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_register, container, false);
         ButterKnife.bind(this, view);
-        //createAccountBtn.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_registerFragment_to_home_dest));
         registeredBtn.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_registerFragment_to_signInFragment));
         return view;
     }
@@ -123,7 +120,6 @@ public class RegisterFragment extends Fragment {
                     userID = user.getId();
                     accessToken = user.getAccessToken();
 
-                    //mListener.onRegister(user.getAccessToken());
                     editor = sharedPref.edit();
                     editor.putString(Const.USER_ID, userID);
                     editor.putString(Const.ACCESS_TOKEN, accessToken);
@@ -206,27 +202,6 @@ public class RegisterFragment extends Fragment {
         mAuthViewModel = ViewModelProviders.of(this).get(AuthViewModel.class);
     }
 
-    /*@Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnRegisterListener) {
-            mListener = (OnRegisterListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnSignInListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    public interface OnRegisterListener {
-        void onRegister(String accessToken);
-    }
-*/
     @Override
     public void onDestroy() {
         super.onDestroy();

@@ -53,7 +53,6 @@ public class SignInFragment extends Fragment {
 
     private String email;
     private String password;
-    //private OnSignInListener mListener;
     private AuthViewModel mAuthViewModel;
     private SharedPreferences sharedPref;
     private SharedPreferences.Editor editor;
@@ -99,7 +98,6 @@ public class SignInFragment extends Fragment {
             @Override
             public void onChanged(@Nullable User user) {
                 if(user != null){
-                    //editor.putString(Const.USER_ID, user.getId());
                     Log.d(TAG, "User first name: " + user.getFirstName());
                     Log.d(TAG, "User last name: " + user.getLastName());
                     Log.d(TAG, "User id: " + user.getId());
@@ -110,9 +108,6 @@ public class SignInFragment extends Fragment {
                     editor.putString(Const.USER_ID, user.getId());
                     editor.apply();
 
-                    //mListener.onSignIn(user.getAccessToken());
-                    //Navigation.findNavController(getActivity(), R.id.my_nav_host_fragment).
-                     //       navigate(R.id.action_signInFragment_to_home_dest);
                     Intent openMain = new Intent(getActivity(), MainActivity.class);
                     startActivity(openMain);
                 }
@@ -143,8 +138,6 @@ public class SignInFragment extends Fragment {
         return true;
     }
 
-
-
     private Boolean isValidEmail(String email){
         return !TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
@@ -155,26 +148,5 @@ public class SignInFragment extends Fragment {
         //tells the fragment that its activity has completed its own Activity.onCreate()
         mAuthViewModel = ViewModelProviders.of(getActivity()).get(AuthViewModel.class);
     }
-
-    /*@Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnSignInListener) {
-            mListener = (OnSignInListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnSignInListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    public interface OnSignInListener {
-        void onSignIn(String accessToken);
-    }*/
 
 }

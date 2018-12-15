@@ -92,10 +92,9 @@ public class UpdateDetailsFragment extends Fragment {
         final String firstName = inputFirstName.getText().toString();
         final String lastName = inputLastName.getText().toString();
         final String email = inputEmail.getText().toString();
-        mViewModel.updateUserProfile(mAccessToken, firstName, lastName, email).observe(this, new Observer<User>() {
+        mViewModel.updateUserProfile(getActivity(), mAccessToken, firstName, lastName, email).observe(this, new Observer<User>() {
             @Override
             public void onChanged(@Nullable User user) {
-                //TODO: show some snackbar with confirmation of update
                 if (user != null) {
 
                     mUserID = user.getId();
@@ -126,7 +125,7 @@ public class UpdateDetailsFragment extends Fragment {
 
 
     public void getUserDetails() {
-        mViewModel.getUserProfile(mAccessToken).observe(this, new Observer<User>() {
+        mViewModel.getUserProfile(getActivity(), mAccessToken).observe(this, new Observer<User>() {
             @Override
             public void onChanged(@Nullable User user) {
                 if (user != null) {
