@@ -24,7 +24,7 @@
 
     <fragment
         android:id="@+id/splash_fragment"
-        android:name="uk.airbyte.fwc.fragments.SplashFragment"
+        android:name="uk.airbyte.fwc.fragments.auth.SplashFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_splash" >
         <action
@@ -75,7 +75,7 @@
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
-        android:name="uk.airbyte.fwc.fragments.RegisterFragment"
+        android:name="uk.airbyte.fwc.fragments.auth.RegisterFragment"
         android:label="fragment_register"
         tools:layout="@layout/fragment_register" >
         <action
@@ -96,7 +96,7 @@
     </fragment>
     <fragment
         android:id="@+id/signInFragment"
-        android:name="uk.airbyte.fwc.fragments.SignInFragment"
+        android:name="uk.airbyte.fwc.fragments.auth.SignInFragment"
         android:label="fragment_sign_in"
         tools:layout="@layout/fragment_sign_in" >
         <action
@@ -125,7 +125,7 @@
     </fragment>
     <fragment
         android:id="@+id/forgotFragment"
-        android:name="uk.airbyte.fwc.fragments.ForgotFragment"
+        android:name="uk.airbyte.fwc.fragments.auth.ForgotFragment"
         android:label="fragment_forgot"
         tools:layout="@layout/fragment_forgot" >
         <action
@@ -140,7 +140,7 @@
 
     <fragment
         android:id="@+id/resetPwFragment"
-        android:name="uk.airbyte.fwc.fragments.ResetPwFragment"
+        android:name="uk.airbyte.fwc.fragments.auth.ResetPwFragment"
         android:label="fragment_reset_pw"
         tools:layout="@layout/fragment_reset_pw" >
         <action

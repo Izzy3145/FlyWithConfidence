@@ -2,9 +2,12 @@
 <resources>
     <color name="colorPrimary">#1a4eb4</color>
     <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
 
+
+    <color name="colorAccent">#0035ad</color>
     <color name="fwc_blue">#0035ad</color>
+
+
     <color name="fwc_placeholder_grey">#DFDFDF</color>
 
     <color name="video_grey_background">#7dbdbdbd</color>

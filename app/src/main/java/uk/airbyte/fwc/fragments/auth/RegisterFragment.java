@@ -1,11 +1,10 @@
-package uk.airbyte.fwc.fragments;
+package uk.airbyte.fwc.fragments.auth;
 
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.content.SharedPreferences;
-
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
@@ -24,24 +23,32 @@ import androidx.navigation.Navigation;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.realm.Realm;
 import uk.airbyte.fwc.MainActivity;
 import uk.airbyte.fwc.R;
-import uk.airbyte.fwc.api.APIError;
 import uk.airbyte.fwc.model.User;
 import uk.airbyte.fwc.utils.Const;
 import uk.airbyte.fwc.viewmodels.AuthViewModel;
 
+/**
+ * A simple {@link Fragment} subclass.
+ */
+public class RegisterFragment extends Fragment {
 
-public class SignInFragment extends Fragment {
+    private static final String TAG = RegisterFragment.class.getSimpleName();
 
-    private static final String TAG = SignInFragment.class.getSimpleName();
-
-    @BindView(R.id.btnSignIn)
-    Button signInBtn;
-    @BindView(R.id.forgotPasswordBtn)
-    Button forgotBtn;
     @BindView(R.id.createAccountBtn)
     Button createAccountBtn;
+    @BindView(R.id.alreadyRegisteredBtn)
+    Button registeredBtn;
+    @BindView(R.id.inputFirstName)
+    TextInputEditText inputFirstName;
+    @BindView(R.id.inputLayoutFirstName)
+    TextInputLayout inputLayoutFirstName;
+    @BindView(R.id.inputLastName)
+    TextInputEditText inputLastName;
+    @BindView(R.id.inputLayoutLastName)
+    TextInputLayout inputLayoutLastName;
     @BindView(R.id.inputEmailAddress)
     TextInputEditText inputEmailAddress;
     @BindView(R.id.inputLayoutEmailAddress)
@@ -51,68 +58,112 @@ public class SignInFragment extends Fragment {
     @BindView(R.id.inputLayoutPassword)
     TextInputLayout inputLayoutPassword;
 
+    private String firstName;
+    private String lastName;
     private String email;
     private String password;
+    private String userID;
+    private String accessToken;
     private AuthViewModel mAuthViewModel;
     private SharedPreferences sharedPref;
     private SharedPreferences.Editor editor;
+    private Realm realm;
 
-    public SignInFragment() {
+
+    public RegisterFragment() {
         // Required empty public constructor
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        realm = Realm.getDefaultInstance();
         sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_sign_in, container, false);
+        View view = inflater.inflate(R.layout.fragment_register, container, false);
         ButterKnife.bind(this, view);
-        forgotBtn.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_signInFragment_to_forgotFragment));
-        createAccountBtn.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_signInFragment_to_registerFragment));
+        registeredBtn.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_registerFragment_to_signInFragment));
         return view;
     }
 
-    @OnClick(R.id.btnSignIn)
-    public void signInAttempt(){
-        if (!validateEmail()) {
-            return;
-        }
+    @OnClick(R.id.createAccountBtn)
+    public void createNewAccount(){
 
-        if (!validatePassword()) {
-            return;
-        }
+        if (!validateFirstName()) { return; }
 
+        if (!validateLastName()) { return; }
+
+        if (!validateEmail()) { return; }
+
+        if (!validatePassword()) { return; }
+
+        firstName = inputFirstName.getText().toString().trim();
+        lastName = inputLastName.getText().toString().trim();
         email = inputEmailAddress.getText().toString().trim();
         password = inputPassword.getText().toString().trim();
 
-        Log.d(TAG, "Email address: " + email);
-        Log.d(TAG, " Password: " + password);
-
-        mAuthViewModel.getUserFromLogin(getActivity() ,password, email).observe(this, new Observer<User>() {
+        mAuthViewModel.getUserFromRegister(getActivity(), password, email, lastName,firstName).observe(this, new Observer<User>() {
             @Override
             public void onChanged(@Nullable User user) {
                 if(user != null){
+                    //editor.putString(Const.USER_ID, user.getId());
                     Log.d(TAG, "User first name: " + user.getFirstName());
                     Log.d(TAG, "User last name: " + user.getLastName());
                     Log.d(TAG, "User id: " + user.getId());
                     Log.d(TAG, "User accessToken: " + user.getAccessToken());
 
+                    userID = user.getId();
+                    accessToken = user.getAccessToken();
+
                     editor = sharedPref.edit();
-                    editor.putString(Const.ACCESS_TOKEN, user.getAccessToken());
-                    editor.putString(Const.USER_ID, user.getId());
+                    editor.putString(Const.USER_ID, userID);
+                    editor.putString(Const.ACCESS_TOKEN, accessToken);
                     editor.apply();
+
+                    //TODO: move realm stuff to viewmodel
+                    realm.executeTransactionAsync(new Realm.Transaction(){
+
+                        @Override
+                        public void execute(Realm realm) {
+                            User user = realm.createObject(User.class, userID);
+                            user.setFirstName(firstName);
+                            user.setLastName(lastName);
+                            user.setEmailAddress(email);
+                            user.setAccessToken(accessToken);
+                        }
+                    });
 
                     Intent openMain = new Intent(getActivity(), MainActivity.class);
                     startActivity(openMain);
                 }
             }
         });
+    }
+
+    private Boolean validateFirstName(){
+        if(inputFirstName.getText().toString().trim().isEmpty()){
+            inputLayoutFirstName.setError("Enter a valid first name");
+            inputFirstName.requestFocus();
+            return false;
+        } else {
+            inputLayoutFirstName.setErrorEnabled(false);
+        }
+        return true;
+    }
+
+    private Boolean validateLastName(){
+        if(inputLastName.getText().toString().trim().isEmpty()){
+            inputLayoutLastName.setError("Enter a valid second name");
+            inputLastName.requestFocus();
+            return false;
+        } else {
+            inputLayoutLastName.setErrorEnabled(false);
+        }
+        return true;
     }
 
     private Boolean validateEmail(){
@@ -138,6 +189,8 @@ public class SignInFragment extends Fragment {
         return true;
     }
 
+
+
     private Boolean isValidEmail(String email){
         return !TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
@@ -145,8 +198,13 @@ public class SignInFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        //tells the fragment that its activity has completed its own Activity.onCreate()
-        mAuthViewModel = ViewModelProviders.of(getActivity()).get(AuthViewModel.class);
+        mAuthViewModel = ViewModelProviders.of(this).get(AuthViewModel.class);
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        realm.close();
+    }
 }
+

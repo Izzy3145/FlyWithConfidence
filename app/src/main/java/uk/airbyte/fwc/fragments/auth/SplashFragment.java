@@ -1,4 +1,4 @@
-package uk.airbyte.fwc.fragments;
+package uk.airbyte.fwc.fragments.auth;
 
 import android.content.Context;
 import android.net.Uri;

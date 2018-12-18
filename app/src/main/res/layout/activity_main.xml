@@ -6,14 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <!-- <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        app:itemTextColor="@color/darker_grey"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark"/> -->
-
 <!-- required NavHostFragment reference for hosting activity, pointing to the navigation map -->
     <fragment
         android:id="@+id/my_nav_host_fragment"

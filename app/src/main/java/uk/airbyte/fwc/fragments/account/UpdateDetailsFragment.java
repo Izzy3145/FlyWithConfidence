@@ -14,20 +14,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.navigation.Navigation;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.realm.Realm;
-import io.realm.RealmResults;
 import uk.airbyte.fwc.R;
-import uk.airbyte.fwc.fragments.ForgotFragment;
 import uk.airbyte.fwc.model.User;
 import uk.airbyte.fwc.utils.Const;
 import uk.airbyte.fwc.viewmodels.AccountViewModel;
-import uk.airbyte.fwc.viewmodels.AuthViewModel;
 
 /**
  * A simple {@link Fragment} subclass.

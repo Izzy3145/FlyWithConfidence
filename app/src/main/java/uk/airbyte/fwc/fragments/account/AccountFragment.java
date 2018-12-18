@@ -1,8 +1,6 @@
 package uk.airbyte.fwc.fragments.account;
 
 
-import android.accounts.Account;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -14,9 +12,7 @@ import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.navigation.Navigation;
 import butterknife.BindView;
@@ -24,7 +20,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import uk.airbyte.fwc.MainActivity;
 import uk.airbyte.fwc.R;
-import uk.airbyte.fwc.fragments.RegisterFragment;
 import uk.airbyte.fwc.utils.Const;
 
 public class AccountFragment extends Fragment {

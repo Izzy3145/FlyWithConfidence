@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/fwc_blue"
-    tools:context=".fragments.RegisterFragment"
+    tools:context=".fragments.auth.RegisterFragment"
     android:clickable="true">
 
     <ImageView
