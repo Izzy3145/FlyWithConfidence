@@ -55,6 +55,11 @@
                                 <LayoutPositions />
                               </value>
                             </entry>
+                            <entry key="action_changePwFragment_to_updateDetailsFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
                           </map>
                         </option>
                       </LayoutPositions>

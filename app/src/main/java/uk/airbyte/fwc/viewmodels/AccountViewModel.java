@@ -43,11 +43,9 @@ public class AccountViewModel extends ViewModel {
 
     //we will call this method to get the data
     public LiveData<User> updateUserProfile(Context context, String accessToken, String fName, String lName, String email) {
-        if (user == null) {
             user = new MutableLiveData<User>();
             //we will load it asynchronously from server in this method
             putUserProfile(context, accessToken, fName, lName, email);
-        }
         return user;
     }
 
@@ -87,7 +85,7 @@ public class AccountViewModel extends ViewModel {
     }
 
     private void putUserProfile(final Context context, String accessToken, String fName, String lName, String email) {
-        apiService.updateUserProfile(accessToken, new Login(fName, lName, email))
+        apiService.updateUserProfile(accessToken, new Login(email, lName, fName))
                 .enqueue(new Callback<User>() {
                     @Override
                     public void onResponse(Call<User> call, Response<User> response) {

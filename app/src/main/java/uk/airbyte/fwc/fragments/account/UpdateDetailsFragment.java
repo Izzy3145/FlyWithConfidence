@@ -98,6 +98,7 @@ public class UpdateDetailsFragment extends Fragment {
         final String firstName = inputFirstName.getText().toString();
         final String lastName = inputLastName.getText().toString();
         final String email = inputEmail.getText().toString();
+
         mViewModel.updateUserProfile(getActivity(), mAccessToken, firstName, lastName, email).observe(this, new Observer<User>() {
             @Override
             public void onChanged(@Nullable User user) {
@@ -105,7 +106,7 @@ public class UpdateDetailsFragment extends Fragment {
 
                     mUserID = user.getId();
 
-                    realm.executeTransactionAsync(new Realm.Transaction() {
+                    realm.executeTransaction(new Realm.Transaction() {
                         @Override
                         public void execute(Realm realm) {
                             //TODO: move off fragment
@@ -114,10 +115,10 @@ public class UpdateDetailsFragment extends Fragment {
                                 user.setFirstName(firstName);
                                 user.setLastName(lastName);
                                 user.setEmailAddress(email);
-                                Log.d(TAG, "User first name: " + user.getFirstName());
-                                Log.d(TAG, "User last name: " + user.getLastName());
-                                Log.d(TAG, "User id: " + user.getId());
-                                Log.d(TAG, "User accessToken: " + user.getAccessToken());
+                                Log.d(TAG, "Realm user first name: " + user.getFirstName());
+                                Log.d(TAG, "Realm user last name: " + user.getLastName());
+                                Log.d(TAG, "Realm user id: " + user.getId());
+                                Log.d(TAG, "Realm user accessToken: " + user.getAccessToken());
                             }
                         }
                     });
@@ -135,10 +136,10 @@ public class UpdateDetailsFragment extends Fragment {
             @Override
             public void onChanged(@Nullable User user) {
                 if (user != null) {
-                    Log.d(TAG, "User first name: " + user.getFirstName());
-                    Log.d(TAG, "User last name: " + user.getLastName());
-                    Log.d(TAG, "User id: " + user.getId());
-                    Log.d(TAG, "User accessToken: " + user.getAccessToken());
+                    Log.d(TAG, "onResume: User first name: " + user.getFirstName());
+                    Log.d(TAG, "onResume: User last name: " + user.getLastName());
+                    Log.d(TAG, "onResume: User id: " + user.getId());
+                    Log.d(TAG, "onResume: User accessToken: " + user.getAccessToken());
                     inputFirstName.setText(user.getFirstName());
                     inputLastName.setText(user.getLastName());
                     inputEmail.setText(user.getEmailAddress());
