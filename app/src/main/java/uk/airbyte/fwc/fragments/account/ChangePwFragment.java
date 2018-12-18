@@ -19,6 +19,7 @@ import androidx.navigation.Navigation;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import uk.airbyte.fwc.MainActivity;
 import uk.airbyte.fwc.R;
 import uk.airbyte.fwc.model.Password;
 import uk.airbyte.fwc.model.Success;
@@ -98,14 +99,14 @@ public class ChangePwFragment extends Fragment {
         mViewModel.putUserPassword(getActivity(), accessToken, currentPassword, newPassword).observe(this, new Observer<Success>() {
             @Override
             public void onChanged(@Nullable Success success) {
+
                 if(success != null){
                     if (success.getSuccess()){
-                        Toast.makeText(getActivity(), "Password updated!", Toast.LENGTH_SHORT).show();
-                        //TODO: make navigation work
-                        Navigation.findNavController(getActivity(), R.id.my_nav_host_fragment).
-                                navigate(R.id.action_changePwFragment_to_accountFragment);
+                        Navigation.findNavController(getActivity(), R.id.my_nav_host_fragment).navigate(R.id.action_changePwFragment_to_accountFragment);
+
+                        //Toast.makeText(getActivity(), "ChangePwFragment: Password updated!", Toast.LENGTH_SHORT).show();
                     } else {
-                        Toast.makeText(getActivity(), "Password update unsuccessful", Toast.LENGTH_SHORT).show();
+                       //Toast.makeText(getActivity(), "ChangePwFragment: Password update unsuccessful", Toast.LENGTH_SHORT).show();
                     }
                 }
             }

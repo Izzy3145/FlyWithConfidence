@@ -31,7 +31,6 @@ import uk.airbyte.fwc.R;
 import uk.airbyte.fwc.model.Reminder;
 import uk.airbyte.fwc.viewmodels.AuthViewModel;
 
-import static android.view.View.GONE;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -94,7 +93,7 @@ public class ForgotFragment extends Fragment {
 
                         sentEmailTv.setText(String.format(getResources().getString(R.string.sent_reminder_email),
                                 boldEmail));
-                        sendGroup.setVisibility(GONE);
+                        sendGroup.setVisibility(View.GONE);
                         sentGroup.setVisibility(View.VISIBLE);
                     } else {
                         Toast.makeText(getActivity(), "Email address not registered", Toast.LENGTH_SHORT).show();

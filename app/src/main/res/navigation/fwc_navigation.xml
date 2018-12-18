@@ -53,7 +53,11 @@
         android:id="@+id/topicsFragment"
         android:name="uk.airbyte.fwc.fragments.TopicsFragment"
         android:label="topics_fragment"
-        tools:layout="@layout/topics_fragment" />
+        tools:layout="@layout/topics_fragment" >
+        <action
+            android:id="@+id/action_topicsFragment_to_moduleFragment"
+            app:destination="@id/moduleFragment" />
+    </fragment>
     <fragment
         android:id="@+id/accountFragment"
         android:name="uk.airbyte.fwc.fragments.account.AccountFragment"
@@ -165,6 +169,19 @@
         <action
             android:id="@+id/action_changePwFragment_to_accountFragment"
             app:destination="@id/accountFragment" />
+        <action
+            android:id="@+id/action_changePwFragment_to_updateDetailsFragment"
+            app:destination="@id/updateDetailsFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/videoFragment"
+        android:name="uk.airbyte.fwc.fragments.VideoFragment"
+        android:label="fragment_video"
+        tools:layout="@layout/fragment_video" />
+    <fragment
+        android:id="@+id/moduleFragment"
+        android:name="uk.airbyte.fwc.fragments.ModuleFragment"
+        android:label="fragment_module"
+        tools:layout="@layout/fragment_module" />
 
 </navigation>

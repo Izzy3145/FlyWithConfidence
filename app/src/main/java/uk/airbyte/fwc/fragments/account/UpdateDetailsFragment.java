@@ -87,6 +87,12 @@ public class UpdateDetailsFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        getUserDetails();
+    }
+
     @OnClick(R.id.saveBtn)
     public void saveUserProfile() {
         final String firstName = inputFirstName.getText().toString();
@@ -99,7 +105,7 @@ public class UpdateDetailsFragment extends Fragment {
 
                     mUserID = user.getId();
 
-                    realm.executeTransaction(new Realm.Transaction() {
+                    realm.executeTransactionAsync(new Realm.Transaction() {
                         @Override
                         public void execute(Realm realm) {
                             //TODO: move off fragment

@@ -32,6 +32,7 @@ public class AuthViewModel extends ViewModel {
         if (user == null) {
             user = new MutableLiveData<User>();
             //we will load it asynchronously from server in this method
+            Log.d(TAG, "In method getUserFromLogin()! ");
             loginCall(context, password, email);
         }
 

@@ -23,7 +23,6 @@ public class ResetPwFragment extends Fragment {
         // Required empty public constructor
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -33,5 +32,7 @@ public class ResetPwFragment extends Fragment {
         setPasswordBtn.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_resetPwFragment_to_signInFragment));
         return view;
     }
+
+
 
 }

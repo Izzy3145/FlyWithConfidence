@@ -120,6 +120,7 @@ public class AccountViewModel extends ViewModel {
                     @Override
                     public void onResponse(Call<Success> call, Response<Success> response) {
                         if (response.isSuccessful()) {
+                            success.postValue(response.body());
                             Toast.makeText(context, "Password updated!", Toast.LENGTH_SHORT).show();
                             Log.d(TAG, "Response profileCall() success: " + response.body());
                         } else {
@@ -130,7 +131,6 @@ public class AccountViewModel extends ViewModel {
                             Toast.makeText(context, "Error: " + errorCode + " " + errorMessage, Toast.LENGTH_SHORT).show();
                             Log.d("profileCall() error message", error.message());
                         }
-
                     }
 
                     @Override
