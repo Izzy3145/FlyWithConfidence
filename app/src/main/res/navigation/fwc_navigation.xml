@@ -50,8 +50,8 @@
         android:label="home_fragment"
         tools:layout="@layout/home_fragment" >
         <action
-            android:id="@+id/action_homeFragment_to_moduleFragment"
-            app:destination="@id/moduleFragment" />
+            android:id="@+id/action_home_to_module"
+            app:destination="@+id/moduleFragment" />
     </fragment>
     <fragment
         android:id="@+id/topicsFragment"
