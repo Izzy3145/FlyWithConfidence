@@ -95,6 +95,15 @@
                             <option name="y" value="-315" />
                           </Point>
                         </option>
+                        <option name="myPositions">
+                          <map>
+                            <entry key="action_homeFragment_to_moduleFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                          </map>
+                        </option>
                       </LayoutPositions>
                     </value>
                   </entry>
@@ -292,8 +301,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="409" />
-                            <option name="y" value="-547" />
+                            <option name="x" value="351" />
+                            <option name="y" value="-639" />
                           </Point>
                         </option>
                       </LayoutPositions>

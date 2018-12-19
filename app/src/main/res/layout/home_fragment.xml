@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fillViewport="true"
     tools:context=".fragments.HomeFragment">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
     <fragment
         android:id="@+id/videoFragment"
@@ -42,7 +47,8 @@
             android:id="@+id/welcomeAboardTv"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:padding="16dp"
+            android:paddingTop="16dp"
+            android:paddingBottom="8dp"
             android:text="@string/welcome_aboard"
             android:textAlignment="center"
             android:textColor="@color/colorWhite"
@@ -58,7 +64,8 @@
             android:id="@+id/welcomeDescTv"
             android:layout_width="0dp"
             android:layout_height="55dp"
-            android:padding="16dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="16dp"
             android:text="@string/an_introduction_to_fly_in_confidence"
             android:textAlignment="center"
             android:textColor="@color/colorWhite"
@@ -86,7 +93,7 @@
     </android.support.constraint.ConstraintLayout>
 
     <TextView
-        android:id="@+id/myFavoouritesTv"
+        android:id="@+id/myFavouritesTv"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:padding="16dp"
@@ -97,6 +104,7 @@
         app:layout_constraintTop_toBottomOf="@+id/videoFragment" />
 
     <android.support.v7.widget.RecyclerView
+        android:id="@+id/myFavouritesRv"
         android:layout_width="wrap_content"
         android:layout_height="100dp"
         android:layout_marginStart="8dp"
@@ -104,6 +112,8 @@
         android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/myFavoouritesTv"></android.support.v7.widget.RecyclerView>
+        app:layout_constraintTop_toBottomOf="@+id/myFavouritesTv"></android.support.v7.widget.RecyclerView>
 
 </android.support.constraint.ConstraintLayout>
+
+</ScrollView>
