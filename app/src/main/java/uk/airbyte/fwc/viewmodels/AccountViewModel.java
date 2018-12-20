@@ -36,9 +36,7 @@ public class AccountViewModel extends ViewModel {
             user = new MutableLiveData<User>();
             //we will load it asynchronously from server in this method
             profileCall(context, accessToken);
-
         }
-
         return user;
     }
 

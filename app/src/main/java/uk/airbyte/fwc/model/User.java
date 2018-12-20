@@ -6,6 +6,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 import io.realm.RealmObject;
+import io.realm.annotations.Ignore;
 import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.RealmClass;
 
@@ -28,13 +29,14 @@ public class User extends RealmObject {
         @SerializedName("access_token")
         @Expose
         private String accessToken;
-
-       // private List<Module> unlockedModules;
+        @Ignore
+        private List<String> unlockedModuleIDs;
 
         /**
          * No args constructor for use in serialization
          *
          */
+
         public User() {
         }
 
@@ -63,6 +65,14 @@ public class User extends RealmObject {
         public void setId(String id) {
             this.id = id;
         }
+
+        public List<String> getUnlockedModuleIDs() {
+            return unlockedModuleIDs;
+        }
+
+        public void setUnlockedModuleIDs(List<String> unlockedModuleIDs) {
+          this.unlockedModuleIDs = unlockedModuleIDs;
+         }
 
         public String getFirstName() {
             return firstName;

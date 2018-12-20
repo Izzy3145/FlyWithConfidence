@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +34,7 @@ import uk.airbyte.fwc.viewmodels.HomeViewModel;
 
 
 public class VideoFragment extends Fragment {
+    private static final String TAG = VideoFragment.class.getSimpleName();
 
     private static final String PLAYER_POSITION = "playback_position";
     private static final String PLAYBACK_READY = "playback_ready";
@@ -76,13 +78,14 @@ public class VideoFragment extends Fragment {
         simpleExoPlayerView.setVisibility(View.GONE);
         placeholderImageView.setVisibility(View.VISIBLE);
 
-        Picasso.get()
+        /*Picasso.get()
                 .load(R.drawable.captain)
                 .placeholder(R.drawable.captain)
                 .error(R.drawable.captain)
-                .into(placeholderImageView);
-
-   //     videoOrImageDisplay(mImageString, mThumbnailString, mVideoString);
+                .into(placeholderImageView);*/
+   // String videoSelected = "https://player.vimeo.com/external/231066073.hd.mp4?s=e53afa45b4ad1b2848499fca912607b98b80e8bb&profile_id=175";
+        String videoSelected = "android.resource://" + getActivity().getPackageName() +"/" + R.raw.intro;
+        videoOrImageDisplay(null, null, videoSelected);
 
         return view;
     }
@@ -95,6 +98,7 @@ public class VideoFragment extends Fragment {
             @Override
             public void onChanged(@Nullable String s) {
                 videoOrImageDisplay(null, null, s);
+                Log.d(TAG, "Video string received: " + s);
             }
         });
     }
@@ -114,8 +118,8 @@ public class VideoFragment extends Fragment {
 
             Picasso.get()
                     .load(image)
-                    .placeholder(R.drawable.cupcake)
-                    .error(R.drawable.cupcake)
+                    .placeholder(R.drawable.captain)
+                    .error(R.drawable.captain)
                     .into(placeholderImageView);
 
 
@@ -126,8 +130,8 @@ public class VideoFragment extends Fragment {
 
             Picasso.get()
                     .load(image)
-                    .placeholder(R.drawable.cupcake)
-                    .error(R.drawable.cupcake)
+                    .placeholder(R.drawable.captain)
+                    .error(R.drawable.captain)
                     .into(placeholderImageView);
 
         } else {
@@ -149,7 +153,7 @@ public class VideoFragment extends Fragment {
             simpleExoPlayerView.setPlayer(mSimpleExoPlayer);
 
             //prepare the mediasource
-            String userAgent = Util.getUserAgent(getContext(), "BakingApp");
+            String userAgent = Util.getUserAgent(getContext(), "fwc");
             MediaSource firstMediaSource = new ExtractorMediaSource(firstUri, new DefaultDataSourceFactory(getContext(),
                     userAgent), new DefaultExtractorsFactory(), null, null);
             mSimpleExoPlayer.prepare(firstMediaSource);

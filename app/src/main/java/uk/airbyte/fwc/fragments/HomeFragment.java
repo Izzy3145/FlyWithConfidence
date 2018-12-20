@@ -46,6 +46,8 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.Favourit
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         fragmentManager = getFragmentManager();
+        mHomeViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
+
     }
 
     @Override
@@ -65,6 +67,10 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.Favourit
         //set adapter to recycler view
         mRecyclerView.setAdapter(mAdapter);
 
+        //videoSelected = "android.resource://" + getActivity().getPackageName() +"/" + R.raw.intro_video;
+        videoSelected = "https://player.vimeo.com/external/231066073.hd.mp4?s=e53afa45b4ad1b2848499fca912607b98b80e8bb&profile_id=175";
+        Log.d(TAG, "Video selected: " + videoSelected);
+        mHomeViewModel.select(videoSelected);
 
         return view;
     }
@@ -76,8 +82,12 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.Favourit
         watchNowBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                videoSelected = "android.resource://" + getActivity().getPackageName() +"/" + R.raw.intro_video;
+                Log.d(TAG, "Watch now button clicked");
+                //videoSelected = "android.resource://" + getActivity().getPackageName() +"/" + R.raw.intro_video;
+
                 mHomeViewModel.select(videoSelected);
+
+                // https://player.vimeo.com/external/231066073.hd.mp4?s=e53afa45b4ad1b2848499fca912607b98b80e8bb&profile_id=175
             }
         });
     }
