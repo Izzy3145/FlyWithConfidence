@@ -1,5 +1,7 @@
 package uk.airbyte.fwc.fragments;
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -27,6 +29,7 @@ import com.squareup.picasso.Picasso;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import uk.airbyte.fwc.R;
+import uk.airbyte.fwc.viewmodels.HomeViewModel;
 
 
 public class VideoFragment extends Fragment {
@@ -82,6 +85,18 @@ public class VideoFragment extends Fragment {
    //     videoOrImageDisplay(mImageString, mThumbnailString, mVideoString);
 
         return view;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        HomeViewModel homeViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
+        homeViewModel.getSelected().observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(@Nullable String s) {
+                videoOrImageDisplay(null, null, s);
+            }
+        });
     }
 
     public void videoOrImageDisplay(String image, String thumbnail, String videoUrl) {

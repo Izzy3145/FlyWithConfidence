@@ -3,6 +3,8 @@ package uk.airbyte.fwc.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.RealmClass;
@@ -26,6 +28,8 @@ public class User extends RealmObject {
         @SerializedName("access_token")
         @Expose
         private String accessToken;
+
+       // private List<Module> unlockedModules;
 
         /**
          * No args constructor for use in serialization

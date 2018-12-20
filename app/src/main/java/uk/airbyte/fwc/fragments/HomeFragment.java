@@ -13,11 +13,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.navigation.Navigation;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import uk.airbyte.fwc.R;
 import uk.airbyte.fwc.adapters.FavouritesAdapter;
 import uk.airbyte.fwc.fragments.account.UpdateDetailsFragment;
@@ -26,13 +28,15 @@ import uk.airbyte.fwc.viewmodels.HomeViewModel;
 public class HomeFragment extends Fragment implements FavouritesAdapter.FavouritesAdapterListener {
 
     private static final String TAG = HomeFragment.class.getSimpleName();
-
-    private HomeViewModel mViewModel;
     @BindView(R.id.myFavouritesRv)
     RecyclerView mRecyclerView;
+    @BindView(R.id.watchNowBtn)
+    Button watchNowBtn;
+    private HomeViewModel mHomeViewModel;
     private RecyclerView.LayoutManager mLayoutManager;
     private FavouritesAdapter mAdapter;
     private FragmentManager fragmentManager;
+    private String videoSelected;
 
     public static HomeFragment newInstance() {
         return new HomeFragment();
@@ -61,13 +65,21 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.Favourit
         //set adapter to recycler view
         mRecyclerView.setAdapter(mAdapter);
 
+
         return view;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
+        mHomeViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
+        watchNowBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                videoSelected = "android.resource://" + getActivity().getPackageName() +"/" + R.raw.intro_video;
+                mHomeViewModel.select(videoSelected);
+            }
+        });
     }
 
     @Override
@@ -78,6 +90,7 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.Favourit
         ModuleFragment moduleFragment = new ModuleFragment();
         fragmentManager.beginTransaction()
                 .replace(R.id.my_nav_host_fragment, moduleFragment)
+                //.addToBackStack(null)
                 .commit();
     }
 }
