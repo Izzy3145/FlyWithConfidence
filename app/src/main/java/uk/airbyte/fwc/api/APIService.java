@@ -15,7 +15,6 @@ import uk.airbyte.fwc.model.Module;
 import uk.airbyte.fwc.model.Password;
 import uk.airbyte.fwc.model.Reminder;
 import uk.airbyte.fwc.model.Success;
-import uk.airbyte.fwc.model.Topic;
 import uk.airbyte.fwc.model.User;
 
 public interface APIService {
@@ -38,8 +37,8 @@ public interface APIService {
     @PUT("/profile/password")
     Call<Success> updateUserPassword(@Header("User-Token") String accessToken, @Body Password password);
 
-    @GET("/content/topics")
-    Call<List<Topic>> getTopics(@Header("User-Token") String accessToken);
+    //@GET("/content/topics")
+    //Call<List<Topic>> getTopics(@Header("User-Token") String accessToken);
 
     @GET("/content/modules")
     Call<List<Module>> getModulesForTopics(@Header("User-Token") String accessToken, @Query("topic") String topicID);
