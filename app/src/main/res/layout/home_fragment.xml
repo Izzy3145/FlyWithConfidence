@@ -9,111 +9,113 @@
     tools:context=".fragments.HomeFragment">
 
     <android.support.constraint.ConstraintLayout
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-    <fragment
-        android:id="@+id/videoFragment"
-        class="uk.airbyte.fwc.fragments.VideoFragment"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintDimensionRatio="h,1:1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <android.support.constraint.ConstraintLayout
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@color/trans_grey"
-        app:layout_constraintDimensionRatio="h,1:1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-
-        <ImageView
-            android:id="@+id/logo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="32dp"
-            android:layout_marginEnd="24dp"
-            android:src="@drawable/ba_logo"
+        <fragment
+            android:id="@+id/videoFragment"
+            class="uk.airbyte.fwc.fragments.VideoFragment"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintDimensionRatio="h,1:1"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/video_overlay"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@color/trans_grey"
+            app:layout_constraintDimensionRatio="h,1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+
+            <ImageView
+                android:id="@+id/logo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="24dp"
+                android:src="@drawable/ba_logo"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/welcomeAboardTv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingTop="16dp"
+                android:paddingBottom="8dp"
+                android:text="@string/welcome_aboard"
+                android:textAlignment="center"
+                android:textColor="@color/colorWhite"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toTopOf="@+id/welcomeDescTv"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed" />
+
+            <TextView
+                android:id="@+id/welcomeDescTv"
+                android:layout_width="0dp"
+                android:layout_height="55dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="16dp"
+                android:text="@string/an_introduction_to_fly_in_confidence"
+                android:textAlignment="center"
+                android:textColor="@color/colorWhite"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toTopOf="@+id/watchNowBtn"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/welcomeAboardTv" />
+
+            <Button
+                android:id="@+id/watchNowBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/roundedwhitebutton"
+                android:drawableStart="@drawable/ic_play_arrow"
+                android:padding="8dp"
+                android:text="@string/watch_now"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/welcomeDescTv" />
+
+        </android.support.constraint.ConstraintLayout>
+
         <TextView
-            android:id="@+id/welcomeAboardTv"
+            android:id="@+id/myFavouritesTv"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:paddingTop="16dp"
-            android:paddingBottom="8dp"
-            android:text="@string/welcome_aboard"
-            android:textAlignment="center"
-            android:textColor="@color/colorWhite"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toTopOf="@+id/welcomeDescTv"
+            android:padding="16dp"
+            android:text="MY FAVOURITES"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_chainStyle="packed" />
+            app:layout_constraintTop_toBottomOf="@+id/videoFragment" />
 
-        <TextView
-            android:id="@+id/welcomeDescTv"
-            android:layout_width="0dp"
-            android:layout_height="55dp"
-            android:paddingTop="8dp"
-            android:paddingBottom="16dp"
-            android:text="@string/an_introduction_to_fly_in_confidence"
-            android:textAlignment="center"
-            android:textColor="@color/colorWhite"
-            android:textSize="14sp"
-            app:layout_constraintBottom_toTopOf="@+id/watchNowBtn"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/welcomeAboardTv" />
-
-        <Button
-            android:id="@+id/watchNowBtn"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/myFavouritesRv"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="100dp"
             android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
-            android:text="@string/watch_now"
-            android:background="@drawable/roundwhiteback"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/welcomeDescTv" />
+            app:layout_constraintTop_toBottomOf="@+id/myFavouritesTv"></android.support.v7.widget.RecyclerView>
 
     </android.support.constraint.ConstraintLayout>
-
-    <TextView
-        android:id="@+id/myFavouritesTv"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:text="MY FAVOURITES"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/videoFragment" />
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/myFavouritesRv"
-        android:layout_width="wrap_content"
-        android:layout_height="100dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/myFavouritesTv"></android.support.v7.widget.RecyclerView>
-
-</android.support.constraint.ConstraintLayout>
 
 </ScrollView>

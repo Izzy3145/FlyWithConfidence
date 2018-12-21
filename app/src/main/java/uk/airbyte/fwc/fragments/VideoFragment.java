@@ -48,6 +48,7 @@ public class VideoFragment extends Fragment {
     @Nullable
     private String mThumbnailString;
     private SimpleExoPlayer mSimpleExoPlayer;
+    private HomeViewModel homeViewModel;
 
     @BindView(R.id.exo_player_view)
     SimpleExoPlayerView simpleExoPlayerView;
@@ -59,12 +60,28 @@ public class VideoFragment extends Fragment {
         // Required empty public constructor
     }
 
-    //TODO: check all this code is relevant (copied over from Baking App)
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        homeViewModel = ViewModelProviders.of(getActivity()).get(HomeViewModel.class);
+        homeViewModel.getSelected().observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(@Nullable String s) {
+                if (s != null) {
+                    videoOrImageDisplay(null, null, s);
+                    Log.d(TAG, "Video string received: " + s);
+                }
+            }
+        });
+    }
     //TODO: change error image
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        Log.d(TAG, "onCreateView: ");
+
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_video, container, false);
         ButterKnife.bind(this, view);
@@ -83,24 +100,11 @@ public class VideoFragment extends Fragment {
                 .placeholder(R.drawable.captain)
                 .error(R.drawable.captain)
                 .into(placeholderImageView);*/
-   // String videoSelected = "https://player.vimeo.com/external/231066073.hd.mp4?s=e53afa45b4ad1b2848499fca912607b98b80e8bb&profile_id=175";
-        String videoSelected = "asset:///intro.mp4";
-        videoOrImageDisplay(null, null, videoSelected);
+        // String videoSelected = "https://player.vimeo.com/external/231066073.hd.mp4?s=e53afa45b4ad1b2848499fca912607b98b80e8bb&profile_id=175";
+        // String videoSelected = "asset:///intro.mp4";
+        // videoOrImageDisplay(null, null, videoSelected);
 
         return view;
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        HomeViewModel homeViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
-        homeViewModel.getSelected().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                videoOrImageDisplay(null, null, s);
-                Log.d(TAG, "Video string received: " + s);
-            }
-        });
     }
 
     public void videoOrImageDisplay(String image, String thumbnail, String videoUrl) {

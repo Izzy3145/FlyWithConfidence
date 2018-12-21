@@ -1,9 +1,11 @@
 package uk.airbyte.fwc.fragments;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.DividerItemDecoration;
@@ -32,6 +34,8 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.Favourit
     RecyclerView mRecyclerView;
     @BindView(R.id.watchNowBtn)
     Button watchNowBtn;
+    @BindView(R.id.video_overlay)
+    ConstraintLayout videoOverlay;
     private HomeViewModel mHomeViewModel;
     private RecyclerView.LayoutManager mLayoutManager;
     private FavouritesAdapter mAdapter;
@@ -46,7 +50,7 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.Favourit
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         fragmentManager = getFragmentManager();
-        mHomeViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
+        mHomeViewModel = ViewModelProviders.of(getActivity()).get(HomeViewModel.class);
 
     }
 
@@ -67,10 +71,21 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.Favourit
         //set adapter to recycler view
         mRecyclerView.setAdapter(mAdapter);
 
+        watchNowBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "Watch now button clicked");
+                videoOverlay.setVisibility(View.GONE);
+                videoSelected = "asset:///intro.mp4";
+                getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+                mHomeViewModel.select(videoSelected);
+            }
+        });
+
         //videoSelected = "android.resource://" + getActivity().getPackageName() +"/" + R.raw.intro_video;
-        videoSelected = "https://player.vimeo.com/external/231066073.hd.mp4?s=e53afa45b4ad1b2848499fca912607b98b80e8bb&profile_id=175";
-        Log.d(TAG, "Video selected: " + videoSelected);
-        mHomeViewModel.select(videoSelected);
+        //videoSelected = "https://player.vimeo.com/external/231066073.hd.mp4?s=e53afa45b4ad1b2848499fca912607b98b80e8bb&profile_id=175";
+        //Log.d(TAG, "Video selected: " + videoSelected);
+        //mHomeViewModel.select(videoSelected);
 
         return view;
     }
@@ -78,18 +93,8 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.Favourit
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mHomeViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
-        watchNowBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d(TAG, "Watch now button clicked");
-                //videoSelected = "android.resource://" + getActivity().getPackageName() +"/" + R.raw.intro_video;
+        mHomeViewModel = ViewModelProviders.of(getActivity()).get(HomeViewModel.class);
 
-                mHomeViewModel.select(videoSelected);
-
-                // https://player.vimeo.com/external/231066073.hd.mp4?s=e53afa45b4ad1b2848499fca912607b98b80e8bb&profile_id=175
-            }
-        });
     }
 
     @Override

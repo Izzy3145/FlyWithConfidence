@@ -3,15 +3,26 @@ package uk.airbyte.fwc.viewmodels;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
+import android.util.Log;
 
 public class HomeViewModel extends ViewModel {
-    private final MutableLiveData<String> selectedVideo = new MutableLiveData<String>();
+
+    private final static String TAG = HomeViewModel.class.getSimpleName();
+    private MutableLiveData<String> selectedVideo = new MutableLiveData<String>();
 
     public void select(String string) {
+        Log.d(TAG, "Video selected: "+ string);
         selectedVideo.setValue(string);
     }
 
     public LiveData<String> getSelected() {
-        return selectedVideo;
+
+        if(selectedVideo == null) {
+            selectedVideo.setValue("testingtesting");
+            Log.d(TAG, "Video retrieved " + selectedVideo);
+
+        }
+            return selectedVideo;
+        }
     }
-}
+
