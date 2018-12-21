@@ -43,13 +43,20 @@ public class TopicsFragment extends Fragment {
         super.onCreate(savedInstanceState);
         sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
         accessToken = sharedPref.getString(Const.ACCESS_TOKEN, "");
+        mViewModel = ViewModelProviders.of(this).get(TopicsViewModel.class);
+
         realm = Realm.getDefaultInstance();
 
-        /*mViewModel.getModulesForTopic(getActivity(), accessToken, "74e89e6e-fb05-4a59-ac5d-eb2e937bad16")
+        mViewModel.getModulesForTopic(getActivity(), accessToken, "74e89e6e-fb05-4a59-ac5d-eb2e937bad16")
                 .observe(this, new Observer<List<Module>>() {
             @Override
             public void onChanged(@Nullable final List<Module> modules) {
                 if(modules != null){
+                    for(int i = 0; i<modules.size(); i++){
+                        Module module = modules.get(i);
+                        Log.d(TAG, module.getName());
+                    }
+
                     realm.executeTransactionAsync(new Realm.Transaction() {
 
                         @Override
@@ -57,12 +64,13 @@ public class TopicsFragment extends Fragment {
                             for(int i = 0; i<modules.size(); i++){
                                 Module module = modules.get(i);
                                 realm.copyToRealm(module, null);
+                                //TODO: modules don't save to Realm
                             }
                         }
                     });
                 }
             }
-        });*/
+        });
     }
 
     @Override
@@ -80,7 +88,6 @@ public class TopicsFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = ViewModelProviders.of(this).get(TopicsViewModel.class);
-        // TODO: Use the ViewModel
     }
 
 }

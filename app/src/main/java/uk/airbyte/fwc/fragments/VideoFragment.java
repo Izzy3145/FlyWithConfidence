@@ -84,7 +84,7 @@ public class VideoFragment extends Fragment {
                 .error(R.drawable.captain)
                 .into(placeholderImageView);*/
    // String videoSelected = "https://player.vimeo.com/external/231066073.hd.mp4?s=e53afa45b4ad1b2848499fca912607b98b80e8bb&profile_id=175";
-        String videoSelected = "android.resource://" + getActivity().getPackageName() +"/" + R.raw.intro;
+        String videoSelected = "asset:///intro.mp4";
         videoOrImageDisplay(null, null, videoSelected);
 
         return view;
