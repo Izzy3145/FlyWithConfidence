@@ -11,20 +11,27 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.navigation.Navigation;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.realm.Realm;
+import io.realm.RealmResults;
 import uk.airbyte.fwc.R;
 import uk.airbyte.fwc.adapters.FavouritesAdapter;
 import uk.airbyte.fwc.fragments.account.UpdateDetailsFragment;
+import uk.airbyte.fwc.model.Module;
+import uk.airbyte.fwc.model.User;
 import uk.airbyte.fwc.viewmodels.HomeViewModel;
 
 public class HomeFragment extends Fragment implements FavouritesAdapter.FavouritesAdapterListener {
@@ -41,6 +48,8 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.Favourit
     private FavouritesAdapter mAdapter;
     private FragmentManager fragmentManager;
     private String videoSelected;
+    private Fragment videoFragment;
+    private Realm realm;
 
     public static HomeFragment newInstance() {
         return new HomeFragment();
@@ -50,8 +59,9 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.Favourit
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         fragmentManager = getFragmentManager();
+        videoFragment = fragmentManager.findFragmentById(R.id.videoFragment);
         mHomeViewModel = ViewModelProviders.of(getActivity()).get(HomeViewModel.class);
-
+        realm = Realm.getDefaultInstance();
     }
 
     @Override
@@ -62,13 +72,10 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.Favourit
 
         //TODO: get list of favourites from db via viewmodel, set them to the adapter
 
-        //mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this.getActivity(), LinearLayoutManager.HORIZONTAL, false);
         mRecyclerView.setLayoutManager(mLayoutManager);
-
         mAdapter = new FavouritesAdapter(getActivity(), this);
-        //set adapter to recycler view
         mRecyclerView.setAdapter(mAdapter);
 
         watchNowBtn.setOnClickListener(new View.OnClickListener() {
@@ -78,15 +85,24 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.Favourit
                 videoOverlay.setVisibility(View.GONE);
                 videoSelected = "asset:///intro.mp4";
                 getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+
+                //TODO: make this work
+                resizeFragment(videoFragment, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
                 mHomeViewModel.select(videoSelected);
             }
         });
 
-        //videoSelected = "android.resource://" + getActivity().getPackageName() +"/" + R.raw.intro_video;
-        //videoSelected = "https://player.vimeo.com/external/231066073.hd.mp4?s=e53afa45b4ad1b2848499fca912607b98b80e8bb&profile_id=175";
-        //Log.d(TAG, "Video selected: " + videoSelected);
-        //mHomeViewModel.select(videoSelected);
+        //TODO: move this to ViewModel
+        RealmResults<Module> result2 = realm.where(Module.class)
+                .equalTo("favourited", true)
+                .findAll();
 
+        Log.d(TAG, "Number of favourited videos: " + String.valueOf(result2.size()));
+
+
+        for(int i = 0; i < result2.size(); i++){
+            Log.d(TAG, "Favourited module title: " + result2.get(i).getName());
+        }
         return view;
     }
 
@@ -107,5 +123,16 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.Favourit
                 .replace(R.id.my_nav_host_fragment, moduleFragment)
                 //.addToBackStack(null)
                 .commit();
+    }
+
+    private void resizeFragment(Fragment f, int newWidth, int newHeight) {
+        if (f != null) {
+            View view = f.getView();
+            LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(newWidth, newHeight);
+            view.setLayoutParams(p);
+            view.requestLayout();
+
+
+        }
     }
 }

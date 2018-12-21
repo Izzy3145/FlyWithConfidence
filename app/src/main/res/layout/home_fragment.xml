@@ -13,15 +13,23 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/videoFragParent"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintDimensionRatio="h,1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" >
+
         <fragment
             android:id="@+id/videoFragment"
             class="uk.airbyte.fwc.fragments.VideoFragment"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintDimensionRatio="h,1:1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </android.support.constraint.ConstraintLayout>
+
 
         <android.support.constraint.ConstraintLayout
             android:id="@+id/video_overlay"
@@ -103,7 +111,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/videoFragment" />
+            app:layout_constraintTop_toBottomOf="@+id/videoFragParent" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/myFavouritesRv"

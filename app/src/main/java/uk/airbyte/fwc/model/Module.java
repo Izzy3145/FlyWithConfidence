@@ -54,6 +54,10 @@ public class Module extends RealmObject {
     @SerializedName("can_view")
     @Expose
     private Boolean canView;
+    @Expose
+    private Boolean favourited;
+    @Expose
+    private long lastViewed;
 
     /**
      * No args constructor for use in serialization
@@ -62,24 +66,10 @@ public class Module extends RealmObject {
     public Module() {
     }
 
-    /**
-     *
-     * @param topic
-     * @param type
-     * @param presenter
-     * @param id
-     * @param free
-     * @param category
-     * @param description
-     * @param name
-     * @param canView
-     * @param displayOrder
-     * @param notes
-     * @param media
-     * @param introduction
-     * @param bullets
-     */
-    public Module(String id, String type, String displayOrder, String name, String introduction, String description, String notes, Presenter presenter, Media media, RealmList<String> bullets, Category category, Topic topic, Boolean free, Boolean canView) {
+
+    public Module(String id, String type, String displayOrder, String name, String introduction,
+                  String description, String notes, Presenter presenter, Media media, RealmList<String> bullets,
+                  Category category, Topic topic, Boolean free, Boolean canView, Boolean favourited, long lastViewed) {
         super();
         this.id = id;
         this.type = type;
@@ -95,6 +85,8 @@ public class Module extends RealmObject {
         this.topic = topic;
         this.free = free;
         this.canView = canView;
+        this.favourited = favourited;
+        this.lastViewed = lastViewed;
     }
 
     public String getId() {
@@ -123,6 +115,22 @@ public class Module extends RealmObject {
 
     public String getName() {
         return name;
+    }
+
+    public Boolean getFavourited() {
+        return favourited;
+    }
+
+    public void setFavourited(Boolean favourited) {
+        this.favourited = favourited;
+    }
+
+    public long getLastViewed() {
+        return lastViewed;
+    }
+
+    public void setLastViewed(long lastViewed) {
+        this.lastViewed = lastViewed;
     }
 
     public void setName(String name) {

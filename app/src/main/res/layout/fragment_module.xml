@@ -207,7 +207,7 @@
             android:id="@+id/unlockedModuleGroup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="gone"
+            android:visibility="visible"
             app:constraint_referenced_ids="videoFragment,textView8,textView9,textView12,textView5,textView11,textView10,nextModuleBtn,addToFavouritesBtn" />
 
         <android.support.constraint.Group
