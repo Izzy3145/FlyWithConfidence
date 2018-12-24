@@ -17,16 +17,17 @@ import butterknife.ButterKnife;
 import uk.airbyte.fwc.R;
 import uk.airbyte.fwc.fragments.ModuleFragment;
 import uk.airbyte.fwc.fragments.VideoFragment;
+import uk.airbyte.fwc.model.Module;
 
 public class FavouritesAdapter extends RecyclerView.Adapter<FavouritesAdapter.ViewHolder> {
 
-   // private ArrayList<RecipeItem> mListOfRecipes;
-   private Context mContext;
-   private FavouritesAdapterListener mClickHandler;
+    private Context mContext;
+    private ArrayList<Module> mListOfModules;
+    private FavouritesAdapterListener mClickHandler;
 
-   // public FavouritesAdapter(Context c, ArrayList<RecipeItem> listOfRecipes, RecipeItemAdapterListener clickHandler) {
-   public FavouritesAdapter(Context c, FavouritesAdapterListener clickHandler) {
+   public FavouritesAdapter(Context c, ArrayList<Module> listOfModules, FavouritesAdapterListener clickHandler) {
         mContext = c;
+        mListOfModules = listOfModules;
         mClickHandler = clickHandler;
     }
 
@@ -42,19 +43,25 @@ public class FavouritesAdapter extends RecyclerView.Adapter<FavouritesAdapter.Vi
     }
 
     @Override
-    public void onBindViewHolder(@NonNull FavouritesAdapter.ViewHolder holder, int i) {
-       // RecipeItem recipe = mListOfRecipes.get(position);
-       // String recipeName = recipe.getName();
-        holder.mVideoTitle.setText("Introduction");
+    public void onBindViewHolder(@NonNull FavouritesAdapter.ViewHolder holder, int position) {
+        Module module = mListOfModules.get(position);
+        holder.mVideoTitle.setText(module.getName());
+        //TODO: sort out images
+        //if(module.getMedia().getThumbnail() != null){
         holder.mVideoThumbnail.setImageResource(R.drawable.captain);
-
     }
 
     @Override
     public int getItemCount() {
-        return 1;
+        return mListOfModules.size();
     }
 
+    public void setModulesToAdapter(ArrayList<Module> foundModuleList){
+        mListOfModules = foundModuleList;
+        notifyDataSetChanged();
+    }
+
+    //TODO: sort out on click listener
     //create onClickListener interface
     public interface FavouritesAdapterListener {
         //void onClickMethod(RecipeItem recipeItem, int position);

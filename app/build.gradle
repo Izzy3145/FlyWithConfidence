@@ -58,4 +58,5 @@ dependencies {
     implementation 'com.google.android.exoplayer:exoplayer:r2.2.0'
     implementation 'com.squareup.picasso:picasso:2.71828'
 
+    implementation 'io.realm:android-adapters:2.1.1'
 }

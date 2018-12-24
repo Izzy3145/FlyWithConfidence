@@ -21,6 +21,9 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import androidx.navigation.Navigation;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -50,6 +53,8 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.Favourit
     private String videoSelected;
     private Fragment videoFragment;
     private Realm realm;
+    private ArrayList<Module> moduleList = new ArrayList<Module>(0);
+
 
     public static HomeFragment newInstance() {
         return new HomeFragment();
@@ -75,7 +80,7 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.Favourit
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this.getActivity(), LinearLayoutManager.HORIZONTAL, false);
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new FavouritesAdapter(getActivity(), this);
+        mAdapter = new FavouritesAdapter(getActivity(), moduleList, this);
         mRecyclerView.setAdapter(mAdapter);
 
         watchNowBtn.setOnClickListener(new View.OnClickListener() {
@@ -98,8 +103,8 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.Favourit
                 .findAll();
 
         Log.d(TAG, "Number of favourited videos: " + String.valueOf(result2.size()));
-
-
+        moduleList.addAll(realm.copyFromRealm(result2));
+        mAdapter.setModulesToAdapter(moduleList);
         for(int i = 0; i < result2.size(); i++){
             Log.d(TAG, "Favourited module title: " + result2.get(i).getName());
         }

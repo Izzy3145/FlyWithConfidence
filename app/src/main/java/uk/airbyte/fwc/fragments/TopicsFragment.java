@@ -18,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -100,7 +101,7 @@ public class TopicsFragment extends Fragment implements FavouritesAdapter.Favour
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this.getActivity(), LinearLayoutManager.HORIZONTAL, false);
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new FavouritesAdapter(getActivity(), this);
+        mAdapter = new FavouritesAdapter(getActivity(), new ArrayList<Module>(0), this);
         mRecyclerView.setAdapter(mAdapter);
 
         return view;
