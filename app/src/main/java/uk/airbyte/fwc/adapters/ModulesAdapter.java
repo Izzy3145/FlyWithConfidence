@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -20,9 +22,9 @@ public class ModulesAdapter extends RecyclerView.Adapter<ModulesAdapter.ViewHold
 
     private Context mContext;
     private ArrayList<Module> mListOfModules;
-    private FavouritesAdapterListener mClickHandler;
+    private ModulesAdapterListener mClickHandler;
 
-   public ModulesAdapter(Context c, ArrayList<Module> listOfModules, FavouritesAdapterListener clickHandler) {
+   public ModulesAdapter(Context c, ArrayList<Module> listOfModules, ModulesAdapterListener clickHandler) {
         mContext = c;
         mListOfModules = listOfModules;
         mClickHandler = clickHandler;
@@ -43,9 +45,12 @@ public class ModulesAdapter extends RecyclerView.Adapter<ModulesAdapter.ViewHold
     public void onBindViewHolder(@NonNull ModulesAdapter.ViewHolder holder, int position) {
         Module module = mListOfModules.get(position);
         holder.mVideoTitle.setText(module.getName());
-        //TODO: sort out images
-        //if(module.getMedia().getThumbnail() != null){
-        holder.mVideoThumbnail.setImageResource(R.drawable.captain);
+
+        Picasso.get()
+                .load(module.getMedia().getThumbnail())
+                .placeholder(R.drawable.captain)
+                .error(R.drawable.captain)
+                .into(holder.mVideoThumbnail);
     }
 
     @Override
@@ -58,12 +63,10 @@ public class ModulesAdapter extends RecyclerView.Adapter<ModulesAdapter.ViewHold
         notifyDataSetChanged();
     }
 
-    //TODO: sort out on click listener
     //create onClickListener interface
-    public interface FavouritesAdapterListener {
-        //void onClickMethod(RecipeItem recipeItem, int position);
-        void onClickMethod(int position);
-
+    public interface ModulesAdapterListener {
+        void onClickMethod(Module module, int position);
+        //void onClickMethod(int position);
     }
 
     //create viewholder class
@@ -81,10 +84,12 @@ public class ModulesAdapter extends RecyclerView.Adapter<ModulesAdapter.ViewHold
 
         @Override
         public void onClick(View view) {
-            //RecipeItem recipeItem;
+            //TODO: sort out on click listener - it's only working for textview
+
+            Module module;
             int adapterPosition = getAdapterPosition();
-            //recipeItem = mListOfRecipes.get(adapterPosition);
-            mClickHandler.onClickMethod(adapterPosition);
+            module = mListOfModules.get(adapterPosition);
+            mClickHandler.onClickMethod(module, adapterPosition);
         }
     }
 }

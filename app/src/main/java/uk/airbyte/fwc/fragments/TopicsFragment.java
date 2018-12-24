@@ -29,7 +29,7 @@ import uk.airbyte.fwc.model.Module;
 import uk.airbyte.fwc.utils.Const;
 import uk.airbyte.fwc.viewmodels.TopicsViewModel;
 
-public class TopicsFragment extends Fragment implements ModulesAdapter.FavouritesAdapterListener {
+public class TopicsFragment extends Fragment implements ModulesAdapter.ModulesAdapterListener {
 
     private static final String TAG = TopicsFragment.class.getSimpleName();
 
@@ -65,11 +65,12 @@ public class TopicsFragment extends Fragment implements ModulesAdapter.Favourite
                 if(modules != null){
                     for(int i = 0; i<modules.size(); i++){
                         Module module = modules.get(i);
-                        //TODO: remove after testing
+                        //TODO: remove
                         module.setFavourited(true);
                         Log.d(TAG, module.getName());
                     }
 
+                    //TODO: remove
                     Module recentModule = modules.get(1);
                     recentModule.setLastViewed(2);
 
@@ -120,7 +121,7 @@ public class TopicsFragment extends Fragment implements ModulesAdapter.Favourite
     }
 
     @Override
-    public void onClickMethod(int position) {
+    public void onClickMethod(Module module, int position) {
         Log.d(TAG, "OnClick method clicked");
         //TODO: make nav controller work
         //Navigation.findNavController(getActivity(), R.id.my_nav_host_fragment).navigate(R.id.action_home_to_module);

@@ -29,7 +29,7 @@ import uk.airbyte.fwc.adapters.ModulesAdapter;
 import uk.airbyte.fwc.model.Module;
 import uk.airbyte.fwc.viewmodels.HomeViewModel;
 
-public class HomeFragment extends Fragment implements ModulesAdapter.FavouritesAdapterListener {
+public class HomeFragment extends Fragment implements ModulesAdapter.ModulesAdapterListener {
 
     private static final String TAG = HomeFragment.class.getSimpleName();
     @BindView(R.id.myFavouritesRv)
@@ -135,18 +135,6 @@ public class HomeFragment extends Fragment implements ModulesAdapter.FavouritesA
 
     }
 
-    @Override
-    public void onClickMethod(int position) {
-        Log.d(TAG, "OnClick method clicked");
-        //TODO: make nav controller work
-        //Navigation.findNavController(getActivity(), R.id.my_nav_host_fragment).navigate(R.id.action_home_to_module);
-        ModuleFragment moduleFragment = new ModuleFragment();
-        fragmentManager.beginTransaction()
-                .replace(R.id.my_nav_host_fragment, moduleFragment)
-                //.addToBackStack(null)
-                .commit();
-    }
-
     private void resizeFragment(Fragment f, int newWidth, int newHeight) {
         if (f != null) {
             View view = f.getView();
@@ -156,5 +144,17 @@ public class HomeFragment extends Fragment implements ModulesAdapter.FavouritesA
 
 
         }
+    }
+
+    @Override
+    public void onClickMethod(Module module, int position) {
+        Log.d(TAG, "OnClick method clicked");
+        //TODO: make nav controller work
+        //Navigation.findNavController(getActivity(), R.id.my_nav_host_fragment).navigate(R.id.action_home_to_module);
+        ModuleFragment moduleFragment = new ModuleFragment();
+        fragmentManager.beginTransaction()
+                .replace(R.id.my_nav_host_fragment, moduleFragment)
+                //.addToBackStack(null)
+                .commit();
     }
 }
