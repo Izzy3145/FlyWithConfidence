@@ -2,7 +2,6 @@ package uk.airbyte.fwc.fragments;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -24,15 +23,13 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.realm.Realm;
-import uk.airbyte.fwc.MainActivity;
 import uk.airbyte.fwc.R;
-import uk.airbyte.fwc.adapters.FavouritesAdapter;
+import uk.airbyte.fwc.adapters.ModulesAdapter;
 import uk.airbyte.fwc.model.Module;
-import uk.airbyte.fwc.model.User;
 import uk.airbyte.fwc.utils.Const;
 import uk.airbyte.fwc.viewmodels.TopicsViewModel;
 
-public class TopicsFragment extends Fragment implements FavouritesAdapter.FavouritesAdapterListener {
+public class TopicsFragment extends Fragment implements ModulesAdapter.FavouritesAdapterListener {
 
     private static final String TAG = TopicsFragment.class.getSimpleName();
 
@@ -42,7 +39,7 @@ public class TopicsFragment extends Fragment implements FavouritesAdapter.Favour
     private String accessToken;
     private SharedPreferences sharedPref;
     private RecyclerView.LayoutManager mLayoutManager;
-    private FavouritesAdapter mAdapter;
+    private ModulesAdapter mAdapter;
     private Realm realm;
     private FragmentManager fragmentManager;
 
@@ -73,6 +70,9 @@ public class TopicsFragment extends Fragment implements FavouritesAdapter.Favour
                         Log.d(TAG, module.getName());
                     }
 
+                    Module recentModule = modules.get(1);
+                    recentModule.setLastViewed(2);
+
                     realm.executeTransaction(new Realm.Transaction() {
 
                         @Override
@@ -101,7 +101,7 @@ public class TopicsFragment extends Fragment implements FavouritesAdapter.Favour
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this.getActivity(), LinearLayoutManager.HORIZONTAL, false);
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new FavouritesAdapter(getActivity(), new ArrayList<Module>(0), this);
+        mAdapter = new ModulesAdapter(getActivity(), new ArrayList<Module>(0), this);
         mRecyclerView.setAdapter(mAdapter);
 
         return view;

@@ -143,7 +143,7 @@ public class VideoFragment extends Fragment {
             simpleExoPlayerView.setVisibility(View.GONE);
             placeholderImageView.setVisibility(View.VISIBLE);
 
-            placeholderImageView.setImageResource(R.drawable.cupcake);
+            placeholderImageView.setImageResource(R.drawable.captain);
         }
     }
 

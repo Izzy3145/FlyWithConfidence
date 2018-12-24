@@ -11,21 +11,18 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import androidx.navigation.Navigation;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import uk.airbyte.fwc.R;
-import uk.airbyte.fwc.fragments.ModuleFragment;
-import uk.airbyte.fwc.fragments.VideoFragment;
 import uk.airbyte.fwc.model.Module;
 
-public class FavouritesAdapter extends RecyclerView.Adapter<FavouritesAdapter.ViewHolder> {
+public class ModulesAdapter extends RecyclerView.Adapter<ModulesAdapter.ViewHolder> {
 
     private Context mContext;
     private ArrayList<Module> mListOfModules;
     private FavouritesAdapterListener mClickHandler;
 
-   public FavouritesAdapter(Context c, ArrayList<Module> listOfModules, FavouritesAdapterListener clickHandler) {
+   public ModulesAdapter(Context c, ArrayList<Module> listOfModules, FavouritesAdapterListener clickHandler) {
         mContext = c;
         mListOfModules = listOfModules;
         mClickHandler = clickHandler;
@@ -34,7 +31,7 @@ public class FavouritesAdapter extends RecyclerView.Adapter<FavouritesAdapter.Vi
 
     @NonNull
     @Override
-    public FavouritesAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int i) {
+    public ModulesAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int i) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.video_thumbnail_item, parent,
                 false);
         //pass the view to the ViewHolder
@@ -43,7 +40,7 @@ public class FavouritesAdapter extends RecyclerView.Adapter<FavouritesAdapter.Vi
     }
 
     @Override
-    public void onBindViewHolder(@NonNull FavouritesAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ModulesAdapter.ViewHolder holder, int position) {
         Module module = mListOfModules.get(position);
         holder.mVideoTitle.setText(module.getName());
         //TODO: sort out images

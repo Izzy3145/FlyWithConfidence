@@ -6,54 +6,53 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
+import android.support.constraint.Group;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import androidx.navigation.Navigation;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import io.realm.Realm;
 import io.realm.RealmResults;
 import uk.airbyte.fwc.R;
-import uk.airbyte.fwc.adapters.FavouritesAdapter;
-import uk.airbyte.fwc.fragments.account.UpdateDetailsFragment;
+import uk.airbyte.fwc.adapters.ModulesAdapter;
 import uk.airbyte.fwc.model.Module;
-import uk.airbyte.fwc.model.User;
 import uk.airbyte.fwc.viewmodels.HomeViewModel;
 
-public class HomeFragment extends Fragment implements FavouritesAdapter.FavouritesAdapterListener {
+public class HomeFragment extends Fragment implements ModulesAdapter.FavouritesAdapterListener {
 
     private static final String TAG = HomeFragment.class.getSimpleName();
     @BindView(R.id.myFavouritesRv)
-    RecyclerView mRecyclerView;
+    RecyclerView mFavouritesRv;
+    @BindView(R.id.myRecentsRv)
+    RecyclerView myRecentsRv;
     @BindView(R.id.watchNowBtn)
     Button watchNowBtn;
     @BindView(R.id.video_overlay)
     ConstraintLayout videoOverlay;
+    @BindView(R.id.recentsGroup)
+    Group recentsRvGroup;
     private HomeViewModel mHomeViewModel;
     private RecyclerView.LayoutManager mLayoutManager;
-    private FavouritesAdapter mAdapter;
+    private ModulesAdapter mFavouritesAdapter;
+    private ModulesAdapter mRecentsAdapter;
     private FragmentManager fragmentManager;
     private String videoSelected;
     private Fragment videoFragment;
     private Realm realm;
-    private ArrayList<Module> moduleList = new ArrayList<Module>(0);
+    private ArrayList<Module> favouritesList = new ArrayList<Module>(0);
+    private ArrayList<Module> recentsList = new ArrayList<Module>(0);
+
 
 
     public static HomeFragment newInstance() {
@@ -75,14 +74,6 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.Favourit
         View view = inflater.inflate(R.layout.home_fragment, container, false);
         ButterKnife.bind(this, view);
 
-        //TODO: get list of favourites from db via viewmodel, set them to the adapter
-
-        mRecyclerView.setHasFixedSize(true);
-        mLayoutManager = new LinearLayoutManager(this.getActivity(), LinearLayoutManager.HORIZONTAL, false);
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new FavouritesAdapter(getActivity(), moduleList, this);
-        mRecyclerView.setAdapter(mAdapter);
-
         watchNowBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -97,17 +88,43 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.Favourit
             }
         });
 
+        //set up favouraites recycler view and adapter, get info from Realm
+
+        mFavouritesRv.setHasFixedSize(true);
+        mLayoutManager = new LinearLayoutManager(this.getActivity(), LinearLayoutManager.HORIZONTAL, false);
+        mFavouritesRv.setLayoutManager(mLayoutManager);
+        mFavouritesAdapter = new ModulesAdapter(getActivity(), favouritesList, this);
+        mFavouritesRv.setAdapter(mFavouritesAdapter);
+
         //TODO: move this to ViewModel
-        RealmResults<Module> result2 = realm.where(Module.class)
+        RealmResults<Module> realmFavourites = realm.where(Module.class)
                 .equalTo("favourited", true)
                 .findAll();
 
-        Log.d(TAG, "Number of favourited videos: " + String.valueOf(result2.size()));
-        moduleList.addAll(realm.copyFromRealm(result2));
-        mAdapter.setModulesToAdapter(moduleList);
-        for(int i = 0; i < result2.size(); i++){
-            Log.d(TAG, "Favourited module title: " + result2.get(i).getName());
+        Log.d(TAG, "Number of favourited videos: " + String.valueOf(realmFavourites.size()));
+        favouritesList.addAll(realm.copyFromRealm(realmFavourites));
+        mFavouritesAdapter.setModulesToAdapter(favouritesList);
+        for(int i = 0; i < realmFavourites.size(); i++){
+            Log.d(TAG, "Favourited module title: " + realmFavourites.get(i).getName());
         }
+
+        //set up recents recycler view and adapter
+        myRecentsRv.setHasFixedSize(true);
+        mLayoutManager = new LinearLayoutManager(this.getActivity(), LinearLayoutManager.HORIZONTAL, false);
+        myRecentsRv.setLayoutManager(mLayoutManager);
+        mRecentsAdapter = new ModulesAdapter(getActivity(), recentsList, this);
+        myRecentsRv.setAdapter(mRecentsAdapter);
+
+        RealmResults<Module> realmRecents = realm.where(Module.class)
+                .notEqualTo("lastViewed", 0)
+                .findAll();
+        Log.d(TAG, "Number of recently watched videos: " + String.valueOf(realmRecents.size()));
+        recentsList.addAll(realm.copyFromRealm(realmRecents));
+        mRecentsAdapter.setModulesToAdapter(recentsList);
+        if(recentsList.size() > 0){
+            recentsRvGroup.setVisibility(View.VISIBLE);
+        }
+
         return view;
     }
 
