@@ -71,8 +71,12 @@ public class TopicsFragment extends Fragment implements ModulesAdapter.ModulesAd
                     }
 
                     //TODO: remove
-                    Module recentModule = modules.get(1);
-                    recentModule.setLastViewed(2);
+                    Module recentModule1 = modules.get(1);
+                    recentModule1.setLastViewed(3);
+                    Module recentModule2 = modules.get(1);
+                    recentModule2.setLastViewed(2);
+                    Module recentModule3 = modules.get(1);
+                    recentModule3.setLastViewed(1);
 
                     realm.executeTransaction(new Realm.Transaction() {
 
@@ -123,7 +127,7 @@ public class TopicsFragment extends Fragment implements ModulesAdapter.ModulesAd
     @Override
     public void onClickMethod(Module module, int position) {
         Log.d(TAG, "OnClick method clicked");
-        //TODO: make nav controller work
+        //TODO: (2) pass module item to ModuleFragment for viewing, implement onBackPressed
         //Navigation.findNavController(getActivity(), R.id.my_nav_host_fragment).navigate(R.id.action_home_to_module);
         ModuleFragment moduleFragment = new ModuleFragment();
         fragmentManager.beginTransaction()

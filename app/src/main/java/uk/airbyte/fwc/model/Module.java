@@ -9,7 +9,7 @@ import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.RealmClass;
 
 @RealmClass
-public class Module extends RealmObject {
+public class Module extends RealmObject{
 
     @PrimaryKey
     @SerializedName("id")

@@ -10,9 +10,9 @@ public class HomeViewModel extends ViewModel {
     private final static String TAG = HomeViewModel.class.getSimpleName();
     private MutableLiveData<String> selectedVideo = new MutableLiveData<String>();
 
-    public void select(String string) {
-        Log.d(TAG, "Video selected: "+ string);
-        selectedVideo.setValue(string);
+    public void select(String video) {
+        Log.d(TAG, "Video selected: "+ video);
+        selectedVideo.setValue(video);
     }
 
     public LiveData<String> getSelected() {

@@ -31,6 +31,8 @@ public class ModulesAdapter extends RecyclerView.Adapter<ModulesAdapter.ViewHold
     }
 
 
+    //TODO: (3) display in order of lastViewed
+
     @NonNull
     @Override
     public ModulesAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int i) {
@@ -45,7 +47,7 @@ public class ModulesAdapter extends RecyclerView.Adapter<ModulesAdapter.ViewHold
     public void onBindViewHolder(@NonNull ModulesAdapter.ViewHolder holder, int position) {
         Module module = mListOfModules.get(position);
         holder.mVideoTitle.setText(module.getName());
-
+        //TODO: test when full API response available set proper placeholder and error image
         Picasso.get()
                 .load(module.getMedia().getThumbnail())
                 .placeholder(R.drawable.captain)

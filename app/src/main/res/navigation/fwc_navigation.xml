@@ -52,6 +52,9 @@
         <action
             android:id="@+id/action_home_to_module"
             app:destination="@+id/moduleFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_videoFragment"
+            app:destination="@id/videoFragment" />
     </fragment>
     <fragment
         android:id="@+id/topicsFragment"

@@ -113,6 +113,7 @@ public class VideoFragment extends Fragment {
             simpleExoPlayerView.setVisibility(View.VISIBLE);
             placeholderImageView.setVisibility(View.GONE);
 
+
             initializeExoPlayer(Uri.parse(videoUrl));
 
         } else if (image.trim().length() != 0) {
