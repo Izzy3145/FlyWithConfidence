@@ -32,6 +32,7 @@ import io.realm.RealmResults;
 import uk.airbyte.fwc.R;
 import uk.airbyte.fwc.adapters.ModulesAdapter;
 import uk.airbyte.fwc.model.Module;
+import uk.airbyte.fwc.model.ShowPlay;
 import uk.airbyte.fwc.utils.Const;
 import uk.airbyte.fwc.viewmodels.HomeViewModel;
 
@@ -48,6 +49,8 @@ public class HomeFragment extends Fragment implements ModulesAdapter.ModulesAdap
     Group videoOverlayGroup;
     @BindView(R.id.recentsGroup)
     Group recentsRvGroup;
+    @BindView(R.id.videoFragParent)
+    ConstraintLayout videoFragParent;
     private HomeViewModel mHomeViewModel;
     private RecyclerView.LayoutManager mLayoutManager;
     private ModulesAdapter mFavouritesAdapter;
@@ -89,17 +92,19 @@ public class HomeFragment extends Fragment implements ModulesAdapter.ModulesAdap
                 videoSelected = "asset:///intro.mp4";
                 watchNowBtn.setVisibility(View.GONE);
                 videoOverlayGroup.setVisibility(View.GONE);
-                mHomeViewModel.select(videoSelected);
+                mHomeViewModel.select(new ShowPlay(null, null, videoSelected));
 
-                //TODO: (1) Make this work full screen & landscape, implement onBackPressed
-                //getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+                //TODO: (1) Make this work in landscape, implement onBackPressed
                 //getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-                //resizeFragment(videoFragment, ConstraintLayout.LayoutParams.MATCH_PARENT, ConstraintLayout.LayoutParams.MATCH_PARENT);
+                ConstraintLayout.LayoutParams p = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, ConstraintLayout.LayoutParams.MATCH_PARENT);
+                videoFragParent.setLayoutParams(p);
+                videoFragParent.requestLayout();
+                //getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+
             }
         });
 
         //set up favourites recycler view and adapter, get info from Realm
-
         mFavouritesRv.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this.getActivity(), LinearLayoutManager.HORIZONTAL, false);
         mFavouritesRv.setLayoutManager(mLayoutManager);

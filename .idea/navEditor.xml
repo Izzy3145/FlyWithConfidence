@@ -133,6 +133,11 @@
                                 <LayoutPositions />
                               </value>
                             </entry>
+                            <entry key="action_home_dest_to_moduleFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
                             <entry key="action_home_dest_to_topicsFragment">
                               <value>
                                 <LayoutPositions />

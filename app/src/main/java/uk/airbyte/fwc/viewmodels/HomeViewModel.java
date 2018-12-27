@@ -5,23 +5,19 @@ import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.util.Log;
 
+import uk.airbyte.fwc.model.ShowPlay;
+
 public class HomeViewModel extends ViewModel {
 
     private final static String TAG = HomeViewModel.class.getSimpleName();
-    private MutableLiveData<String> selectedVideo = new MutableLiveData<String>();
+    private MutableLiveData<ShowPlay> selectedVideo = new MutableLiveData<ShowPlay>();
 
-    public void select(String video) {
-        Log.d(TAG, "Video selected: "+ video);
-        selectedVideo.setValue(video);
+    public void select(ShowPlay imageOrVideo) {
+        Log.d(TAG, "Video selected: "+ imageOrVideo);
+        selectedVideo.setValue(imageOrVideo);
     }
 
-    public LiveData<String> getSelected() {
-
-        if(selectedVideo == null) {
-            selectedVideo.setValue("testingtesting");
-            Log.d(TAG, "Video retrieved " + selectedVideo);
-
-        }
+    public LiveData<ShowPlay> getSelected() {
             return selectedVideo;
         }
 

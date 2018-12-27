@@ -30,6 +30,7 @@ import com.squareup.picasso.Picasso;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import uk.airbyte.fwc.R;
+import uk.airbyte.fwc.model.ShowPlay;
 import uk.airbyte.fwc.viewmodels.HomeViewModel;
 
 
@@ -64,12 +65,12 @@ public class VideoFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         homeViewModel = ViewModelProviders.of(getActivity()).get(HomeViewModel.class);
-        homeViewModel.getSelected().observe(this, new Observer<String>() {
+        homeViewModel.getSelected().observe(this, new Observer<ShowPlay>() {
             @Override
-            public void onChanged(@Nullable String s) {
-                if (s != null) {
-                    videoOrImageDisplay(null, null, s);
-                    Log.d(TAG, "Video string received: " + s);
+            public void onChanged(@Nullable ShowPlay showPlay) {
+                if (showPlay != null) {
+                    videoOrImageDisplay(showPlay.getImage(), showPlay.getThumbnail(), showPlay.getVideoUrl());
+                    Log.d(TAG, "Video string received: " + showPlay.getVideoUrl());
                 }
             }
         });
@@ -95,15 +96,6 @@ public class VideoFragment extends Fragment {
         simpleExoPlayerView.setVisibility(View.GONE);
         placeholderImageView.setVisibility(View.VISIBLE);
 
-        /*Picasso.get()
-                .load(R.drawable.captain)
-                .placeholder(R.drawable.captain)
-                .error(R.drawable.captain)
-                .into(placeholderImageView);*/
-        // String videoSelected = "https://player.vimeo.com/external/231066073.hd.mp4?s=e53afa45b4ad1b2848499fca912607b98b80e8bb&profile_id=175";
-        // String videoSelected = "asset:///intro.mp4";
-        // videoOrImageDisplay(null, null, videoSelected);
-
         return view;
     }
 
@@ -112,7 +104,6 @@ public class VideoFragment extends Fragment {
 
             simpleExoPlayerView.setVisibility(View.VISIBLE);
             placeholderImageView.setVisibility(View.GONE);
-
 
             initializeExoPlayer(Uri.parse(videoUrl));
 
