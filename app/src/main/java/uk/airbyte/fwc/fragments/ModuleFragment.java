@@ -89,7 +89,6 @@ public class ModuleFragment extends Fragment {
                 String stringB = "\r\n" + mModule.getBullets().get(i);
                 SpannableString string = new SpannableString(stringB);
                 string.setSpan(new BulletSpan(), 0, stringB.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                Log.d(TAG, "String: " + string);
                 sb.append(stringB);
             }
 

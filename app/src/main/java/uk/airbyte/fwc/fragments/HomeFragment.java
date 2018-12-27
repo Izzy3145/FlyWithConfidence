@@ -71,7 +71,6 @@ public class HomeFragment extends Fragment implements ModulesAdapter.ModulesAdap
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         fragmentManager = getFragmentManager();
-
         videoFragment = fragmentManager.findFragmentById(R.id.videoFragment);
         mHomeViewModel = ViewModelProviders.of(getActivity()).get(HomeViewModel.class);
         realm = Realm.getDefaultInstance();
@@ -117,6 +116,7 @@ public class HomeFragment extends Fragment implements ModulesAdapter.ModulesAdap
                 .findAll();
 
         Log.d(TAG, "Number of favourited videos: " + String.valueOf(realmFavourites.size()));
+        favouritesList.clear();
         favouritesList.addAll(realm.copyFromRealm(realmFavourites));
         Collections.sort(favouritesList, new Comparator<Module>() {
             @Override
@@ -134,6 +134,7 @@ public class HomeFragment extends Fragment implements ModulesAdapter.ModulesAdap
         myRecentsRv.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this.getActivity(), LinearLayoutManager.HORIZONTAL, false);
         myRecentsRv.setLayoutManager(mLayoutManager);
+
         mRecentsAdapter = new ModulesAdapter(getActivity(), recentsList, this);
         myRecentsRv.setAdapter(mRecentsAdapter);
 
@@ -141,6 +142,7 @@ public class HomeFragment extends Fragment implements ModulesAdapter.ModulesAdap
                 .notEqualTo("lastViewed", 0)
                 .findAll();
         Log.d(TAG, "Number of recently watched videos: " + String.valueOf(realmRecents.size()));
+        recentsList.clear();
         recentsList.addAll(realm.copyFromRealm(realmRecents));
         Collections.sort(recentsList, new Comparator<Module>() {
             @Override
@@ -164,36 +166,20 @@ public class HomeFragment extends Fragment implements ModulesAdapter.ModulesAdap
 
     }
 
-    private void resizeFragment(Fragment f, int newWidth, int newHeight) {
-        if (f != null) {
-            View view = f.getView();
-            ConstraintLayout.LayoutParams p = new ConstraintLayout.LayoutParams(newWidth, newHeight);
-            view.setLayoutParams(p);
-            view.requestLayout();
-
-
-        }
-    }
-
     @Override
     public void onClickMethod(Module module, int position) {
         Log.d(TAG, "OnClick method clicked");
-        //TODO: (2) pass module item to ModuleFragment for viewing, implement onBackPressed
+        selectedModuleID = "";
         selectedModuleID = module.getId();
         Bundle b = new Bundle();
         b.putString(Const.MODULE_ID, selectedModuleID);
         Navigation.findNavController(getActivity(), R.id.my_nav_host_fragment).navigate(R.id.action_home_dest_to_moduleFragment, b);
 
-        /*ModuleFragment moduleFragment = new ModuleFragment();
-        fragmentManager.beginTransaction()
-                .replace(R.id.my_nav_host_fragment, moduleFragment)
-                //.addToBackStack(null)
-                .commit();*/
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        selectedModuleID = "";
+       selectedModuleID = "";
     }
 }
