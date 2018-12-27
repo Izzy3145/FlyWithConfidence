@@ -24,6 +24,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 
+import androidx.navigation.Navigation;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.realm.Realm;
@@ -57,6 +58,7 @@ public class HomeFragment extends Fragment implements ModulesAdapter.ModulesAdap
     private Realm realm;
     private ArrayList<Module> favouritesList = new ArrayList<Module>(0);
     private ArrayList<Module> recentsList = new ArrayList<Module>(0);
+    private String selectedModuleID;
 
     public static HomeFragment newInstance() {
         return new HomeFragment();
@@ -66,6 +68,7 @@ public class HomeFragment extends Fragment implements ModulesAdapter.ModulesAdap
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         fragmentManager = getFragmentManager();
+
         videoFragment = fragmentManager.findFragmentById(R.id.videoFragment);
         mHomeViewModel = ViewModelProviders.of(getActivity()).get(HomeViewModel.class);
         realm = Realm.getDefaultInstance();
@@ -171,13 +174,21 @@ public class HomeFragment extends Fragment implements ModulesAdapter.ModulesAdap
     public void onClickMethod(Module module, int position) {
         Log.d(TAG, "OnClick method clicked");
         //TODO: (2) pass module item to ModuleFragment for viewing, implement onBackPressed
-        //Navigation.findNavController(getActivity(), R.id.my_nav_host_fragment).navigate(R.id.action_home_to_module);
-        ModuleFragment moduleFragment = new ModuleFragment();
+        selectedModuleID = module.getId();
+        Bundle b = new Bundle();
+        b.putString(Const.MODULE_ID, selectedModuleID);
+        Navigation.findNavController(getActivity(), R.id.my_nav_host_fragment).navigate(R.id.action_home_dest_to_moduleFragment, b);
+
+        /*ModuleFragment moduleFragment = new ModuleFragment();
         fragmentManager.beginTransaction()
                 .replace(R.id.my_nav_host_fragment, moduleFragment)
                 //.addToBackStack(null)
-                .commit();
+                .commit();*/
     }
 
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        selectedModuleID = "";
+    }
 }
