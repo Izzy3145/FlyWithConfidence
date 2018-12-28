@@ -75,6 +75,22 @@ public class VideoFragment extends Fragment {
             }
         });
     }
+
+    /*@Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        homeViewModel = ViewModelProviders.of(getActivity()).get(HomeViewModel.class);
+        homeViewModel.getSelected().observe(this, new Observer<ShowPlay>() {
+            @Override
+            public void onChanged(@Nullable ShowPlay showPlay) {
+                if (showPlay != null) {
+                    videoOrImageDisplay(showPlay.getImage(), showPlay.getThumbnail(), showPlay.getVideoUrl());
+                    Log.d(TAG, "Video string received: " + showPlay.getVideoUrl());
+                }
+            }
+        });
+    }*/
+
     //TODO: change error image
 
     @Override
@@ -180,6 +196,13 @@ public class VideoFragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
+        releasePlayer();
+        //homeViewModel.getSelected().removeObservers(this);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
         releasePlayer();
     }
 

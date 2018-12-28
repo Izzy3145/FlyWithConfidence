@@ -92,7 +92,7 @@ public class ModuleFragment extends Fragment {
                 sb.append(stringB);
             }
 
-            thingsToTv.setText(sb);
+            thingsToTv.setText(sb, TextView.BufferType.SPANNABLE);
 
         }
         return view;

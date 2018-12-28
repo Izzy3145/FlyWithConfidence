@@ -1,7 +1,6 @@
 package uk.airbyte.fwc.fragments;
 
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -15,12 +14,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.LinearLayout;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 
@@ -30,13 +26,14 @@ import butterknife.ButterKnife;
 import io.realm.Realm;
 import io.realm.RealmResults;
 import uk.airbyte.fwc.R;
-import uk.airbyte.fwc.adapters.ModulesAdapter;
+import uk.airbyte.fwc.adapters.FavouritesAdapter;
+import uk.airbyte.fwc.adapters.RecentsAdapter;
 import uk.airbyte.fwc.model.Module;
 import uk.airbyte.fwc.model.ShowPlay;
 import uk.airbyte.fwc.utils.Const;
 import uk.airbyte.fwc.viewmodels.HomeViewModel;
 
-public class HomeFragment extends Fragment implements ModulesAdapter.ModulesAdapterListener {
+public class HomeFragment extends Fragment implements FavouritesAdapter.ModulesAdapterListener, RecentsAdapter.RecentsAdapterListener {
 
     private static final String TAG = HomeFragment.class.getSimpleName();
     @BindView(R.id.myFavouritesRv)
@@ -53,8 +50,8 @@ public class HomeFragment extends Fragment implements ModulesAdapter.ModulesAdap
     ConstraintLayout videoFragParent;
     private HomeViewModel mHomeViewModel;
     private RecyclerView.LayoutManager mLayoutManager;
-    private ModulesAdapter mFavouritesAdapter;
-    private ModulesAdapter mRecentsAdapter;
+    private FavouritesAdapter mFavouritesAdapter;
+    private RecentsAdapter mRecentsAdapter;
     private FragmentManager fragmentManager;
     private String videoSelected;
     private Fragment videoFragment;
@@ -107,7 +104,7 @@ public class HomeFragment extends Fragment implements ModulesAdapter.ModulesAdap
         mFavouritesRv.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this.getActivity(), LinearLayoutManager.HORIZONTAL, false);
         mFavouritesRv.setLayoutManager(mLayoutManager);
-        mFavouritesAdapter = new ModulesAdapter(getActivity(), favouritesList, this);
+        mFavouritesAdapter = new FavouritesAdapter(getActivity(), favouritesList, this);
         mFavouritesRv.setAdapter(mFavouritesAdapter);
 
         //TODO: move this to ViewModel
@@ -135,7 +132,7 @@ public class HomeFragment extends Fragment implements ModulesAdapter.ModulesAdap
         mLayoutManager = new LinearLayoutManager(this.getActivity(), LinearLayoutManager.HORIZONTAL, false);
         myRecentsRv.setLayoutManager(mLayoutManager);
 
-        mRecentsAdapter = new ModulesAdapter(getActivity(), recentsList, this);
+        mRecentsAdapter = new RecentsAdapter(getActivity(), recentsList, this);
         myRecentsRv.setAdapter(mRecentsAdapter);
 
         RealmResults<Module> realmRecents = realm.where(Module.class)

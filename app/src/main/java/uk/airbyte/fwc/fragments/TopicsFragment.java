@@ -24,12 +24,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.realm.Realm;
 import uk.airbyte.fwc.R;
-import uk.airbyte.fwc.adapters.ModulesAdapter;
+import uk.airbyte.fwc.adapters.FavouritesAdapter;
 import uk.airbyte.fwc.model.Module;
 import uk.airbyte.fwc.utils.Const;
 import uk.airbyte.fwc.viewmodels.TopicsViewModel;
 
-public class TopicsFragment extends Fragment implements ModulesAdapter.ModulesAdapterListener {
+public class TopicsFragment extends Fragment implements FavouritesAdapter.ModulesAdapterListener {
 
     private static final String TAG = TopicsFragment.class.getSimpleName();
 
@@ -39,7 +39,7 @@ public class TopicsFragment extends Fragment implements ModulesAdapter.ModulesAd
     private String accessToken;
     private SharedPreferences sharedPref;
     private RecyclerView.LayoutManager mLayoutManager;
-    private ModulesAdapter mAdapter;
+    private FavouritesAdapter mAdapter;
     private Realm realm;
     private FragmentManager fragmentManager;
 
@@ -106,7 +106,7 @@ public class TopicsFragment extends Fragment implements ModulesAdapter.ModulesAd
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this.getActivity(), LinearLayoutManager.HORIZONTAL, false);
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new ModulesAdapter(getActivity(), new ArrayList<Module>(0), this);
+        mAdapter = new FavouritesAdapter(getActivity(), new ArrayList<Module>(0), this);
         mRecyclerView.setAdapter(mAdapter);
 
         return view;
