@@ -200,6 +200,18 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.ModulesA
     public void onClickDeleteMethod(Module module, int position) {
         Log.d(TAG, "OnClickDeleteMethod clicked");
         //TODO: set favourite to equal false
+        final String unfavouritedModuleID = module.getId();
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                Module unfavouritedModule = realm.where(Module.class)
+                        .equalTo("id", unfavouritedModuleID)
+                        .findFirst();
+                unfavouritedModule.setFavourited(false);
+            }
+        });
+
+        setUpFavouritesAdapter();
     }
 
     @Override
