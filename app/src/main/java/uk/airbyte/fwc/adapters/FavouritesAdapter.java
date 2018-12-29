@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -33,7 +34,6 @@ public class FavouritesAdapter extends RecyclerView.Adapter<FavouritesAdapter.Vi
     }
 
 
-    //TODO: (3) display in order of lastViewed
 
     @NonNull
     @Override
@@ -46,13 +46,13 @@ public class FavouritesAdapter extends RecyclerView.Adapter<FavouritesAdapter.Vi
     }
 
     @Override
-    public void onBindViewHolder(@NonNull FavouritesAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull FavouritesAdapter.ViewHolder holder, final int position) {
 
         //TODO: test when full API response available, set proper error image, sort out cropping
 
 
         try {
-           Module module = mListOfModules.get(position);
+           final Module module = mListOfModules.get(position);
            holder.mVideoTitle.setText(module.getName());
            Picasso.get()
                    .load(module.getMedia().getThumbnail())
@@ -61,6 +61,12 @@ public class FavouritesAdapter extends RecyclerView.Adapter<FavouritesAdapter.Vi
                    .resize(160,90)
                    .centerCrop()
                    .into(holder.mVideoThumbnail);
+           holder.mDeleteFavBtn.setOnClickListener(new View.OnClickListener() {
+               @Override
+               public void onClick(View v) {
+                   mClickHandler.onClickDeleteMethod(module, position);
+               }
+           });
        } catch (IndexOutOfBoundsException e){
            holder.mVideoTitle.setText("");
            Log.d(TAG, "Index Out Of Bounds Exception: " + e);
@@ -90,9 +96,11 @@ public class FavouritesAdapter extends RecyclerView.Adapter<FavouritesAdapter.Vi
 
     //create onClickListener interface
     public interface ModulesAdapterListener {
+       //TODO: implement second onClickListener
         void onClickMethod(Module module, int position);
-        //void onClickMethod(int position);
+        void onClickDeleteMethod(Module module, int position);
     }
+
 
     //create viewholder class
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -100,6 +108,8 @@ public class FavouritesAdapter extends RecyclerView.Adapter<FavouritesAdapter.Vi
         TextView mVideoTitle;
         @BindView(R.id.videoThumbnail)
         ImageView mVideoThumbnail;
+        @BindView(R.id.deleteFavBtn)
+        ImageView mDeleteFavBtn;
 
         private ViewHolder(View itemView) {
             super(itemView);
@@ -109,7 +119,6 @@ public class FavouritesAdapter extends RecyclerView.Adapter<FavouritesAdapter.Vi
 
         @Override
         public void onClick(View view) {
-            //TODO: sort out on click listener - it's only working for textview
             Module module;
             int adapterPosition = getAdapterPosition();
             module = mListOfModules.get(adapterPosition);

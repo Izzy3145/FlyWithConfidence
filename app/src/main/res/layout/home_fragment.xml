@@ -162,6 +162,18 @@
             android:layout_height="wrap_content"
             app:constraint_referenced_ids="video_overlay" />
 
+        <Button
+            android:id="@+id/button"
+            android:layout_width="86dp"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:text="Edit"
+            android:textAllCaps="false"
+            android:textColor="@color/darker_grey"
+            app:layout_constraintBottom_toBottomOf="@+id/myFavouritesTv"
+            app:layout_constraintEnd_toEndOf="@+id/myFavouritesTv"
+            app:layout_constraintTop_toTopOf="@+id/myFavouritesTv" />
+
     </android.support.constraint.ConstraintLayout>
 
 </ScrollView>

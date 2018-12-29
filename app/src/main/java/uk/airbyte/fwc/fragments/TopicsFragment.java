@@ -135,4 +135,10 @@ public class TopicsFragment extends Fragment implements FavouritesAdapter.Module
                 //.addToBackStack(null)
                 .commit();
     }
+
+    @Override
+    public void onClickDeleteMethod(Module module, int position) {
+        Log.d(TAG, "OnClickDeleteMethod clicked");
+
+    }
 }

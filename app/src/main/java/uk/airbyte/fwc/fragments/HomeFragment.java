@@ -165,12 +165,18 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.ModulesA
 
     @Override
     public void onClickMethod(Module module, int position) {
-        Log.d(TAG, "OnClick method clicked");
+        Log.d(TAG, "OnClickMethod clicked");
         selectedModuleID = "";
         selectedModuleID = module.getId();
         Bundle b = new Bundle();
         b.putString(Const.MODULE_ID, selectedModuleID);
         Navigation.findNavController(getActivity(), R.id.my_nav_host_fragment).navigate(R.id.action_home_dest_to_moduleFragment, b);
+
+    }
+
+    @Override
+    public void onClickDeleteMethod(Module module, int position) {
+        Log.d(TAG, "OnClickDeleteMethod clicked");
 
     }
 

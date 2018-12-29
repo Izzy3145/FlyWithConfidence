@@ -13,9 +13,11 @@
     <color name="video_grey_background">#7dbdbdbd</color>
     <color name="video_grey_foreground">#EDEDED</color>
 
-    <color name="darker_grey">#2B3845</color>
+    <color name="darker_grey">#2b3845</color>
     <color name="lighter_grey">#eff3f6</color>
     <color name="colorWhite">#ffffff</color>
+    <color name="colorBlack">#000000</color>
+
     <color name="trans_grey">#856c6c62</color>
 
     <color name="mustard">#ffdb58</color>
