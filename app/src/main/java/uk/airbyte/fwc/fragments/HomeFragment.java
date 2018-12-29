@@ -110,8 +110,7 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.ModulesA
         mFavouritesRv.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this.getActivity(), LinearLayoutManager.HORIZONTAL, false);
         mFavouritesRv.setLayoutManager(mLayoutManager);
-       setUpFavouritesAdapter();
-
+        setUpFavouritesAdapter();
 
         editFavButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,33 +119,17 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.ModulesA
                     mEditting = 1;
                     editFavButton.setText(getResources().getString(R.string.done));
                     setUpFavouritesAdapter();
+                    setUpRecentsAdapter();
                 } else if(mEditting == 1){
                     mEditting = 0;
                     editFavButton.setText(getResources().getString(R.string.edit));
                     setUpFavouritesAdapter();
+                    setUpRecentsAdapter();
                 }
             }
         });
 
-
-        //set up recents recycler view and adapter
-        myRecentsRv.setHasFixedSize(true);
-        mLayoutManager = new LinearLayoutManager(this.getActivity(), LinearLayoutManager.HORIZONTAL, false);
-        myRecentsRv.setLayoutManager(mLayoutManager);
-        mRecentsAdapter = new RecentsAdapter(getActivity(), recentsList, this);
-        myRecentsRv.setAdapter(mRecentsAdapter);
-        //TODO: move this to ViewModel
-        RealmResults<Module> realmRecents = realm.where(Module.class)
-                .notEqualTo("lastViewed", 0)
-                .findAll();
-        Log.d(TAG, "Number of recently watched videos: " + String.valueOf(realmRecents.size()));
-        recentsList.clear();
-        recentsList.addAll(realm.copyFromRealm(realmRecents));
-        orderModules(recentsList);
-        mRecentsAdapter.setModulesToAdapter(recentsList);
-        if(recentsList.size() > 0){
-            recentsRvGroup.setVisibility(View.VISIBLE);
-        }
+        setUpRecentsAdapter();
 
         return view;
     }
@@ -178,6 +161,26 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.ModulesA
         mFavouritesAdapter.setModulesToAdapter(favouritesList);
     }
 
+    private void setUpRecentsAdapter(){
+        myRecentsRv.setHasFixedSize(true);
+        mLayoutManager = new LinearLayoutManager(this.getActivity(), LinearLayoutManager.HORIZONTAL, false);
+        myRecentsRv.setLayoutManager(mLayoutManager);
+        mRecentsAdapter = new RecentsAdapter(getActivity(), recentsList, this, mEditting);
+        myRecentsRv.setAdapter(mRecentsAdapter);
+        //TODO: move this to ViewModel
+        RealmResults<Module> realmRecents = realm.where(Module.class)
+                .notEqualTo("lastViewed", 0)
+                .findAll();
+        Log.d(TAG, "Number of recently watched videos: " + String.valueOf(realmRecents.size()));
+        recentsList.clear();
+        recentsList.addAll(realm.copyFromRealm(realmRecents));
+        orderModules(recentsList);
+        mRecentsAdapter.setModulesToAdapter(recentsList);
+        if(recentsList.size() > 0){
+            recentsRvGroup.setVisibility(View.VISIBLE);
+        }
+    }
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -197,9 +200,24 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.ModulesA
     }
 
     @Override
+    public void onClickRecentsDeleteMethod(Module module, int position) {
+        final String unfavouritedModuleID = module.getId();
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                Module unfavouritedModule = realm.where(Module.class)
+                        .equalTo("id", unfavouritedModuleID)
+                        .findFirst();
+                unfavouritedModule.setLastViewed(0);
+            }
+        });
+
+        setUpRecentsAdapter();
+    }
+
+    @Override
     public void onClickDeleteMethod(Module module, int position) {
         Log.d(TAG, "OnClickDeleteMethod clicked");
-        //TODO: set favourite to equal false
         final String unfavouritedModuleID = module.getId();
         realm.executeTransaction(new Realm.Transaction() {
             @Override
@@ -218,5 +236,6 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.ModulesA
     public void onResume() {
         super.onResume();
        selectedModuleID = "";
+       setUpFavouritesAdapter();
     }
 }

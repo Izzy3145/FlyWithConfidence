@@ -23,15 +23,14 @@ public class RecentsAdapter extends RecyclerView.Adapter<uk.airbyte.fwc.adapters
     private Context mContext;
     private ArrayList<Module> mListOfModules;
     private RecentsAdapterListener mClickHandler;
+    private int mEditting;
 
-    public RecentsAdapter(Context c, ArrayList<Module> listOfModules, RecentsAdapterListener clickHandler) {
+    public RecentsAdapter(Context c, ArrayList<Module> listOfModules, RecentsAdapterListener clickHandler, int editting) {
         mContext = c;
         mListOfModules = listOfModules;
         mClickHandler = clickHandler;
+        mEditting = editting;
     }
-
-
-    //TODO: (3) display in order of lastViewed
 
     @NonNull
     @Override
@@ -44,9 +43,10 @@ public class RecentsAdapter extends RecyclerView.Adapter<uk.airbyte.fwc.adapters
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecentsAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecentsAdapter.ViewHolder holder, final int position) {
+        //TODO: test when full API response available set proper error image
 
-            Module module = mListOfModules.get(position);
+            final Module module = mListOfModules.get(position);
             holder.mVideoTitle.setText(module.getName());
             Picasso.get()
                     .load(module.getMedia().getThumbnail())
@@ -56,9 +56,19 @@ public class RecentsAdapter extends RecyclerView.Adapter<uk.airbyte.fwc.adapters
                     .centerCrop()
                     .fit()
                     .into(holder.mVideoThumbnail);
-            holder.mDeleteFavBtn.setVisibility(View.GONE);
 
-        //TODO: test when full API response available set proper error image
+        if(mEditting == 0){
+            holder.mDeleteFavBtn.setVisibility(View.GONE);
+        } else {
+            holder.mDeleteFavBtn.setVisibility(View.VISIBLE);
+            holder.mDeleteFavBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mClickHandler.onClickRecentsDeleteMethod(module, position);
+                }
+            });
+        }
+
     }
 
     @Override
@@ -75,8 +85,8 @@ public class RecentsAdapter extends RecyclerView.Adapter<uk.airbyte.fwc.adapters
     //create onClickListener interface
     public interface RecentsAdapterListener {
         void onClickMethod(Module module, int position);
-        //void onClickMethod(int position);
-    }
+        void onClickRecentsDeleteMethod(Module module, int position);
+        }
 
     //create viewholder class
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -95,8 +105,6 @@ public class RecentsAdapter extends RecyclerView.Adapter<uk.airbyte.fwc.adapters
 
         @Override
         public void onClick(View view) {
-            //TODO: sort out on click listener - it's only working for textview
-
             Module module;
             int adapterPosition = getAdapterPosition();
             module = mListOfModules.get(adapterPosition);

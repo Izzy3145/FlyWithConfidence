@@ -30,7 +30,7 @@ import uk.airbyte.fwc.model.Module;
 import uk.airbyte.fwc.utils.Const;
 import uk.airbyte.fwc.viewmodels.TopicsViewModel;
 
-public class TopicsFragment extends Fragment implements RecentsAdapter.RecentsAdapterListener {
+public class TopicsFragment extends Fragment {
 
     private static final String TAG = TopicsFragment.class.getSimpleName();
 
@@ -101,13 +101,13 @@ public class TopicsFragment extends Fragment implements RecentsAdapter.RecentsAd
 
         TabLayout tablayout = (TabLayout) view.findViewById(R.id.top_tabs);
         tablayout.setVisibility(View.VISIBLE);
-        //TODO: set up onClickListener to query other endpoint
+        //TODO: set up onClickListener on TabLayout to query other endpoint
 
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this.getActivity(), LinearLayoutManager.HORIZONTAL, false);
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new RecentsAdapter(getActivity(), new ArrayList<Module>(0), this);
-        mRecyclerView.setAdapter(mAdapter);
+        //mAdapter = new RecentsAdapter(getActivity(), new ArrayList<Module>(0), this);
+        //mRecyclerView.setAdapter(mAdapter);
 
         return view;
     }
@@ -124,7 +124,7 @@ public class TopicsFragment extends Fragment implements RecentsAdapter.RecentsAd
         realm.close();
     }
 
-    @Override
+    /*@Override
     public void onClickMethod(Module module, int position) {
         Log.d(TAG, "OnClick method clicked");
         //TODO: (2) pass module item to ModuleFragment for viewing, implement onBackPressed
@@ -134,6 +134,6 @@ public class TopicsFragment extends Fragment implements RecentsAdapter.RecentsAd
                 .replace(R.id.my_nav_host_fragment, moduleFragment)
                 //.addToBackStack(null)
                 .commit();
-    }
+    }*/
 
 }
