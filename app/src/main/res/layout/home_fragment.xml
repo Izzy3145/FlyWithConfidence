@@ -105,7 +105,7 @@
         <TextView
             android:id="@+id/myFavouritesTv"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="49dp"
             android:padding="16dp"
             android:text="MY FAVOURITES"
             app:layout_constraintEnd_toEndOf="parent"
@@ -163,7 +163,7 @@
             app:constraint_referenced_ids="video_overlay" />
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/edit_fav_button"
             android:layout_width="86dp"
             android:layout_height="wrap_content"
             android:background="@null"

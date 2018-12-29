@@ -26,11 +26,13 @@ public class FavouritesAdapter extends RecyclerView.Adapter<FavouritesAdapter.Vi
     private Context mContext;
     private ArrayList<Module> mListOfModules;
     private ModulesAdapterListener mClickHandler;
+    private int mEditting;
 
-   public FavouritesAdapter(Context c, ArrayList<Module> listOfModules, ModulesAdapterListener clickHandler) {
+   public FavouritesAdapter(Context c, ArrayList<Module> listOfModules, ModulesAdapterListener clickHandler, int editting) {
         mContext = c;
         mListOfModules = listOfModules;
         mClickHandler = clickHandler;
+        mEditting = editting;
     }
 
 
@@ -50,7 +52,6 @@ public class FavouritesAdapter extends RecyclerView.Adapter<FavouritesAdapter.Vi
 
         //TODO: test when full API response available, set proper error image, sort out cropping
 
-
         try {
            final Module module = mListOfModules.get(position);
            holder.mVideoTitle.setText(module.getName());
@@ -61,12 +62,18 @@ public class FavouritesAdapter extends RecyclerView.Adapter<FavouritesAdapter.Vi
                    .resize(160,90)
                    .centerCrop()
                    .into(holder.mVideoThumbnail);
-           holder.mDeleteFavBtn.setOnClickListener(new View.OnClickListener() {
-               @Override
-               public void onClick(View v) {
-                   mClickHandler.onClickDeleteMethod(module, position);
-               }
-           });
+
+           if(mEditting == 0){
+               holder.mDeleteFavBtn.setVisibility(View.GONE);
+           } else {
+               holder.mDeleteFavBtn.setVisibility(View.VISIBLE);
+               holder.mDeleteFavBtn.setOnClickListener(new View.OnClickListener() {
+                   @Override
+                   public void onClick(View v) {
+                       mClickHandler.onClickDeleteMethod(module, position);
+                   }
+               });
+           }
        } catch (IndexOutOfBoundsException e){
            holder.mVideoTitle.setText("");
            Log.d(TAG, "Index Out Of Bounds Exception: " + e);
@@ -96,7 +103,6 @@ public class FavouritesAdapter extends RecyclerView.Adapter<FavouritesAdapter.Vi
 
     //create onClickListener interface
     public interface ModulesAdapterListener {
-       //TODO: implement second onClickListener
         void onClickMethod(Module module, int position);
         void onClickDeleteMethod(Module module, int position);
     }

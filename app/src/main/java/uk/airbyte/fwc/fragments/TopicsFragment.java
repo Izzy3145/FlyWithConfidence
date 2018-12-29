@@ -25,11 +25,12 @@ import butterknife.ButterKnife;
 import io.realm.Realm;
 import uk.airbyte.fwc.R;
 import uk.airbyte.fwc.adapters.FavouritesAdapter;
+import uk.airbyte.fwc.adapters.RecentsAdapter;
 import uk.airbyte.fwc.model.Module;
 import uk.airbyte.fwc.utils.Const;
 import uk.airbyte.fwc.viewmodels.TopicsViewModel;
 
-public class TopicsFragment extends Fragment implements FavouritesAdapter.ModulesAdapterListener {
+public class TopicsFragment extends Fragment implements RecentsAdapter.RecentsAdapterListener {
 
     private static final String TAG = TopicsFragment.class.getSimpleName();
 
@@ -39,7 +40,7 @@ public class TopicsFragment extends Fragment implements FavouritesAdapter.Module
     private String accessToken;
     private SharedPreferences sharedPref;
     private RecyclerView.LayoutManager mLayoutManager;
-    private FavouritesAdapter mAdapter;
+    private RecentsAdapter mAdapter;
     private Realm realm;
     private FragmentManager fragmentManager;
 
@@ -56,7 +57,6 @@ public class TopicsFragment extends Fragment implements FavouritesAdapter.Module
         mViewModel = ViewModelProviders.of(this).get(TopicsViewModel.class);
 
         realm = Realm.getDefaultInstance();
-
 
         mViewModel.getModulesForTopic(getActivity(), accessToken, "74e89e6e-fb05-4a59-ac5d-eb2e937bad16")
                 .observe(this, new Observer<List<Module>>() {
@@ -106,7 +106,7 @@ public class TopicsFragment extends Fragment implements FavouritesAdapter.Module
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this.getActivity(), LinearLayoutManager.HORIZONTAL, false);
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new FavouritesAdapter(getActivity(), new ArrayList<Module>(0), this);
+        mAdapter = new RecentsAdapter(getActivity(), new ArrayList<Module>(0), this);
         mRecyclerView.setAdapter(mAdapter);
 
         return view;
@@ -136,9 +136,4 @@ public class TopicsFragment extends Fragment implements FavouritesAdapter.Module
                 .commit();
     }
 
-    @Override
-    public void onClickDeleteMethod(Module module, int position) {
-        Log.d(TAG, "OnClickDeleteMethod clicked");
-
-    }
 }

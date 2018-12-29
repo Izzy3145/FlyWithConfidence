@@ -56,6 +56,7 @@ public class RecentsAdapter extends RecyclerView.Adapter<uk.airbyte.fwc.adapters
                     .centerCrop()
                     .fit()
                     .into(holder.mVideoThumbnail);
+            holder.mDeleteFavBtn.setVisibility(View.GONE);
 
         //TODO: test when full API response available set proper error image
     }
@@ -83,6 +84,8 @@ public class RecentsAdapter extends RecyclerView.Adapter<uk.airbyte.fwc.adapters
         TextView mVideoTitle;
         @BindView(R.id.videoThumbnail)
         ImageView mVideoThumbnail;
+        @BindView(R.id.deleteFavBtn)
+        ImageView mDeleteFavBtn;
 
         private ViewHolder(View itemView) {
             super(itemView);
