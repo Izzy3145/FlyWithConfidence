@@ -98,4 +98,9 @@ public class ModuleFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+       // mHomeViewModel.select(new ShowPlay(null, null, null));
+    }
 }

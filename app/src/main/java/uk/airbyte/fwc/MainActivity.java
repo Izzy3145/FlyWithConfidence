@@ -20,7 +20,6 @@ import uk.airbyte.fwc.utils.Const;
 
 
 public class MainActivity extends AppCompatActivity {
-//TODO: should this extend LifecycleActivity?
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
@@ -50,7 +49,6 @@ public class MainActivity extends AppCompatActivity {
             bottomNavigation.setVisibility(View.VISIBLE);
             NavigationUI.setupWithNavController(bottomNavigation, navController);
         } else {
-            //TODO: toggle for reset password deeplink?
             navController.navigate(R.id.splash_fragment);
 
             //BottomNavigationView bottomNavigation = (BottomNavigationView) findViewById(R.id.btm_navigation);
@@ -71,7 +69,6 @@ public class MainActivity extends AppCompatActivity {
             bottomNavigation.setVisibility(View.VISIBLE);
             NavigationUI.setupWithNavController(bottomNavigation, navController);
         } else {
-            //TODO: toggle for reset password deeplink?
             navController.navigate(R.id.splash_fragment);
 
             //BottomNavigationView bottomNavigation = (BottomNavigationView) findViewById(R.id.btm_navigation);
@@ -80,31 +77,4 @@ public class MainActivity extends AppCompatActivity {
 
         }
     }
-
-    /*@Override
-    public void onSignIn(String accessToken) {
-        mAccessToken = accessToken;
-        Log.d(TAG, "UserID from onSignIn listener: " + userID);
-        editor = sharedPref.edit();
-        editor.putString(Const.ACCESS_TOKEN, mAccessToken);
-        editor.apply();
-
-    }
-
-    @Override
-    public void onRegister(String accessToken) {
-        mAccessToken = accessToken;
-        Log.d(TAG, "UserID from onRegister listener: " + userID);
-        editor = sharedPref.edit();
-        editor.putString(Const.ACCESS_TOKEN, mAccessToken);
-        editor.apply();
-    }
-
-    @Override
-    public void onLogout(String accessToken) {
-        /*mAccessToken = accessToken;
-        Log.d(TAG, "UserID from onLogout listener: " + userID);
-        editor = sharedPref.edit();
-        editor.putString(Const.ACCESS_TOKEN, mAccessToken);
-        editor.apply();*/
 }

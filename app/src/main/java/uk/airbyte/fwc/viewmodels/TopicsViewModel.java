@@ -19,26 +19,33 @@ import uk.airbyte.fwc.api.APIService;
 import uk.airbyte.fwc.api.ErrorUtils;
 import uk.airbyte.fwc.model.Module;
 import uk.airbyte.fwc.model.Success;
+import uk.airbyte.fwc.model.Topic;
 import uk.airbyte.fwc.model.User;
 
 public class TopicsViewModel extends ViewModel {
 
     private final static String TAG = TopicsViewModel.class.getSimpleName();
 
-    // TODO: To get list of topics also
 
     private MutableLiveData<List<Module>> modules;
+    private MutableLiveData<List<Topic>> topics;
 
     private APIService apiService = APIClient.getClient().create(APIService.class);
 
-    //we will call this method to get the data
     public LiveData<List<Module>> getModulesForTopic(Context context, String accessToken, String topicID) {
         if (modules == null) {
             modules = new MutableLiveData<List<Module>>();
-            //we will load it asynchronously from server in this method
             moduleCall(context, accessToken, topicID);
         }
         return modules;
+    }
+
+    public LiveData<List<Topic>> getTopics(Context context, String accessToken, String category) {
+        if (topics == null) {
+            topics = new MutableLiveData<List<Topic>>();
+            topicCall(context, accessToken, category);
+        }
+        return topics;
     }
 
     private void moduleCall(final Context context, String accessToken, String topicID) {
@@ -68,4 +75,29 @@ public class TopicsViewModel extends ViewModel {
                 });
     }
 
+
+    private void topicCall(final Context context, String accessToken, String category) {
+        apiService.getTopics(accessToken, category).enqueue(new Callback<List<Topic>>() {
+            @Override
+            public void onResponse(Call<List<Topic>> call, Response<List<Topic>> response) {
+                if (response.isSuccessful()) {
+                    topics.postValue(response.body());
+                    Log.d(TAG, "Response topicCall() success: " + response.body());
+                } else {
+                    APIError error = ErrorUtils.parseError(response);
+                    String errorCode = String.valueOf(error.status());
+                    String errorMessage = error.message();
+                    Toast.makeText(context, "Error: " + errorCode + " " + errorMessage, Toast.LENGTH_SHORT).show();
+                    Log.d("moduleCall() error message", error.message());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Topic>> call, Throwable t) {
+                Log.d(TAG, "Response topicCall() failure");
+                Toast.makeText(context, "Error - please check your network connection", Toast.LENGTH_SHORT).show();
+                topics.postValue(null);
+            }
+        });
+    }
 }

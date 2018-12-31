@@ -14,9 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageView;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -29,13 +27,13 @@ import io.realm.Realm;
 import io.realm.RealmResults;
 import uk.airbyte.fwc.R;
 import uk.airbyte.fwc.adapters.FavouritesAdapter;
-import uk.airbyte.fwc.adapters.RecentsAdapter;
+import uk.airbyte.fwc.adapters.ModulesAdapter;
 import uk.airbyte.fwc.model.Module;
 import uk.airbyte.fwc.model.ShowPlay;
 import uk.airbyte.fwc.utils.Const;
 import uk.airbyte.fwc.viewmodels.HomeViewModel;
 
-public class HomeFragment extends Fragment implements FavouritesAdapter.ModulesAdapterListener, RecentsAdapter.RecentsAdapterListener {
+public class HomeFragment extends Fragment implements FavouritesAdapter.ModulesAdapterListener, ModulesAdapter.ModulesAdapterListener {
 
     private static final String TAG = HomeFragment.class.getSimpleName();
     @BindView(R.id.myFavouritesRv)
@@ -55,7 +53,7 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.ModulesA
     private HomeViewModel mHomeViewModel;
     private RecyclerView.LayoutManager mLayoutManager;
     private FavouritesAdapter mFavouritesAdapter;
-    private RecentsAdapter mRecentsAdapter;
+    private ModulesAdapter mModulesAdapter;
     private FragmentManager fragmentManager;
     private String videoSelected;
     private Fragment videoFragment;
@@ -84,7 +82,6 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.ModulesA
         View view = inflater.inflate(R.layout.home_fragment, container, false);
         ButterKnife.bind(this, view);
 
-
         watchNowBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -103,8 +100,6 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.ModulesA
 
             }
         });
-
-
 
         //set up favourites recycler view and adapter, get info from Realm
         mFavouritesRv.setHasFixedSize(true);
@@ -165,8 +160,8 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.ModulesA
         myRecentsRv.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this.getActivity(), LinearLayoutManager.HORIZONTAL, false);
         myRecentsRv.setLayoutManager(mLayoutManager);
-        mRecentsAdapter = new RecentsAdapter(getActivity(), recentsList, this, mEditting);
-        myRecentsRv.setAdapter(mRecentsAdapter);
+        mModulesAdapter = new ModulesAdapter(getActivity(), recentsList, this, mEditting);
+        myRecentsRv.setAdapter(mModulesAdapter);
         //TODO: move this to ViewModel
         RealmResults<Module> realmRecents = realm.where(Module.class)
                 .notEqualTo("lastViewed", 0)
@@ -175,7 +170,7 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.ModulesA
         recentsList.clear();
         recentsList.addAll(realm.copyFromRealm(realmRecents));
         orderModules(recentsList);
-        mRecentsAdapter.setModulesToAdapter(recentsList);
+        mModulesAdapter.setModulesToAdapter(recentsList);
         if(recentsList.size() > 0){
             recentsRvGroup.setVisibility(View.VISIBLE);
         }
@@ -237,5 +232,11 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.ModulesA
         super.onResume();
        selectedModuleID = "";
        setUpFavouritesAdapter();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+      //  mHomeViewModel.getSelected().removeObservers(this);
     }
 }

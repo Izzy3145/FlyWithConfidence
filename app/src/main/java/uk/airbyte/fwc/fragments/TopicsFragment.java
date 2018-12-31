@@ -24,9 +24,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.realm.Realm;
 import uk.airbyte.fwc.R;
-import uk.airbyte.fwc.adapters.FavouritesAdapter;
-import uk.airbyte.fwc.adapters.RecentsAdapter;
+import uk.airbyte.fwc.adapters.ModulesAdapter;
 import uk.airbyte.fwc.model.Module;
+import uk.airbyte.fwc.model.Topic;
 import uk.airbyte.fwc.utils.Const;
 import uk.airbyte.fwc.viewmodels.TopicsViewModel;
 
@@ -40,9 +40,11 @@ public class TopicsFragment extends Fragment {
     private String accessToken;
     private SharedPreferences sharedPref;
     private RecyclerView.LayoutManager mLayoutManager;
-    private RecentsAdapter mAdapter;
+    private ModulesAdapter mAdapter;
     private Realm realm;
     private FragmentManager fragmentManager;
+    private String category;
+    private List<String> mTopicIDList= new ArrayList<String>();
 
     public static TopicsFragment newInstance() {
         return new TopicsFragment();
@@ -58,39 +60,60 @@ public class TopicsFragment extends Fragment {
 
         realm = Realm.getDefaultInstance();
 
-        mViewModel.getModulesForTopic(getActivity(), accessToken, "74e89e6e-fb05-4a59-ac5d-eb2e937bad16")
-                .observe(this, new Observer<List<Module>>() {
+        category = "knowledge";
+
+        mViewModel.getTopics(getActivity(), accessToken, category).observe(this, new Observer<List<Topic>>() {
             @Override
-            public void onChanged(@Nullable final List<Module> modules) {
-                if(modules != null){
-                    for(int i = 0; i<modules.size(); i++){
-                        Module module = modules.get(i);
-                        //TODO: remove
-                        module.setFavourited(true);
-                        Log.d(TAG, module.getName());
+            public void onChanged(@Nullable List<Topic> topics) {
+                if(topics != null){
+                    for(int i = 0; i<topics.size(); i++){
+                        Topic topic = topics.get(i);
+                        mTopicIDList.add(topic.getId());
+                        Log.d(TAG, "Topic found: " + topic.getName());
                     }
+                }
 
-                    //TODO: remove
-                    Module recentModule1 = modules.get(1);
-                    recentModule1.setLastViewed(3);
-                    Module recentModule2 = modules.get(1);
-                    recentModule2.setLastViewed(2);
-                    Module recentModule3 = modules.get(1);
-                    recentModule3.setLastViewed(1);
+                //TODO: move some of this to viewmodel? List<TopicID> instead of topicID?
+                for(int i = 0; i<mTopicIDList.size(); i++){
+                    String topicID = mTopicIDList.get(i);
+                    mViewModel.getModulesForTopic(getActivity(), accessToken, topicID)
+                            .observe(TopicsFragment.this, new Observer<List<Module>>() {
+                                @Override
+                                public void onChanged(@Nullable List<Module> modules) {
+                                    if(modules != null){
+                                        for(int i = 0; i<modules.size(); i++){
+                                            Module module = modules.get(i);
+                                            //TODO: remove
+                                            module.setFavourited(true);
+                                            Log.d(TAG, module.getName());
+                                        }
 
-                    realm.executeTransaction(new Realm.Transaction() {
+                                        //TODO: remove
+                                        /*Module recentModule1 = modules.get(1);
+                                        recentModule1.setLastViewed(3);
+                                        Module recentModule2 = modules.get(1);
+                                        recentModule2.setLastViewed(2);
+                                        Module recentModule3 = modules.get(1);
+                                        recentModule3.setLastViewed(1);
 
-                        @Override
-                        public void execute(Realm realm) {
-                            for(int i = 0; i<modules.size(); i++){
-                                Module module = modules.get(i);
-                                realm.copyToRealmOrUpdate(module);
-                            }
-                        }
-                    });
+                                        /*realm.executeTransaction(new Realm.Transaction() {
+
+                                            @Override
+                                            public void execute(Realm realm) {
+                                                for(int i = 0; i<modules.size(); i++){
+                                                    Module module = modules.get(i);
+                                                    realm.copyToRealmOrUpdate(module);
+                                                }
+                                            }
+                                        });*/
+                                    }
+                                }
+                            });
+
                 }
             }
         });
+
     }
 
     @Override
@@ -106,7 +129,7 @@ public class TopicsFragment extends Fragment {
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this.getActivity(), LinearLayoutManager.HORIZONTAL, false);
         mRecyclerView.setLayoutManager(mLayoutManager);
-        //mAdapter = new RecentsAdapter(getActivity(), new ArrayList<Module>(0), this);
+        //mAdapter = new ModulesAdapter(getActivity(), new ArrayList<Module>(0), this);
         //mRecyclerView.setAdapter(mAdapter);
 
         return view;

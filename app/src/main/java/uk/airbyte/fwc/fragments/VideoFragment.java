@@ -116,14 +116,14 @@ public class VideoFragment extends Fragment {
     }
 
     public void videoOrImageDisplay(String image, String thumbnail, String videoUrl) {
-        if (videoUrl.trim().length() != 0) {
+        if (videoUrl!= null && videoUrl.trim().length() != 0) {
 
             simpleExoPlayerView.setVisibility(View.VISIBLE);
             placeholderImageView.setVisibility(View.GONE);
 
             initializeExoPlayer(Uri.parse(videoUrl));
 
-        } else if (image.trim().length() != 0) {
+        } else if (image != null && image.trim().length() != 0) {
 
             simpleExoPlayerView.setVisibility(View.GONE);
             placeholderImageView.setVisibility(View.VISIBLE);
@@ -135,7 +135,7 @@ public class VideoFragment extends Fragment {
                     .into(placeholderImageView);
 
 
-        } else if (thumbnail.trim().length() != 0) {
+        } else if (thumbnail != null && thumbnail.trim().length() != 0) {
 
             simpleExoPlayerView.setVisibility(View.GONE);
             placeholderImageView.setVisibility(View.VISIBLE);
@@ -150,7 +150,7 @@ public class VideoFragment extends Fragment {
 
             simpleExoPlayerView.setVisibility(View.GONE);
             placeholderImageView.setVisibility(View.VISIBLE);
-
+            //TODO: set default placeholder image
             placeholderImageView.setImageResource(R.drawable.captain);
         }
     }
@@ -197,7 +197,6 @@ public class VideoFragment extends Fragment {
     public void onStop() {
         super.onStop();
         releasePlayer();
-        //homeViewModel.getSelected().removeObservers(this);
     }
 
     @Override
