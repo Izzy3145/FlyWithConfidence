@@ -13,7 +13,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -39,16 +44,21 @@ public class ModuleFragment extends Fragment {
     TextView moduleNotesTv;
     @BindView(R.id.thingsToTv)
     TextView thingsToTv;
+    @BindView(R.id.addToFavouritesBtn)
+    Button addFavouriteBtn;
+    @BindView(R.id.nextModuleBtn)
+    Button nextModuleBtn;
     private HomeViewModel mHomeViewModel;
     private Module mModule;
     private String introduction;
     private String notes;
+    private ArrayList<Module> modulesInTopic = new ArrayList<>(0);
+    private String topicID;
 
     public ModuleFragment() {
         // Required empty public constructor
     }
 
-    //TODO: button to go to next module, from list of modules
     //TODO: if module unlocked, show descriptions, otherwise show unlock button
 
 
@@ -56,17 +66,8 @@ public class ModuleFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mHomeViewModel = ViewModelProviders.of(getActivity()).get(HomeViewModel.class);
-
-        selectedModuleID = getArguments().getString(Const.MODULE_ID);
-        Log.d(TAG, "Selected Module ID: " + selectedModuleID);
         realm = Realm.getDefaultInstance();
-
-        mModule = realm.where(Module.class)
-                .equalTo("id", selectedModuleID)
-                .findFirst();
-
-        Log.d(TAG, "Module Name: " + mModule.getName());
-
+        getListOfModules();
     }
 
     @Override
@@ -76,17 +77,70 @@ public class ModuleFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_module, container, false);
         view.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.lighter_grey));
         ButterKnife.bind(this, view);
-        if(mModule!=null){
-            moduleIntroTv.setText(mModule.getDescription());
-            moduleNotesTv.setText(mModule.getNotes());
-            if(mModule.getMedia().getVideo720()!=null){
-                mHomeViewModel.select(new ShowPlay(null, null, mModule.getMedia().getVideo720()));
+
+        displayModuleInfo(mModule);
+
+        addFavouriteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                realm.executeTransaction(new Realm.Transaction() {
+                    @Override
+                    public void execute(Realm realm) {
+                        mModule.setFavourited(true);
+                        realm.copyToRealmOrUpdate(mModule);
+                    }
+                });
+            }
+        });
+
+        nextModuleBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int displayNumber = Integer.parseInt(mModule.getDisplayOrder());
+                Log.d(TAG, "Next nextToDisplay: " + String.valueOf(displayNumber));
+
+                if(displayNumber < modulesInTopic.size()) {
+                    mModule = modulesInTopic.get((displayNumber));
+                    Log.d(TAG, "Next module name: " + mModule.getName());
+                    displayModuleInfo(mModule);
+                } else {
+                    Toast.makeText(getActivity(), "No more modules in this topic!", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+        return view;
+    }
+
+    public void getListOfModules(){
+        selectedModuleID = getArguments().getString(Const.MODULE_ID);
+        mModule = realm.where(Module.class)
+                .equalTo("id", selectedModuleID)
+                .findFirst();
+        topicID = mModule.getTopic().getId();
+
+        RealmResults<Module> topicModulesRealm = realm.where(Module.class)
+                .equalTo("topic.id", topicID)
+                .findAll();
+        modulesInTopic.clear();
+        modulesInTopic.addAll(realm.copyFromRealm(topicModulesRealm));
+        Log.d(TAG, "Module List size: " + modulesInTopic.size());
+
+    }
+
+    public void displayModuleInfo(Module module){
+        if(module!=null){
+            moduleIntroTv.setText(module.getDescription());
+            moduleNotesTv.setText(module.getNotes());
+            if(module.getMedia().getVideo720()!=null){
+                mHomeViewModel.select(new ShowPlay(null, null, module.getMedia().getVideo720()));
             }
 
             //TODO: make this work - stackOverflow post
             StringBuilder sb = new StringBuilder();
-            for(int i = 0; i < mModule.getBullets().size(); i++){
-                String stringB = "\r\n" + mModule.getBullets().get(i);
+            for(int i = 0; i < module.getBullets().size(); i++){
+                String stringB = "\r\n" + module.getBullets().get(i);
                 SpannableString string = new SpannableString(stringB);
                 string.setSpan(new BulletSpan(), 0, stringB.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 sb.append(stringB);
@@ -95,12 +149,16 @@ public class ModuleFragment extends Fragment {
             thingsToTv.setText(sb, TextView.BufferType.SPANNABLE);
 
         }
-        return view;
     }
-
     @Override
     public void onPause() {
         super.onPause();
        // mHomeViewModel.select(new ShowPlay(null, null, null));
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getListOfModules();
     }
 }

@@ -157,6 +157,7 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.ModulesA
     }
 
     private void setUpRecentsAdapter(){
+        //TODO: if all recently watched videos have been deleted, remove "Recently Watched" title
         myRecentsRv.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this.getActivity(), LinearLayoutManager.HORIZONTAL, false);
         myRecentsRv.setLayoutManager(mLayoutManager);

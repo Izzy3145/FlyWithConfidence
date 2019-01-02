@@ -110,6 +110,7 @@
             android:background="@drawable/roundwhiteblackbtn"
             android:drawableStart="@drawable/ic_favourite"
             android:paddingStart="16dp"
+            android:paddingEnd="16dp"
             android:text="ADD TO FAVOURITES"
             android:textAlignment="center"
             android:textSize="17sp"

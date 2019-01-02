@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.TopicsFragment">
@@ -11,38 +10,37 @@
         android:id="@+id/top_tabs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"
         app:tabMode="fixed">
 
         <android.support.design.widget.TabItem
+            style="@style/CustomTabLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style = "@style/CustomTabLayout"
-            android:text="Knowledge"/>
+            android:text="Knowledge" />
 
         <android.support.design.widget.TabItem
+            style="@style/CustomTabLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style = "@style/CustomTabLayout"
-            android:text="Preparation"/>
+            android:text="Preparation" />
 
     </android.support.design.widget.TabLayout>
 
     <TextView
-        android:id="@+id/topicTitleTv"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:padding="16dp"
-        android:text="TOPIC TITLE"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/top_tabs" />
+    android:id="@+id/topicTitleTv1"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="16dp"
+    android:layout_marginEnd="16dp"
+    android:padding="16dp"
+    tools:text="TOPIC TITLE"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="0.0"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/top_tabs" />
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/topicsRv"
+        android:id="@+id/topicsRv1"
         android:layout_width="wrap_content"
         android:layout_height="100dp"
         android:layout_marginStart="16dp"
@@ -51,5 +49,294 @@
         app:layout_constraintHorizontal_bias="0.46"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/topicTitleTv"></android.support.v7.widget.RecyclerView>
+
+    <android.support.constraint.Group
+        android:id="@+id/topicRvGroup1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="topicsRv1,topicTitleTv1" />
+
+    <TextView
+    android:id="@+id/topicTitleTv2"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="16dp"
+    android:layout_marginEnd="16dp"
+    android:padding="16dp"
+        tools:text="TOPIC TITLE"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="0.0"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/topicsRv1" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/topicsRv2"
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.46"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/topicTitleTv2"></android.support.v7.widget.RecyclerView>
+
+    <android.support.constraint.Group
+        android:id="@+id/topicRvGroup2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="topicsRv2,topicTitleTv2" />
+
+    <TextView
+    android:id="@+id/topicTitleTv3"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="16dp"
+    android:layout_marginEnd="16dp"
+    android:padding="16dp"
+        tools:text="TOPIC TITLE"
+        app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="0.0"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/topicsRv2" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/topicsRv3"
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.46"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/topicTitleTv3"></android.support.v7.widget.RecyclerView>
+
+    <android.support.constraint.Group
+        android:id="@+id/topicRvGroup3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="topicsRv3,topicTitleTv3" />
+
+    <TextView
+        android:id="@+id/topicTitleTv4"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:padding="16dp"
+        tools:text="TOPIC TITLE"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/topicsRv3" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/topicsRv4"
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.46"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/topicTitleTv4"></android.support.v7.widget.RecyclerView>
+
+    <android.support.constraint.Group
+        android:id="@+id/topicRvGroup4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="topicsRv4,topicTitleTv4" />
+
+
+    <TextView
+        android:id="@+id/topicTitleTv5"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:padding="16dp"
+        tools:text="TOPIC TITLE"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/topicsRv4" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/topicsRv5"
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.46"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/topicTitleTv5"></android.support.v7.widget.RecyclerView>
+
+    <android.support.constraint.Group
+        android:id="@+id/topicRvGroup5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="topicsRv5,topicTitleTv5" />
+
+    <TextView
+        android:id="@+id/topicTitleTv6"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:padding="16dp"
+        tools:text="TOPIC TITLE"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/topicsRv5" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/topicsRv6"
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.46"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/topicTitleTv6"></android.support.v7.widget.RecyclerView>
+
+    <android.support.constraint.Group
+        android:id="@+id/topicRvGroup6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="topicsRv6,topicTitleTv6" />
+
+
+    <TextView
+        android:id="@+id/topicTitleTv7"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:padding="16dp"
+        tools:text="TOPIC TITLE"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/topicsRv6" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/topicsRv7"
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.46"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/topicTitleTv7"></android.support.v7.widget.RecyclerView>
+
+    <android.support.constraint.Group
+        android:id="@+id/topicRvGroup7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="topicsRv7,topicTitleTv7" />
+
+
+    <TextView
+        android:id="@+id/topicTitleTv8"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:padding="16dp"
+        tools:text="TOPIC TITLE"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/topicsRv7" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/topicsRv8"
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.46"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/topicTitleTv8"></android.support.v7.widget.RecyclerView>
+
+    <android.support.constraint.Group
+        android:id="@+id/topicRvGroup8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="topicsRv8,topicTitleTv8" />
+
+    <TextView
+        android:id="@+id/topicTitleTv9"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:padding="16dp"
+        tools:text="TOPIC TITLE"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/topicsRv8" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/topicsRv9"
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.46"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/topicTitleTv9"></android.support.v7.widget.RecyclerView>
+
+    <android.support.constraint.Group
+        android:id="@+id/topicRvGroup9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="topicsRv9,topicTitleTv9" />
+
+    <TextView
+        android:id="@+id/topicTitleTv10"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:padding="16dp"
+        tools:text="TOPIC TITLE"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/topicsRv9" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/topicsRv10"
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.46"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/topicTitleTv10"></android.support.v7.widget.RecyclerView>
+
+    <android.support.constraint.Group
+        android:id="@+id/topicRvGroup10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="topicsRv10,topicTitleTv10" />
 
 </android.support.constraint.ConstraintLayout>

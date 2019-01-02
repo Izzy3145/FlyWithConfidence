@@ -29,11 +29,12 @@ public class TopicsViewModel extends ViewModel {
 
     private MutableLiveData<List<Module>> modules;
     private MutableLiveData<List<Topic>> topics;
+    private List<Topic> listOfTopics;
 
     private APIService apiService = APIClient.getClient().create(APIService.class);
 
     public LiveData<List<Module>> getModulesForTopic(Context context, String accessToken, String topicID) {
-        if (modules == null) {
+        if(modules == null) {
             modules = new MutableLiveData<List<Module>>();
             moduleCall(context, accessToken, topicID);
         }
@@ -82,6 +83,8 @@ public class TopicsViewModel extends ViewModel {
             public void onResponse(Call<List<Topic>> call, Response<List<Topic>> response) {
                 if (response.isSuccessful()) {
                     topics.postValue(response.body());
+                    //listOfTopics.add(response.body());
+
                     Log.d(TAG, "Response topicCall() success: " + response.body());
                 } else {
                     APIError error = ErrorUtils.parseError(response);

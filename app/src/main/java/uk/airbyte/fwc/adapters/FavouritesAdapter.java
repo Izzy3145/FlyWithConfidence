@@ -87,6 +87,8 @@ public class FavouritesAdapter extends RecyclerView.Adapter<FavouritesAdapter.Vi
        }
     }
 
+    //TODO: remove the three red crosses from empty thumbnails when Edit is not selected
+
     @Override
     public int getItemCount() {
         if (mListOfModules.size() < 10) {

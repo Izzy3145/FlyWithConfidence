@@ -30,12 +30,31 @@ import uk.airbyte.fwc.model.Topic;
 import uk.airbyte.fwc.utils.Const;
 import uk.airbyte.fwc.viewmodels.TopicsViewModel;
 
-public class TopicsFragment extends Fragment {
+public class TopicsFragment extends Fragment implements ModulesAdapter.ModulesAdapterListener{
 
     private static final String TAG = TopicsFragment.class.getSimpleName();
 
-    @BindView (R.id.topicsRv)
-    RecyclerView mRecyclerView;
+    @BindView(R.id.topicsRv1)
+    RecyclerView mRecyclerView1;
+    @BindView(R.id.topicsRv2)
+    RecyclerView mRecyclerView2;
+    @BindView(R.id.topicsRv3)
+    RecyclerView mRecyclerView3;
+    @BindView(R.id.topicsRv4)
+    RecyclerView mRecyclerView4;
+    @BindView(R.id.topicsRv5)
+    RecyclerView mRecyclerView5;
+    @BindView(R.id.topicsRv6)
+    RecyclerView mRecyclerView6;
+    @BindView(R.id.topicsRv7)
+    RecyclerView mRecyclerView7;
+    @BindView(R.id.topicsRv8)
+    RecyclerView mRecyclerView8;
+    @BindView(R.id.topicsRv9)
+    RecyclerView mRecyclerView9;
+    @BindView(R.id.topicsRv10)
+    RecyclerView mRecyclerView10;
+
     private TopicsViewModel mViewModel;
     private String accessToken;
     private SharedPreferences sharedPref;
@@ -44,7 +63,8 @@ public class TopicsFragment extends Fragment {
     private Realm realm;
     private FragmentManager fragmentManager;
     private String category;
-    private List<String> mTopicIDList= new ArrayList<String>();
+    private List<String> mTopicIDList = new ArrayList<String>();
+    private int numberOfTopics;
 
     public static TopicsFragment newInstance() {
         return new TopicsFragment();
@@ -65,28 +85,47 @@ public class TopicsFragment extends Fragment {
         mViewModel.getTopics(getActivity(), accessToken, category).observe(this, new Observer<List<Topic>>() {
             @Override
             public void onChanged(@Nullable List<Topic> topics) {
-                if(topics != null){
-                    for(int i = 0; i<topics.size(); i++){
+                if (topics != null) {
+                    numberOfTopics = 0;
+                    for (int i = 0; i < topics.size(); i++) {
                         Topic topic = topics.get(i);
                         mTopicIDList.add(topic.getId());
-                        Log.d(TAG, "Topic found: " + topic.getName());
+                        numberOfTopics++;
+                        Log.d(TAG, "Topic found, first viewModel: " + topic.getName());
                     }
                 }
+                for (int i = 0; i < mTopicIDList.size(); i++) {
+                    final String topicID = mTopicIDList.get(i);
+                    Log.d(TAG, "TopicID passed to second viewModel: " + topicID);
 
-                //TODO: move some of this to viewmodel? List<TopicID> instead of topicID?
-                for(int i = 0; i<mTopicIDList.size(); i++){
-                    String topicID = mTopicIDList.get(i);
                     mViewModel.getModulesForTopic(getActivity(), accessToken, topicID)
                             .observe(TopicsFragment.this, new Observer<List<Module>>() {
                                 @Override
-                                public void onChanged(@Nullable List<Module> modules) {
-                                    if(modules != null){
-                                        for(int i = 0; i<modules.size(); i++){
-                                            Module module = modules.get(i);
-                                            //TODO: remove
+                                public void onChanged(@Nullable final List<Module> modules) {
+                                    //TODO: sort out flow.  move some of this to viewmodel? List<TopicID> instead of topicID?
+
+                                    if (modules != null) {
+
+                                        for (int i = 0; i < modules.size(); i++) {
+                                            final Module module = modules.get(i);
+                                            Log.d(TAG, "TopicID & ModuleName: " + topicID + module.getName());
                                             module.setFavourited(true);
-                                            Log.d(TAG, module.getName());
+
+                                            //TODO: data not saving properly - need to put topicID in module class?
+                                            realm.executeTransaction(new Realm.Transaction() {
+
+                                                @Override
+                                                public void execute(Realm realm) {
+                                                    realm.copyToRealmOrUpdate(module);
+                                                }
+
+                                            });
+
                                         }
+                                    }
+                                }});
+            }
+        }});
 
                                         //TODO: remove
                                         /*Module recentModule1 = modules.get(1);
@@ -106,31 +145,32 @@ public class TopicsFragment extends Fragment {
                                                 }
                                             }
                                         });*/
-                                    }
-                                }
-                            });
-
-                }
-            }
-        });
 
     }
+
+
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View view =  inflater.inflate(R.layout.topics_fragment, container, false);
+        View view = inflater.inflate(R.layout.topics_fragment, container, false);
         ButterKnife.bind(this, view);
 
         TabLayout tablayout = (TabLayout) view.findViewById(R.id.top_tabs);
         tablayout.setVisibility(View.VISIBLE);
         //TODO: set up onClickListener on TabLayout to query other endpoint
 
-        mRecyclerView.setHasFixedSize(true);
-        mLayoutManager = new LinearLayoutManager(this.getActivity(), LinearLayoutManager.HORIZONTAL, false);
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        //mAdapter = new ModulesAdapter(getActivity(), new ArrayList<Module>(0), this);
-        //mRecyclerView.setAdapter(mAdapter);
+        //TODO: learn DataBinding to make this easier?
+            mRecyclerView1.setHasFixedSize(true);
+            mLayoutManager = new LinearLayoutManager(this.getActivity(), LinearLayoutManager.HORIZONTAL, false);
+            mRecyclerView1.setLayoutManager(mLayoutManager);
+            mAdapter = new ModulesAdapter(getActivity(), new ArrayList<Module>(0), this);
+            mRecyclerView1.setAdapter(mAdapter);
+
+            mRecyclerView2.setHasFixedSize(true);
+            mLayoutManager = new LinearLayoutManager(this.getActivity(), LinearLayoutManager.HORIZONTAL, false);
+            mRecyclerView2.setLayoutManager(mLayoutManager);
+
 
         return view;
     }
@@ -145,6 +185,16 @@ public class TopicsFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         realm.close();
+    }
+
+    @Override
+    public void onClickMethod(Module module, int position) {
+
+    }
+
+    @Override
+    public void onClickRecentsDeleteMethod(Module module, int position) {
+
     }
 
     /*@Override
