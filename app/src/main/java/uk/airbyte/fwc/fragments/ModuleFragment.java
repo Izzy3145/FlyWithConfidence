@@ -2,6 +2,7 @@ package uk.airbyte.fwc.fragments;
 
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -54,6 +55,7 @@ public class ModuleFragment extends Fragment {
     private String notes;
     private ArrayList<Module> modulesInTopic = new ArrayList<>(0);
     private String topicID;
+    private SpannableString spanString;
 
     public ModuleFragment() {
         // Required empty public constructor
@@ -114,6 +116,7 @@ public class ModuleFragment extends Fragment {
     }
 
     public void getListOfModules(){
+        //TODO: working but test this when more data is available
         selectedModuleID = getArguments().getString(Const.MODULE_ID);
         mModule = realm.where(Module.class)
                 .equalTo("id", selectedModuleID)
@@ -137,19 +140,43 @@ public class ModuleFragment extends Fragment {
                 mHomeViewModel.select(new ShowPlay(null, null, module.getMedia().getVideo720()));
             }
 
-            //TODO: make this work - stackOverflow post
+            String sep = System.lineSeparator();
             StringBuilder sb = new StringBuilder();
+
+            //TODO: check this with full API response
+            /*ArrayList<String> bulletsList = new ArrayList<>(0);
             for(int i = 0; i < module.getBullets().size(); i++){
-                String stringB = "\r\n" + module.getBullets().get(i);
-                SpannableString string = new SpannableString(stringB);
-                string.setSpan(new BulletSpan(), 0, stringB.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                sb.append(stringB);
+                String bulletNote =  module.getBullets().get(i);
+                bulletsList.add(bulletNote);
+            }*/
+
+            ArrayList<String> bulletsList = new ArrayList<>();
+            bulletsList.add("Test 1");
+            bulletsList.add("Test 2");
+            bulletsList.add("Test 3");
+            bulletsList.add("Test 4");
+            for(String s : bulletsList){
+                sb.append(sep+s);
+            }
+            String concat = sb.toString();
+
+            spanString = new SpannableString(concat);
+            for(String s : bulletsList) {
+                addBullet(s, concat);
             }
 
-            thingsToTv.setText(sb, TextView.BufferType.SPANNABLE);
+            thingsToTv.setText(spanString);
 
         }
     }
+
+    private void addBullet(String s, String txt){
+        int index = txt.indexOf(s);
+        // You can change the attributes as you need ... I just added a bit of color and formating
+        BulletSpan bullet = new BulletSpan(20, Color.BLACK);
+        spanString.setSpan(bullet, index, index+1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+    }
+
     @Override
     public void onPause() {
         super.onPause();
