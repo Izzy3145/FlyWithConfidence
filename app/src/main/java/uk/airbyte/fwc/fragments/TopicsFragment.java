@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.navigation.Navigation;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.realm.Realm;
@@ -63,6 +64,7 @@ public class TopicsFragment extends Fragment implements ModulesAdapter.ModulesAd
     private Realm realm;
     private FragmentManager fragmentManager;
     private String category;
+    private ArrayList<Module> moduleList = new ArrayList<Module>();
     private List<String> mTopicIDList = new ArrayList<String>();
     private int numberOfTopics;
 
@@ -82,7 +84,7 @@ public class TopicsFragment extends Fragment implements ModulesAdapter.ModulesAd
 
         category = "knowledge";
 
-        mViewModel.getTopics(getActivity(), accessToken, category).observe(this, new Observer<List<Topic>>() {
+        /*mViewModel.getTopics(getActivity(), accessToken, category).observe(this, new Observer<List<Topic>>() {
             @Override
             public void onChanged(@Nullable List<Topic> topics) {
                 if (topics != null) {
@@ -98,37 +100,12 @@ public class TopicsFragment extends Fragment implements ModulesAdapter.ModulesAd
                     final String topicID = mTopicIDList.get(i);
                     Log.d(TAG, "TopicID passed to second viewModel: " + topicID);
 
-                    mViewModel.getModulesForTopic(getActivity(), accessToken, topicID)
-                            .observe(TopicsFragment.this, new Observer<List<Module>>() {
-                                @Override
-                                public void onChanged(@Nullable final List<Module> modules) {
-                                    //TODO: sort out flow.  move some of this to viewmodel? List<TopicID> instead of topicID?
 
-                                    if (modules != null) {
-
-                                        for (int i = 0; i < modules.size(); i++) {
-                                            final Module module = modules.get(i);
-                                            Log.d(TAG, "TopicID & ModuleName: " + topicID + module.getName());
-                                            module.setFavourited(true);
-
-                                            //TODO: data not saving properly - need to put topicID in module class?
-                                            realm.executeTransaction(new Realm.Transaction() {
-
-                                                @Override
-                                                public void execute(Realm realm) {
-                                                    realm.copyToRealmOrUpdate(module);
-                                                }
-
-                                            });
-
-                                        }
-                                    }
-                                }});
             }
         }});
 
                                         //TODO: remove
-                                        /*Module recentModule1 = modules.get(1);
+                                        Module recentModule1 = modules.get(1);
                                         recentModule1.setLastViewed(3);
                                         Module recentModule2 = modules.get(1);
                                         recentModule2.setLastViewed(2);
@@ -145,6 +122,8 @@ public class TopicsFragment extends Fragment implements ModulesAdapter.ModulesAd
                                                 }
                                             }
                                         });*/
+
+
 
     }
 
@@ -178,7 +157,37 @@ public class TopicsFragment extends Fragment implements ModulesAdapter.ModulesAd
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = ViewModelProviders.of(this).get(TopicsViewModel.class);
+        //mViewModel = ViewModelProviders.of(this).get(TopicsViewModel.class);
+        mViewModel.getModulesForTopic(getActivity(), accessToken, "74e89e6e-fb05-4a59-ac5d-eb2e937bad16")
+                .observe(TopicsFragment.this, new Observer<List<Module>>() {
+                    @Override
+                    public void onChanged(@Nullable List<Module> modules) {
+                        //TODO: sort out flow.  move some of this to viewmodel? List<TopicID> instead of topicID?
+
+                        if (modules != null) {
+
+                            for (int i = 0; i < modules.size(); i++) {
+                                final Module module = modules.get(i);
+                                // Log.d(TAG, "TopicID & ModuleName: " + topicID + module.getName());
+                                module.setFavourited(true);
+                                moduleList.add(module);
+
+                                //TODO: data not saving properly - need to put topicID in module class?
+                                realm.executeTransaction(new Realm.Transaction() {
+
+                                    @Override
+                                    public void execute(Realm realm) {
+                                        realm.copyToRealmOrUpdate(module);
+                                    }
+
+                                });
+
+                            }
+                            Log.d(TAG, "moduleList size: " + moduleList.size());
+
+                            mAdapter.setModulesToAdapter(moduleList);
+                        }
+                    }});
     }
 
     @Override
@@ -189,7 +198,11 @@ public class TopicsFragment extends Fragment implements ModulesAdapter.ModulesAd
 
     @Override
     public void onClickMethod(Module module, int position) {
-
+        String selectedModuleID = "";
+        selectedModuleID = module.getId();
+        Bundle b = new Bundle();
+        b.putString(Const.MODULE_ID, selectedModuleID);
+        Navigation.findNavController(getActivity(), R.id.my_nav_host_fragment).navigate(R.id.action_topicsFragment_to_moduleFragment, b);
     }
 
     @Override

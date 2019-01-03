@@ -29,7 +29,9 @@ import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.realm.Realm;
 import uk.airbyte.fwc.R;
+import uk.airbyte.fwc.model.Module;
 import uk.airbyte.fwc.model.ShowPlay;
 import uk.airbyte.fwc.viewmodels.HomeViewModel;
 
@@ -50,6 +52,9 @@ public class VideoFragment extends Fragment {
     private String mThumbnailString;
     private SimpleExoPlayer mSimpleExoPlayer;
     private HomeViewModel homeViewModel;
+    private Realm realm;
+    private Module mModule;
+    private ShowPlay showPlayObj;
 
     @BindView(R.id.exo_player_view)
     SimpleExoPlayerView simpleExoPlayerView;
@@ -69,27 +74,14 @@ public class VideoFragment extends Fragment {
             @Override
             public void onChanged(@Nullable ShowPlay showPlay) {
                 if (showPlay != null) {
-                    videoOrImageDisplay(showPlay.getImage(), showPlay.getThumbnail(), showPlay.getVideoUrl());
-                    Log.d(TAG, "Video string received: " + showPlay.getVideoUrl());
+                    showPlayObj = showPlay;
+                    videoOrImageDisplay(showPlayObj.getImage(), showPlayObj.getThumbnail(), showPlayObj.getVideoUrl());
+                    Log.d(TAG, "Video string received: " + showPlayObj.getVideoUrl());
                 }
             }
         });
+        realm = Realm.getDefaultInstance();
     }
-
-    /*@Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        homeViewModel = ViewModelProviders.of(getActivity()).get(HomeViewModel.class);
-        homeViewModel.getSelected().observe(this, new Observer<ShowPlay>() {
-            @Override
-            public void onChanged(@Nullable ShowPlay showPlay) {
-                if (showPlay != null) {
-                    videoOrImageDisplay(showPlay.getImage(), showPlay.getThumbnail(), showPlay.getVideoUrl());
-                    Log.d(TAG, "Video string received: " + showPlay.getVideoUrl());
-                }
-            }
-        });
-    }*/
 
     //TODO: change error image
 
@@ -190,18 +182,30 @@ public class VideoFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
+        saveState();
         releasePlayer();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(showPlayObj!=null) {
+            videoOrImageDisplay(showPlayObj.getImage(), showPlayObj.getThumbnail(), showPlayObj.getVideoUrl());
+        }
+        //TODO: start video from last saved position
     }
 
     @Override
     public void onStop() {
         super.onStop();
+        saveState();
         releasePlayer();
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        showPlayObj = null;
         releasePlayer();
     }
 
@@ -209,6 +213,7 @@ public class VideoFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         releasePlayer();
+        realm.close();
     }
 
     public void releasePlayer() {
@@ -216,6 +221,29 @@ public class VideoFragment extends Fragment {
             mSimpleExoPlayer.stop();
             mSimpleExoPlayer.release();
             mSimpleExoPlayer = null;
+        }
+    }
+
+    private void saveState(){
+        if (mSimpleExoPlayer != null) {
+            playbackReady = false;
+
+            playbackPosition = mSimpleExoPlayer.getCurrentPosition();
+            Log.d(TAG, "Playback position: " + playbackPosition);
+            currentWindow = mSimpleExoPlayer.getCurrentWindowIndex();
+            Log.d(TAG, "Current window: " + currentWindow);
+
+            mModule = realm.where(Module.class)
+                    .equalTo("id", showPlayObj.getModuleID())
+                    .findFirst();
+            realm.executeTransaction(new Realm.Transaction() {
+                @Override
+                public void execute(Realm realm) {
+                    mModule.setCurrentWindow(currentWindow);
+                    mModule.setPlayerPosition(playbackPosition);
+                    realm.copyToRealmOrUpdate(mModule);
+                }
+            });
         }
     }
 }

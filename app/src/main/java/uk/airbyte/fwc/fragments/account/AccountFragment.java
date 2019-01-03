@@ -18,6 +18,7 @@ import androidx.navigation.Navigation;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.realm.Realm;
 import uk.airbyte.fwc.MainActivity;
 import uk.airbyte.fwc.R;
 import uk.airbyte.fwc.utils.Const;
@@ -35,6 +36,7 @@ public class AccountFragment extends Fragment {
     //private OnLogoutListener mListener;
     private SharedPreferences sharedPref;
     private SharedPreferences.Editor editor;
+    private Realm realm;
 
 
     public AccountFragment() {
@@ -45,7 +47,7 @@ public class AccountFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
-
+        realm = Realm.getDefaultInstance();
     }
 
     @Override
@@ -69,36 +71,27 @@ public class AccountFragment extends Fragment {
 
     @OnClick(R.id.logoutTv)
     public void logout() {
-        //mListener.onLogout("");
-        //Toast.makeText(getActivity(), "Log Out Clicked", Toast.LENGTH_SHORT).show();
         editor = sharedPref.edit();
         editor.putString(Const.ACCESS_TOKEN, "");
         editor.putString(Const.USER_ID, "");
         editor.apply();
 
+        realm.close();
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                realm.deleteAll();
+            }
+        });
+
         Intent openMain = new Intent(getActivity(), MainActivity.class);
         startActivity(openMain);
     }
 
-    /*@Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof AccountFragment.OnLogoutListener) {
-            mListener = (AccountFragment.OnLogoutListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnLogoutListener");
-        }
-    }
-
     @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
+    public void onDestroy() {
+        super.onDestroy();
+        realm.close();
     }
-
-    public interface OnLogoutListener {
-        void onLogout(String accessToken);
-    }*/
 
 }

@@ -89,7 +89,7 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.ModulesA
                 videoSelected = "asset:///intro.mp4";
                 watchNowBtn.setVisibility(View.GONE);
                 videoOverlayGroup.setVisibility(View.GONE);
-                mHomeViewModel.select(new ShowPlay(null, null, videoSelected));
+                mHomeViewModel.select(new ShowPlay(null, null, null, videoSelected));
 
                 //TODO: (1) Make this work in landscape, implement onBackPressed
                 //getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -239,5 +239,11 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.ModulesA
     public void onPause() {
         super.onPause();
       //  mHomeViewModel.getSelected().removeObservers(this);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        realm.close();
     }
 }

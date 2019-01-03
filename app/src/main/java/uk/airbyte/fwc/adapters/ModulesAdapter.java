@@ -84,9 +84,11 @@ public class ModulesAdapter extends RecyclerView.Adapter<ModulesAdapter.ViewHold
     }
 
     public void setModulesToAdapter(ArrayList<Module> foundModuleList) {
+        mListOfModules.clear();
         mListOfModules = foundModuleList;
         notifyDataSetChanged();
     }
+
 
     //create onClickListener interface
     public interface ModulesAdapterListener {
