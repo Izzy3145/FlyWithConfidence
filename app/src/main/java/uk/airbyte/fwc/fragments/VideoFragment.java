@@ -65,6 +65,8 @@ public class VideoFragment extends Fragment {
         // Required empty public constructor
     }
 
+    //TODO: check the overall logic here (member variables)...and find a way to clear previously passed in ShowPlay objects
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,6 +99,7 @@ public class VideoFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         showPlayObj = null;
+        homeViewModel = ViewModelProviders.of(getActivity()).get(HomeViewModel.class);
         homeViewModel.getSelected().observe(this, new Observer<ShowPlay>() {
             @Override
             public void onChanged(@Nullable ShowPlay showPlay) {
@@ -196,7 +199,6 @@ public class VideoFragment extends Fragment {
             videoOrImageDisplay(showPlayObj.getImage(), showPlayObj.getThumbnail(), showPlayObj.getVideoUrl(),
                     showPlayObj.getCurrentWindow(), showPlayObj.getPlayerPosition());
         }
-        //TODO: start video from last saved position
     }
 
     @Override
@@ -211,6 +213,7 @@ public class VideoFragment extends Fragment {
         super.onDestroyView();
         showPlayObj = null;
         releasePlayer();
+        homeViewModel.clearVideo();
     }
 
     @Override

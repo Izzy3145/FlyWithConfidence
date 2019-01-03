@@ -13,13 +13,17 @@ public class HomeViewModel extends ViewModel {
     private MutableLiveData<ShowPlay> selectedVideo = new MutableLiveData<ShowPlay>();
 
     public void select(ShowPlay imageOrVideo) {
-            Log.d(TAG, "Video selected: " + imageOrVideo);
-                selectedVideo.setValue(imageOrVideo);
+        Log.d(TAG, "Video selected: " + imageOrVideo);
+        selectedVideo.setValue(imageOrVideo);
     }
 
     public LiveData<ShowPlay> getSelected() {
-            return selectedVideo;
-            }
-        //TODO: get list of favourited Modules to display in recyclerView
+        return selectedVideo;
     }
+
+    public void clearVideo() {
+        selectedVideo =  new MutableLiveData<ShowPlay>();;
+    }
+
+}
 
