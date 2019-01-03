@@ -137,7 +137,8 @@ public class ModuleFragment extends Fragment {
             moduleIntroTv.setText(module.getDescription());
             moduleNotesTv.setText(module.getNotes());
             if(module.getMedia().getVideo720()!=null){
-                mHomeViewModel.select(new ShowPlay(module.getId(), null, null, module.getMedia().getVideo720()));
+                mHomeViewModel.select(new ShowPlay(module.getId(), null, null,
+                        module.getMedia().getVideo720(), module.getCurrentWindow(), module.getPlayerPosition()));
             }
 
             String sep = System.lineSeparator();

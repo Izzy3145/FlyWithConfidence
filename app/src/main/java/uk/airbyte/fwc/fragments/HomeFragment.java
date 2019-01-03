@@ -89,7 +89,8 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.ModulesA
                 videoSelected = "asset:///intro.mp4";
                 watchNowBtn.setVisibility(View.GONE);
                 videoOverlayGroup.setVisibility(View.GONE);
-                mHomeViewModel.select(new ShowPlay(null, null, null, videoSelected));
+                //TODO: get player position of intro video (not cached in db)
+                mHomeViewModel.select(new ShowPlay(null, null, null, videoSelected, 0, 0));
 
                 //TODO: (1) Make this work in landscape, implement onBackPressed
                 //getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);

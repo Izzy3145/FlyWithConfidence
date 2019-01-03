@@ -8,14 +8,18 @@ public class ShowPlay {
     private String image;
     private String thumbnail;
     private String videoUrl;
+    private int currentWindow;
+    private long playerPosition;
 
     public ShowPlay(){};
 
-    public ShowPlay(@Nullable  String moduleID, String image, String thumbnail, String videoUrl){
+    public ShowPlay(@Nullable  String moduleID, String image, String thumbnail, String videoUrl, int currentWindow, long playerPosition){
         this.moduleID = moduleID;
         this.image = image;
         this.thumbnail = thumbnail;
         this.videoUrl = videoUrl;
+        this.currentWindow = currentWindow;
+        this.playerPosition = playerPosition;
     }
 
     public String getImage() {
@@ -32,6 +36,22 @@ public class ShowPlay {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public int getCurrentWindow() {
+        return currentWindow;
+    }
+
+    public void setCurrentWindow(int currentWindow) {
+        this.currentWindow = currentWindow;
+    }
+
+    public long getPlayerPosition() {
+        return playerPosition;
+    }
+
+    public void setPlayerPosition(long playerPosition) {
+        this.playerPosition = playerPosition;
     }
 
     public String getThumbnail() {

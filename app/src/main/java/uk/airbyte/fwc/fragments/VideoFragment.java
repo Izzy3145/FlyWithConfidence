@@ -41,6 +41,10 @@ public class VideoFragment extends Fragment {
 
     private static final String PLAYER_POSITION = "playback_position";
     private static final String PLAYBACK_READY = "playback_ready";
+    @BindView(R.id.exo_player_view)
+    SimpleExoPlayerView simpleExoPlayerView;
+    @BindView(R.id.placeholder_image_view)
+    ImageView placeholderImageView;
     private long playbackPosition;
     private boolean playbackReady = true;
     private int currentWindow;
@@ -56,11 +60,6 @@ public class VideoFragment extends Fragment {
     private Module mModule;
     private ShowPlay showPlayObj;
 
-    @BindView(R.id.exo_player_view)
-    SimpleExoPlayerView simpleExoPlayerView;
-    @BindView(R.id.placeholder_image_view)
-    ImageView placeholderImageView;
-
 
     public VideoFragment() {
         // Required empty public constructor
@@ -70,16 +69,6 @@ public class VideoFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         homeViewModel = ViewModelProviders.of(getActivity()).get(HomeViewModel.class);
-        homeViewModel.getSelected().observe(this, new Observer<ShowPlay>() {
-            @Override
-            public void onChanged(@Nullable ShowPlay showPlay) {
-                if (showPlay != null) {
-                    showPlayObj = showPlay;
-                    videoOrImageDisplay(showPlayObj.getImage(), showPlayObj.getThumbnail(), showPlayObj.getVideoUrl());
-                    Log.d(TAG, "Video string received: " + showPlayObj.getVideoUrl());
-                }
-            }
-        });
         realm = Realm.getDefaultInstance();
     }
 
@@ -88,9 +77,6 @@ public class VideoFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-        Log.d(TAG, "onCreateView: ");
-
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_video, container, false);
         ButterKnife.bind(this, view);
@@ -107,13 +93,30 @@ public class VideoFragment extends Fragment {
         return view;
     }
 
-    public void videoOrImageDisplay(String image, String thumbnail, String videoUrl) {
-        if (videoUrl!= null && videoUrl.trim().length() != 0) {
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        showPlayObj = null;
+        homeViewModel.getSelected().observe(this, new Observer<ShowPlay>() {
+            @Override
+            public void onChanged(@Nullable ShowPlay showPlay) {
+                if (showPlay != null) {
+                    showPlayObj = showPlay;
+                    videoOrImageDisplay(showPlayObj.getImage(), showPlayObj.getThumbnail(), showPlayObj.getVideoUrl(),
+                            showPlayObj.getCurrentWindow(), showPlayObj.getPlayerPosition());
+                    Log.d(TAG, "Video string received: " + showPlayObj.getVideoUrl());
+                }
+            }
+        });
+    }
+
+    public void videoOrImageDisplay(String image, String thumbnail, String videoUrl, int currentWindow, long playerPosition) {
+        if (videoUrl != null && videoUrl.trim().length() != 0) {
 
             simpleExoPlayerView.setVisibility(View.VISIBLE);
             placeholderImageView.setVisibility(View.GONE);
 
-            initializeExoPlayer(Uri.parse(videoUrl));
+            initializeExoPlayer(Uri.parse(videoUrl), currentWindow, playerPosition);
 
         } else if (image != null && image.trim().length() != 0) {
 
@@ -148,7 +151,7 @@ public class VideoFragment extends Fragment {
     }
 
     //initialise ExoPlayer
-    public void initializeExoPlayer(Uri firstUri) {
+    public void initializeExoPlayer(Uri firstUri, int currentWindow, long playbackPosition) {
         if (mSimpleExoPlayer == null) {
             //create an instance of the ExoPlayer
             TrackSelector trackSelector = new DefaultTrackSelector();
@@ -166,7 +169,7 @@ public class VideoFragment extends Fragment {
         }
     }
 
-    @Override
+  /*  @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         //save state so that upon rotation, the video doesn't restart
@@ -177,7 +180,7 @@ public class VideoFragment extends Fragment {
         }
         outState.putLong(PLAYER_POSITION, playbackPosition);
         outState.putBoolean(PLAYBACK_READY, playbackReady);
-    }
+    }*/
 
     @Override
     public void onPause() {
@@ -189,8 +192,9 @@ public class VideoFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        if(showPlayObj!=null) {
-            videoOrImageDisplay(showPlayObj.getImage(), showPlayObj.getThumbnail(), showPlayObj.getVideoUrl());
+        if (showPlayObj != null) {
+            videoOrImageDisplay(showPlayObj.getImage(), showPlayObj.getThumbnail(), showPlayObj.getVideoUrl(),
+                    showPlayObj.getCurrentWindow(), showPlayObj.getPlayerPosition());
         }
         //TODO: start video from last saved position
     }
@@ -224,7 +228,7 @@ public class VideoFragment extends Fragment {
         }
     }
 
-    private void saveState(){
+    private void saveState() {
         if (mSimpleExoPlayer != null) {
             playbackReady = false;
 
