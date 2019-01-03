@@ -61,7 +61,7 @@ public class Module extends RealmObject{
     @Expose
     private int currentWindow;
     @Expose
-    private long playerPosition;
+    private Long playerPosition;
 
     /**
      * No args constructor for use in serialization
@@ -73,7 +73,7 @@ public class Module extends RealmObject{
     public Module(String id, String type, String displayOrder, String name, String introduction,
                   String description, String notes, Presenter presenter, Media media, RealmList<String> bullets,
                   Category category, Topic topic, Boolean free, Boolean canView, Boolean favourited, long lastViewed,
-                  int currentWindow, long playerPosition) {
+                  int currentWindow, Long playerPosition) {
         super();
         this.id = id;
         this.type = type;
@@ -231,11 +231,11 @@ public class Module extends RealmObject{
         this.currentWindow = currentWindow;
     }
 
-    public long getPlayerPosition() {
+    public Long getPlayerPosition() {
         return playerPosition;
     }
 
-    public void setPlayerPosition(long playerPosition) {
+    public void setPlayerPosition(Long playerPosition) {
         this.playerPosition = playerPosition;
     }}
 

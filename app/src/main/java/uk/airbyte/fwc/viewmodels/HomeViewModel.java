@@ -22,7 +22,7 @@ public class HomeViewModel extends ViewModel {
     }
 
     public void clearVideo() {
-        selectedVideo =  new MutableLiveData<ShowPlay>();;
+        selectedVideo =  new MutableLiveData<ShowPlay>();
     }
 
 }

@@ -65,8 +65,6 @@ public class VideoFragment extends Fragment {
         // Required empty public constructor
     }
 
-    //TODO: check the overall logic here (member variables)...and find a way to clear previously passed in ShowPlay objects
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,15 +80,15 @@ public class VideoFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_video, container, false);
         ButterKnife.bind(this, view);
-
-        //if video has already been started, pick up from where it left off
-        if (savedInstanceState != null) {
-            playbackPosition = savedInstanceState.getLong(PLAYER_POSITION);
-            playbackReady = savedInstanceState.getBoolean(PLAYBACK_READY);
-        }
-
         simpleExoPlayerView.setVisibility(View.GONE);
         placeholderImageView.setVisibility(View.VISIBLE);
+
+
+        //if video has already been started, pick up from where it left off
+        /*if (savedInstanceState != null) {
+            playbackPosition = savedInstanceState.getLong(PLAYER_POSITION);
+            playbackReady = savedInstanceState.getBoolean(PLAYBACK_READY);
+        }*/
 
         return view;
     }
@@ -113,13 +111,13 @@ public class VideoFragment extends Fragment {
         });
     }
 
-    public void videoOrImageDisplay(String image, String thumbnail, String videoUrl, int currentWindow, long playerPosition) {
+    public void videoOrImageDisplay(String image, String thumbnail, String videoUrl, int rmCurrentWindow, long rmPlayerPosition) {
         if (videoUrl != null && videoUrl.trim().length() != 0) {
 
             simpleExoPlayerView.setVisibility(View.VISIBLE);
             placeholderImageView.setVisibility(View.GONE);
 
-            initializeExoPlayer(Uri.parse(videoUrl), currentWindow, playerPosition);
+            initializeExoPlayer(Uri.parse(videoUrl), rmCurrentWindow, rmPlayerPosition);
 
         } else if (image != null && image.trim().length() != 0) {
 
@@ -154,7 +152,7 @@ public class VideoFragment extends Fragment {
     }
 
     //initialise ExoPlayer
-    public void initializeExoPlayer(Uri firstUri, int currentWindow, long playbackPosition) {
+    public void initializeExoPlayer(Uri firstUri, int sCurrentWindow, long sPlaybackPosition) {
         if (mSimpleExoPlayer == null) {
             //create an instance of the ExoPlayer
             TrackSelector trackSelector = new DefaultTrackSelector();
@@ -168,7 +166,7 @@ public class VideoFragment extends Fragment {
                     userAgent), new DefaultExtractorsFactory(), null, null);
             mSimpleExoPlayer.prepare(firstMediaSource);
             mSimpleExoPlayer.setPlayWhenReady(playbackReady);
-            mSimpleExoPlayer.seekTo(currentWindow, playbackPosition);
+            mSimpleExoPlayer.seekTo(sCurrentWindow, sPlaybackPosition);
         }
     }
 
@@ -234,20 +232,14 @@ public class VideoFragment extends Fragment {
     private void saveState() {
         if (mSimpleExoPlayer != null) {
             playbackReady = false;
-
-            playbackPosition = mSimpleExoPlayer.getCurrentPosition();
-            Log.d(TAG, "Playback position: " + playbackPosition);
-            currentWindow = mSimpleExoPlayer.getCurrentWindowIndex();
-            Log.d(TAG, "Current window: " + currentWindow);
-
             mModule = realm.where(Module.class)
                     .equalTo("id", showPlayObj.getModuleID())
                     .findFirst();
             realm.executeTransaction(new Realm.Transaction() {
                 @Override
                 public void execute(Realm realm) {
-                    mModule.setCurrentWindow(currentWindow);
-                    mModule.setPlayerPosition(playbackPosition);
+                    mModule.setCurrentWindow(mSimpleExoPlayer.getCurrentWindowIndex());
+                    mModule.setPlayerPosition(mSimpleExoPlayer.getCurrentPosition());
                     realm.copyToRealmOrUpdate(mModule);
                 }
             });

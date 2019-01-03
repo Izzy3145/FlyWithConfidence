@@ -56,6 +56,8 @@ public class ModuleFragment extends Fragment {
     private ArrayList<Module> modulesInTopic = new ArrayList<>(0);
     private String topicID;
     private SpannableString spanString;
+    private int currentWindow;
+    private long playbackPosition;
 
     public ModuleFragment() {
         // Required empty public constructor
@@ -69,7 +71,6 @@ public class ModuleFragment extends Fragment {
         super.onCreate(savedInstanceState);
         mHomeViewModel = ViewModelProviders.of(getActivity()).get(HomeViewModel.class);
         realm = Realm.getDefaultInstance();
-        getListOfModules();
     }
 
     @Override
@@ -79,6 +80,7 @@ public class ModuleFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_module, container, false);
         view.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.lighter_grey));
         ButterKnife.bind(this, view);
+        getListOfModules();
 
         displayModuleInfo(mModule);
 
@@ -115,28 +117,12 @@ public class ModuleFragment extends Fragment {
         return view;
     }
 
-    public void getListOfModules(){
-        //TODO: working but test this when more data is available
-        selectedModuleID = getArguments().getString(Const.MODULE_ID);
-        mModule = realm.where(Module.class)
-                .equalTo("id", selectedModuleID)
-                .findFirst();
-        topicID = mModule.getTopic().getId();
-
-        RealmResults<Module> topicModulesRealm = realm.where(Module.class)
-                .equalTo("topic.id", topicID)
-                .findAll();
-        modulesInTopic.clear();
-        modulesInTopic.addAll(realm.copyFromRealm(topicModulesRealm));
-        Log.d(TAG, "Module List size: " + modulesInTopic.size());
-
-    }
-
     public void displayModuleInfo(Module module){
         if(module!=null){
             moduleIntroTv.setText(module.getDescription());
             moduleNotesTv.setText(module.getNotes());
             if(module.getMedia().getVideo720()!=null){
+                Log.d(TAG, "Selected module player position: " + module.getPlayerPosition());
                 mHomeViewModel.select(new ShowPlay(module.getId(), null, null,
                         module.getMedia().getVideo720(), module.getCurrentWindow(), module.getPlayerPosition()));
             }
@@ -160,16 +146,34 @@ public class ModuleFragment extends Fragment {
                 sb.append(sep+s);
             }
             String concat = sb.toString();
-
             spanString = new SpannableString(concat);
             for(String s : bulletsList) {
                 addBullet(s, concat);
             }
-
             thingsToTv.setText(spanString);
-
         }
     }
+
+    public void getListOfModules(){
+        //TODO: working but test this when more data is available
+        selectedModuleID = getArguments().getString(Const.MODULE_ID);
+        Log.d(TAG, "Module ID: " + selectedModuleID);
+        mModule = realm.where(Module.class)
+                .equalTo("id", selectedModuleID)
+                .findFirst();
+        topicID = mModule.getTopic().getId();
+        //Log.d(TAG, "Description from mModule: " + mModule.getDescription());
+        //Log.d(TAG, "Playback poisiton from mModule: " + playbackPosition);
+
+        RealmResults<Module> topicModulesRealm = realm.where(Module.class)
+                .equalTo("topic.id", topicID)
+                .findAll();
+        modulesInTopic.clear();
+        modulesInTopic.addAll(realm.copyFromRealm(topicModulesRealm));
+        Log.d(TAG, "Module List size: " + modulesInTopic.size());
+    }
+
+
 
     private void addBullet(String s, String txt){
         int index = txt.indexOf(s);
@@ -187,7 +191,7 @@ public class ModuleFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        getListOfModules();
+        //getListOfModules();
     }
 
     @Override

@@ -31,7 +31,7 @@ import uk.airbyte.fwc.model.Topic;
 import uk.airbyte.fwc.utils.Const;
 import uk.airbyte.fwc.viewmodels.TopicsViewModel;
 
-public class TopicsFragment extends Fragment implements ModulesAdapter.ModulesAdapterListener{
+public class TopicsFragment extends Fragment implements ModulesAdapter.ModulesAdapterListener {
 
     private static final String TAG = TopicsFragment.class.getSimpleName();
 
@@ -79,7 +79,6 @@ public class TopicsFragment extends Fragment implements ModulesAdapter.ModulesAd
         accessToken = sharedPref.getString(Const.ACCESS_TOKEN, "");
         fragmentManager = getFragmentManager();
         mViewModel = ViewModelProviders.of(this).get(TopicsViewModel.class);
-
         realm = Realm.getDefaultInstance();
 
         category = "knowledge";
@@ -102,31 +101,10 @@ public class TopicsFragment extends Fragment implements ModulesAdapter.ModulesAd
 
 
             }
-        }});
-
-                                        //TODO: remove
-                                        Module recentModule1 = modules.get(1);
-                                        recentModule1.setLastViewed(3);
-                                        Module recentModule2 = modules.get(1);
-                                        recentModule2.setLastViewed(2);
-                                        Module recentModule3 = modules.get(1);
-                                        recentModule3.setLastViewed(1);
-
-                                        /*realm.executeTransaction(new Realm.Transaction() {
-
-                                            @Override
-                                            public void execute(Realm realm) {
-                                                for(int i = 0; i<modules.size(); i++){
-                                                    Module module = modules.get(i);
-                                                    realm.copyToRealmOrUpdate(module);
-                                                }
-                                            }
-                                        });*/
-
+        }});*/
 
 
     }
-
 
 
     @Override
@@ -140,16 +118,15 @@ public class TopicsFragment extends Fragment implements ModulesAdapter.ModulesAd
         //TODO: set up onClickListener on TabLayout to query other endpoint
 
         //TODO: learn DataBinding to make this easier?
-            mRecyclerView1.setHasFixedSize(true);
-            mLayoutManager = new LinearLayoutManager(this.getActivity(), LinearLayoutManager.HORIZONTAL, false);
-            mRecyclerView1.setLayoutManager(mLayoutManager);
-            mAdapter = new ModulesAdapter(getActivity(), new ArrayList<Module>(0), this);
-            mRecyclerView1.setAdapter(mAdapter);
+        mRecyclerView1.setHasFixedSize(true);
+        mLayoutManager = new LinearLayoutManager(this.getActivity(), LinearLayoutManager.HORIZONTAL, false);
+        mRecyclerView1.setLayoutManager(mLayoutManager);
+        mAdapter = new ModulesAdapter(getActivity(), new ArrayList<Module>(0), this);
+        mRecyclerView1.setAdapter(mAdapter);
 
-            mRecyclerView2.setHasFixedSize(true);
-            mLayoutManager = new LinearLayoutManager(this.getActivity(), LinearLayoutManager.HORIZONTAL, false);
-            mRecyclerView2.setLayoutManager(mLayoutManager);
-
+        mRecyclerView2.setHasFixedSize(true);
+        mLayoutManager = new LinearLayoutManager(this.getActivity(), LinearLayoutManager.HORIZONTAL, false);
+        mRecyclerView2.setLayoutManager(mLayoutManager);
 
         return view;
     }
@@ -163,15 +140,12 @@ public class TopicsFragment extends Fragment implements ModulesAdapter.ModulesAd
                     @Override
                     public void onChanged(@Nullable List<Module> modules) {
                         //TODO: sort out flow.  move some of this to viewmodel? List<TopicID> instead of topicID?
-
                         if (modules != null) {
-
                             for (int i = 0; i < modules.size(); i++) {
                                 final Module module = modules.get(i);
                                 // Log.d(TAG, "TopicID & ModuleName: " + topicID + module.getName());
                                 module.setFavourited(true);
                                 moduleList.add(module);
-
                                 //TODO: data not saving properly - need to put topicID in module class?
                                 realm.executeTransaction(new Realm.Transaction() {
 
@@ -181,13 +155,12 @@ public class TopicsFragment extends Fragment implements ModulesAdapter.ModulesAd
                                     }
 
                                 });
-
                             }
                             Log.d(TAG, "moduleList size: " + moduleList.size());
-
                             mAdapter.setModulesToAdapter(moduleList);
                         }
-                    }});
+                    }
+                });
     }
 
     @Override
@@ -209,17 +182,4 @@ public class TopicsFragment extends Fragment implements ModulesAdapter.ModulesAd
     public void onClickRecentsDeleteMethod(Module module, int position) {
 
     }
-
-    /*@Override
-    public void onClickMethod(Module module, int position) {
-        Log.d(TAG, "OnClick method clicked");
-        //TODO: (2) pass module item to ModuleFragment for viewing, implement onBackPressed
-        //Navigation.findNavController(getActivity(), R.id.my_nav_host_fragment).navigate(R.id.action_home_to_module);
-        ModuleFragment moduleFragment = new ModuleFragment();
-        fragmentManager.beginTransaction()
-                .replace(R.id.my_nav_host_fragment, moduleFragment)
-                //.addToBackStack(null)
-                .commit();
-    }*/
-
 }
