@@ -24,6 +24,7 @@ import androidx.navigation.Navigation;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.realm.Realm;
+import io.realm.RealmResults;
 import uk.airbyte.fwc.R;
 import uk.airbyte.fwc.adapters.ModulesAdapter;
 import uk.airbyte.fwc.model.Module;
@@ -31,7 +32,7 @@ import uk.airbyte.fwc.model.Topic;
 import uk.airbyte.fwc.utils.Const;
 import uk.airbyte.fwc.viewmodels.TopicsViewModel;
 
-public class TopicsFragment extends Fragment implements ModulesAdapter.ModulesAdapterListener {
+public class TopicsFragment extends Fragment implements ModulesAdapter.ModulesAdapterListener, TabLayout.OnTabSelectedListener {
 
     private static final String TAG = TopicsFragment.class.getSimpleName();
 
@@ -67,6 +68,7 @@ public class TopicsFragment extends Fragment implements ModulesAdapter.ModulesAd
     private ArrayList<Module> moduleList = new ArrayList<Module>();
     private List<String> mTopicIDList = new ArrayList<String>();
     private int numberOfTopics = 0;
+    private RealmResults<Module> realmModules;
 
     public static TopicsFragment newInstance() {
         return new TopicsFragment();
@@ -80,8 +82,32 @@ public class TopicsFragment extends Fragment implements ModulesAdapter.ModulesAd
         fragmentManager = getFragmentManager();
         mViewModel = ViewModelProviders.of(this).get(TopicsViewModel.class);
         realm = Realm.getDefaultInstance();
-
         category = "knowledge";
+
+        //get and save all modules - move this to
+        mViewModel.getModulesFromTopics(getActivity(), accessToken, category).observe(this, new Observer<List<Module>>() {
+            @Override
+            public void onChanged(@Nullable List<Module> modules) {
+                if (modules != null) {
+                    moduleList.addAll(modules);
+                    numberOfTopics++;
+                    realm.executeTransaction(new Realm.Transaction() {
+                        @Override
+                        public void execute(Realm realm) {
+                            realm.copyToRealmOrUpdate(moduleList);
+                        }
+                    });
+
+                    for (int i = 0; i < modules.size(); i++) {
+                        Log.d(TAG, "topicID: " + modules.get(i).getTopic().getId() + " Module name: " + modules.get(i).getName());
+                    }
+                    //mAdapter.setModulesToAdapter(moduleList);
+                }
+                //TODO: check this is looping correctly when data from other topics is not null
+                Log.d(TAG, "moduleList size: " + moduleList.size());
+                Log.d(TAG, "Number of Topics found: " + numberOfTopics);
+            }
+        });
 
     }
 
@@ -94,18 +120,21 @@ public class TopicsFragment extends Fragment implements ModulesAdapter.ModulesAd
 
         TabLayout tablayout = (TabLayout) view.findViewById(R.id.top_tabs);
         tablayout.setVisibility(View.VISIBLE);
-        //TODO: set up onClickListener on TabLayout to query other endpoint
+
+        realmModules = realm.where(Module.class)
+                .findAll();
+        Log.d(TAG, "Realm results size: " + realmModules.size());
+        mAdapter = new ModulesAdapter(realmModules, getActivity(), this, 0);
 
         //TODO: learn DataBinding to make this easier?
         mRecyclerView1.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this.getActivity(), LinearLayoutManager.HORIZONTAL, false);
         mRecyclerView1.setLayoutManager(mLayoutManager);
-        mAdapter = new ModulesAdapter(getActivity(), moduleList, this);
+        //TODO: changing this to RealmRecyclerView Adapter might fix the problem
         mRecyclerView1.setAdapter(mAdapter);
-
-        mRecyclerView2.setHasFixedSize(true);
-        mLayoutManager = new LinearLayoutManager(this.getActivity(), LinearLayoutManager.HORIZONTAL, false);
-        mRecyclerView2.setLayoutManager(mLayoutManager);
+        //mRecyclerView2.setHasFixedSize(true);
+        //mLayoutManager = new LinearLayoutManager(this.getActivity(), LinearLayoutManager.HORIZONTAL, false);
+        //mRecyclerView2.setLayoutManager(mLayoutManager);
 
         return view;
     }
@@ -114,36 +143,6 @@ public class TopicsFragment extends Fragment implements ModulesAdapter.ModulesAd
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        mViewModel.getModulesFromTopics(getActivity(), accessToken, category).observe(this, new Observer<List<Module>>() {
-            @Override
-            public void onChanged(@Nullable List<Module> modules) {
-                if (modules != null) {
-                    moduleList.addAll(modules);
-                    numberOfTopics++;
-
-                    realm.executeTransaction(new Realm.Transaction(){
-                        @Override
-                        public void execute(Realm realm) {
-                            realm.copyToRealmOrUpdate(moduleList);
-                        }
-                    });
-
-                    for (int i = 0; i < modules.size(); i++) {
-                        Log.d(TAG, "topicID: " + modules.get(i).getTopic().getId() + " Module name: " + modules.get(i).getName());
-                    }
-
-                    mAdapter.setModulesToAdapter(moduleList);
-
-                }
-
-                //TODO: check this is looping correctly when data from other topics is not null
-
-                Log.d(TAG, "moduleList size: " + moduleList.size());
-                Log.d(TAG, "Number of Topics found: " + numberOfTopics);
-
-            }
-
-        });
     }
 
     @Override
@@ -163,6 +162,30 @@ public class TopicsFragment extends Fragment implements ModulesAdapter.ModulesAd
 
     @Override
     public void onClickRecentsDeleteMethod(Module module, int position) {
+
+    }
+
+    @Override
+    public void onTabSelected(TabLayout.Tab tab) {
+        //TODO: find out why this isn't working, only works in activity? Not linking to this particular tab layout properly?
+
+        int tabPosition = tab.getPosition();
+        if(tabPosition == 0){
+            category = "knowledge";
+            Log.d(TAG, "Category selected: " + category);
+        } else {
+            category = "preparation";
+            Log.d(TAG, "Category selected: " + category);
+        }
+    }
+
+    @Override
+    public void onTabUnselected(TabLayout.Tab tab) {
+
+    }
+
+    @Override
+    public void onTabReselected(TabLayout.Tab tab) {
 
     }
 }

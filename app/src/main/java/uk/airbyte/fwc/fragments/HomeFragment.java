@@ -50,6 +50,7 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.ModulesA
     ConstraintLayout videoFragParent;
     @BindView(R.id.edit_fav_button)
     Button editFavButton;
+
     private HomeViewModel mHomeViewModel;
     private RecyclerView.LayoutManager mLayoutManager;
     private FavouritesAdapter mFavouritesAdapter;
@@ -62,6 +63,7 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.ModulesA
     private ArrayList<Module> recentsList = new ArrayList<Module>(0);
     private String selectedModuleID;
     private int mEditting = 0;
+    private RealmResults<Module> realmRecents;
 
     public static HomeFragment newInstance() {
         return new HomeFragment();
@@ -160,24 +162,27 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.ModulesA
 
     private void setUpRecentsAdapter(){
         //TODO: if all recently watched videos have been deleted, remove "Recently Watched" title
+
+        //TODO: move this to ViewModel
+        realmRecents = realm.where(Module.class)
+                .notEqualTo("lastViewed", 0)
+                .findAll();
+
+        Log.d(TAG, "Number of recently watched videos: " + String.valueOf(realmRecents.size()));
+        //recentsList.clear();
+        //recentsList.addAll(realm.copyFromRealm(realmRecents));
+        //orderModules(recentsList);
+        //mModulesAdapter.clearModulesList();
+       // mModulesAdapter.setModulesToAdapter(recentsList);
         myRecentsRv.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this.getActivity(), LinearLayoutManager.HORIZONTAL, false);
         myRecentsRv.setLayoutManager(mLayoutManager);
-        mModulesAdapter = new ModulesAdapter(getActivity(), recentsList, this, mEditting);
+        mModulesAdapter = new ModulesAdapter(realmRecents, getActivity(), this, mEditting);
+
         myRecentsRv.setAdapter(mModulesAdapter);
-        //TODO: move this to ViewModel
-        RealmResults<Module> realmRecents = realm.where(Module.class)
-                .notEqualTo("lastViewed", 0)
-                .findAll();
-        Log.d(TAG, "Number of recently watched videos: " + String.valueOf(realmRecents.size()));
-        recentsList.clear();
-        recentsList.addAll(realm.copyFromRealm(realmRecents));
-        orderModules(recentsList);
-        mModulesAdapter.clearModulesList();
-        mModulesAdapter.setModulesToAdapter(recentsList);
-        if(recentsList.size() > 0){
-            recentsRvGroup.setVisibility(View.VISIBLE);
-        }
+       // if(recentsList.size() > 0){
+       //     recentsRvGroup.setVisibility(View.VISIBLE);
+        //}
     }
 
     @Override

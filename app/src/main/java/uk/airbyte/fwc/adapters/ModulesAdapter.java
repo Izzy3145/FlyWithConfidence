@@ -1,7 +1,9 @@
 package uk.airbyte.fwc.adapters;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,17 +17,37 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.realm.Realm;
+import io.realm.RealmRecyclerViewAdapter;
+import io.realm.RealmResults;
 import uk.airbyte.fwc.R;
 import uk.airbyte.fwc.model.Module;
 
-public class ModulesAdapter extends RecyclerView.Adapter<ModulesAdapter.ViewHolder> {
+public class ModulesAdapter extends RealmRecyclerViewAdapter<Module, ModulesAdapter.ViewHolder> {
 
     private Context mContext;
     private ArrayList<Module> mListOfModules;
     private ModulesAdapterListener mClickHandler;
     private int mEditting;
+    private Realm realm;
 
-    public ModulesAdapter(Context c, ArrayList<Module> listOfModules, ModulesAdapterListener clickHandler) {
+    public ModulesAdapter(RealmResults<Module> modules, Context c, ModulesAdapterListener clickHandler, @Nullable int editting){
+        super(modules, true, true);
+        mContext = c;
+        realm = Realm.getDefaultInstance();
+        mClickHandler = clickHandler;
+        mEditting = editting;
+    }
+
+    /*public void changeEditMode(){
+        if(!mEditting){
+            mEditting = true;
+        } else {
+            mEditting = false;
+        }
+    }*/
+
+    /*public ModulesAdapter(Context c, ArrayList<Module> listOfModules, ModulesAdapterListener clickHandler) {
         mContext = c;
         mListOfModules = listOfModules;
         mClickHandler = clickHandler;
@@ -36,7 +58,7 @@ public class ModulesAdapter extends RecyclerView.Adapter<ModulesAdapter.ViewHold
         mListOfModules = listOfModules;
         mClickHandler = clickHandler;
         mEditting = editting;
-    }
+    }*/
 
     @NonNull
     @Override
@@ -50,39 +72,40 @@ public class ModulesAdapter extends RecyclerView.Adapter<ModulesAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ModulesAdapter.ViewHolder holder, final int position) {
-        //TODO: test when full API response available set proper error image
+        //TODO: test when full API response available & set proper error image
 
-            final Module module = mListOfModules.get(position);
+            final Module module = getItem(position);
+           // final Module module = mListOfModules.get(position);
             holder.mVideoTitle.setText(module.getName());
             holder.mVideoThumbnail.setClipToOutline(true);
             Picasso.get()
                     .load(module.getMedia().getThumbnail())
-                    .placeholder(R.drawable.captain)
+                    .placeholder(R.drawable.captain_placeholder)
                     .error(R.drawable.captain)
                     .resize(150, 120)
                     .centerCrop()
                     .fit()
                     .into(holder.mVideoThumbnail);
 
-        if(mEditting == 0){
-            holder.mDeleteFavBtn.setVisibility(View.GONE);
-        } else {
-            holder.mDeleteFavBtn.setVisibility(View.VISIBLE);
-            holder.mDeleteFavBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mClickHandler.onClickRecentsDeleteMethod(module, position);
-                }
-            });
+            if (mEditting == 0) {
+                holder.mDeleteFavBtn.setVisibility(View.GONE);
+            } else {
+                holder.mDeleteFavBtn.setVisibility(View.VISIBLE);
+                holder.mDeleteFavBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mClickHandler.onClickRecentsDeleteMethod(module, position);
+                    }
+                });
+            }
         }
 
-    }
 
-    @Override
-    public int getItemCount() {
-        return mListOfModules.size();
+    //@Override
+    //public int getItemCount() {
+    //    return mListOfModules.size();
 
-    }
+  //  }
 
     public void setModulesToAdapter(ArrayList<Module> foundModuleList) {
         mListOfModules = foundModuleList;
@@ -121,7 +144,7 @@ public class ModulesAdapter extends RecyclerView.Adapter<ModulesAdapter.ViewHold
         public void onClick(View view) {
             Module module;
             int adapterPosition = getAdapterPosition();
-            module = mListOfModules.get(adapterPosition);
+            module = getItem(adapterPosition);
             mClickHandler.onClickMethod(module, adapterPosition);
         }
     }

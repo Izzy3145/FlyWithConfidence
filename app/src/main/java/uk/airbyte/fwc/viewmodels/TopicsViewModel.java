@@ -38,8 +38,10 @@ public class TopicsViewModel extends ViewModel {
 
 
     public LiveData<List<Module>> getModulesFromTopics(Context context, String accessToken, String category){
-        modules = new MutableLiveData<>();
-        topicAndModuleCall(context, accessToken, category);
+        if(modules == null) {
+            modules = new MutableLiveData<>();
+            topicAndModuleCall(context, accessToken, category);
+        }
         return modules;
     }
 

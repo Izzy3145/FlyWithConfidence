@@ -240,6 +240,7 @@ public class VideoFragment extends Fragment {
                 public void execute(Realm realm) {
                     mModule.setCurrentWindow(mSimpleExoPlayer.getCurrentWindowIndex());
                     mModule.setPlayerPosition((int) mSimpleExoPlayer.getCurrentPosition());
+                    mModule.setLastViewed(System.currentTimeMillis());
                     realm.copyToRealmOrUpdate(mModule);
                 }
             });

@@ -89,7 +89,7 @@ public class ModuleFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                if(!isFavourite){
+                if(isFavourite = false){
                     isFavourite = true;
                     realm.executeTransaction(new Realm.Transaction() {
                         @Override
@@ -157,6 +157,7 @@ public class ModuleFragment extends Fragment {
         if(module!=null){
             moduleIntroTv.setText(module.getDescription());
             moduleNotesTv.setText(module.getNotes());
+            isFavourite = mModule.getFavourited();
             if(module.getMedia().getVideo720()!=null){
                 Log.d(TAG, "Selected module player position: " + module.getPlayerPosition());
                 mHomeViewModel.select(new ShowPlay(module.getId(), null, null,
