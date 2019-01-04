@@ -101,12 +101,6 @@ public class ModulesAdapter extends RealmRecyclerViewAdapter<Module, ModulesAdap
         }
 
 
-    //@Override
-    //public int getItemCount() {
-    //    return mListOfModules.size();
-
-  //  }
-
     public void setModulesToAdapter(ArrayList<Module> foundModuleList) {
         mListOfModules = foundModuleList;
         notifyDataSetChanged();
@@ -117,7 +111,6 @@ public class ModulesAdapter extends RealmRecyclerViewAdapter<Module, ModulesAdap
             mListOfModules.clear();
         }
     }
-
 
     //create onClickListener interface
     public interface ModulesAdapterListener {

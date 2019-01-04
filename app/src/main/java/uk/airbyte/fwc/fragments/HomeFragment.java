@@ -24,7 +24,9 @@ import androidx.navigation.Navigation;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.realm.Realm;
+import io.realm.RealmList;
 import io.realm.RealmResults;
+import io.realm.Sort;
 import uk.airbyte.fwc.R;
 import uk.airbyte.fwc.adapters.FavouritesAdapter;
 import uk.airbyte.fwc.adapters.ModulesAdapter;
@@ -116,13 +118,13 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.ModulesA
                 if(mEditting == 0) {
                     mEditting = 1;
                     editFavButton.setText(getResources().getString(R.string.done));
-                    setUpFavouritesAdapter();
                     setUpRecentsAdapter();
+                    setUpFavouritesAdapter();
                 } else if(mEditting == 1){
                     mEditting = 0;
                     editFavButton.setText(getResources().getString(R.string.edit));
-                    setUpFavouritesAdapter();
                     setUpRecentsAdapter();
+                    setUpFavouritesAdapter();
                 }
             }
         });
@@ -130,18 +132,6 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.ModulesA
         setUpRecentsAdapter();
 
         return view;
-    }
-
-    private ArrayList<Module> orderModules (ArrayList<Module> listOfModules){
-        Collections.sort(listOfModules, new Comparator<Module>() {
-            @Override
-            public int compare(Module lhs, Module rhs) {
-                // -1 - less than, 1 - greater than, 0 - equal, all inversed for descending
-                return lhs.getLastViewed() > rhs.getLastViewed() ? -1 : (lhs.getLastViewed() < rhs.getLastViewed() ) ? 1 : 0;
-            }
-        });
-
-        return listOfModules;
     }
 
     private void setUpFavouritesAdapter(){
@@ -155,34 +145,25 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.ModulesA
         Log.d(TAG, "Number of favourited videos: " + String.valueOf(realmFavourites.size()));
         favouritesList.clear();
         favouritesList.addAll(realm.copyFromRealm(realmFavourites));
-        orderModules(favouritesList);
+        //orderModules(favouritesList);
         mFavouritesAdapter.clearModulesList();
         mFavouritesAdapter.setModulesToAdapter(favouritesList);
     }
 
     private void setUpRecentsAdapter(){
         //TODO: if all recently watched videos have been deleted, remove "Recently Watched" title
-
-        //TODO: move this to ViewModel
         realmRecents = realm.where(Module.class)
                 .notEqualTo("lastViewed", 0)
                 .findAll();
-
-        Log.d(TAG, "Number of recently watched videos: " + String.valueOf(realmRecents.size()));
-        //recentsList.clear();
-        //recentsList.addAll(realm.copyFromRealm(realmRecents));
-        //orderModules(recentsList);
-        //mModulesAdapter.clearModulesList();
-       // mModulesAdapter.setModulesToAdapter(recentsList);
+        realmRecents.sort("lastViewed", Sort.DESCENDING);
+        if(realmRecents!=null){
+            recentsRvGroup.setVisibility(View.VISIBLE);
+        }
         myRecentsRv.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this.getActivity(), LinearLayoutManager.HORIZONTAL, false);
         myRecentsRv.setLayoutManager(mLayoutManager);
         mModulesAdapter = new ModulesAdapter(realmRecents, getActivity(), this, mEditting);
-
         myRecentsRv.setAdapter(mModulesAdapter);
-       // if(recentsList.size() > 0){
-       //     recentsRvGroup.setVisibility(View.VISIBLE);
-        //}
     }
 
     @Override

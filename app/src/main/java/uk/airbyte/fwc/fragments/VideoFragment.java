@@ -82,14 +82,6 @@ public class VideoFragment extends Fragment {
         ButterKnife.bind(this, view);
         simpleExoPlayerView.setVisibility(View.GONE);
         placeholderImageView.setVisibility(View.VISIBLE);
-
-
-        //if video has already been started, pick up from where it left off
-        /*if (savedInstanceState != null) {
-            playbackPosition = savedInstanceState.getLong(PLAYER_POSITION);
-            playbackReady = savedInstanceState.getBoolean(PLAYBACK_READY);
-        }*/
-
         return view;
     }
 
@@ -169,19 +161,6 @@ public class VideoFragment extends Fragment {
             mSimpleExoPlayer.seekTo(sCurrentWindow, sPlaybackPosition);
         }
     }
-
-  /*  @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        //save state so that upon rotation, the video doesn't restart
-        if (mSimpleExoPlayer != null) {
-            playbackPosition = mSimpleExoPlayer.getCurrentPosition();
-            playbackReady = mSimpleExoPlayer.getPlayWhenReady();
-            currentWindow = mSimpleExoPlayer.getCurrentWindowIndex();
-        }
-        outState.putLong(PLAYER_POSITION, playbackPosition);
-        outState.putBoolean(PLAYBACK_READY, playbackReady);
-    }*/
 
     @Override
     public void onPause() {

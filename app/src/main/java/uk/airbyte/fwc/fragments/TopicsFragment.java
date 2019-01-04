@@ -84,7 +84,7 @@ public class TopicsFragment extends Fragment implements ModulesAdapter.ModulesAd
         realm = Realm.getDefaultInstance();
         category = "knowledge";
 
-        //get and save all modules - move this to
+        //get and save all modules - move this to viewmodel, or somewhere else?
         mViewModel.getModulesFromTopics(getActivity(), accessToken, category).observe(this, new Observer<List<Module>>() {
             @Override
             public void onChanged(@Nullable List<Module> modules) {
@@ -123,6 +123,7 @@ public class TopicsFragment extends Fragment implements ModulesAdapter.ModulesAd
 
         realmModules = realm.where(Module.class)
                 .findAll();
+        realmModules.sort("displayOrder");
         Log.d(TAG, "Realm results size: " + realmModules.size());
         mAdapter = new ModulesAdapter(realmModules, getActivity(), this, 0);
 
@@ -130,11 +131,7 @@ public class TopicsFragment extends Fragment implements ModulesAdapter.ModulesAd
         mRecyclerView1.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this.getActivity(), LinearLayoutManager.HORIZONTAL, false);
         mRecyclerView1.setLayoutManager(mLayoutManager);
-        //TODO: changing this to RealmRecyclerView Adapter might fix the problem
         mRecyclerView1.setAdapter(mAdapter);
-        //mRecyclerView2.setHasFixedSize(true);
-        //mLayoutManager = new LinearLayoutManager(this.getActivity(), LinearLayoutManager.HORIZONTAL, false);
-        //mRecyclerView2.setLayoutManager(mLayoutManager);
 
         return view;
     }
