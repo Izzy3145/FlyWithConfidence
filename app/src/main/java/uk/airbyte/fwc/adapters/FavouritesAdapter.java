@@ -103,6 +103,12 @@ public class FavouritesAdapter extends RecyclerView.Adapter<FavouritesAdapter.Vi
         notifyDataSetChanged();
     }
 
+    public void clearModulesList(){
+        if(mListOfModules!=null) {
+            mListOfModules.clear();
+        }
+    }
+
     //create onClickListener interface
     public interface ModulesAdapterListener {
         void onClickMethod(Module module, int position);

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <!-- placeholder image view -->
+    <!-- captain_placeholder image view -->
 
     <ImageView
         android:id="@+id/placeholder_image_view"

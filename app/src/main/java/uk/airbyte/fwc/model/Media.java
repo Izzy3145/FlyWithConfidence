@@ -16,7 +16,7 @@ import io.realm.annotations.RealmClass;
     @SerializedName("thumbnail")
     @Expose
     private String thumbnail;
-    @SerializedName("placeholder")
+    @SerializedName("captain_placeholder")
     @Expose
     private String placeholder;
     @SerializedName("video_1080")

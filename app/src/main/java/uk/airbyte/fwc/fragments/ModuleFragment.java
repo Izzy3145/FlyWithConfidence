@@ -58,6 +58,7 @@ public class ModuleFragment extends Fragment {
     private SpannableString spanString;
     private int currentWindow;
     private long playbackPosition;
+    private Boolean isFavourite;
 
     public ModuleFragment() {
         // Required empty public constructor
@@ -88,13 +89,28 @@ public class ModuleFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                realm.executeTransaction(new Realm.Transaction() {
-                    @Override
-                    public void execute(Realm realm) {
-                        mModule.setFavourited(true);
-                        realm.copyToRealmOrUpdate(mModule);
-                    }
-                });
+                if(!isFavourite){
+                    isFavourite = true;
+                    realm.executeTransaction(new Realm.Transaction() {
+                        @Override
+                        public void execute(Realm realm) {
+                            mModule.setFavourited(true);
+                            realm.copyToRealmOrUpdate(mModule);
+                        }
+                    });
+                    addFavouriteBtn.setText("REMOVE FROM FAVOURITES");
+
+                } else {
+                    isFavourite = false;
+                    realm.executeTransaction(new Realm.Transaction() {
+                        @Override
+                        public void execute(Realm realm) {
+                            mModule.setFavourited(false);
+                            realm.copyToRealmOrUpdate(mModule);
+                        }
+                    });
+                    addFavouriteBtn.setText("ADD TO FAVOURITES");
+                }
             }
         });
 
@@ -116,6 +132,26 @@ public class ModuleFragment extends Fragment {
         });
         return view;
     }
+
+    public void getListOfModules(){
+        selectedModuleID = getArguments().getString(Const.MODULE_ID);
+        Log.d(TAG, "Module ID: " + selectedModuleID);
+        mModule = realm.where(Module.class)
+                .equalTo("id", selectedModuleID)
+                .findFirst();
+        topicID = mModule.getTopic().getId();
+        isFavourite = mModule.getFavourited();
+        //Log.d(TAG, "Description from mModule: " + mModule.getDescription());
+        //Log.d(TAG, "Playback poisiton from mModule: " + playbackPosition);
+
+        RealmResults<Module> topicModulesRealm = realm.where(Module.class)
+                .equalTo("topic.id", topicID)
+                .findAll();
+        modulesInTopic.clear();
+        modulesInTopic.addAll(realm.copyFromRealm(topicModulesRealm));
+        Log.d(TAG, "Module List size: " + modulesInTopic.size());
+    }
+
 
     public void displayModuleInfo(Module module){
         if(module!=null){
@@ -154,23 +190,12 @@ public class ModuleFragment extends Fragment {
         }
     }
 
-    public void getListOfModules(){
-        //TODO: working but test this when more data is available
-        selectedModuleID = getArguments().getString(Const.MODULE_ID);
-        Log.d(TAG, "Module ID: " + selectedModuleID);
-        mModule = realm.where(Module.class)
-                .equalTo("id", selectedModuleID)
-                .findFirst();
-        topicID = mModule.getTopic().getId();
-        //Log.d(TAG, "Description from mModule: " + mModule.getDescription());
-        //Log.d(TAG, "Playback poisiton from mModule: " + playbackPosition);
-
-        RealmResults<Module> topicModulesRealm = realm.where(Module.class)
-                .equalTo("topic.id", topicID)
-                .findAll();
-        modulesInTopic.clear();
-        modulesInTopic.addAll(realm.copyFromRealm(topicModulesRealm));
-        Log.d(TAG, "Module List size: " + modulesInTopic.size());
+    public void favouriteButtonToggle(){
+        if(!isFavourite){
+            addFavouriteBtn.setText("ADD TO FAVOURITES");
+        } else {
+            addFavouriteBtn.setText("REMOVE FROM FAVOURITES");
+        }
     }
 
 

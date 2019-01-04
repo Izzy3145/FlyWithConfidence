@@ -126,8 +126,8 @@ public class VideoFragment extends Fragment {
 
             Picasso.get()
                     .load(image)
-                    .placeholder(R.drawable.captain)
-                    .error(R.drawable.captain)
+                    .placeholder(R.drawable.captain_placeholder)
+                    .error(R.drawable.captain_placeholder)
                     .into(placeholderImageView);
 
 
@@ -138,16 +138,16 @@ public class VideoFragment extends Fragment {
 
             Picasso.get()
                     .load(image)
-                    .placeholder(R.drawable.captain)
-                    .error(R.drawable.captain)
+                    .placeholder(R.drawable.captain_placeholder)
+                    .error(R.drawable.captain_placeholder)
                     .into(placeholderImageView);
 
         } else {
 
             simpleExoPlayerView.setVisibility(View.GONE);
             placeholderImageView.setVisibility(View.VISIBLE);
-            //TODO: set default placeholder image
-            placeholderImageView.setImageResource(R.drawable.captain);
+
+            placeholderImageView.setImageResource(R.drawable.captain_placeholder);
         }
     }
 
@@ -239,7 +239,7 @@ public class VideoFragment extends Fragment {
                 @Override
                 public void execute(Realm realm) {
                     mModule.setCurrentWindow(mSimpleExoPlayer.getCurrentWindowIndex());
-                    mModule.setPlayerPosition(mSimpleExoPlayer.getCurrentPosition());
+                    mModule.setPlayerPosition((int) mSimpleExoPlayer.getCurrentPosition());
                     realm.copyToRealmOrUpdate(mModule);
                 }
             });

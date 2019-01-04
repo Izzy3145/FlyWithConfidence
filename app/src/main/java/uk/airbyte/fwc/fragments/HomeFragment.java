@@ -154,6 +154,7 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.ModulesA
         favouritesList.clear();
         favouritesList.addAll(realm.copyFromRealm(realmFavourites));
         orderModules(favouritesList);
+        mFavouritesAdapter.clearModulesList();
         mFavouritesAdapter.setModulesToAdapter(favouritesList);
     }
 
@@ -172,6 +173,7 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.ModulesA
         recentsList.clear();
         recentsList.addAll(realm.copyFromRealm(realmRecents));
         orderModules(recentsList);
+        mModulesAdapter.clearModulesList();
         mModulesAdapter.setModulesToAdapter(recentsList);
         if(recentsList.size() > 0){
             recentsRvGroup.setVisibility(View.VISIBLE);

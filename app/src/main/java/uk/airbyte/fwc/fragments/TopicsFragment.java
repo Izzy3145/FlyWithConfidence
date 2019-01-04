@@ -66,7 +66,7 @@ public class TopicsFragment extends Fragment implements ModulesAdapter.ModulesAd
     private String category;
     private ArrayList<Module> moduleList = new ArrayList<Module>();
     private List<String> mTopicIDList = new ArrayList<String>();
-    private int numberOfTopics;
+    private int numberOfTopics = 0;
 
     public static TopicsFragment newInstance() {
         return new TopicsFragment();
@@ -82,27 +82,6 @@ public class TopicsFragment extends Fragment implements ModulesAdapter.ModulesAd
         realm = Realm.getDefaultInstance();
 
         category = "knowledge";
-
-        /*mViewModel.getTopics(getActivity(), accessToken, category).observe(this, new Observer<List<Topic>>() {
-            @Override
-            public void onChanged(@Nullable List<Topic> topics) {
-                if (topics != null) {
-                    numberOfTopics = 0;
-                    for (int i = 0; i < topics.size(); i++) {
-                        Topic topic = topics.get(i);
-                        mTopicIDList.add(topic.getId());
-                        numberOfTopics++;
-                        Log.d(TAG, "Topic found, first viewModel: " + topic.getName());
-                    }
-                }
-                for (int i = 0; i < mTopicIDList.size(); i++) {
-                    final String topicID = mTopicIDList.get(i);
-                    Log.d(TAG, "TopicID passed to second viewModel: " + topicID);
-
-
-            }
-        }});*/
-
 
     }
 
@@ -121,7 +100,7 @@ public class TopicsFragment extends Fragment implements ModulesAdapter.ModulesAd
         mRecyclerView1.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this.getActivity(), LinearLayoutManager.HORIZONTAL, false);
         mRecyclerView1.setLayoutManager(mLayoutManager);
-        mAdapter = new ModulesAdapter(getActivity(), new ArrayList<Module>(0), this);
+        mAdapter = new ModulesAdapter(getActivity(), moduleList, this);
         mRecyclerView1.setAdapter(mAdapter);
 
         mRecyclerView2.setHasFixedSize(true);
@@ -134,33 +113,37 @@ public class TopicsFragment extends Fragment implements ModulesAdapter.ModulesAd
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        //mViewModel = ViewModelProviders.of(this).get(TopicsViewModel.class);
-        mViewModel.getModulesForTopic(getActivity(), accessToken, "74e89e6e-fb05-4a59-ac5d-eb2e937bad16")
-                .observe(TopicsFragment.this, new Observer<List<Module>>() {
-                    @Override
-                    public void onChanged(@Nullable List<Module> modules) {
-                        //TODO: sort out flow.  move some of this to viewmodel? List<TopicID> instead of topicID?
-                        if (modules != null) {
-                            for (int i = 0; i < modules.size(); i++) {
-                                final Module module = modules.get(i);
-                                // Log.d(TAG, "TopicID & ModuleName: " + topicID + module.getName());
-                                module.setFavourited(true);
-                                moduleList.add(module);
-                                //TODO: data not saving properly - need to put topicID in module class?
-                                realm.executeTransaction(new Realm.Transaction() {
 
-                                    @Override
-                                    public void execute(Realm realm) {
-                                        realm.copyToRealmOrUpdate(module);
-                                    }
+        mViewModel.getModulesFromTopics(getActivity(), accessToken, category).observe(this, new Observer<List<Module>>() {
+            @Override
+            public void onChanged(@Nullable List<Module> modules) {
+                if (modules != null) {
+                    moduleList.addAll(modules);
+                    numberOfTopics++;
 
-                                });
-                            }
-                            Log.d(TAG, "moduleList size: " + moduleList.size());
-                            mAdapter.setModulesToAdapter(moduleList);
+                    realm.executeTransaction(new Realm.Transaction(){
+                        @Override
+                        public void execute(Realm realm) {
+                            realm.copyToRealmOrUpdate(moduleList);
                         }
+                    });
+
+                    for (int i = 0; i < modules.size(); i++) {
+                        Log.d(TAG, "topicID: " + modules.get(i).getTopic().getId() + " Module name: " + modules.get(i).getName());
                     }
-                });
+
+                    mAdapter.setModulesToAdapter(moduleList);
+
+                }
+
+                //TODO: check this is looping correctly when data from other topics is not null
+
+                Log.d(TAG, "moduleList size: " + moduleList.size());
+                Log.d(TAG, "Number of Topics found: " + numberOfTopics);
+
+            }
+
+        });
     }
 
     @Override

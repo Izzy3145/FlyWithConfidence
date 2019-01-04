@@ -54,6 +54,7 @@ public class ModulesAdapter extends RecyclerView.Adapter<ModulesAdapter.ViewHold
 
             final Module module = mListOfModules.get(position);
             holder.mVideoTitle.setText(module.getName());
+            holder.mVideoThumbnail.setClipToOutline(true);
             Picasso.get()
                     .load(module.getMedia().getThumbnail())
                     .placeholder(R.drawable.captain)
@@ -84,9 +85,14 @@ public class ModulesAdapter extends RecyclerView.Adapter<ModulesAdapter.ViewHold
     }
 
     public void setModulesToAdapter(ArrayList<Module> foundModuleList) {
-        mListOfModules.clear();
         mListOfModules = foundModuleList;
         notifyDataSetChanged();
+    }
+
+    public void clearModulesList(){
+        if(mListOfModules!=null) {
+            mListOfModules.clear();
+        }
     }
 
 

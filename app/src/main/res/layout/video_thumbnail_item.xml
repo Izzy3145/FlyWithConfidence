@@ -19,6 +19,7 @@
             android:layout_marginTop="12dp"
             android:layout_marginEnd="12dp"
             android:background="@drawable/rounded_rectangle"
+            android:scaleType="centerCrop"
             app:layout_constraintBottom_toTopOf="@+id/video_title_tv"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -41,6 +42,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:clickable="true"
+            android:visibility="gone"
             android:src="@drawable/ic_red_cross"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
