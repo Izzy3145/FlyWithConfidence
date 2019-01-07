@@ -187,10 +187,14 @@ public class ModuleFragment extends Fragment {
     }
 
     public void favouriteButtonToggle() {
-        if (!isFavourite || isFavourite == null) {
-            addFavouriteBtn.setText("ADD TO FAVOURITES");
+        if(isFavourite != null){
+            if(!isFavourite) {
+                addFavouriteBtn.setText("ADD TO FAVOURITES");
+            } else {
+                addFavouriteBtn.setText("REMOVE FROM FAVOURITES");
+            }
         } else {
-            addFavouriteBtn.setText("REMOVE FROM FAVOURITES");
+            addFavouriteBtn.setText("ADD TO FAVOURITES");
         }
     }
 
