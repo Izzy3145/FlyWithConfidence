@@ -84,33 +84,31 @@ public class ModuleFragment extends Fragment {
         getListOfModules();
 
         displayModuleInfo(mModule);
+        favouriteButtonToggle();
 
         addFavouriteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                if(isFavourite = false){
-                    isFavourite = true;
-                    realm.executeTransaction(new Realm.Transaction() {
-                        @Override
-                        public void execute(Realm realm) {
-                            mModule.setFavourited(true);
-                            realm.copyToRealmOrUpdate(mModule);
-                        }
-                    });
-                    addFavouriteBtn.setText("REMOVE FROM FAVOURITES");
-
+                if (isFavourite != null) {
+                    isFavourite = !isFavourite;
+                    Log.d(TAG, "Module name: " + mModule + ". Favourite status: " + mModule.getFavourited().toString());
+                    Toast.makeText(getActivity(), "Module favourited: " + isFavourite, Toast.LENGTH_SHORT).show();
+                    //addFavouriteBtn.setText("REMOVE FROM FAVOURITES");
+                    //addFavouriteBtn.setText("ADD TO FAVOURITES");
+                    favouriteButtonToggle();
                 } else {
-                    isFavourite = false;
-                    realm.executeTransaction(new Realm.Transaction() {
-                        @Override
-                        public void execute(Realm realm) {
-                            mModule.setFavourited(false);
-                            realm.copyToRealmOrUpdate(mModule);
-                        }
-                    });
-                    addFavouriteBtn.setText("ADD TO FAVOURITES");
+                    isFavourite = true;
+                    Toast.makeText(getActivity(), "Module favourited: " + isFavourite, Toast.LENGTH_SHORT).show();
+                    favouriteButtonToggle();
                 }
+
+                realm.executeTransaction(new Realm.Transaction() {
+                    @Override
+                    public void execute(Realm realm) {
+                        mModule.setFavourited(isFavourite);
+                        realm.copyToRealmOrUpdate(mModule);
+                    }
+                });
             }
         });
 
@@ -120,10 +118,11 @@ public class ModuleFragment extends Fragment {
                 int displayNumber = Integer.parseInt(mModule.getDisplayOrder());
                 Log.d(TAG, "Next nextToDisplay: " + String.valueOf(displayNumber));
 
-                if(displayNumber < modulesInTopic.size()) {
+                if (displayNumber < modulesInTopic.size()) {
                     mModule = modulesInTopic.get((displayNumber));
                     Log.d(TAG, "Next module name: " + mModule.getName());
                     displayModuleInfo(mModule);
+                    favouriteButtonToggle();
                 } else {
                     Toast.makeText(getActivity(), "No more modules in this topic!", Toast.LENGTH_SHORT).show();
                 }
@@ -133,17 +132,13 @@ public class ModuleFragment extends Fragment {
         return view;
     }
 
-    public void getListOfModules(){
+    public void getListOfModules() {
         selectedModuleID = getArguments().getString(Const.MODULE_ID);
         Log.d(TAG, "Module ID: " + selectedModuleID);
         mModule = realm.where(Module.class)
                 .equalTo("id", selectedModuleID)
                 .findFirst();
         topicID = mModule.getTopic().getId();
-        isFavourite = mModule.getFavourited();
-        //Log.d(TAG, "Description from mModule: " + mModule.getDescription());
-        //Log.d(TAG, "Playback poisiton from mModule: " + playbackPosition);
-
         RealmResults<Module> topicModulesRealm = realm.where(Module.class)
                 .equalTo("topic.id", topicID)
                 .findAll();
@@ -153,12 +148,12 @@ public class ModuleFragment extends Fragment {
     }
 
 
-    public void displayModuleInfo(Module module){
-        if(module!=null){
+    public void displayModuleInfo(Module module) {
+        if (module != null) {
             moduleIntroTv.setText(module.getDescription());
             moduleNotesTv.setText(module.getNotes());
             isFavourite = mModule.getFavourited();
-            if(module.getMedia().getVideo720()!=null){
+            if (module.getMedia().getVideo720() != null) {
                 Log.d(TAG, "Selected module player position: " + module.getPlayerPosition());
                 mHomeViewModel.select(new ShowPlay(module.getId(), null, null,
                         module.getMedia().getVideo720(), module.getCurrentWindow(), module.getPlayerPosition()));
@@ -179,20 +174,20 @@ public class ModuleFragment extends Fragment {
             bulletsList.add("Test 2");
             bulletsList.add("Test 3");
             bulletsList.add("Test 4");
-            for(String s : bulletsList){
-                sb.append(sep+s);
+            for (String s : bulletsList) {
+                sb.append(sep + s);
             }
             String concat = sb.toString();
             spanString = new SpannableString(concat);
-            for(String s : bulletsList) {
+            for (String s : bulletsList) {
                 addBullet(s, concat);
             }
             thingsToTv.setText(spanString);
         }
     }
 
-    public void favouriteButtonToggle(){
-        if(!isFavourite){
+    public void favouriteButtonToggle() {
+        if (!isFavourite || isFavourite == null) {
             addFavouriteBtn.setText("ADD TO FAVOURITES");
         } else {
             addFavouriteBtn.setText("REMOVE FROM FAVOURITES");
@@ -200,18 +195,17 @@ public class ModuleFragment extends Fragment {
     }
 
 
-
-    private void addBullet(String s, String txt){
+    private void addBullet(String s, String txt) {
         int index = txt.indexOf(s);
         // You can change the attributes as you need ... I just added a bit of color and formating
         BulletSpan bullet = new BulletSpan(20, Color.BLACK);
-        spanString.setSpan(bullet, index, index+1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spanString.setSpan(bullet, index, index + 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
     }
 
     @Override
     public void onPause() {
         super.onPause();
-       // mHomeViewModel.select(new ShowPlay(null, null, null));
+        // mHomeViewModel.select(new ShowPlay(null, null, null));
     }
 
     @Override

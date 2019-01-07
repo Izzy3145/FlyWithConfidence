@@ -31,7 +31,7 @@ public class ModulesAdapter extends RealmRecyclerViewAdapter<Module, ModulesAdap
     private int mEditting;
     private Realm realm;
 
-    public ModulesAdapter(RealmResults<Module> modules, Context c, ModulesAdapterListener clickHandler, @Nullable int editting){
+    public ModulesAdapter(RealmResults<Module> modules, Context c, ModulesAdapterListener clickHandler, int editting){
         super(modules, true, true);
         mContext = c;
         realm = Realm.getDefaultInstance();
@@ -47,13 +47,13 @@ public class ModulesAdapter extends RealmRecyclerViewAdapter<Module, ModulesAdap
         }
     }*/
 
-    /*public ModulesAdapter(Context c, ArrayList<Module> listOfModules, ModulesAdapterListener clickHandler) {
+    /*public ModulesAdapter(Context c, ArrayList<Module> listOfModules, FavouritesAdapterListener clickHandler) {
         mContext = c;
         mListOfModules = listOfModules;
         mClickHandler = clickHandler;
     }
 
-    public ModulesAdapter(Context c, ArrayList<Module> listOfModules, ModulesAdapterListener clickHandler, int editting) {
+    public ModulesAdapter(Context c, ArrayList<Module> listOfModules, FavouritesAdapterListener clickHandler, int editting) {
         mContext = c;
         mListOfModules = listOfModules;
         mClickHandler = clickHandler;
@@ -71,9 +71,9 @@ public class ModulesAdapter extends RealmRecyclerViewAdapter<Module, ModulesAdap
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ModulesAdapter.ViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull ModulesAdapter.ViewHolder holder, int position) {
         //TODO: test when full API response available & set proper error image
-
+           final int adapterPosition = holder.getAdapterPosition();
             final Module module = getItem(position);
            // final Module module = mListOfModules.get(position);
             holder.mVideoTitle.setText(module.getName());
@@ -94,7 +94,7 @@ public class ModulesAdapter extends RealmRecyclerViewAdapter<Module, ModulesAdap
                 holder.mDeleteFavBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        mClickHandler.onClickRecentsDeleteMethod(module, position);
+                        mClickHandler.onClickRecentsDeleteMethod(module, adapterPosition);
                     }
                 });
             }

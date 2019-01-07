@@ -17,14 +17,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 
 import androidx.navigation.Navigation;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.realm.Realm;
-import io.realm.RealmList;
 import io.realm.RealmResults;
 import io.realm.Sort;
 import uk.airbyte.fwc.R;
@@ -35,7 +32,7 @@ import uk.airbyte.fwc.model.ShowPlay;
 import uk.airbyte.fwc.utils.Const;
 import uk.airbyte.fwc.viewmodels.HomeViewModel;
 
-public class HomeFragment extends Fragment implements FavouritesAdapter.ModulesAdapterListener, ModulesAdapter.ModulesAdapterListener {
+public class HomeFragment extends Fragment implements FavouritesAdapter.FavouritesAdapterListener, ModulesAdapter.ModulesAdapterListener {
 
     private static final String TAG = HomeFragment.class.getSimpleName();
     @BindView(R.id.myFavouritesRv)
@@ -66,6 +63,7 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.ModulesA
     private String selectedModuleID;
     private int mEditting = 0;
     private RealmResults<Module> realmRecents;
+    private RealmResults<Module> realmFavourites;
 
     public static HomeFragment newInstance() {
         return new HomeFragment();
@@ -106,10 +104,6 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.ModulesA
             }
         });
 
-        //set up favourites recycler view and adapter, get info from Realm
-        mFavouritesRv.setHasFixedSize(true);
-        mLayoutManager = new LinearLayoutManager(this.getActivity(), LinearLayoutManager.HORIZONTAL, false);
-        mFavouritesRv.setLayoutManager(mLayoutManager);
         setUpFavouritesAdapter();
 
         editFavButton.setOnClickListener(new View.OnClickListener() {
@@ -135,19 +129,24 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.ModulesA
     }
 
     private void setUpFavouritesAdapter(){
-        mFavouritesAdapter = new FavouritesAdapter(getActivity(), favouritesList, this, mEditting);
-        mFavouritesRv.setAdapter(mFavouritesAdapter);
+
         //TODO: move this to ViewModel
-        RealmResults<Module> realmFavourites = realm.where(Module.class)
+        realmFavourites = realm.where(Module.class)
                 .equalTo("favourited", true)
                 .findAll();
+        realmFavourites.sort("lastViewed", Sort.DESCENDING);
+        mFavouritesRv.setHasFixedSize(true);
+        mLayoutManager = new LinearLayoutManager(this.getActivity(), LinearLayoutManager.HORIZONTAL, false);
+        mFavouritesRv.setLayoutManager(mLayoutManager);
+        mFavouritesAdapter = new FavouritesAdapter(realmFavourites, getActivity(), this, mEditting);
+        mFavouritesRv.setAdapter(mFavouritesAdapter);
 
         Log.d(TAG, "Number of favourited videos: " + String.valueOf(realmFavourites.size()));
-        favouritesList.clear();
-        favouritesList.addAll(realm.copyFromRealm(realmFavourites));
+        //favouritesList.clear();
+        //favouritesList.addAll(realm.copyFromRealm(realmFavourites));
         //orderModules(favouritesList);
-        mFavouritesAdapter.clearModulesList();
-        mFavouritesAdapter.setModulesToAdapter(favouritesList);
+        //mFavouritesAdapter.clearModulesList();
+        //mFavouritesAdapter.setModulesToAdapter(favouritesList);
     }
 
     private void setUpRecentsAdapter(){

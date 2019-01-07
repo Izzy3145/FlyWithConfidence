@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,24 +16,35 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.realm.Realm;
+import io.realm.RealmRecyclerViewAdapter;
+import io.realm.RealmResults;
 import uk.airbyte.fwc.R;
 import uk.airbyte.fwc.model.Module;
 
-public class FavouritesAdapter extends RecyclerView.Adapter<FavouritesAdapter.ViewHolder> {
+public class FavouritesAdapter extends RealmRecyclerViewAdapter<Module, FavouritesAdapter.ViewHolder>{
 
     private final static String TAG = FavouritesAdapter.class.getSimpleName();
     private Context mContext;
     private ArrayList<Module> mListOfModules;
-    private ModulesAdapterListener mClickHandler;
+    private FavouritesAdapterListener mClickHandler;
     private int mEditting;
+    private Realm realm;
 
-   public FavouritesAdapter(Context c, ArrayList<Module> listOfModules, ModulesAdapterListener clickHandler, int editting) {
+  /* public FavouritesAdapter(Context c, ArrayList<Module> listOfModules, FavouritesAdapterListener clickHandler, int editting) {
         mContext = c;
         mListOfModules = listOfModules;
         mClickHandler = clickHandler;
         mEditting = editting;
-    }
+    }*/
 
+    public FavouritesAdapter(RealmResults<Module> modules, Context c, FavouritesAdapterListener clickHandler, int editting){
+        super(modules, true, true);
+        mContext = c;
+        realm = Realm.getDefaultInstance();
+        mClickHandler = clickHandler;
+        mEditting = editting;
+    }
 
 
     @NonNull
@@ -48,12 +58,14 @@ public class FavouritesAdapter extends RecyclerView.Adapter<FavouritesAdapter.Vi
     }
 
     @Override
-    public void onBindViewHolder(@NonNull FavouritesAdapter.ViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull FavouritesAdapter.ViewHolder holder, int position) {
 
         //TODO: test when full API response available, set proper error image, sort out cropping
-
+        //TODO: Ask Steve - is there a cleaner/better way of doing this?
         try {
-           final Module module = mListOfModules.get(position);
+            final int adapterPosition = holder.getAdapterPosition();
+            final Module module = getItem(position);
+           //final Module module = mListOfModules.get(position);
            holder.mVideoTitle.setText(module.getName());
            Picasso.get()
                    .load(module.getMedia().getThumbnail())
@@ -70,7 +82,7 @@ public class FavouritesAdapter extends RecyclerView.Adapter<FavouritesAdapter.Vi
                holder.mDeleteFavBtn.setOnClickListener(new View.OnClickListener() {
                    @Override
                    public void onClick(View v) {
-                       mClickHandler.onClickDeleteMethod(module, position);
+                       mClickHandler.onClickDeleteMethod(module, adapterPosition);
                    }
                });
            }
@@ -89,14 +101,13 @@ public class FavouritesAdapter extends RecyclerView.Adapter<FavouritesAdapter.Vi
 
     //TODO: remove the three red crosses from empty thumbnails when Edit is not selected
 
-    @Override
+    /*@Override
     public int getItemCount() {
         if (mListOfModules.size() < 10) {
             return 10;
         } else {
             return mListOfModules.size();
-        }
-    }
+        }*/
 
     public void setModulesToAdapter(ArrayList<Module> foundModuleList){
         mListOfModules = foundModuleList;
@@ -110,7 +121,7 @@ public class FavouritesAdapter extends RecyclerView.Adapter<FavouritesAdapter.Vi
     }
 
     //create onClickListener interface
-    public interface ModulesAdapterListener {
+    public interface FavouritesAdapterListener {
         void onClickMethod(Module module, int position);
         void onClickDeleteMethod(Module module, int position);
     }
