@@ -64,8 +64,8 @@ public class UpdateDetailsFragment extends Fragment {
         sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
         mAccessToken = sharedPref.getString(Const.ACCESS_TOKEN, "");
         mUserID = sharedPref.getString(Const.USER_ID, "");
-
         mViewModel = ViewModelProviders.of(this).get(AccountViewModel.class);
+
         Log.d(TAG, "User access token: " + mAccessToken);
         Log.d(TAG, "User ID: " + mUserID);
 
@@ -76,9 +76,16 @@ public class UpdateDetailsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+       //FragmentUpdateDetailsBinding binding = FragmentUpdateDetailsBinding.inflate(inflater, container, false);
+       //binding.setAccountviewmodel(mViewModel);
+        //binding.setLifecycleOwner(this);
+
+       // User user = new User(null, "Izzy", "Stannett", "izzystannett@gmail.com");
+        //binding.setUser(user);
         View view = inflater.inflate(R.layout.fragment_update_details, container, false);
+        //View view = binding.getRoot();
         ButterKnife.bind(this, view);
-        cancelBtn.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_updateDetailsFragment_to_accountFragment));
+        //cancelBtn.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_updateDetailsFragment_to_accountFragment));
         getUserDetails();
         return view;
     }
@@ -95,7 +102,9 @@ public class UpdateDetailsFragment extends Fragment {
         final String lastName = inputLastName.getText().toString();
         final String email = inputEmail.getText().toString();
 
-        mViewModel.updateUserProfile(getActivity(), mAccessToken, firstName, lastName, email).observe(this, new Observer<User>() {
+        mViewModel.putUserProfile(getActivity(), mAccessToken, firstName, lastName, email);
+
+       /* mViewModel.updateUserProfile(getActivity(), mAccessToken, firstName, lastName, email).observe(this, new Observer<User>() {
             @Override
             public void onChanged(@Nullable User user) {
                 if (user != null) {
@@ -105,7 +114,7 @@ public class UpdateDetailsFragment extends Fragment {
                     realm.executeTransaction(new Realm.Transaction() {
                         @Override
                         public void execute(Realm realm) {
-                            //TODO: move off fragment
+                            //TODO: move off fragment - no longer observe LiveData here
                             User user = realm.where(User.class).equalTo("id", mUserID).findFirst();
                             if (user != null) {
                                 user.setFirstName(firstName);
@@ -123,7 +132,7 @@ public class UpdateDetailsFragment extends Fragment {
                             navigate(R.id.action_updateDetailsFragment_to_accountFragment);
                 }
             }
-        });
+        });*/
     }
 
 

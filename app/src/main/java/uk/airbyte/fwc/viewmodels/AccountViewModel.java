@@ -1,5 +1,6 @@
 package uk.airbyte.fwc.viewmodels;
 
+import android.accounts.Account;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
@@ -19,16 +20,23 @@ import uk.airbyte.fwc.model.Login;
 import uk.airbyte.fwc.model.Password;
 import uk.airbyte.fwc.model.Success;
 import uk.airbyte.fwc.model.User;
+import uk.airbyte.fwc.repositories.AccountRepository;
 
-public class AccountViewModel extends ViewModel {
+public class AccountViewModel extends ViewModel{
 
     private static final String TAG = AccountViewModel.class.getSimpleName();
 
     private MutableLiveData<User> user;
+
     private MutableLiveData<Success> success;
-    private Realm realm;
 
     private APIService apiService = APIClient.getClient().create(APIService.class);
+
+    private final AccountRepository accountRepository;
+
+    public AccountViewModel() {
+        accountRepository = new AccountRepository();
+        }
 
     //we will call this method to get the data
     public LiveData<User> getUserProfile(Context context, String accessToken) {
@@ -84,13 +92,16 @@ public class AccountViewModel extends ViewModel {
                 });
     }
 
-    private void putUserProfile(final Context context, String accessToken, String fName, String lName, String email) {
+    public void putUserProfile(final Context context, String accessToken, String fName, String lName, String email) {
         apiService.updateUserProfile(accessToken, new Login(email, lName, fName))
                 .enqueue(new Callback<User>() {
                     @Override
                     public void onResponse(Call<User> call, Response<User> response) {
                         if (response.isSuccessful()) {
-                            user.postValue(response.body());
+
+                            //TODO: instead of posting, save it to Realm
+                            accountRepository.updateUserDetailsRealm(response.body());
+                           // user.postValue(response.body());
                             Toast.makeText(context, "Profile updated!", Toast.LENGTH_SHORT).show();
                             Log.d(TAG, "Response updateUserProfile() success: " + response.body());
 
