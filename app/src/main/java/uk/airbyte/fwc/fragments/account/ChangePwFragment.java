@@ -73,44 +73,35 @@ public class ChangePwFragment extends Fragment {
     @OnClick(R.id.saveBtn)
     public void savePassword(){
 
-
         if(inputCurrentPw.getText().toString().length() == 0){
             Toast.makeText(getActivity(), "Please enter your current password!", Toast.LENGTH_SHORT).show();
+        } else if(inputConfPw.getText().toString().length() == 0) {
+            Toast.makeText(getActivity(), "Please confirm your new password!", Toast.LENGTH_SHORT).show();
+        } else if (inputNewPw.getText().toString().length() == 0){
+            Toast.makeText(getActivity(), "Please enter your new password!", Toast.LENGTH_SHORT).show();
+        } else if (!inputNewPw.getText().toString().equals(inputConfPw.getText().toString())) {
+            Toast.makeText(getActivity(), "Passwords must match!", Toast.LENGTH_SHORT).show();
         } else {
             currentPassword = inputCurrentPw.getText().toString();
-        }
-
-        if(inputConfPw.getText().toString().length() == 0){
-            Toast.makeText(getActivity(), "Please confirm your new password!", Toast.LENGTH_SHORT).show();
-        } else {
             confPassword = inputConfPw.getText().toString();
-        }
-
-        if(inputNewPw.getText().toString().length() == 0){
-            Toast.makeText(getActivity(), "Please enter your new password!", Toast.LENGTH_SHORT).show();
-        } else {
             newPassword = inputNewPw.getText().toString();
+            mViewModel.putNewPassword(getActivity(), accessToken, currentPassword, newPassword);
+            Navigation.findNavController(getActivity(), R.id.my_nav_host_fragment).navigate(R.id.action_changePwFragment_to_accountFragment);
         }
 
-        if(!newPassword.equals(confPassword)){
-            Toast.makeText(getActivity(), "Passwords must match!", Toast.LENGTH_SHORT).show();
-        }
-
-        mViewModel.putUserPassword(getActivity(), accessToken, currentPassword, newPassword).observe(this, new Observer<Success>() {
+        /*mViewModel.putUserPassword(getActivity(), accessToken, currentPassword, newPassword).observe(this, new Observer<Success>() {
             @Override
             public void onChanged(@Nullable Success success) {
 
                 if(success != null){
                     if (success.getSuccess()){
-                        Navigation.findNavController(getActivity(), R.id.my_nav_host_fragment).navigate(R.id.action_changePwFragment_to_accountFragment);
 
                         //Toast.makeText(getActivity(), "ChangePwFragment: Password updated!", Toast.LENGTH_SHORT).show();
                     } else {
                        //Toast.makeText(getActivity(), "ChangePwFragment: Password update unsuccessful", Toast.LENGTH_SHORT).show();
                     }
                 }
-            }
-        });
+            }*/
     }
 
     @Override

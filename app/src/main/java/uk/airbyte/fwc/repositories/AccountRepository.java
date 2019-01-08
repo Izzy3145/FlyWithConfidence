@@ -29,10 +29,6 @@ public class AccountRepository {
                     user.setFirstName(body.getFirstName());
                     user.setLastName(body.getLastName());
                     user.setEmailAddress(body.getEmailAddress());
-                    Log.d(TAG, "Realm user first name: " + user.getFirstName());
-                    Log.d(TAG, "Realm user last name: " + user.getLastName());
-                    Log.d(TAG, "Realm user id: " + user.getId());
-                    Log.d(TAG, "Realm user accessToken: " + user.getAccessToken());
                 }
             }
         });

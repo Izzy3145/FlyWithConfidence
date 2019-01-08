@@ -58,7 +58,6 @@ public class AccountViewModel extends ViewModel{
 
     //we will call this method to get the data
     public LiveData<Success> putUserPassword(Context context, String accessToken, String currentPassword, String newPassword) {
-
         success = new MutableLiveData<Success>();
         //we will load it asynchronously from server in this method
         putNewPassword(context, accessToken, currentPassword, newPassword);
@@ -98,8 +97,6 @@ public class AccountViewModel extends ViewModel{
                     @Override
                     public void onResponse(Call<User> call, Response<User> response) {
                         if (response.isSuccessful()) {
-
-                            //TODO: instead of posting, save it to Realm
                             accountRepository.updateUserDetailsRealm(response.body());
                            // user.postValue(response.body());
                             Toast.makeText(context, "Profile updated!", Toast.LENGTH_SHORT).show();
@@ -124,13 +121,13 @@ public class AccountViewModel extends ViewModel{
                 });
     }
 
-    private void putNewPassword(final Context context, String accessToken, String currentPassword, String newPassword) {
+    public void putNewPassword(final Context context, String accessToken, String currentPassword, String newPassword) {
         apiService.updateUserPassword(accessToken, new Password(currentPassword, newPassword))
                 .enqueue(new Callback<Success>() {
                     @Override
                     public void onResponse(Call<Success> call, Response<Success> response) {
                         if (response.isSuccessful()) {
-                            success.postValue(response.body());
+                            //success.postValue(response.body());
                             Toast.makeText(context, "Password updated!", Toast.LENGTH_SHORT).show();
                             Log.d(TAG, "Response profileCall() success: " + response.body());
                         } else {

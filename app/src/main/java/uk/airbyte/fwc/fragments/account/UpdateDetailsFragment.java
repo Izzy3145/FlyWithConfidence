@@ -52,12 +52,6 @@ public class UpdateDetailsFragment extends Fragment {
         // Required empty public constructor
     }
 
-    /*@Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mViewModel = ViewModelProviders.of(this).get(AccountViewModel.class);
-    }*/
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,10 +59,6 @@ public class UpdateDetailsFragment extends Fragment {
         mAccessToken = sharedPref.getString(Const.ACCESS_TOKEN, "");
         mUserID = sharedPref.getString(Const.USER_ID, "");
         mViewModel = ViewModelProviders.of(this).get(AccountViewModel.class);
-
-        Log.d(TAG, "User access token: " + mAccessToken);
-        Log.d(TAG, "User ID: " + mUserID);
-
         realm = Realm.getDefaultInstance();
     }
 
@@ -79,13 +69,13 @@ public class UpdateDetailsFragment extends Fragment {
        //FragmentUpdateDetailsBinding binding = FragmentUpdateDetailsBinding.inflate(inflater, container, false);
        //binding.setAccountviewmodel(mViewModel);
         //binding.setLifecycleOwner(this);
-
        // User user = new User(null, "Izzy", "Stannett", "izzystannett@gmail.com");
         //binding.setUser(user);
-        View view = inflater.inflate(R.layout.fragment_update_details, container, false);
         //View view = binding.getRoot();
+
+        View view = inflater.inflate(R.layout.fragment_update_details, container, false);
         ButterKnife.bind(this, view);
-        //cancelBtn.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_updateDetailsFragment_to_accountFragment));
+        cancelBtn.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_updateDetailsFragment_to_accountFragment));
         getUserDetails();
         return view;
     }
@@ -103,6 +93,10 @@ public class UpdateDetailsFragment extends Fragment {
         final String email = inputEmail.getText().toString();
 
         mViewModel.putUserProfile(getActivity(), mAccessToken, firstName, lastName, email);
+
+        Navigation.findNavController(getActivity(), R.id.my_nav_host_fragment).
+                navigate(R.id.action_updateDetailsFragment_to_accountFragment);
+
 
        /* mViewModel.updateUserProfile(getActivity(), mAccessToken, firstName, lastName, email).observe(this, new Observer<User>() {
             @Override
@@ -127,9 +121,6 @@ public class UpdateDetailsFragment extends Fragment {
                             }
                         }
                     });
-
-                    Navigation.findNavController(getActivity(), R.id.my_nav_host_fragment).
-                            navigate(R.id.action_updateDetailsFragment_to_accountFragment);
                 }
             }
         });*/
@@ -141,10 +132,6 @@ public class UpdateDetailsFragment extends Fragment {
             @Override
             public void onChanged(@Nullable User user) {
                 if (user != null) {
-                    Log.d(TAG, "onResume: User first name: " + user.getFirstName());
-                    Log.d(TAG, "onResume: User last name: " + user.getLastName());
-                    Log.d(TAG, "onResume: User id: " + user.getId());
-                    Log.d(TAG, "onResume: User accessToken: " + user.getAccessToken());
                     inputFirstName.setText(user.getFirstName());
                     inputLastName.setText(user.getLastName());
                     inputEmail.setText(user.getEmailAddress());
