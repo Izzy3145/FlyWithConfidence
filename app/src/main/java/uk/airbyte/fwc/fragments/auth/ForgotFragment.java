@@ -57,7 +57,6 @@ public class ForgotFragment extends Fragment {
     private String email;
     private AuthViewModel mAuthViewModel;
 
-
     public ForgotFragment() {
         // Required empty public constructor
     }
@@ -71,6 +70,12 @@ public class ForgotFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        mAuthViewModel = ViewModelProviders.of(getActivity()).get(AuthViewModel.class);
+    }
+
     @OnClick(R.id.btnSignIn)
     public void signIn(){
         if (!validateEmail()) {
@@ -78,7 +83,6 @@ public class ForgotFragment extends Fragment {
         }
 
         email = inputEmailAddress.getText().toString().trim();
-
         Log.d(TAG, "Email address: " + email);
 
         mAuthViewModel.getForgottenPw(getActivity(), email).observe(this, new Observer<Reminder>() {
@@ -120,10 +124,5 @@ public class ForgotFragment extends Fragment {
         return !TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        //tells the fragment that its activity has completed its own Activity.onCreate()
-        mAuthViewModel = ViewModelProviders.of(getActivity()).get(AuthViewModel.class);
-    }
+
 }

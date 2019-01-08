@@ -16,4 +16,19 @@ public class AuthRepository {
         realmInstance = Realm.getDefaultInstance();
         userRealm = realmInstance.where(User.class).findAll();
     }
+
+    public void registerUserRealm(final User body) {
+
+        realmInstance.executeTransactionAsync(new Realm.Transaction(){
+            @Override
+            public void execute(Realm realm) {
+                User user = realm.createObject(User.class, body.getId());
+                user.setFirstName(body.getFirstName());
+                user.setLastName(body.getLastName());
+                user.setEmailAddress(body.getEmailAddress());
+                user.setAccessToken(body.getAccessToken());
+            }
+        });
+    }
+
 }

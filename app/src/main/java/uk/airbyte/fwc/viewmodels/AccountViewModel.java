@@ -25,13 +25,9 @@ import uk.airbyte.fwc.repositories.AccountRepository;
 public class AccountViewModel extends ViewModel{
 
     private static final String TAG = AccountViewModel.class.getSimpleName();
-
     private MutableLiveData<User> user;
-
     private MutableLiveData<Success> success;
-
     private APIService apiService = APIClient.getClient().create(APIService.class);
-
     private final AccountRepository accountRepository;
 
     public AccountViewModel() {

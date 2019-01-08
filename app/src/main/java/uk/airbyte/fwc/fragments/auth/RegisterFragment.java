@@ -67,8 +67,6 @@ public class RegisterFragment extends Fragment {
     private AuthViewModel mAuthViewModel;
     private SharedPreferences sharedPref;
     private SharedPreferences.Editor editor;
-    private Realm realm;
-
 
     public RegisterFragment() {
         // Required empty public constructor
@@ -77,7 +75,6 @@ public class RegisterFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        realm = Realm.getDefaultInstance();
         sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
     }
 
@@ -90,26 +87,31 @@ public class RegisterFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        mAuthViewModel = ViewModelProviders.of(this).get(AuthViewModel.class);
+    }
+
     @OnClick(R.id.createAccountBtn)
     public void createNewAccount(){
 
         if (!validateFirstName()) { return; }
-
         if (!validateLastName()) { return; }
-
         if (!validateEmail()) { return; }
-
         if (!validatePassword()) { return; }
 
         firstName = inputFirstName.getText().toString().trim();
         lastName = inputLastName.getText().toString().trim();
         email = inputEmailAddress.getText().toString().trim();
         password = inputPassword.getText().toString().trim();
+        //TODO:add progress indicator
 
-        mAuthViewModel.getUserFromRegister(getActivity(), password, email, lastName,firstName).observe(this, new Observer<User>() {
+        /*mAuthViewModel.getUserFromRegister(getActivity(), password, email, lastName,firstName).observe(this, new Observer<User>() {
             @Override
             public void onChanged(@Nullable User user) {
                 if(user != null){
+
                     //editor.putString(Const.USER_ID, user.getId());
                     Log.d(TAG, "User first name: " + user.getFirstName());
                     Log.d(TAG, "User last name: " + user.getLastName());
@@ -124,7 +126,6 @@ public class RegisterFragment extends Fragment {
                     editor.putString(Const.ACCESS_TOKEN, accessToken);
                     editor.apply();
 
-                    //TODO: move realm stuff to viewmodel
                     realm.executeTransactionAsync(new Realm.Transaction(){
 
                         @Override
@@ -137,11 +138,11 @@ public class RegisterFragment extends Fragment {
                         }
                     });
 
-                    Intent openMain = new Intent(getActivity(), MainActivity.class);
-                    startActivity(openMain);
+
                 }
             }
-        });
+        });*/
+                mAuthViewModel.registerCall(getActivity(), password, email, lastName,firstName);
     }
 
     private Boolean validateFirstName(){
@@ -195,16 +196,5 @@ public class RegisterFragment extends Fragment {
         return !TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mAuthViewModel = ViewModelProviders.of(this).get(AuthViewModel.class);
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        realm.close();
-    }
 }
 
