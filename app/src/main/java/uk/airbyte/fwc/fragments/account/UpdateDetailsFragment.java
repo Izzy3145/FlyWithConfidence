@@ -46,7 +46,6 @@ public class UpdateDetailsFragment extends Fragment {
     TextInputEditText inputLastName;
     @BindView(R.id.inputEmail)
     TextInputEditText inputEmail;
-    private Realm realm;
 
     public UpdateDetailsFragment() {
         // Required empty public constructor
@@ -59,7 +58,6 @@ public class UpdateDetailsFragment extends Fragment {
         mAccessToken = sharedPref.getString(Const.ACCESS_TOKEN, "");
         mUserID = sharedPref.getString(Const.USER_ID, "");
         mViewModel = ViewModelProviders.of(this).get(AccountViewModel.class);
-        realm = Realm.getDefaultInstance();
     }
 
     @Override
@@ -102,13 +100,10 @@ public class UpdateDetailsFragment extends Fragment {
             @Override
             public void onChanged(@Nullable User user) {
                 if (user != null) {
-
                     mUserID = user.getId();
-
                     realm.executeTransaction(new Realm.Transaction() {
                         @Override
                         public void execute(Realm realm) {
-                            //TODO: move off fragment - no longer observe LiveData here
                             User user = realm.where(User.class).equalTo("id", mUserID).findFirst();
                             if (user != null) {
                                 user.setFirstName(firstName);
@@ -126,7 +121,6 @@ public class UpdateDetailsFragment extends Fragment {
         });*/
     }
 
-
     public void getUserDetails() {
         mViewModel.getUserProfile(getActivity(), mAccessToken).observe(this, new Observer<User>() {
             @Override
@@ -138,11 +132,5 @@ public class UpdateDetailsFragment extends Fragment {
                 }
             }
         });
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        realm.close();
     }
 }

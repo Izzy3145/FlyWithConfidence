@@ -33,4 +33,14 @@ public class AccountRepository {
             }
         });
     }
+
+    public void deleteRealmContents(){
+        realmInstance.close();
+        realmInstance.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                realm.deleteAll();
+            }
+        });
+    }
 }

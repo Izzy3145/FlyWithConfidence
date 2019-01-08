@@ -1,6 +1,7 @@
 package uk.airbyte.fwc.fragments.account;
 
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -22,6 +23,7 @@ import io.realm.Realm;
 import uk.airbyte.fwc.MainActivity;
 import uk.airbyte.fwc.R;
 import uk.airbyte.fwc.utils.Const;
+import uk.airbyte.fwc.viewmodels.AccountViewModel;
 
 public class AccountFragment extends Fragment {
 
@@ -33,11 +35,9 @@ public class AccountFragment extends Fragment {
     TextView findOutMoreTv;
     @BindView(R.id.logoutTv)
     TextView logoutTv;
-    //private OnLogoutListener mListener;
     private SharedPreferences sharedPref;
     private SharedPreferences.Editor editor;
-    private Realm realm;
-
+    private AccountViewModel mViewModel;
 
     public AccountFragment() {
         // Required empty public constructor
@@ -47,7 +47,7 @@ public class AccountFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        realm = Realm.getDefaultInstance();
+        mViewModel = ViewModelProviders.of(getActivity()).get(AccountViewModel.class);
     }
 
     @Override
@@ -76,22 +76,10 @@ public class AccountFragment extends Fragment {
         editor.putString(Const.USER_ID, "");
         editor.apply();
 
-        realm.close();
-        realm.executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                realm.deleteAll();
-            }
-        });
+        mViewModel.deleteRealmContents();
 
         Intent openMain = new Intent(getActivity(), MainActivity.class);
         startActivity(openMain);
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        realm.close();
     }
 
 }

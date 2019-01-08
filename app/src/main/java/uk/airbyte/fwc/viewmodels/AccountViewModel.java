@@ -146,4 +146,8 @@ public class AccountViewModel extends ViewModel{
                     }
                 });
     }
+
+    public void deleteRealmContents(){
+        accountRepository.deleteRealmContents();
+    }
 }
