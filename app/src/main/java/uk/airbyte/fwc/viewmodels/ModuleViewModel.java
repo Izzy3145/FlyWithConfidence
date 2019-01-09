@@ -7,6 +7,7 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.realm.OrderedCollectionChangeSet;
@@ -35,6 +36,11 @@ public class ModuleViewModel extends ViewModel implements OrderedRealmCollection
     private final ModuleRepository moduleRepository;
     private RealmResults<Module> favouriteResults;
     private RealmResults<Module> recentsResults;
+    private RealmResults<Module> allResults;
+
+
+    private int numberOfTopics;
+    private int numberOfModules;
 
 
     public ModuleViewModel(){
@@ -43,6 +49,16 @@ public class ModuleViewModel extends ViewModel implements OrderedRealmCollection
 
     public void onResume() {moduleRepository.addChangeListener(this);}
     public void onPause() {moduleRepository.clearListeners();}
+
+
+    public void setFavourite(Boolean isFavourite, Module module){
+        moduleRepository.setRealmFavourite(isFavourite, module);
+    }
+
+    public RealmResults<Module> getAll(){
+        allResults = moduleRepository.getModulesToDisplay();
+        return allResults;
+    }
 
     public RealmResults<Module> getFavourites(){
         favouriteResults = moduleRepository.getRealmFavourites();
@@ -70,7 +86,9 @@ public class ModuleViewModel extends ViewModel implements OrderedRealmCollection
         return modules;
     }
 
-    private void topicAndModuleCall(final Context context, final String accessToken, String category) {
+    public void topicAndModuleCall(final Context context, final String accessToken, String category) {
+        numberOfTopics = 0;
+        numberOfModules = 0;
         apiService.getTopics(accessToken, category).enqueue(new Callback<List<Topic>>() {
             @Override
             public void onResponse(Call<List<Topic>> call, Response<List<Topic>> response) {
@@ -80,11 +98,17 @@ public class ModuleViewModel extends ViewModel implements OrderedRealmCollection
                     for(int i = 0; i < listOfTopics.size(); i++){
                         Log.d(TAG, "TopicsVM Topic ID: " + listOfTopics.get(i).getId());
                         String topicID = listOfTopics.get(i).getId();
+                        numberOfTopics++;
+                        Log.d(TAG, "Number of Topics found: " + numberOfTopics);
                         apiService.getModulesForTopics(accessToken, topicID).enqueue(new Callback<List<Module>>() {
                             @Override
                             public void onResponse(Call<List<Module>> call, Response<List<Module>> response) {
                                 if (response.isSuccessful()) {
-                                    modules.postValue(response.body());
+                                    moduleRepository.copyTopicModulesToRealm(response.body());
+                                    numberOfModules = numberOfModules + response.body().size();
+                                    Log.d(TAG, "moduleList size: " + numberOfModules);
+
+                                    //modules.postValue(response.body());
                                     Log.d(TAG, "Response moduleCall() success: " + response.body());
                                 } else {
                                     APIError error = ErrorUtils.parseError(response);
@@ -99,7 +123,7 @@ public class ModuleViewModel extends ViewModel implements OrderedRealmCollection
                             public void onFailure(Call<List<Module>> call, Throwable t) {
                                 Log.d(TAG, "Response moduleCall() failure");
                                 Toast.makeText(context, "Error - please check your network connection", Toast.LENGTH_SHORT).show();
-                                modules.postValue(null);
+                                //modules.postValue(null);
                             }
                         });
                     }
@@ -112,13 +136,14 @@ public class ModuleViewModel extends ViewModel implements OrderedRealmCollection
                     Toast.makeText(context, "Error: " + errorCode + " " + errorMessage, Toast.LENGTH_SHORT).show();
                     Log.d("topicAndModuleCall() error message", error.message());
                 }
+
             }
 
             @Override
             public void onFailure(Call<List<Topic>> call, Throwable t) {
                 Log.d(TAG, "Response topicAndModuleCall() failure");
                 Toast.makeText(context, "Error - please check your network connection", Toast.LENGTH_SHORT).show();
-                modules.postValue(null);
+               // modules.postValue(null);
             }
         });
     }

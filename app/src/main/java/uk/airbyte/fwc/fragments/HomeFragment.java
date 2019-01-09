@@ -56,7 +56,6 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.Favourit
     private FragmentManager fragmentManager;
     private String videoSelected;
     private Fragment videoFragment;
-    private Realm realm;
     private String selectedModuleID;
     private int mEditing = 0;
     private RealmResults<Module> realmRecents;
@@ -73,7 +72,6 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.Favourit
         videoFragment = fragmentManager.findFragmentById(R.id.videoFragment);
         mVideoViewModel = ViewModelProviders.of(getActivity()).get(VideoViewModel.class);
         mModuleViewModel = ViewModelProviders.of(getActivity()).get(ModuleViewModel.class);
-        realm = Realm.getDefaultInstance();
     }
 
     @Override
@@ -107,12 +105,12 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.Favourit
         editFavButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(mEditing == 0) {
+                if (mEditing == 0) {
                     mEditing = 1;
                     editFavButton.setText(getResources().getString(R.string.done));
                     setUpRecentsAdapter();
                     setUpFavouritesAdapter();
-                } else if(mEditing == 1){
+                } else if (mEditing == 1) {
                     mEditing = 0;
                     editFavButton.setText(getResources().getString(R.string.edit));
                     setUpRecentsAdapter();
@@ -126,9 +124,7 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.Favourit
         return view;
     }
 
-    private void setUpFavouritesAdapter(){
-
-        //TODO: move this to ViewModel
+    private void setUpFavouritesAdapter() {
         /*realmFavourites = realm.where(Module.class)
                 .equalTo("favourited", true)
                 .findAll();
@@ -143,13 +139,13 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.Favourit
         Log.d(TAG, "Number of favourited videos: " + String.valueOf(realmFavourites.size()));
     }
 
-    private void setUpRecentsAdapter(){
+    private void setUpRecentsAdapter() {
        /* realmRecents = realm.where(Module.class)
                 .notEqualTo("lastViewed", 0)
                 .findAll();
         realmRecents.sort("lastViewed", Sort.DESCENDING);*/
         realmRecents = mModuleViewModel.getRecents();
-        if(realmRecents!=null){
+        if (realmRecents != null) {
             recentsRvGroup.setVisibility(View.VISIBLE);
         }
         myRecentsRv.setHasFixedSize(true);
@@ -163,7 +159,6 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.Favourit
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mVideoViewModel = ViewModelProviders.of(getActivity()).get(VideoViewModel.class);
-
     }
 
     @Override
@@ -174,7 +169,6 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.Favourit
         Bundle b = new Bundle();
         b.putString(Const.MODULE_ID, selectedModuleID);
         Navigation.findNavController(getActivity(), R.id.my_nav_host_fragment).navigate(R.id.action_home_dest_to_moduleFragment, b);
-
     }
 
     @Override
@@ -188,7 +182,6 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.Favourit
                 unfavouritedModule.setLastViewed(0);
             }
         });*/
-
         mModuleViewModel.deleteRecent(module.getId());
         setUpRecentsAdapter();
     }
@@ -213,20 +206,14 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.Favourit
     @Override
     public void onResume() {
         super.onResume();
-       selectedModuleID = "";
-       setUpFavouritesAdapter();
-      mModuleViewModel.onResume();
+        selectedModuleID = "";
+        setUpFavouritesAdapter();
+        mModuleViewModel.onResume();
     }
 
     @Override
     public void onPause() {
         super.onPause();
-       mModuleViewModel.onPause();
-        }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        realm.close();
+        mModuleViewModel.onPause();
     }
 }

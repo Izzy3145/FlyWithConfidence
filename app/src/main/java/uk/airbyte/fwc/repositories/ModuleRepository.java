@@ -1,5 +1,7 @@
 package uk.airbyte.fwc.repositories;
 
+import java.util.List;
+
 import io.realm.OrderedRealmCollectionChangeListener;
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -10,6 +12,8 @@ public class ModuleRepository {
 
     private final Realm realmInstance;
     private final RealmResults<Module> moduleRealm;
+
+    //TODO: close realm on each onDestroy
 
     public ModuleRepository() {
         realmInstance = Realm.getDefaultInstance();
@@ -24,6 +28,30 @@ public class ModuleRepository {
         moduleRealm.removeAllChangeListeners();
     }
 
+    public void setRealmFavourite(final Boolean isFavourite, final Module module){
+        realmInstance.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                module.setFavourited(isFavourite);
+                realm.copyToRealmOrUpdate(module);
+            }
+        });
+    }
+    //TODO: add in topics variable
+    public RealmResults<Module> getModulesToDisplay(){
+        moduleRealm.sort("displayOrder");
+        return moduleRealm;
+    }
+
+    public void copyTopicModulesToRealm(final List<Module> listOfModulesForTopic){
+        realmInstance.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                realm.copyToRealmOrUpdate(listOfModulesForTopic);
+            }
+        });
+    }
+//TODO: change to moduleRealm.where() ?
     public RealmResults<Module> getRealmFavourites() {
         RealmResults<Module> realmFavourites = realmInstance.where(Module.class)
                 .equalTo("favourited", true)

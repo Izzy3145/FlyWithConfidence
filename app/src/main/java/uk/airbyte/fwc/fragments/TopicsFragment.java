@@ -83,8 +83,10 @@ public class TopicsFragment extends Fragment implements ModulesAdapter.ModulesAd
         realm = Realm.getDefaultInstance();
         category = "knowledge";
 
+        mModuleViewModel.topicAndModuleCall(getActivity(), accessToken, category);
+
         //get and save all modules - move this to viewmodel, or somewhere else?
-        mModuleViewModel.getModulesFromTopics(getActivity(), accessToken, category).observe(this, new Observer<List<Module>>() {
+        /*mModuleViewModel.getModulesFromTopics(getActivity(), accessToken, category).observe(this, new Observer<List<Module>>() {
             @Override
             public void onChanged(@Nullable List<Module> modules) {
                 if (modules != null) {
@@ -106,7 +108,7 @@ public class TopicsFragment extends Fragment implements ModulesAdapter.ModulesAd
                 Log.d(TAG, "moduleList size: " + moduleList.size());
                 Log.d(TAG, "Number of Topics found: " + numberOfTopics);
             }
-        });
+        });*/
 
     }
 
@@ -120,13 +122,9 @@ public class TopicsFragment extends Fragment implements ModulesAdapter.ModulesAd
         TabLayout tablayout = (TabLayout) view.findViewById(R.id.top_tabs);
         tablayout.setVisibility(View.VISIBLE);
 
-        realmModules = realm.where(Module.class)
-                .findAll();
-        realmModules.sort("displayOrder");
+        realmModules = mModuleViewModel.getAll();
         Log.d(TAG, "Realm results size: " + realmModules.size());
         mAdapter = new ModulesAdapter(realmModules, getActivity(), this, 0);
-
-        //TODO: learn DataBinding to make this easier?
         mRecyclerView1.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this.getActivity(), LinearLayoutManager.HORIZONTAL, false);
         mRecyclerView1.setLayoutManager(mLayoutManager);
@@ -135,17 +133,11 @@ public class TopicsFragment extends Fragment implements ModulesAdapter.ModulesAd
         return view;
     }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
-    }
 
     @Override
     public void onPause() {
         super.onPause();
         mModuleViewModel.onPause();
-
     }
 
     @Override
@@ -154,11 +146,6 @@ public class TopicsFragment extends Fragment implements ModulesAdapter.ModulesAd
         mModuleViewModel.onResume();
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        realm.close();
-    }
 
     @Override
     public void onClickMethod(Module module, int position) {
@@ -171,7 +158,7 @@ public class TopicsFragment extends Fragment implements ModulesAdapter.ModulesAd
 
     @Override
     public void onClickRecentsDeleteMethod(Module module, int position) {
-
+        //empty interface, only used in home fragment
     }
 
     @Override

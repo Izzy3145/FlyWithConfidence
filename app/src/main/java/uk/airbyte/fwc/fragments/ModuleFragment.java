@@ -28,6 +28,7 @@ import uk.airbyte.fwc.R;
 import uk.airbyte.fwc.model.Module;
 import uk.airbyte.fwc.model.ShowPlay;
 import uk.airbyte.fwc.utils.Const;
+import uk.airbyte.fwc.viewmodels.ModuleViewModel;
 import uk.airbyte.fwc.viewmodels.VideoViewModel;
 
 /**
@@ -49,6 +50,7 @@ public class ModuleFragment extends Fragment {
     @BindView(R.id.nextModuleBtn)
     Button nextModuleBtn;
     private VideoViewModel mVideoViewModel;
+    private ModuleViewModel mModuleViewModel;
     private Module mModule;
     private String introduction;
     private String notes;
@@ -65,11 +67,11 @@ public class ModuleFragment extends Fragment {
 
     //TODO: if module unlocked, show descriptions, otherwise show unlock button
 
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mVideoViewModel = ViewModelProviders.of(getActivity()).get(VideoViewModel.class);
+        mModuleViewModel = ViewModelProviders.of(getActivity()).get(ModuleViewModel.class);
         realm = Realm.getDefaultInstance();
     }
 
@@ -101,13 +103,7 @@ public class ModuleFragment extends Fragment {
                     favouriteButtonToggle();
                 }
 
-                realm.executeTransaction(new Realm.Transaction() {
-                    @Override
-                    public void execute(Realm realm) {
-                        mModule.setFavourited(isFavourite);
-                        realm.copyToRealmOrUpdate(mModule);
-                    }
-                });
+                mModuleViewModel.setFavourite(isFavourite, mModule);
             }
         });
 
@@ -137,6 +133,7 @@ public class ModuleFragment extends Fragment {
         mModule = realm.where(Module.class)
                 .equalTo("id", selectedModuleID)
                 .findFirst();
+
         topicID = mModule.getTopic().getId();
         RealmResults<Module> topicModulesRealm = realm.where(Module.class)
                 .equalTo("topic.id", topicID)
