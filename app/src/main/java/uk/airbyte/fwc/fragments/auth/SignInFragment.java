@@ -53,8 +53,6 @@ public class SignInFragment extends Fragment {
     private String email;
     private String password;
     private AuthViewModel mAuthViewModel;
-    private SharedPreferences sharedPref;
-    private SharedPreferences.Editor editor;
 
     public SignInFragment() {
         // Required empty public constructor
@@ -63,7 +61,6 @@ public class SignInFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
     }
 
     @Override
@@ -75,6 +72,13 @@ public class SignInFragment extends Fragment {
         forgotBtn.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_signInFragment_to_forgotFragment));
         createAccountBtn.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_signInFragment_to_registerFragment));
         return view;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        //tells the fragment that its activity has completed its own Activity.onCreate()
+        mAuthViewModel = ViewModelProviders.of(getActivity()).get(AuthViewModel.class);
     }
 
     @OnClick(R.id.btnSignIn)
@@ -93,7 +97,8 @@ public class SignInFragment extends Fragment {
         Log.d(TAG, "Email address: " + email);
         Log.d(TAG, " Password: " + password);
 
-        mAuthViewModel.getUserFromLogin(getActivity() ,password, email).observe(this, new Observer<User>() {
+        mAuthViewModel.loginCall(getActivity() ,password, email);
+        /*mAuthViewModel.getUserFromLogin(getActivity() ,password, email).observe(this, new Observer<User>() {
             @Override
             public void onChanged(@Nullable User user) {
                 if(user != null){
@@ -111,7 +116,7 @@ public class SignInFragment extends Fragment {
                     startActivity(openMain);
                 }
             }
-        });
+        });*/
     }
 
     private Boolean validateEmail(){
@@ -140,12 +145,4 @@ public class SignInFragment extends Fragment {
     private Boolean isValidEmail(String email){
         return !TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        //tells the fragment that its activity has completed its own Activity.onCreate()
-        mAuthViewModel = ViewModelProviders.of(getActivity()).get(AuthViewModel.class);
-    }
-
 }

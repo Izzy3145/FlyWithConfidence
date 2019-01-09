@@ -28,9 +28,8 @@ import io.realm.RealmResults;
 import uk.airbyte.fwc.R;
 import uk.airbyte.fwc.adapters.ModulesAdapter;
 import uk.airbyte.fwc.model.Module;
-import uk.airbyte.fwc.model.Topic;
 import uk.airbyte.fwc.utils.Const;
-import uk.airbyte.fwc.viewmodels.TopicsViewModel;
+import uk.airbyte.fwc.viewmodels.ModuleViewModel;
 
 public class TopicsFragment extends Fragment implements ModulesAdapter.ModulesAdapterListener, TabLayout.OnTabSelectedListener {
 
@@ -57,7 +56,7 @@ public class TopicsFragment extends Fragment implements ModulesAdapter.ModulesAd
     @BindView(R.id.topicsRv10)
     RecyclerView mRecyclerView10;
 
-    private TopicsViewModel mViewModel;
+    private ModuleViewModel mModuleViewModel;
     private String accessToken;
     private SharedPreferences sharedPref;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -80,12 +79,12 @@ public class TopicsFragment extends Fragment implements ModulesAdapter.ModulesAd
         sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
         accessToken = sharedPref.getString(Const.ACCESS_TOKEN, "");
         fragmentManager = getFragmentManager();
-        mViewModel = ViewModelProviders.of(this).get(TopicsViewModel.class);
+        mModuleViewModel = ViewModelProviders.of(this).get(ModuleViewModel.class);
         realm = Realm.getDefaultInstance();
         category = "knowledge";
 
         //get and save all modules - move this to viewmodel, or somewhere else?
-        mViewModel.getModulesFromTopics(getActivity(), accessToken, category).observe(this, new Observer<List<Module>>() {
+        mModuleViewModel.getModulesFromTopics(getActivity(), accessToken, category).observe(this, new Observer<List<Module>>() {
             @Override
             public void onChanged(@Nullable List<Module> modules) {
                 if (modules != null) {
@@ -140,6 +139,19 @@ public class TopicsFragment extends Fragment implements ModulesAdapter.ModulesAd
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mModuleViewModel.onPause();
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mModuleViewModel.onResume();
     }
 
     @Override

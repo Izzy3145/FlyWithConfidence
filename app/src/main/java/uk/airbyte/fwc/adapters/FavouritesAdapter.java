@@ -67,9 +67,10 @@ public class FavouritesAdapter extends RealmRecyclerViewAdapter<Module, Favourit
             final Module module = getItem(position);
            //final Module module = mListOfModules.get(position);
            holder.mVideoTitle.setText(module.getName());
-           Picasso.get()
+            holder.mVideoThumbnail.setClipToOutline(true);
+            Picasso.get()
                    .load(module.getMedia().getThumbnail())
-                   .placeholder(R.drawable.captain)
+                   .placeholder(R.drawable.captain_placeholder)
                    .error(R.drawable.captain)
                    .resize(160,90)
                    .centerCrop()

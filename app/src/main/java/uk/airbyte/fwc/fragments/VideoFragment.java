@@ -2,7 +2,6 @@ package uk.airbyte.fwc.fragments;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -33,7 +32,7 @@ import io.realm.Realm;
 import uk.airbyte.fwc.R;
 import uk.airbyte.fwc.model.Module;
 import uk.airbyte.fwc.model.ShowPlay;
-import uk.airbyte.fwc.viewmodels.HomeViewModel;
+import uk.airbyte.fwc.viewmodels.VideoViewModel;
 
 
 public class VideoFragment extends Fragment {
@@ -55,7 +54,7 @@ public class VideoFragment extends Fragment {
     @Nullable
     private String mThumbnailString;
     private SimpleExoPlayer mSimpleExoPlayer;
-    private HomeViewModel homeViewModel;
+    private VideoViewModel videoViewModel;
     private Realm realm;
     private Module mModule;
     private ShowPlay showPlayObj;
@@ -68,7 +67,7 @@ public class VideoFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        homeViewModel = ViewModelProviders.of(getActivity()).get(HomeViewModel.class);
+        videoViewModel = ViewModelProviders.of(getActivity()).get(VideoViewModel.class);
         realm = Realm.getDefaultInstance();
     }
 
@@ -89,8 +88,8 @@ public class VideoFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         showPlayObj = null;
-        homeViewModel = ViewModelProviders.of(getActivity()).get(HomeViewModel.class);
-        homeViewModel.getSelected().observe(this, new Observer<ShowPlay>() {
+        videoViewModel = ViewModelProviders.of(getActivity()).get(VideoViewModel.class);
+        videoViewModel.getSelected().observe(this, new Observer<ShowPlay>() {
             @Override
             public void onChanged(@Nullable ShowPlay showPlay) {
                 if (showPlay != null) {
@@ -190,7 +189,7 @@ public class VideoFragment extends Fragment {
         super.onDestroyView();
         showPlayObj = null;
         releasePlayer();
-        homeViewModel.clearVideo();
+        videoViewModel.clearVideo();
     }
 
     @Override

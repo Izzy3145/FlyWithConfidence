@@ -1,6 +1,5 @@
 package uk.airbyte.fwc.viewmodels;
 
-import android.accounts.Account;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
@@ -8,7 +7,6 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
-import io.realm.Realm;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -20,7 +18,7 @@ import uk.airbyte.fwc.model.Login;
 import uk.airbyte.fwc.model.Password;
 import uk.airbyte.fwc.model.Success;
 import uk.airbyte.fwc.model.User;
-import uk.airbyte.fwc.repositories.AccountRepository;
+import uk.airbyte.fwc.repositories.UserRepository;
 
 public class AccountViewModel extends ViewModel{
 
@@ -28,10 +26,10 @@ public class AccountViewModel extends ViewModel{
     private MutableLiveData<User> user;
     private MutableLiveData<Success> success;
     private APIService apiService = APIClient.getClient().create(APIService.class);
-    private final AccountRepository accountRepository;
+    private final UserRepository accountRepository;
 
     public AccountViewModel() {
-        accountRepository = new AccountRepository();
+        accountRepository = new UserRepository();
         }
 
     //we will call this method to get the data

@@ -19,7 +19,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -29,7 +28,7 @@ import uk.airbyte.fwc.R;
 import uk.airbyte.fwc.model.Module;
 import uk.airbyte.fwc.model.ShowPlay;
 import uk.airbyte.fwc.utils.Const;
-import uk.airbyte.fwc.viewmodels.HomeViewModel;
+import uk.airbyte.fwc.viewmodels.VideoViewModel;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -49,7 +48,7 @@ public class ModuleFragment extends Fragment {
     Button addFavouriteBtn;
     @BindView(R.id.nextModuleBtn)
     Button nextModuleBtn;
-    private HomeViewModel mHomeViewModel;
+    private VideoViewModel mVideoViewModel;
     private Module mModule;
     private String introduction;
     private String notes;
@@ -70,7 +69,7 @@ public class ModuleFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mHomeViewModel = ViewModelProviders.of(getActivity()).get(HomeViewModel.class);
+        mVideoViewModel = ViewModelProviders.of(getActivity()).get(VideoViewModel.class);
         realm = Realm.getDefaultInstance();
     }
 
@@ -155,7 +154,7 @@ public class ModuleFragment extends Fragment {
             isFavourite = mModule.getFavourited();
             if (module.getMedia().getVideo720() != null) {
                 Log.d(TAG, "Selected module player position: " + module.getPlayerPosition());
-                mHomeViewModel.select(new ShowPlay(module.getId(), null, null,
+                mVideoViewModel.select(new ShowPlay(module.getId(), null, null,
                         module.getMedia().getVideo720(), module.getCurrentWindow(), module.getPlayerPosition()));
             }
 
@@ -209,7 +208,8 @@ public class ModuleFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        // mHomeViewModel.select(new ShowPlay(null, null, null));
+
+        // mVideoViewModel.select(new ShowPlay(null, null, null));
     }
 
     @Override

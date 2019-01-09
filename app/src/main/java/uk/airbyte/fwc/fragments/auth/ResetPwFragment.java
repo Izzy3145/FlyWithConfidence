@@ -32,7 +32,4 @@ public class ResetPwFragment extends Fragment {
         setPasswordBtn.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_resetPwFragment_to_signInFragment));
         return view;
     }
-
-
-
 }

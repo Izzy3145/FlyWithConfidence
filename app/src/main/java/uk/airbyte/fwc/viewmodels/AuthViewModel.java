@@ -20,8 +20,7 @@ import uk.airbyte.fwc.api.ErrorUtils;
 import uk.airbyte.fwc.model.Login;
 import uk.airbyte.fwc.model.Reminder;
 import uk.airbyte.fwc.model.User;
-import uk.airbyte.fwc.repositories.AccountRepository;
-import uk.airbyte.fwc.repositories.AuthRepository;
+import uk.airbyte.fwc.repositories.UserRepository;
 import uk.airbyte.fwc.utils.Const;
 
 
@@ -33,12 +32,12 @@ public class AuthViewModel extends ViewModel {
     private MutableLiveData<Reminder> reminderSent;
     private APIService apiService = APIClient.getClient().create(APIService.class);
     //private onErrorListener mListener;
-    private final AuthRepository authRepository;
+    private final UserRepository userRepository;
     private SharedPreferences sharedPref;
     private SharedPreferences.Editor editor;
 
     public AuthViewModel() {
-        authRepository = new AuthRepository();
+        userRepository = new UserRepository();
     }
 
     //we will call this method to get the data
@@ -72,15 +71,22 @@ public class AuthViewModel extends ViewModel {
             return reminderSent;
     }
 
-    private void loginCall(final Context context, String password, String email) {
+    public void loginCall(final Context context, String password, String email) {
         apiService.login(new Login(password, email))
                 .enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 if (response.isSuccessful()) {
+                    sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+                    editor = sharedPref.edit();
+                    editor.putString(Const.ACCESS_TOKEN, response.body().getAccessToken());
+                    editor.putString(Const.USER_ID, response.body().getId());
+                    editor.apply();
 
+                    Intent openMain = new Intent(context, MainActivity.class);
+                    context.startActivity(openMain);
                     Log.d(TAG, "Response loginCall() success: " + response.body());
-                    user.postValue(response.body());
+                    //user.postValue(response.body());
                 } else {
                     APIError error = ErrorUtils.parseError(response);
                     String errorCode = String.valueOf(error.status());
@@ -88,7 +94,6 @@ public class AuthViewModel extends ViewModel {
                     Toast.makeText(context, "Error: " + errorCode + " " + errorMessage, Toast.LENGTH_SHORT).show();
                     Log.d("loginCall() error message", error.message());
                 }
-
             }
 
             @Override
@@ -105,7 +110,7 @@ public class AuthViewModel extends ViewModel {
                     @Override
                     public void onResponse(Call<User> call, Response<User> response) {
                         if (response.isSuccessful()) {
-                            authRepository.registerUserRealm(response.body());
+                            userRepository.registerUserRealm(response.body());
                             sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
                             editor = sharedPref.edit();
                             editor.putString(Const.USER_ID, response.body().getId());

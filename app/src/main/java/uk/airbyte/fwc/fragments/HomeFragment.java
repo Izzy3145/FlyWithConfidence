@@ -16,21 +16,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import java.util.ArrayList;
-
 import androidx.navigation.Navigation;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.realm.Realm;
 import io.realm.RealmResults;
-import io.realm.Sort;
 import uk.airbyte.fwc.R;
 import uk.airbyte.fwc.adapters.FavouritesAdapter;
 import uk.airbyte.fwc.adapters.ModulesAdapter;
 import uk.airbyte.fwc.model.Module;
 import uk.airbyte.fwc.model.ShowPlay;
 import uk.airbyte.fwc.utils.Const;
-import uk.airbyte.fwc.viewmodels.HomeViewModel;
+import uk.airbyte.fwc.viewmodels.ModuleViewModel;
+import uk.airbyte.fwc.viewmodels.VideoViewModel;
 
 public class HomeFragment extends Fragment implements FavouritesAdapter.FavouritesAdapterListener, ModulesAdapter.ModulesAdapterListener {
 
@@ -50,7 +48,8 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.Favourit
     @BindView(R.id.edit_fav_button)
     Button editFavButton;
 
-    private HomeViewModel mHomeViewModel;
+    private VideoViewModel mVideoViewModel;
+    private ModuleViewModel mModuleViewModel;
     private RecyclerView.LayoutManager mLayoutManager;
     private FavouritesAdapter mFavouritesAdapter;
     private ModulesAdapter mModulesAdapter;
@@ -58,10 +57,8 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.Favourit
     private String videoSelected;
     private Fragment videoFragment;
     private Realm realm;
-    private ArrayList<Module> favouritesList = new ArrayList<Module>(0);
-    private ArrayList<Module> recentsList = new ArrayList<Module>(0);
     private String selectedModuleID;
-    private int mEditting = 0;
+    private int mEditing = 0;
     private RealmResults<Module> realmRecents;
     private RealmResults<Module> realmFavourites;
 
@@ -74,7 +71,8 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.Favourit
         super.onCreate(savedInstanceState);
         fragmentManager = getFragmentManager();
         videoFragment = fragmentManager.findFragmentById(R.id.videoFragment);
-        mHomeViewModel = ViewModelProviders.of(getActivity()).get(HomeViewModel.class);
+        mVideoViewModel = ViewModelProviders.of(getActivity()).get(VideoViewModel.class);
+        mModuleViewModel = ViewModelProviders.of(getActivity()).get(ModuleViewModel.class);
         realm = Realm.getDefaultInstance();
     }
 
@@ -92,7 +90,7 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.Favourit
                 watchNowBtn.setVisibility(View.GONE);
                 videoOverlayGroup.setVisibility(View.GONE);
                 //TODO: get player position of intro video (not cached in db)
-                mHomeViewModel.select(new ShowPlay(null, null, null, videoSelected, 0, 0));
+                mVideoViewModel.select(new ShowPlay(null, null, null, videoSelected, 0, 0));
 
                 //TODO: (1) Make this work in landscape, implement onBackPressed
                 //getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -109,13 +107,13 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.Favourit
         editFavButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(mEditting == 0) {
-                    mEditting = 1;
+                if(mEditing == 0) {
+                    mEditing = 1;
                     editFavButton.setText(getResources().getString(R.string.done));
                     setUpRecentsAdapter();
                     setUpFavouritesAdapter();
-                } else if(mEditting == 1){
-                    mEditting = 0;
+                } else if(mEditing == 1){
+                    mEditing = 0;
                     editFavButton.setText(getResources().getString(R.string.edit));
                     setUpRecentsAdapter();
                     setUpFavouritesAdapter();
@@ -131,44 +129,40 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.Favourit
     private void setUpFavouritesAdapter(){
 
         //TODO: move this to ViewModel
-        realmFavourites = realm.where(Module.class)
+        /*realmFavourites = realm.where(Module.class)
                 .equalTo("favourited", true)
                 .findAll();
-        realmFavourites.sort("lastViewed", Sort.DESCENDING);
+        realmFavourites.sort("lastViewed", Sort.DESCENDING);*/
+        realmFavourites = mModuleViewModel.getFavourites();
         mFavouritesRv.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this.getActivity(), LinearLayoutManager.HORIZONTAL, false);
         mFavouritesRv.setLayoutManager(mLayoutManager);
-        mFavouritesAdapter = new FavouritesAdapter(realmFavourites, getActivity(), this, mEditting);
+        mFavouritesAdapter = new FavouritesAdapter(realmFavourites, getActivity(), this, mEditing);
         mFavouritesRv.setAdapter(mFavouritesAdapter);
 
         Log.d(TAG, "Number of favourited videos: " + String.valueOf(realmFavourites.size()));
-        //favouritesList.clear();
-        //favouritesList.addAll(realm.copyFromRealm(realmFavourites));
-        //orderModules(favouritesList);
-        //mFavouritesAdapter.clearModulesList();
-        //mFavouritesAdapter.setModulesToAdapter(favouritesList);
     }
 
     private void setUpRecentsAdapter(){
-        //TODO: if all recently watched videos have been deleted, remove "Recently Watched" title
-        realmRecents = realm.where(Module.class)
+       /* realmRecents = realm.where(Module.class)
                 .notEqualTo("lastViewed", 0)
                 .findAll();
-        realmRecents.sort("lastViewed", Sort.DESCENDING);
+        realmRecents.sort("lastViewed", Sort.DESCENDING);*/
+        realmRecents = mModuleViewModel.getRecents();
         if(realmRecents!=null){
             recentsRvGroup.setVisibility(View.VISIBLE);
         }
         myRecentsRv.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this.getActivity(), LinearLayoutManager.HORIZONTAL, false);
         myRecentsRv.setLayoutManager(mLayoutManager);
-        mModulesAdapter = new ModulesAdapter(realmRecents, getActivity(), this, mEditting);
+        mModulesAdapter = new ModulesAdapter(realmRecents, getActivity(), this, mEditing);
         myRecentsRv.setAdapter(mModulesAdapter);
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mHomeViewModel = ViewModelProviders.of(getActivity()).get(HomeViewModel.class);
+        mVideoViewModel = ViewModelProviders.of(getActivity()).get(VideoViewModel.class);
 
     }
 
@@ -185,8 +179,7 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.Favourit
 
     @Override
     public void onClickRecentsDeleteMethod(Module module, int position) {
-        final String unfavouritedModuleID = module.getId();
-        realm.executeTransaction(new Realm.Transaction() {
+        /*realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
                 Module unfavouritedModule = realm.where(Module.class)
@@ -194,15 +187,16 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.Favourit
                         .findFirst();
                 unfavouritedModule.setLastViewed(0);
             }
-        });
+        });*/
 
+        mModuleViewModel.deleteRecent(module.getId());
         setUpRecentsAdapter();
     }
 
     @Override
     public void onClickDeleteMethod(Module module, int position) {
-        Log.d(TAG, "OnClickDeleteMethod clicked");
-        final String unfavouritedModuleID = module.getId();
+        mModuleViewModel.deleteFavourite(module.getId());
+        /*final String unfavouritedModuleID = module.getId();
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
@@ -212,7 +206,7 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.Favourit
                 unfavouritedModule.setFavourited(false);
             }
         });
-
+*/
         setUpFavouritesAdapter();
     }
 
@@ -221,13 +215,14 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.Favourit
         super.onResume();
        selectedModuleID = "";
        setUpFavouritesAdapter();
+      mModuleViewModel.onResume();
     }
 
     @Override
     public void onPause() {
         super.onPause();
-      //  mHomeViewModel.getSelected().removeObservers(this);
-    }
+       mModuleViewModel.onPause();
+        }
 
     @Override
     public void onDestroy() {
