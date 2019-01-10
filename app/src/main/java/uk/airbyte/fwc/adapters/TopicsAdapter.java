@@ -33,7 +33,7 @@ public class TopicsAdapter extends RecyclerView.Adapter<TopicsAdapter.ViewHolder
             title = (TextView) view.findViewById(R.id.horizTopicTitle);
             horizontalList = (RecyclerView) itemView.findViewById(R.id.horizTopicsRv);
             horizontalList.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
-            modulesAdapter = new ModulesAdapter(null, 0);
+            modulesAdapter = new ModulesAdapter(null , 0);
             horizontalList.setAdapter(modulesAdapter);
         }
     }
@@ -53,8 +53,8 @@ public class TopicsAdapter extends RecyclerView.Adapter<TopicsAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
-            if(mData != null) {
-           // holder.title.setText(mData.get(position).get(0).getTopic().getName());
+            if(mData != null && mData.get(position).where().findFirst() != null) {
+           holder.title.setText(mData.get(position).where().findFirst().getTopic().getName());
             holder.modulesAdapter.setData(mData.get(position));
             //holder.modulesAdapter.setRowIndex(position);
         }

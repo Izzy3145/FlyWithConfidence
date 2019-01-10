@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +32,7 @@ public class ModulesAdapter extends RealmRecyclerViewAdapter<Module, ModulesAdap
     private ModulesAdapterListener mClickHandler;
     private int mEditting;
     private Realm realm;
+    private static final String TAG = ModulesAdapter.class.getSimpleName();
 
     public ModulesAdapter(RealmResults<Module> modules, int editting){
         super(modules, true, true);
@@ -116,7 +118,9 @@ public class ModulesAdapter extends RealmRecyclerViewAdapter<Module, ModulesAdap
 
     public void setData(RealmResults<Module> modules) {
         mModules = modules;
-        notifyDataSetChanged();
+        Log.d(TAG, "Modules realm list size: " +mModules.size());
+        //notifyDataSetChanged();
+        updateData(modules);
     }
 
     //create onClickListener interface
