@@ -33,7 +33,7 @@ import uk.airbyte.fwc.model.Topic;
 import uk.airbyte.fwc.utils.Const;
 import uk.airbyte.fwc.viewmodels.ModuleViewModel;
 
-public class TopicsFragment extends Fragment implements ModulesAdapter.ModulesAdapterListener, TabLayout.OnTabSelectedListener {
+public class TopicsFragment extends Fragment implements TopicsAdapter.TopicsAdapterListener, TabLayout.OnTabSelectedListener {
 
     private static final String TAG = TopicsFragment.class.getSimpleName();
 
@@ -152,12 +152,14 @@ public class TopicsFragment extends Fragment implements ModulesAdapter.ModulesAd
         for(int i = 0; i < mTopicIDList.size(); i++){
             RealmResults<Module> modules = mModuleViewModel.getModulesForTopic(mTopicIDList.get(i));
             Log.d(TAG, "setUpTopicsAdapter() RealmResults<Module> size: " + modules.size());
-            modulesTopics.add(mModuleViewModel.getModulesForTopic(mTopicIDList.get(i)));
-            Log.d(TAG, "setUpTopicsAdapter() ArrayList<RealmResults<Module>> modulesTopics size: " + modulesTopics.size());
+            if(modules.size() > 0) {
+                modulesTopics.add(mModuleViewModel.getModulesForTopic(mTopicIDList.get(i)));
+                Log.d(TAG, "setUpTopicsAdapter() ArrayList<RealmResults<Module>> modulesTopics size: " + modulesTopics.size());
+            }
             topicsAdapter.setData(modulesTopics);
         }
 
-        topicsAdapter = new TopicsAdapter(modulesTopics, getActivity());
+        topicsAdapter = new TopicsAdapter(modulesTopics, getActivity(), this);
         Log.d(TAG, "Setting up TopicsAdapter");
         verticalRv.setHasFixedSize(true);
         vertManager = new LinearLayoutManager(this.getActivity(), LinearLayoutManager.VERTICAL, false);
@@ -177,21 +179,6 @@ public class TopicsFragment extends Fragment implements ModulesAdapter.ModulesAd
         mModuleViewModel.onResume();
         //setUpModulesAdapter();
         setUpTopicsAdapter();
-    }
-
-
-    @Override
-    public void onClickMethod(Module module, int position) {
-        String selectedModuleID = "";
-        selectedModuleID = module.getId();
-        Bundle b = new Bundle();
-        b.putString(Const.MODULE_ID, selectedModuleID);
-        Navigation.findNavController(getActivity(), R.id.my_nav_host_fragment).navigate(R.id.action_topicsFragment_to_moduleFragment, b);
-    }
-
-    @Override
-    public void onClickRecentsDeleteMethod(Module module, int position) {
-        //empty interface, only used in home fragment
     }
 
     @Override
@@ -216,5 +203,14 @@ public class TopicsFragment extends Fragment implements ModulesAdapter.ModulesAd
     @Override
     public void onTabReselected(TabLayout.Tab tab) {
 
+    }
+
+    @Override
+    public void onClickModuleInTopic(Module module, int position) {
+        String selectedModuleID = "";
+        selectedModuleID = module.getId();
+        Bundle b = new Bundle();
+        b.putString(Const.MODULE_ID, selectedModuleID);
+        Navigation.findNavController(getActivity(), R.id.my_nav_host_fragment).navigate(R.id.action_topicsFragment_to_moduleFragment, b);
     }
 }

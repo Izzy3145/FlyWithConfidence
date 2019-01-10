@@ -162,7 +162,7 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.Favourit
     }
 
     @Override
-    public void onClickMethod(Module module, int position) {
+    public void onClickModule(Module module, int position) {
         Log.d(TAG, "OnClickMethod clicked");
         selectedModuleID = "";
         selectedModuleID = module.getId();
@@ -172,7 +172,7 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.Favourit
     }
 
     @Override
-    public void onClickRecentsDeleteMethod(Module module, int position) {
+    public void onClickRecentsDelete(Module module, int position) {
         /*realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
@@ -184,6 +184,11 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.Favourit
         });*/
         mModuleViewModel.deleteRecent(module.getId());
         setUpRecentsAdapter();
+    }
+
+    @Override
+    public void onClickMethod(Module module, int position) {
+        //TODO: sort this out
     }
 
     @Override

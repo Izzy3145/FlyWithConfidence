@@ -22,8 +22,10 @@ public class TopicsAdapter extends RecyclerView.Adapter<TopicsAdapter.ViewHolder
     private final Context mContext;
     private static ArrayList<RealmResults<Module>> mData;
     private static RecyclerView horizontalList;
+    private static TopicsAdapterListener mClickHandler;
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+
+    public static class ViewHolder extends RecyclerView.ViewHolder implements ModulesAdapter.ModulesAdapterListener {
         public final TextView title;
         private ModulesAdapter modulesAdapter;
 
@@ -33,13 +35,30 @@ public class TopicsAdapter extends RecyclerView.Adapter<TopicsAdapter.ViewHolder
             title = (TextView) view.findViewById(R.id.horizTopicTitle);
             horizontalList = (RecyclerView) itemView.findViewById(R.id.horizTopicsRv);
             horizontalList.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
-            modulesAdapter = new ModulesAdapter(null , 0);
+            modulesAdapter = new ModulesAdapter(null, this);
             horizontalList.setAdapter(modulesAdapter);
+        }
+
+        @Override
+        public void onClickModule(Module module, int position) {
+            mClickHandler.onClickModuleInTopic(module,position);
+        }
+
+        @Override
+        public void onClickRecentsDelete(Module module, int position) {
+
         }
     }
 
-    public TopicsAdapter(ArrayList<RealmResults<Module>> modulesTopics, Context context) {
+
+
+    public interface TopicsAdapterListener {
+        void onClickModuleInTopic(Module module, int position);
+    }
+
+    public TopicsAdapter(ArrayList<RealmResults<Module>> modulesTopics, Context context, TopicsAdapterListener clickHandler) {
         mContext = context;
+        mClickHandler = clickHandler;
         if (modulesTopics != null)
             mData = new ArrayList<>(modulesTopics);
         else mData = new ArrayList<>();

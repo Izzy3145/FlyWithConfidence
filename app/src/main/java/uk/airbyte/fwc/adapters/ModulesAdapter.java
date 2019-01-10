@@ -1,9 +1,7 @@
 package uk.airbyte.fwc.adapters;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,12 +12,9 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.realm.Realm;
-import io.realm.RealmList;
 import io.realm.RealmRecyclerViewAdapter;
 import io.realm.RealmResults;
 import uk.airbyte.fwc.R;
@@ -34,13 +29,13 @@ public class ModulesAdapter extends RealmRecyclerViewAdapter<Module, ModulesAdap
     private Realm realm;
     private static final String TAG = ModulesAdapter.class.getSimpleName();
 
-    public ModulesAdapter(RealmResults<Module> modules, int editting){
+    public ModulesAdapter(RealmResults<Module> modules, ModulesAdapterListener clickHandler){
         super(modules, true, true);
         //setHasStableIds(true);
        // mContext = c;
         realm = Realm.getDefaultInstance();
-        //mClickHandler = clickHandler;
-        mEditting = editting;
+        mClickHandler = clickHandler;
+       // mEditting = editting;
         mModules = modules;
     }
 
@@ -109,7 +104,7 @@ public class ModulesAdapter extends RealmRecyclerViewAdapter<Module, ModulesAdap
                 holder.mDeleteFavBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        mClickHandler.onClickRecentsDeleteMethod(module, adapterPosition);
+                        mClickHandler.onClickRecentsDelete(module, adapterPosition);
                     }
                 });
             }
@@ -125,8 +120,8 @@ public class ModulesAdapter extends RealmRecyclerViewAdapter<Module, ModulesAdap
 
     //create onClickListener interface
     public interface ModulesAdapterListener {
-        void onClickMethod(Module module, int position);
-        void onClickRecentsDeleteMethod(Module module, int position);
+        void onClickModule(Module module, int position);
+        void onClickRecentsDelete(Module module, int position);
         }
 
     //create viewholder class
@@ -149,7 +144,7 @@ public class ModulesAdapter extends RealmRecyclerViewAdapter<Module, ModulesAdap
             Module module;
             int adapterPosition = getAdapterPosition();
             module = getItem(adapterPosition);
-            mClickHandler.onClickMethod(module, adapterPosition);
+            mClickHandler.onClickModule(module, adapterPosition);
         }
     }
 }
