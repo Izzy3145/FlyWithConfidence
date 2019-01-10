@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.realm.Realm;
+import io.realm.RealmList;
 import io.realm.RealmRecyclerViewAdapter;
 import io.realm.RealmResults;
 import uk.airbyte.fwc.R;
@@ -26,17 +27,29 @@ import uk.airbyte.fwc.model.Module;
 public class ModulesAdapter extends RealmRecyclerViewAdapter<Module, ModulesAdapter.ViewHolder> {
 
     private Context mContext;
-    private ArrayList<Module> mListOfModules;
+    private RealmResults<Module> mModules;
     private ModulesAdapterListener mClickHandler;
     private int mEditting;
     private Realm realm;
 
+    public ModulesAdapter(RealmResults<Module> modules, int editting){
+        super(modules, true, true);
+        //setHasStableIds(true);
+       // mContext = c;
+        realm = Realm.getDefaultInstance();
+        //mClickHandler = clickHandler;
+        mEditting = editting;
+        mModules = modules;
+    }
+
     public ModulesAdapter(RealmResults<Module> modules, Context c, ModulesAdapterListener clickHandler, int editting){
         super(modules, true, true);
+        //setHasStableIds(true);
         mContext = c;
         realm = Realm.getDefaultInstance();
         mClickHandler = clickHandler;
         mEditting = editting;
+        mModules = modules;
     }
 
     /*public void changeEditMode(){
@@ -101,15 +114,9 @@ public class ModulesAdapter extends RealmRecyclerViewAdapter<Module, ModulesAdap
         }
 
 
-    public void setModulesToAdapter(ArrayList<Module> foundModuleList) {
-        mListOfModules = foundModuleList;
+    public void setData(RealmResults<Module> modules) {
+        mModules = modules;
         notifyDataSetChanged();
-    }
-
-    public void clearModulesList(){
-        if(mListOfModules!=null) {
-            mListOfModules.clear();
-        }
     }
 
     //create onClickListener interface

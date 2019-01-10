@@ -40,6 +40,7 @@ public class FavouritesAdapter extends RealmRecyclerViewAdapter<Module, Favourit
 
     public FavouritesAdapter(RealmResults<Module> modules, Context c, FavouritesAdapterListener clickHandler, int editting){
         super(modules, true, true);
+       // setHasStableIds(true);
         mContext = c;
         realm = Realm.getDefaultInstance();
         mClickHandler = clickHandler;

@@ -26,18 +26,30 @@
 
     </android.support.design.widget.TabLayout>
 
-    <TextView
-    android:id="@+id/topicTitleTv1"
-    android:layout_width="0dp"
-    android:layout_height="wrap_content"
-    android:layout_marginStart="16dp"
-    android:layout_marginEnd="16dp"
-    android:padding="16dp"
-    android:text="TOPIC TITLE"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintHorizontal_bias="0.0"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/top_tabs" />
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/verticalTopicsRv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/top_tabs">
+
+    </android.support.v7.widget.RecyclerView>
+
+   <!-- <TextView
+        android:id="@+id/topicTitleTv1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:padding="16dp"
+        android:text="TOPIC TITLE"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/top_tabs" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/topicsRv1"
@@ -58,17 +70,17 @@
         app:constraint_referenced_ids="topicsRv1,topicTitleTv1" />
 
     <TextView
-    android:id="@+id/topicTitleTv2"
-    android:layout_width="0dp"
-    android:layout_height="wrap_content"
-    android:layout_marginStart="16dp"
-    android:layout_marginEnd="16dp"
-    android:padding="16dp"
-        tools:text="TOPIC TITLE"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintHorizontal_bias="0.0"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/topicsRv1" />
+        android:id="@+id/topicTitleTv2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:padding="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/topicsRv1"
+        tools:text="TOPIC TITLE" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/topicsRv2"
@@ -89,17 +101,17 @@
         app:constraint_referenced_ids="topicsRv2,topicTitleTv2" />
 
     <TextView
-    android:id="@+id/topicTitleTv3"
-    android:layout_width="0dp"
-    android:layout_height="wrap_content"
-    android:layout_marginStart="16dp"
-    android:layout_marginEnd="16dp"
-    android:padding="16dp"
-        tools:text="TOPIC TITLE"
+        android:id="@+id/topicTitleTv3"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:padding="16dp"
         app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintHorizontal_bias="0.0"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/topicsRv2" />
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/topicsRv2"
+        tools:text="TOPIC TITLE" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/topicsRv3"
@@ -126,11 +138,11 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:padding="16dp"
-        tools:text="TOPIC TITLE"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/topicsRv3" />
+        app:layout_constraintTop_toBottomOf="@+id/topicsRv3"
+        tools:text="TOPIC TITLE" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/topicsRv4"
@@ -158,11 +170,11 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:padding="16dp"
-        tools:text="TOPIC TITLE"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/topicsRv4" />
+        app:layout_constraintTop_toBottomOf="@+id/topicsRv4"
+        tools:text="TOPIC TITLE" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/topicsRv5"
@@ -189,11 +201,11 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:padding="16dp"
-        tools:text="TOPIC TITLE"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/topicsRv5" />
+        app:layout_constraintTop_toBottomOf="@+id/topicsRv5"
+        tools:text="TOPIC TITLE" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/topicsRv6"
@@ -221,11 +233,11 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:padding="16dp"
-        tools:text="TOPIC TITLE"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/topicsRv6" />
+        app:layout_constraintTop_toBottomOf="@+id/topicsRv6"
+        tools:text="TOPIC TITLE" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/topicsRv7"
@@ -253,11 +265,11 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:padding="16dp"
-        tools:text="TOPIC TITLE"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/topicsRv7" />
+        app:layout_constraintTop_toBottomOf="@+id/topicsRv7"
+        tools:text="TOPIC TITLE" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/topicsRv8"
@@ -284,11 +296,11 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:padding="16dp"
-        tools:text="TOPIC TITLE"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/topicsRv8" />
+        app:layout_constraintTop_toBottomOf="@+id/topicsRv8"
+        tools:text="TOPIC TITLE" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/topicsRv9"
@@ -315,11 +327,11 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:padding="16dp"
-        tools:text="TOPIC TITLE"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/topicsRv9" />
+        app:layout_constraintTop_toBottomOf="@+id/topicsRv9"
+        tools:text="TOPIC TITLE" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/topicsRv10"
@@ -338,5 +350,6 @@
         android:layout_height="wrap_content"
         android:visibility="gone"
         app:constraint_referenced_ids="topicsRv10,topicTitleTv10" />
+        -->
 
 </android.support.constraint.ConstraintLayout>

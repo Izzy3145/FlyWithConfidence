@@ -27,7 +27,9 @@ import io.realm.Realm;
 import io.realm.RealmResults;
 import uk.airbyte.fwc.R;
 import uk.airbyte.fwc.adapters.ModulesAdapter;
+import uk.airbyte.fwc.adapters.TopicsAdapter;
 import uk.airbyte.fwc.model.Module;
+import uk.airbyte.fwc.model.Topic;
 import uk.airbyte.fwc.utils.Const;
 import uk.airbyte.fwc.viewmodels.ModuleViewModel;
 
@@ -35,34 +37,18 @@ public class TopicsFragment extends Fragment implements ModulesAdapter.ModulesAd
 
     private static final String TAG = TopicsFragment.class.getSimpleName();
 
-    @BindView(R.id.topicsRv1)
-    RecyclerView mRecyclerView1;
-    @BindView(R.id.topicsRv2)
-    RecyclerView mRecyclerView2;
-    @BindView(R.id.topicsRv3)
-    RecyclerView mRecyclerView3;
-    @BindView(R.id.topicsRv4)
-    RecyclerView mRecyclerView4;
-    @BindView(R.id.topicsRv5)
-    RecyclerView mRecyclerView5;
-    @BindView(R.id.topicsRv6)
-    RecyclerView mRecyclerView6;
-    @BindView(R.id.topicsRv7)
-    RecyclerView mRecyclerView7;
-    @BindView(R.id.topicsRv8)
-    RecyclerView mRecyclerView8;
-    @BindView(R.id.topicsRv9)
-    RecyclerView mRecyclerView9;
-    @BindView(R.id.topicsRv10)
-    RecyclerView mRecyclerView10;
+    //@BindView(R.id.topicsRv1)
+    //RecyclerView mRecyclerView1;
+    @BindView(R.id.verticalTopicsRv)
+    RecyclerView verticalRv;
 
     private ModuleViewModel mModuleViewModel;
     private String accessToken;
     private SharedPreferences sharedPref;
-    private RecyclerView.LayoutManager mLayoutManager;
-    private ModulesAdapter mAdapter;
-    private Realm realm;
-    private FragmentManager fragmentManager;
+    private RecyclerView.LayoutManager vertManager;
+    private RecyclerView.LayoutManager horizManager;
+    private ModulesAdapter modulesAdapter;
+    private TopicsAdapter topicsAdapter;
     private String category;
     private ArrayList<Module> moduleList = new ArrayList<Module>();
     private List<String> mTopicIDList = new ArrayList<String>();
@@ -78,20 +64,18 @@ public class TopicsFragment extends Fragment implements ModulesAdapter.ModulesAd
         super.onCreate(savedInstanceState);
         sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
         accessToken = sharedPref.getString(Const.ACCESS_TOKEN, "");
-        fragmentManager = getFragmentManager();
         mModuleViewModel = ViewModelProviders.of(this).get(ModuleViewModel.class);
-        realm = Realm.getDefaultInstance();
         category = "knowledge";
 
         mModuleViewModel.topicAndModuleCall(getActivity(), accessToken, category);
-        mModuleViewModel.getAllResultsLive().observe(this, new Observer<RealmResults<Module>>() {
+        /*mModuleViewModel.getAllResultsLive().observe(this, new Observer<RealmResults<Module>>() {
             @Override
             public void onChanged(@Nullable RealmResults<Module> modules) {
                 realmModules = modules;
-                setUpRecyclerView();
-                //TODO: shouldn't need to call setUpRecyclerView...
+                setUpModulesAdapter();
+                //TODO: shouldn't need to call setUpModulesAdapter...
             }
-        });
+        });*/
 
         //get and save all modules - move this to viewmodel, or somewhere else?
         /*mModuleViewModel.getModulesFromTopics(getActivity(), accessToken, category).observe(this, new Observer<List<Module>>() {
@@ -110,13 +94,26 @@ public class TopicsFragment extends Fragment implements ModulesAdapter.ModulesAd
                     for (int i = 0; i < modules.size(); i++) {
                         Log.d(TAG, "topicID: " + modules.get(i).getTopic().getId() + " Module name: " + modules.get(i).getName());
                     }
-                    //mAdapter.setModulesToAdapter(moduleList);
+                    //modulesAdapter.setModulesToAdapter(moduleList);
                 }
-                //TODO: check this is looping correctly when data from other topics is not null
                 Log.d(TAG, "moduleList size: " + moduleList.size());
                 Log.d(TAG, "Number of Topics found: " + numberOfTopics);
             }
         });*/
+
+        //method to receive all found topic IDs
+
+        mModuleViewModel.getListOfTopics(getActivity(), accessToken, category).observe(this, new Observer<List<Topic>>() {
+            @Override
+            public void onChanged(@Nullable List<Topic> topics) {
+                for(int i=0; i < topics.size(); i++){
+                    mTopicIDList.add(topics.get(i).getId());
+                    Log.d(TAG, "getListOfTopics() topicID size:" + mTopicIDList.size());
+                    setUpTopicsAdapter();
+                }
+                //TODO notify TopicsAdapter that topic has been found
+            }
+        });
 
     }
 
@@ -130,18 +127,42 @@ public class TopicsFragment extends Fragment implements ModulesAdapter.ModulesAd
         TabLayout tablayout = (TabLayout) view.findViewById(R.id.top_tabs);
         tablayout.setVisibility(View.VISIBLE);
 
-        setUpRecyclerView();
+       /* realmModules = realm.where(Module.class)
+                .findAll();
+        realmModules.sort("displayOrder");*/
+
+        setUpTopicsAdapter();
 
         return view;
     }
 
-    private void setUpRecyclerView(){
+   /* private void setUpModulesAdapter(){
        // Log.d(TAG, "Realm results size: " + realmModules.size());
-        mAdapter = new ModulesAdapter(realmModules, getActivity(), this, 0);
+        modulesAdapter = new ModulesAdapter(realmModules, getActivity(), this, 0);
         mRecyclerView1.setHasFixedSize(true);
-        mLayoutManager = new LinearLayoutManager(this.getActivity(), LinearLayoutManager.HORIZONTAL, false);
-        mRecyclerView1.setLayoutManager(mLayoutManager);
-        mRecyclerView1.setAdapter(mAdapter);
+        horizManager = new LinearLayoutManager(this.getActivity(), LinearLayoutManager.HORIZONTAL, false);
+        mRecyclerView1.setLayoutManager(horizManager);
+        mRecyclerView1.setAdapter(modulesAdapter);
+    }*/
+
+    private void setUpTopicsAdapter(){
+        ArrayList<RealmResults<Module>> modulesTopics = new ArrayList<RealmResults<Module>>();
+
+        //TODO: change this to livedata
+        for(int i = 0; i < mTopicIDList.size(); i++){
+            RealmResults<Module> modules = mModuleViewModel.getModulesForTopic(mTopicIDList.get(i));
+            Log.d(TAG, "setUpTopicsAdapter() RealmResults<Module> size: " + modules.size());
+            modulesTopics.add(mModuleViewModel.getModulesForTopic(mTopicIDList.get(i)));
+            Log.d(TAG, "setUpTopicsAdapter() ArrayList<RealmResults<Module>> modulesTopics size: " + modulesTopics.size());
+            topicsAdapter.setData(modulesTopics);
+        }
+
+        topicsAdapter = new TopicsAdapter(modulesTopics, getActivity());
+        Log.d(TAG, "Setting up TopicsAdapter");
+        verticalRv.setHasFixedSize(true);
+        vertManager = new LinearLayoutManager(this.getActivity(), LinearLayoutManager.VERTICAL, false);
+        verticalRv.setLayoutManager(vertManager);
+        verticalRv.setAdapter(topicsAdapter);
     }
 
     @Override
@@ -154,7 +175,8 @@ public class TopicsFragment extends Fragment implements ModulesAdapter.ModulesAd
     public void onResume() {
         super.onResume();
         mModuleViewModel.onResume();
-        setUpRecyclerView();
+        //setUpModulesAdapter();
+        setUpTopicsAdapter();
     }
 
 

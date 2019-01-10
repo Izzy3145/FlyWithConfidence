@@ -39,7 +39,14 @@ public class ModuleRepository {
             }
         });
     }
-    //TODO: add in topics variable
+    public RealmResults<Module> getModulesForTopic(String topicID){
+        RealmResults<Module> realmTopicModules = moduleRealm.where().equalTo("topic.id", topicID).findAll();
+        realmTopicModules.sort("displayOrder");
+        //RealmResults<Module> realmModules = realmInstance.where(Module.class).findAll();
+        //realmModules.sort("displayOrder");
+        return realmTopicModules;
+    }
+
     public RealmResults<Module> getModulesToDisplay(){
         moduleRealm.sort("displayOrder");
         //RealmResults<Module> realmModules = realmInstance.where(Module.class).findAll();

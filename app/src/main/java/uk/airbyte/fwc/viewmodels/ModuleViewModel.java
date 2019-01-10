@@ -31,12 +31,13 @@ public class ModuleViewModel extends ViewModel implements OrderedRealmCollection
 
 
     private MutableLiveData<List<Module>> modules;
-    //private MutableLiveData<List<Topic>> topics;
+    private MutableLiveData<List<Topic>> topics;
     private List<Topic> listOfTopics;
     private APIService apiService = APIClient.getClient().create(APIService.class);
     private final ModuleRepository moduleRepository;
     private RealmResults<Module> favouriteResults;
     private RealmResults<Module> recentsResults;
+    private RealmResults<Module> topicResults;
     private RealmResults<Module> allResults;
     private RealmListLiveData<Module> allResultsLive;
     private int numberOfTopics;
@@ -65,6 +66,11 @@ public class ModuleViewModel extends ViewModel implements OrderedRealmCollection
         return allResults;
     }
 
+    public RealmResults<Module> getModulesForTopic(String topicID){
+        topicResults = moduleRepository.getModulesForTopic(topicID);
+        return topicResults;
+    }
+
     public RealmResults<Module> getFavourites(){
         favouriteResults = moduleRepository.getRealmFavourites();
         return favouriteResults;
@@ -83,15 +89,16 @@ public class ModuleViewModel extends ViewModel implements OrderedRealmCollection
         moduleRepository.deleteRealmFavourite(moduleID);
     }
 
-    public LiveData<List<Module>> getModulesFromTopics(Context context, String accessToken, String category){
-        if(modules == null) {
-            modules = new MutableLiveData<>();
+    public LiveData<List<Topic>> getListOfTopics(final Context context, final String accessToken, String category){
+        if(topics == null) {
+            topics = new MutableLiveData<>();
             topicAndModuleCall(context, accessToken, category);
         }
-        return modules;
+        return topics;
     }
 
     public void topicAndModuleCall(final Context context, final String accessToken, String category) {
+        //method to save all found modules to Realm, and return list of topic IDs as liveData
         numberOfTopics = 0;
         numberOfModules = 0;
         apiService.getTopics(accessToken, category).enqueue(new Callback<List<Topic>>() {
@@ -100,6 +107,7 @@ public class ModuleViewModel extends ViewModel implements OrderedRealmCollection
                 if (response.isSuccessful()) {
 
                     listOfTopics = response.body();
+                    topics.postValue(listOfTopics);
                     for(int i = 0; i < listOfTopics.size(); i++){
 
                         numberOfTopics++;
@@ -114,7 +122,7 @@ public class ModuleViewModel extends ViewModel implements OrderedRealmCollection
                                     moduleRepository.copyTopicModulesToRealm(response.body());
 
                                     numberOfModules = numberOfModules + response.body().size();
-                                    Log.d(TAG, "moduleList size: " + numberOfModules);
+                                    Log.d(TAG, "topicAndModuleCall() moduleList size: " + numberOfModules);
                                     //modules.postValue(response.body());
                                 } else {
                                     APIError error = ErrorUtils.parseError(response);
@@ -159,6 +167,7 @@ public class ModuleViewModel extends ViewModel implements OrderedRealmCollection
     public void onChange(RealmResults<Module> modules, OrderedCollectionChangeSet changeSet) {
         favouriteResults = moduleRepository.getRealmFavourites();
         recentsResults = moduleRepository.getRealmRecents();
+        //topicResults = moduleRepository.getModulesForTopic()
         allResults = moduleRepository.getModulesToDisplay();
     }
 }
