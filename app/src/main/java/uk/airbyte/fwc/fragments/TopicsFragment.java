@@ -67,7 +67,7 @@ public class TopicsFragment extends Fragment implements ModulesAdapter.ModulesAd
     private ArrayList<Module> moduleList = new ArrayList<Module>();
     private List<String> mTopicIDList = new ArrayList<String>();
     private int numberOfTopics = 0;
-    private RealmResults<Module> realmModules;
+    private RealmResults<Module> realmModules = null;
 
     public static TopicsFragment newInstance() {
         return new TopicsFragment();
@@ -84,6 +84,14 @@ public class TopicsFragment extends Fragment implements ModulesAdapter.ModulesAd
         category = "knowledge";
 
         mModuleViewModel.topicAndModuleCall(getActivity(), accessToken, category);
+        mModuleViewModel.getAllResultsLive().observe(this, new Observer<RealmResults<Module>>() {
+            @Override
+            public void onChanged(@Nullable RealmResults<Module> modules) {
+                realmModules = modules;
+                setUpRecyclerView();
+                //TODO: shouldn't need to call setUpRecyclerView...
+            }
+        });
 
         //get and save all modules - move this to viewmodel, or somewhere else?
         /*mModuleViewModel.getModulesFromTopics(getActivity(), accessToken, category).observe(this, new Observer<List<Module>>() {
@@ -122,17 +130,19 @@ public class TopicsFragment extends Fragment implements ModulesAdapter.ModulesAd
         TabLayout tablayout = (TabLayout) view.findViewById(R.id.top_tabs);
         tablayout.setVisibility(View.VISIBLE);
 
-        realmModules = mModuleViewModel.getAll();
-        Log.d(TAG, "Realm results size: " + realmModules.size());
+        setUpRecyclerView();
+
+        return view;
+    }
+
+    private void setUpRecyclerView(){
+       // Log.d(TAG, "Realm results size: " + realmModules.size());
         mAdapter = new ModulesAdapter(realmModules, getActivity(), this, 0);
         mRecyclerView1.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this.getActivity(), LinearLayoutManager.HORIZONTAL, false);
         mRecyclerView1.setLayoutManager(mLayoutManager);
         mRecyclerView1.setAdapter(mAdapter);
-
-        return view;
     }
-
 
     @Override
     public void onPause() {
@@ -144,6 +154,7 @@ public class TopicsFragment extends Fragment implements ModulesAdapter.ModulesAd
     public void onResume() {
         super.onResume();
         mModuleViewModel.onResume();
+        setUpRecyclerView();
     }
 
 

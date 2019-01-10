@@ -21,6 +21,7 @@ import uk.airbyte.fwc.api.APIError;
 import uk.airbyte.fwc.api.APIService;
 import uk.airbyte.fwc.api.ErrorUtils;
 import uk.airbyte.fwc.model.Module;
+import uk.airbyte.fwc.model.RealmListLiveData;
 import uk.airbyte.fwc.model.Topic;
 import uk.airbyte.fwc.repositories.ModuleRepository;
 
@@ -37,14 +38,18 @@ public class ModuleViewModel extends ViewModel implements OrderedRealmCollection
     private RealmResults<Module> favouriteResults;
     private RealmResults<Module> recentsResults;
     private RealmResults<Module> allResults;
-
-
+    private RealmListLiveData<Module> allResultsLive;
     private int numberOfTopics;
     private int numberOfModules;
 
 
     public ModuleViewModel(){
         moduleRepository = new ModuleRepository();
+    }
+
+    public RealmListLiveData<Module> getAllResultsLive (){
+            allResultsLive = new RealmListLiveData<>(getAll());
+        return allResultsLive;
     }
 
     public void onResume() {moduleRepository.addChangeListener(this);}
@@ -96,20 +101,21 @@ public class ModuleViewModel extends ViewModel implements OrderedRealmCollection
 
                     listOfTopics = response.body();
                     for(int i = 0; i < listOfTopics.size(); i++){
-                        Log.d(TAG, "TopicsVM Topic ID: " + listOfTopics.get(i).getId());
-                        String topicID = listOfTopics.get(i).getId();
+
                         numberOfTopics++;
                         Log.d(TAG, "Number of Topics found: " + numberOfTopics);
+
+                        String topicID = listOfTopics.get(i).getId();
                         apiService.getModulesForTopics(accessToken, topicID).enqueue(new Callback<List<Module>>() {
                             @Override
                             public void onResponse(Call<List<Module>> call, Response<List<Module>> response) {
                                 if (response.isSuccessful()) {
+                                    Log.d(TAG, "Response moduleCall() success: " + response.body());
                                     moduleRepository.copyTopicModulesToRealm(response.body());
+
                                     numberOfModules = numberOfModules + response.body().size();
                                     Log.d(TAG, "moduleList size: " + numberOfModules);
-
                                     //modules.postValue(response.body());
-                                    Log.d(TAG, "Response moduleCall() success: " + response.body());
                                 } else {
                                     APIError error = ErrorUtils.parseError(response);
                                     String errorCode = String.valueOf(error.status());
@@ -153,6 +159,7 @@ public class ModuleViewModel extends ViewModel implements OrderedRealmCollection
     public void onChange(RealmResults<Module> modules, OrderedCollectionChangeSet changeSet) {
         favouriteResults = moduleRepository.getRealmFavourites();
         recentsResults = moduleRepository.getRealmRecents();
+        allResults = moduleRepository.getModulesToDisplay();
     }
 }
 
