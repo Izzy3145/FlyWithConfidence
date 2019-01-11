@@ -83,7 +83,7 @@ public class TopicsAdapter extends RecyclerView.Adapter<TopicsAdapter.ViewHolder
     }
 
     public void clearData(){
-        mData = null;
+        mData = new ArrayList<>();
         notifyDataSetChanged();
     }
     @Override

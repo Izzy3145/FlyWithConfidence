@@ -33,6 +33,7 @@ import uk.airbyte.fwc.viewmodels.VideoViewModel;
 public class HomeFragment extends Fragment implements FavouritesAdapter.FavouritesAdapterListener, ModulesAdapter.ModulesAdapterListener {
 
     private static final String TAG = HomeFragment.class.getSimpleName();
+
     @BindView(R.id.myFavouritesRv)
     RecyclerView mFavouritesRv;
     @BindView(R.id.myRecentsRv)

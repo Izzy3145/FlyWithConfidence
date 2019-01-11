@@ -60,6 +60,7 @@ public class ModuleRepository {
     }
 
     public void copyTopicModulesToRealm(List<Module> listOfModulesForTopic){
+        //TODO: is this bit wrong?
         if(listOfModulesForTopic != null) {
             listOfModules.addAll(listOfModulesForTopic);
             realmInstance.executeTransaction(new Realm.Transaction() {
@@ -88,6 +89,7 @@ public class ModuleRepository {
     }
 
     public void deleteRealmRecent(final String moduleID){
+        //TODO: remove finals?
         realmInstance.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {

@@ -53,7 +53,6 @@ public class ForgotFragment extends Fragment {
     Group sentGroup;
     @BindView(R.id.sentEmailTv)
     TextView sentEmailTv;
-
     private String email;
     private AuthViewModel mAuthViewModel;
 
@@ -77,7 +76,7 @@ public class ForgotFragment extends Fragment {
     }
 
     @OnClick(R.id.btnSignIn)
-    public void signIn(){
+    public void signIn() {
         if (!validateEmail()) {
             return;
         }
@@ -120,9 +119,7 @@ public class ForgotFragment extends Fragment {
         return true;
     }
 
-    private Boolean isValidEmail(String email){
+    private Boolean isValidEmail(String email) {
         return !TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
-
-
 }

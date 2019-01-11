@@ -30,7 +30,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.realm.Realm;
 import uk.airbyte.fwc.R;
-import uk.airbyte.fwc.model.Module;
 import uk.airbyte.fwc.model.ShowPlay;
 import uk.airbyte.fwc.viewmodels.VideoViewModel;
 
@@ -47,7 +46,7 @@ public class VideoFragment extends Fragment {
     private VideoViewModel videoViewModel;
     private Realm realm;
     @Nullable
-    private ShowPlay showPlayObj;
+    private ShowPlay mShowPlay;
 
     public VideoFragment() {
         // Required empty public constructor
@@ -76,16 +75,18 @@ public class VideoFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        showPlayObj = null;
         videoViewModel = ViewModelProviders.of(getActivity()).get(VideoViewModel.class);
         videoViewModel.getSelected().observe(this, new Observer<ShowPlay>() {
             @Override
             public void onChanged(@Nullable ShowPlay showPlay) {
-                    showPlayObj = showPlay;
-                    passShowPlayObj(showPlayObj);
-                    //videoOrImageDisplay(showPlayObj.getImage(), showPlayObj.getThumbnail(), showPlayObj.getVideoUrl(),
-                    //        showPlayObj.getCurrentWindow(), showPlayObj.getPlayerPosition());
-                    //Log.d(TAG, "Video string received: " + showPlayObj.getVideoUrl());
+                if(mShowPlay != null) {
+                    saveState();
+                }
+                    mShowPlay = showPlay;
+                    passShowPlayObj(mShowPlay);
+                    //videoOrImageDisplay(mShowPlay.getImage(), mShowPlay.getThumbnail(), mShowPlay.getVideoUrl(),
+                    //        mShowPlay.getCurrentWindow(), mShowPlay.getPlayerPosition());
+                    //Log.d(TAG, "Video string received: " + mShowPlay.getVideoUrl());
             }
         });
     }
@@ -94,8 +95,8 @@ public class VideoFragment extends Fragment {
         if(showPlay == null){
             videoOrImageDisplay(null, null, null, 0, 0);
         } else {
-            videoOrImageDisplay(showPlayObj.getImage(), showPlayObj.getThumbnail(), showPlayObj.getVideoUrl(),
-                    showPlayObj.getCurrentWindow(), showPlayObj.getPlayerPosition());
+            videoOrImageDisplay(mShowPlay.getImage(), mShowPlay.getThumbnail(), mShowPlay.getVideoUrl(),
+                    mShowPlay.getCurrentWindow(), mShowPlay.getPlayerPosition());
         }
     }
 
@@ -149,7 +150,7 @@ public class VideoFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        if(showPlayObj != null){
+        if(mShowPlay != null){
         saveState();}
         releasePlayer();
         Log.d(TAG, "onPause()");
@@ -158,17 +159,17 @@ public class VideoFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        passShowPlayObj(showPlayObj);
-        //if (showPlayObj != null) {
-        //    videoOrImageDisplay(showPlayObj.getImage(), showPlayObj.getThumbnail(), showPlayObj.getVideoUrl(),
-        //            showPlayObj.getCurrentWindow(), showPlayObj.getPlayerPosition()); }
+        passShowPlayObj(mShowPlay);
+        //if (mShowPlay != null) {
+        //    videoOrImageDisplay(mShowPlay.getImage(), mShowPlay.getThumbnail(), mShowPlay.getVideoUrl(),
+        //            mShowPlay.getCurrentWindow(), mShowPlay.getPlayerPosition()); }
         Log.d(TAG, "onResume()");
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        if(showPlayObj != null) {
+        if(mShowPlay != null) {
             saveState();
         }
         releasePlayer();
@@ -177,7 +178,6 @@ public class VideoFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        showPlayObj = null;
         releasePlayer();
         videoViewModel.clearVideo();
     }
@@ -200,9 +200,9 @@ public class VideoFragment extends Fragment {
     private void saveState() {
         if (mSimpleExoPlayer != null) {
             playbackReady = false;
-            videoViewModel.setVideoPosition(showPlayObj, mSimpleExoPlayer);
+            videoViewModel.setVideoPosition(mShowPlay, mSimpleExoPlayer);
                 /*mModule = realm.where(Module.class)
-                        .equalTo("id", showPlayObj.getModuleID())
+                        .equalTo("id", mShowPlay.getModuleID())
                         .findFirst();
                 realm.executeTransaction(new Realm.Transaction() {
                     @Override

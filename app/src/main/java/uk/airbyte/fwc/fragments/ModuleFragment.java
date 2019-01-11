@@ -160,12 +160,12 @@ public class ModuleFragment extends Fragment {
     public void favouriteButtonToggle() {
         if (isFavourite != null) {
             if (!isFavourite) {
-                addFavouriteBtn.setText("ADD TO FAVOURITES");
+                addFavouriteBtn.setText(getString(R.string.add_to_favourites));
             } else {
-                addFavouriteBtn.setText("REMOVE FROM FAVOURITES");
+                addFavouriteBtn.setText(getString(R.string.remove_favourite));
             }
         } else {
-            addFavouriteBtn.setText("ADD TO FAVOURITES");
+            addFavouriteBtn.setText(R.string.add_to_favourites);
         }
     }
 
@@ -187,5 +187,5 @@ public class ModuleFragment extends Fragment {
     public void onResume() {
         super.onResume();
         Log.d(TAG, "onResume()");
-        }
+    }
 }

@@ -59,6 +59,8 @@
     <string name="watch_now">   WATCH NOW</string>
     <string name="done">Done</string>
     <string name="edit">Edit</string>
+    <string name="add_to_favourites">ADD TO FAVOURITES</string>
+    <string name="remove_favourite">REMOVE FROM FAVOURITES</string>
 
 
 </resources>

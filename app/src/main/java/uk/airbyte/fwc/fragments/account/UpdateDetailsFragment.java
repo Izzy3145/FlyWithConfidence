@@ -31,11 +31,6 @@ import uk.airbyte.fwc.viewmodels.AccountViewModel;
 public class UpdateDetailsFragment extends Fragment {
 
     private static final String TAG = UpdateDetailsFragment.class.getSimpleName();
-
-    private AccountViewModel mViewModel;
-    private String mAccessToken;
-    private String mUserID;
-    private SharedPreferences sharedPref;
     @BindView(R.id.cancelBtn)
     Button cancelBtn;
     @BindView(R.id.saveBtn)
@@ -46,6 +41,10 @@ public class UpdateDetailsFragment extends Fragment {
     TextInputEditText inputLastName;
     @BindView(R.id.inputEmail)
     TextInputEditText inputEmail;
+    private AccountViewModel mViewModel;
+    private String mAccessToken;
+    private String mUserID;
+    private SharedPreferences sharedPref;
 
     public UpdateDetailsFragment() {
         // Required empty public constructor
@@ -64,10 +63,10 @@ public class UpdateDetailsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-       //FragmentUpdateDetailsBinding binding = FragmentUpdateDetailsBinding.inflate(inflater, container, false);
-       //binding.setAccountviewmodel(mViewModel);
+        //FragmentUpdateDetailsBinding binding = FragmentUpdateDetailsBinding.inflate(inflater, container, false);
+        //binding.setAccountviewmodel(mViewModel);
         //binding.setLifecycleOwner(this);
-       // User user = new User(null, "Izzy", "Stannett", "izzystannett@gmail.com");
+        // User user = new User(null, "Izzy", "Stannett", "izzystannett@gmail.com");
         //binding.setUser(user);
         //View view = binding.getRoot();
 

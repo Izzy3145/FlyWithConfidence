@@ -41,17 +41,15 @@ public class TopicsFragment extends Fragment implements TopicsAdapter.TopicsAdap
     //RecyclerView mRecyclerView1;
     @BindView(R.id.verticalTopicsRv)
     RecyclerView verticalRv;
-
+    ArrayList<RealmResults<Module>> modulesTopics = new ArrayList<RealmResults<Module>>();
     private ModuleViewModel mModuleViewModel;
     private String accessToken;
     private SharedPreferences sharedPref;
     private RecyclerView.LayoutManager vertManager;
     private TopicsAdapter topicsAdapter;
     private String category;
-    ArrayList<RealmResults<Module>> modulesTopics = new ArrayList<RealmResults<Module>>();
     private ArrayList<Module> moduleList = new ArrayList<Module>();
     private List<String> mTopicIDList = new ArrayList<String>();
-
 
     public static TopicsFragment newInstance() {
         return new TopicsFragment();
@@ -104,9 +102,6 @@ public class TopicsFragment extends Fragment implements TopicsAdapter.TopicsAdap
         });*/
 
         //method to receive all found topic IDs
-
-
-
     }
 
 
@@ -172,24 +167,23 @@ public class TopicsFragment extends Fragment implements TopicsAdapter.TopicsAdap
         mRecyclerView1.setAdapter(modulesAdapter);
     }*/
 
-   private void getModulesForCategory(){
-       topicsAdapter.clearData();
-       mModuleViewModel.getListOfTopics(getActivity(), accessToken, category).observe(this, new Observer<List<Topic>>() {
-           @Override
-           public void onChanged(@Nullable List<Topic> topics) {
-               for (int i = 0; i < topics.size(); i++) {
-                   mTopicIDList.add(topics.get(i).getId());
-                   Log.d(TAG, "getListOfTopics() topicID size:" + mTopicIDList.size());
-               }
-               setUpTopicsAdapter();
-               mModuleViewModel.getListOfTopics(getActivity(), accessToken, category).removeObservers(getActivity());
-           }
-       });
-   }
+    private void getModulesForCategory() {
+        topicsAdapter.clearData();
+        mModuleViewModel.getListOfTopics(getActivity(), accessToken, category).observe(this, new Observer<List<Topic>>() {
+            @Override
+            public void onChanged(@Nullable List<Topic> topics) {
+                for (int i = 0; i < topics.size(); i++) {
+                    mTopicIDList.add(topics.get(i).getId());
+                    Log.d(TAG, "getListOfTopics() topicID size:" + mTopicIDList.size());
+                }
+                setUpTopicsAdapter();
+                mModuleViewModel.getListOfTopics(getActivity(), accessToken, category).removeObservers(getActivity());
+            }
+        });
+    }
+
     private void setUpTopicsAdapter() {
         modulesTopics = new ArrayList<RealmResults<Module>>();
-
-        //TODO: change this to livedata?
         for (int i = 0; i < mTopicIDList.size(); i++) {
             RealmResults<Module> modules = mModuleViewModel.getModulesForTopic(mTopicIDList.get(i));
             Log.d(TAG, "setUpTopicsAdapter() RealmResults<Module> size: " + modules.size());
