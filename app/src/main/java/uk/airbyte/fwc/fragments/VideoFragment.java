@@ -46,7 +46,6 @@ public class VideoFragment extends Fragment {
     private SimpleExoPlayer mSimpleExoPlayer;
     private VideoViewModel videoViewModel;
     private Realm realm;
-    private Module mModule;
     @Nullable
     private ShowPlay showPlayObj;
 

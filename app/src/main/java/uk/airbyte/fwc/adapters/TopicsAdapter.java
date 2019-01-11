@@ -71,7 +71,7 @@ public class TopicsAdapter extends RecyclerView.Adapter<TopicsAdapter.ViewHolder
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
             if(mData != null && mData.get(position).where().findFirst() != null) {
-           holder.title.setText(mData.get(position).where().findFirst().getTopic().getName());
+            holder.title.setText(mData.get(position).where().findFirst().getTopic().getName());
             holder.modulesAdapter.setData(mData.get(position));
             //holder.modulesAdapter.setRowIndex(position);
         }
@@ -81,8 +81,17 @@ public class TopicsAdapter extends RecyclerView.Adapter<TopicsAdapter.ViewHolder
         mData = data;
         notifyDataSetChanged();
     }
+
+    public void clearData(){
+        mData = null;
+        notifyDataSetChanged();
+    }
     @Override
     public int getItemCount() {
-        return mData.size();
+        if(mData != null) {
+            return mData.size();
+        } else {
+            return 0;
+        }
     }
 }

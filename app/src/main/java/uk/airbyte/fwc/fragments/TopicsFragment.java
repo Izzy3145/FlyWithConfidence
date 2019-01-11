@@ -33,7 +33,7 @@ import uk.airbyte.fwc.model.Topic;
 import uk.airbyte.fwc.utils.Const;
 import uk.airbyte.fwc.viewmodels.ModuleViewModel;
 
-public class TopicsFragment extends Fragment implements TopicsAdapter.TopicsAdapterListener, TabLayout.OnTabSelectedListener {
+public class TopicsFragment extends Fragment implements TopicsAdapter.TopicsAdapterListener {
 
     private static final String TAG = TopicsFragment.class.getSimpleName();
 
@@ -46,14 +46,12 @@ public class TopicsFragment extends Fragment implements TopicsAdapter.TopicsAdap
     private String accessToken;
     private SharedPreferences sharedPref;
     private RecyclerView.LayoutManager vertManager;
-    private RecyclerView.LayoutManager horizManager;
-    private ModulesAdapter modulesAdapter;
     private TopicsAdapter topicsAdapter;
     private String category;
+    ArrayList<RealmResults<Module>> modulesTopics = new ArrayList<RealmResults<Module>>();
     private ArrayList<Module> moduleList = new ArrayList<Module>();
     private List<String> mTopicIDList = new ArrayList<String>();
-    private int numberOfTopics = 0;
-    private RealmResults<Module> realmModules = null;
+
 
     public static TopicsFragment newInstance() {
         return new TopicsFragment();
@@ -65,9 +63,13 @@ public class TopicsFragment extends Fragment implements TopicsAdapter.TopicsAdap
         sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
         accessToken = sharedPref.getString(Const.ACCESS_TOKEN, "");
         mModuleViewModel = ViewModelProviders.of(this).get(ModuleViewModel.class);
+        topicsAdapter = new TopicsAdapter(modulesTopics, getActivity(), this);
         category = "knowledge";
 
         mModuleViewModel.topicAndModuleCall(getActivity(), accessToken, category);
+
+        getModulesForCategory();
+
         /*mModuleViewModel.getAllResultsLive().observe(this, new Observer<RealmResults<Module>>() {
             @Override
             public void onChanged(@Nullable RealmResults<Module> modules) {
@@ -103,17 +105,7 @@ public class TopicsFragment extends Fragment implements TopicsAdapter.TopicsAdap
 
         //method to receive all found topic IDs
 
-        mModuleViewModel.getListOfTopics(getActivity(), accessToken, category).observe(this, new Observer<List<Topic>>() {
-            @Override
-            public void onChanged(@Nullable List<Topic> topics) {
-                for(int i=0; i < topics.size(); i++){
-                    mTopicIDList.add(topics.get(i).getId());
-                    Log.d(TAG, "getListOfTopics() topicID size:" + mTopicIDList.size());
-                    setUpTopicsAdapter();
-                }
-                //TODO notify TopicsAdapter that topic has been found
-            }
-        });
+
 
     }
 
@@ -124,12 +116,47 @@ public class TopicsFragment extends Fragment implements TopicsAdapter.TopicsAdap
         View view = inflater.inflate(R.layout.topics_fragment, container, false);
         ButterKnife.bind(this, view);
 
-        TabLayout tablayout = (TabLayout) view.findViewById(R.id.top_tabs);
-        tablayout.setVisibility(View.VISIBLE);
+        //TabLayout tabLayout = new TabLayout(getActivity());
+        TabLayout tabLayout = (TabLayout) view.findViewById(R.id.top_tabs);
+        tabLayout.setVisibility(View.VISIBLE);
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                int tabPosition = tab.getPosition();
+                switch (tabPosition) {
+                    case 0:
+                        category = "knowledge";
+                        Log.d(TAG, "Category selected: " + category);
+                        getModulesForCategory();
+                        break;
+                    case 1:
+                        category = "preparation";
+                        Log.d(TAG, "Category selected: " + category);
+                        getModulesForCategory();
+                        break;
+                    default:
+                        category = "knowledge";
+                        Log.d(TAG, "Category selected: " + category);
+                        getModulesForCategory();
+                        break;
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
 
        /* realmModules = realm.where(Module.class)
                 .findAll();
         realmModules.sort("displayOrder");*/
+
 
         setUpTopicsAdapter();
 
@@ -145,21 +172,35 @@ public class TopicsFragment extends Fragment implements TopicsAdapter.TopicsAdap
         mRecyclerView1.setAdapter(modulesAdapter);
     }*/
 
-    private void setUpTopicsAdapter(){
-        ArrayList<RealmResults<Module>> modulesTopics = new ArrayList<RealmResults<Module>>();
+   private void getModulesForCategory(){
+       topicsAdapter.clearData();
+       mModuleViewModel.getListOfTopics(getActivity(), accessToken, category).observe(this, new Observer<List<Topic>>() {
+           @Override
+           public void onChanged(@Nullable List<Topic> topics) {
+               for (int i = 0; i < topics.size(); i++) {
+                   mTopicIDList.add(topics.get(i).getId());
+                   Log.d(TAG, "getListOfTopics() topicID size:" + mTopicIDList.size());
+               }
+               setUpTopicsAdapter();
+               mModuleViewModel.getListOfTopics(getActivity(), accessToken, category).removeObservers(getActivity());
+           }
+       });
+   }
+    private void setUpTopicsAdapter() {
+        modulesTopics = new ArrayList<RealmResults<Module>>();
 
-        //TODO: change this to livedata
-        for(int i = 0; i < mTopicIDList.size(); i++){
+        //TODO: change this to livedata?
+        for (int i = 0; i < mTopicIDList.size(); i++) {
             RealmResults<Module> modules = mModuleViewModel.getModulesForTopic(mTopicIDList.get(i));
             Log.d(TAG, "setUpTopicsAdapter() RealmResults<Module> size: " + modules.size());
-            if(modules.size() > 0) {
+            if (modules.size() > 0) {
                 modulesTopics.add(mModuleViewModel.getModulesForTopic(mTopicIDList.get(i)));
                 Log.d(TAG, "setUpTopicsAdapter() ArrayList<RealmResults<Module>> modulesTopics size: " + modulesTopics.size());
             }
             topicsAdapter.setData(modulesTopics);
         }
 
-        topicsAdapter = new TopicsAdapter(modulesTopics, getActivity(), this);
+        //topicsAdapter = new TopicsAdapter(modulesTopics, getActivity(), this);
         Log.d(TAG, "Setting up TopicsAdapter");
         verticalRv.setHasFixedSize(true);
         vertManager = new LinearLayoutManager(this.getActivity(), LinearLayoutManager.VERTICAL, false);
@@ -179,30 +220,6 @@ public class TopicsFragment extends Fragment implements TopicsAdapter.TopicsAdap
         mModuleViewModel.onResume();
         //setUpModulesAdapter();
         setUpTopicsAdapter();
-    }
-
-    @Override
-    public void onTabSelected(TabLayout.Tab tab) {
-        //TODO: find out why this isn't working, only works in activity? Not linking to this particular tab layout properly?
-
-        int tabPosition = tab.getPosition();
-        if(tabPosition == 0){
-            category = "knowledge";
-            Log.d(TAG, "Category selected: " + category);
-        } else {
-            category = "preparation";
-            Log.d(TAG, "Category selected: " + category);
-        }
-    }
-
-    @Override
-    public void onTabUnselected(TabLayout.Tab tab) {
-
-    }
-
-    @Override
-    public void onTabReselected(TabLayout.Tab tab) {
-
     }
 
     @Override
