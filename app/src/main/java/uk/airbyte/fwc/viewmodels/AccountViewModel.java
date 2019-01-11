@@ -21,6 +21,7 @@ import uk.airbyte.fwc.model.User;
 import uk.airbyte.fwc.repositories.UserRepository;
 
 public class AccountViewModel extends ViewModel{
+    //TODO: cleanup
 
     private static final String TAG = AccountViewModel.class.getSimpleName();
     private MutableLiveData<User> user;

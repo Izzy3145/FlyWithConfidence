@@ -50,8 +50,6 @@ public class TopicsAdapter extends RecyclerView.Adapter<TopicsAdapter.ViewHolder
         }
     }
 
-
-
     public interface TopicsAdapterListener {
         void onClickModuleInTopic(Module module, int position);
     }

@@ -11,7 +11,6 @@ public class UserRepository {
     private final Realm realmInstance;
     private final RealmResults<User> userRealm;
 
-
     public UserRepository() {
         realmInstance = Realm.getDefaultInstance();
         userRealm = realmInstance.where(User.class).findAll();

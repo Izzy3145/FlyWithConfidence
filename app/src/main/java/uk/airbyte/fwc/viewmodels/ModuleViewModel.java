@@ -25,10 +25,11 @@ import uk.airbyte.fwc.model.RealmListLiveData;
 import uk.airbyte.fwc.model.Topic;
 import uk.airbyte.fwc.repositories.ModuleRepository;
 
-public class ModuleViewModel extends ViewModel implements OrderedRealmCollectionChangeListener<RealmResults<Module>>{
+public class ModuleViewModel extends ViewModel implements OrderedRealmCollectionChangeListener<RealmResults<Module>> {
 
     private final static String TAG = ModuleViewModel.class.getSimpleName();
 
+    //TODO:cleanup
 
     private MutableLiveData<List<Module>> modules;
     private MutableLiveData<List<Topic>> topics;
@@ -44,53 +45,62 @@ public class ModuleViewModel extends ViewModel implements OrderedRealmCollection
     private int numberOfModules;
 
 
-    public ModuleViewModel(){
+    public ModuleViewModel() {
         moduleRepository = new ModuleRepository();
     }
 
-    public RealmListLiveData<Module> getAllResultsLive (){
-            allResultsLive = new RealmListLiveData<>(getAll());
+    public RealmListLiveData<Module> getAllResultsLive() {
+        allResultsLive = new RealmListLiveData<>(getAll());
         return allResultsLive;
     }
 
-    public void onResume() {moduleRepository.addChangeListener(this);}
-    public void onPause() {moduleRepository.clearListeners();}
+    public void onResume() {
+        moduleRepository.addChangeListener(this);
+    }
+
+    public void onPause() {
+        moduleRepository.clearListeners();
+    }
 
 
-    public void setFavourite(Boolean isFavourite, Module module){
+    public void setFavourite(Boolean isFavourite, Module module) {
         moduleRepository.setRealmFavourite(isFavourite, module);
     }
 
-    public RealmResults<Module> getAll(){
+    public RealmResults<Module> getAll() {
         allResults = moduleRepository.getModulesToDisplay();
         return allResults;
     }
 
-    public RealmResults<Module> getModulesForTopic(String topicID){
+    public RealmResults<Module> getModulesForTopic(String topicID) {
         topicResults = moduleRepository.getModulesForTopic(topicID);
         return topicResults;
     }
 
-    public RealmResults<Module> getFavourites(){
+    public Module getModuleFromId(String moduleID){
+        return moduleRepository.getModuleFromID(moduleID);
+    }
+
+    public RealmResults<Module> getFavourites() {
         favouriteResults = moduleRepository.getRealmFavourites();
         return favouriteResults;
     }
 
-    public RealmResults<Module> getRecents(){
+    public RealmResults<Module> getRecents() {
         recentsResults = moduleRepository.getRealmRecents();
         return recentsResults;
     }
 
-    public void deleteRecent(String moduleID){
+    public void deleteRecent(String moduleID) {
         moduleRepository.deleteRealmRecent(moduleID);
     }
 
-    public void deleteFavourite(String moduleID){
+    public void deleteFavourite(String moduleID) {
         moduleRepository.deleteRealmFavourite(moduleID);
     }
 
-    public LiveData<List<Topic>> getListOfTopics(final Context context, final String accessToken, String category){
-        if(topics == null) {
+    public LiveData<List<Topic>> getListOfTopics(final Context context, final String accessToken, String category) {
+        if (topics == null) {
             topics = new MutableLiveData<>();
             topicAndModuleCall(context, accessToken, category);
         }
@@ -108,7 +118,7 @@ public class ModuleViewModel extends ViewModel implements OrderedRealmCollection
 
                     listOfTopics = response.body();
                     topics.postValue(listOfTopics);
-                    for(int i = 0; i < listOfTopics.size(); i++){
+                    for (int i = 0; i < listOfTopics.size(); i++) {
 
                         numberOfTopics++;
                         Log.d(TAG, "Number of Topics found: " + numberOfTopics);
@@ -150,14 +160,13 @@ public class ModuleViewModel extends ViewModel implements OrderedRealmCollection
                     Toast.makeText(context, "Error: " + errorCode + " " + errorMessage, Toast.LENGTH_SHORT).show();
                     Log.d("topicAndModuleCall() error message", error.message());
                 }
-
             }
 
             @Override
             public void onFailure(Call<List<Topic>> call, Throwable t) {
                 Log.d(TAG, "Response topicAndModuleCall() failure");
                 Toast.makeText(context, "Error - please check your network connection", Toast.LENGTH_SHORT).show();
-               // modules.postValue(null);
+                // modules.postValue(null);
             }
         });
     }

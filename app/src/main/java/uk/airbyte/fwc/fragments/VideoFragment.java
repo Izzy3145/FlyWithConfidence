@@ -38,27 +38,17 @@ import uk.airbyte.fwc.viewmodels.VideoViewModel;
 public class VideoFragment extends Fragment {
     private static final String TAG = VideoFragment.class.getSimpleName();
 
-    private static final String PLAYER_POSITION = "playback_position";
-    private static final String PLAYBACK_READY = "playback_ready";
     @BindView(R.id.exo_player_view)
     SimpleExoPlayerView simpleExoPlayerView;
     @BindView(R.id.placeholder_image_view)
     ImageView placeholderImageView;
-    private long playbackPosition;
     private boolean playbackReady = true;
-    private int currentWindow;
-    @Nullable
-    private String mVideoString;
-    @Nullable
-    private String mImageString;
-    @Nullable
-    private String mThumbnailString;
     private SimpleExoPlayer mSimpleExoPlayer;
     private VideoViewModel videoViewModel;
     private Realm realm;
     private Module mModule;
+    @Nullable
     private ShowPlay showPlayObj;
-
 
     public VideoFragment() {
         // Required empty public constructor
@@ -92,52 +82,48 @@ public class VideoFragment extends Fragment {
         videoViewModel.getSelected().observe(this, new Observer<ShowPlay>() {
             @Override
             public void onChanged(@Nullable ShowPlay showPlay) {
-                if (showPlay != null) {
                     showPlayObj = showPlay;
-                    videoOrImageDisplay(showPlayObj.getImage(), showPlayObj.getThumbnail(), showPlayObj.getVideoUrl(),
-                            showPlayObj.getCurrentWindow(), showPlayObj.getPlayerPosition());
-                    Log.d(TAG, "Video string received: " + showPlayObj.getVideoUrl());
-                }
+                    passShowPlayObj(showPlayObj);
+                    //videoOrImageDisplay(showPlayObj.getImage(), showPlayObj.getThumbnail(), showPlayObj.getVideoUrl(),
+                    //        showPlayObj.getCurrentWindow(), showPlayObj.getPlayerPosition());
+                    //Log.d(TAG, "Video string received: " + showPlayObj.getVideoUrl());
             }
         });
     }
 
+    private void passShowPlayObj(ShowPlay showPlay){
+        if(showPlay == null){
+            videoOrImageDisplay(null, null, null, 0, 0);
+        } else {
+            videoOrImageDisplay(showPlayObj.getImage(), showPlayObj.getThumbnail(), showPlayObj.getVideoUrl(),
+                    showPlayObj.getCurrentWindow(), showPlayObj.getPlayerPosition());
+        }
+    }
+
     public void videoOrImageDisplay(String image, String thumbnail, String videoUrl, int rmCurrentWindow, long rmPlayerPosition) {
         if (videoUrl != null && videoUrl.trim().length() != 0) {
-
             simpleExoPlayerView.setVisibility(View.VISIBLE);
             placeholderImageView.setVisibility(View.GONE);
-
             initializeExoPlayer(Uri.parse(videoUrl), rmCurrentWindow, rmPlayerPosition);
-
         } else if (image != null && image.trim().length() != 0) {
-
             simpleExoPlayerView.setVisibility(View.GONE);
             placeholderImageView.setVisibility(View.VISIBLE);
-
             Picasso.get()
                     .load(image)
                     .placeholder(R.drawable.captain_placeholder)
                     .error(R.drawable.captain_placeholder)
                     .into(placeholderImageView);
-
-
         } else if (thumbnail != null && thumbnail.trim().length() != 0) {
-
             simpleExoPlayerView.setVisibility(View.GONE);
             placeholderImageView.setVisibility(View.VISIBLE);
-
             Picasso.get()
                     .load(image)
                     .placeholder(R.drawable.captain_placeholder)
                     .error(R.drawable.captain_placeholder)
                     .into(placeholderImageView);
-
         } else {
-
             simpleExoPlayerView.setVisibility(View.GONE);
             placeholderImageView.setVisibility(View.VISIBLE);
-
             placeholderImageView.setImageResource(R.drawable.captain_placeholder);
         }
     }
@@ -164,23 +150,28 @@ public class VideoFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        saveState();
+        if(showPlayObj != null){
+        saveState();}
         releasePlayer();
+        Log.d(TAG, "onPause()");
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        if (showPlayObj != null) {
-            videoOrImageDisplay(showPlayObj.getImage(), showPlayObj.getThumbnail(), showPlayObj.getVideoUrl(),
-                    showPlayObj.getCurrentWindow(), showPlayObj.getPlayerPosition());
-        }
+        passShowPlayObj(showPlayObj);
+        //if (showPlayObj != null) {
+        //    videoOrImageDisplay(showPlayObj.getImage(), showPlayObj.getThumbnail(), showPlayObj.getVideoUrl(),
+        //            showPlayObj.getCurrentWindow(), showPlayObj.getPlayerPosition()); }
+        Log.d(TAG, "onResume()");
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        saveState();
+        if(showPlayObj != null) {
+            saveState();
+        }
         releasePlayer();
     }
 
@@ -210,18 +201,19 @@ public class VideoFragment extends Fragment {
     private void saveState() {
         if (mSimpleExoPlayer != null) {
             playbackReady = false;
-            mModule = realm.where(Module.class)
-                    .equalTo("id", showPlayObj.getModuleID())
-                    .findFirst();
-            realm.executeTransaction(new Realm.Transaction() {
-                @Override
-                public void execute(Realm realm) {
-                    mModule.setCurrentWindow(mSimpleExoPlayer.getCurrentWindowIndex());
-                    mModule.setPlayerPosition((int) mSimpleExoPlayer.getCurrentPosition());
-                    mModule.setLastViewed(System.currentTimeMillis());
-                    realm.copyToRealmOrUpdate(mModule);
-                }
-            });
+            videoViewModel.setVideoPosition(showPlayObj, mSimpleExoPlayer);
+                /*mModule = realm.where(Module.class)
+                        .equalTo("id", showPlayObj.getModuleID())
+                        .findFirst();
+                realm.executeTransaction(new Realm.Transaction() {
+                    @Override
+                    public void execute(Realm realm) {
+                        mModule.setCurrentWindow(mSimpleExoPlayer.getCurrentWindowIndex());
+                        mModule.setPlayerPosition((int) mSimpleExoPlayer.getCurrentPosition());
+                        mModule.setLastViewed(System.currentTimeMillis());
+                        realm.copyToRealmOrUpdate(mModule);
+                    }
+                });*/
         }
     }
 }

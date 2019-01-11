@@ -37,8 +37,6 @@ import uk.airbyte.fwc.viewmodels.VideoViewModel;
 public class ModuleFragment extends Fragment {
 
     private static final String TAG = ModuleFragment.class.getSimpleName();
-    private String selectedModuleID;
-    private Realm realm;
     @BindView(R.id.moduleIntroTv)
     TextView moduleIntroTv;
     @BindView(R.id.moduleNotesTv)
@@ -49,30 +47,24 @@ public class ModuleFragment extends Fragment {
     Button addFavouriteBtn;
     @BindView(R.id.nextModuleBtn)
     Button nextModuleBtn;
+    private String selectedModuleID;
     private VideoViewModel mVideoViewModel;
     private ModuleViewModel mModuleViewModel;
     private Module mModule;
-    private String introduction;
-    private String notes;
     private ArrayList<Module> modulesInTopic = new ArrayList<>(0);
     private String topicID;
     private SpannableString spanString;
-    private int currentWindow;
-    private long playbackPosition;
     private Boolean isFavourite;
 
     public ModuleFragment() {
         // Required empty public constructor
     }
 
-    //TODO: if module unlocked, show descriptions, otherwise show unlock button
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mVideoViewModel = ViewModelProviders.of(getActivity()).get(VideoViewModel.class);
         mModuleViewModel = ViewModelProviders.of(getActivity()).get(ModuleViewModel.class);
-        realm = Realm.getDefaultInstance();
     }
 
     @Override
@@ -92,10 +84,7 @@ public class ModuleFragment extends Fragment {
             public void onClick(View v) {
                 if (isFavourite != null) {
                     isFavourite = !isFavourite;
-                    Log.d(TAG, "Module name: " + mModule + ". Favourite status: " + mModule.getFavourited().toString());
                     Toast.makeText(getActivity(), "Module favourited: " + isFavourite, Toast.LENGTH_SHORT).show();
-                    //addFavouriteBtn.setText("REMOVE FROM FAVOURITES");
-                    //addFavouriteBtn.setText("ADD TO FAVOURITES");
                     favouriteButtonToggle();
                 } else {
                     isFavourite = true;
@@ -111,11 +100,9 @@ public class ModuleFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 int displayNumber = Integer.parseInt(mModule.getDisplayOrder());
-                Log.d(TAG, "Next nextToDisplay: " + String.valueOf(displayNumber));
-
                 if (displayNumber < modulesInTopic.size()) {
                     mModule = modulesInTopic.get((displayNumber));
-                    Log.d(TAG, "Next module name: " + mModule.getName());
+                    mVideoViewModel.clearVideo();
                     displayModuleInfo(mModule);
                     favouriteButtonToggle();
                 } else {
@@ -129,18 +116,9 @@ public class ModuleFragment extends Fragment {
 
     public void getListOfModules() {
         selectedModuleID = getArguments().getString(Const.MODULE_ID);
-        Log.d(TAG, "Module ID: " + selectedModuleID);
-        mModule = realm.where(Module.class)
-                .equalTo("id", selectedModuleID)
-                .findFirst();
-
+        mModule = mModuleViewModel.getModuleFromId(selectedModuleID);
         topicID = mModule.getTopic().getId();
-        RealmResults<Module> topicModulesRealm = realm.where(Module.class)
-                .equalTo("topic.id", topicID)
-                .findAll();
-        modulesInTopic.clear();
-        modulesInTopic.addAll(realm.copyFromRealm(topicModulesRealm));
-        Log.d(TAG, "Module List size: " + modulesInTopic.size());
+        modulesInTopic = new ArrayList<>(mModuleViewModel.getModulesForTopic(topicID));
     }
 
 
@@ -149,22 +127,19 @@ public class ModuleFragment extends Fragment {
             moduleIntroTv.setText(module.getDescription());
             moduleNotesTv.setText(module.getNotes());
             isFavourite = mModule.getFavourited();
-            if (module.getMedia().getVideo720() != null) {
-                Log.d(TAG, "Selected module player position: " + module.getPlayerPosition());
+            if (module.getMedia().getVideo1080() != null) {
                 mVideoViewModel.select(new ShowPlay(module.getId(), null, null,
-                        module.getMedia().getVideo720(), module.getCurrentWindow(), module.getPlayerPosition()));
+                        module.getMedia().getVideo1080(), module.getCurrentWindow(), module.getPlayerPosition()));
             }
 
             String sep = System.lineSeparator();
             StringBuilder sb = new StringBuilder();
-
             //TODO: check this with full API response
             /*ArrayList<String> bulletsList = new ArrayList<>(0);
             for(int i = 0; i < module.getBullets().size(); i++){
                 String bulletNote =  module.getBullets().get(i);
                 bulletsList.add(bulletNote);
             }*/
-
             ArrayList<String> bulletsList = new ArrayList<>();
             bulletsList.add("Test 1");
             bulletsList.add("Test 2");
@@ -183,8 +158,8 @@ public class ModuleFragment extends Fragment {
     }
 
     public void favouriteButtonToggle() {
-        if(isFavourite != null){
-            if(!isFavourite) {
+        if (isFavourite != null) {
+            if (!isFavourite) {
                 addFavouriteBtn.setText("ADD TO FAVOURITES");
             } else {
                 addFavouriteBtn.setText("REMOVE FROM FAVOURITES");
@@ -205,19 +180,12 @@ public class ModuleFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-
-        // mVideoViewModel.select(new ShowPlay(null, null, null));
+        Log.d(TAG, "onPause()");
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        //getListOfModules();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        realm.close();
-    }
+        Log.d(TAG, "onResume()");
+        }
 }

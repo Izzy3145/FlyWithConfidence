@@ -26,6 +26,8 @@ import uk.airbyte.fwc.utils.Const;
 
 public class AuthViewModel extends ViewModel {
 
+    //TODO: cleanup
+
     private static final String TAG = AuthViewModel.class.getSimpleName();
 
     private MutableLiveData<User> user;
