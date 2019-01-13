@@ -28,7 +28,6 @@ import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.realm.Realm;
 import uk.airbyte.fwc.R;
 import uk.airbyte.fwc.model.ShowPlay;
 import uk.airbyte.fwc.viewmodels.VideoViewModel;
@@ -43,8 +42,7 @@ public class VideoFragment extends Fragment {
     ImageView placeholderImageView;
     private boolean playbackReady = true;
     private SimpleExoPlayer mSimpleExoPlayer;
-    private VideoViewModel videoViewModel;
-    private Realm realm;
+    private VideoViewModel mVideoViewModel;
     @Nullable
     private ShowPlay mShowPlay;
 
@@ -55,8 +53,7 @@ public class VideoFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        videoViewModel = ViewModelProviders.of(getActivity()).get(VideoViewModel.class);
-        realm = Realm.getDefaultInstance();
+        mVideoViewModel = ViewModelProviders.of(getActivity()).get(VideoViewModel.class);
     }
 
     //TODO: change error image
@@ -75,24 +72,21 @@ public class VideoFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        videoViewModel = ViewModelProviders.of(getActivity()).get(VideoViewModel.class);
-        videoViewModel.getSelected().observe(this, new Observer<ShowPlay>() {
+        mVideoViewModel = ViewModelProviders.of(getActivity()).get(VideoViewModel.class);
+        mVideoViewModel.getSelected().observe(this, new Observer<ShowPlay>() {
             @Override
             public void onChanged(@Nullable ShowPlay showPlay) {
-                if(mShowPlay != null) {
+                if (mShowPlay != null) {
                     saveState();
                 }
-                    mShowPlay = showPlay;
-                    passShowPlayObj(mShowPlay);
-                    //videoOrImageDisplay(mShowPlay.getImage(), mShowPlay.getThumbnail(), mShowPlay.getVideoUrl(),
-                    //        mShowPlay.getCurrentWindow(), mShowPlay.getPlayerPosition());
-                    //Log.d(TAG, "Video string received: " + mShowPlay.getVideoUrl());
+                mShowPlay = showPlay;
+                passShowPlayObj(mShowPlay);
             }
         });
     }
 
-    private void passShowPlayObj(ShowPlay showPlay){
-        if(showPlay == null){
+    private void passShowPlayObj(ShowPlay showPlay) {
+        if (showPlay == null) {
             videoOrImageDisplay(null, null, null, 0, 0);
         } else {
             videoOrImageDisplay(mShowPlay.getImage(), mShowPlay.getThumbnail(), mShowPlay.getVideoUrl(),
@@ -150,8 +144,9 @@ public class VideoFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        if(mShowPlay != null){
-        saveState();}
+        if (mShowPlay != null) {
+            saveState();
+        }
         releasePlayer();
         Log.d(TAG, "onPause()");
     }
@@ -160,16 +155,13 @@ public class VideoFragment extends Fragment {
     public void onResume() {
         super.onResume();
         passShowPlayObj(mShowPlay);
-        //if (mShowPlay != null) {
-        //    videoOrImageDisplay(mShowPlay.getImage(), mShowPlay.getThumbnail(), mShowPlay.getVideoUrl(),
-        //            mShowPlay.getCurrentWindow(), mShowPlay.getPlayerPosition()); }
         Log.d(TAG, "onResume()");
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        if(mShowPlay != null) {
+        if (mShowPlay != null) {
             saveState();
         }
         releasePlayer();
@@ -179,14 +171,14 @@ public class VideoFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         releasePlayer();
-        videoViewModel.clearVideo();
+        mVideoViewModel.clearVideo();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         releasePlayer();
-        realm.close();
+        mVideoViewModel.closeRealm();
     }
 
     public void releasePlayer() {
@@ -200,19 +192,7 @@ public class VideoFragment extends Fragment {
     private void saveState() {
         if (mSimpleExoPlayer != null) {
             playbackReady = false;
-            videoViewModel.setVideoPosition(mShowPlay, mSimpleExoPlayer);
-                /*mModule = realm.where(Module.class)
-                        .equalTo("id", mShowPlay.getModuleID())
-                        .findFirst();
-                realm.executeTransaction(new Realm.Transaction() {
-                    @Override
-                    public void execute(Realm realm) {
-                        mModule.setCurrentWindow(mSimpleExoPlayer.getCurrentWindowIndex());
-                        mModule.setPlayerPosition((int) mSimpleExoPlayer.getCurrentPosition());
-                        mModule.setLastViewed(System.currentTimeMillis());
-                        realm.copyToRealmOrUpdate(mModule);
-                    }
-                });*/
+            mVideoViewModel.setVideoPosition(mShowPlay, mSimpleExoPlayer);
         }
     }
 }

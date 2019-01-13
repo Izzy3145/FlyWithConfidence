@@ -38,5 +38,9 @@ public class VideoViewModel extends ViewModel {
         videoRepository.setPositionRealm(showPlay, mSimpleExoPlayer);
     }
 
+    public void closeRealm(){
+        videoRepository.onDestroy();
+    }
+
 }
 

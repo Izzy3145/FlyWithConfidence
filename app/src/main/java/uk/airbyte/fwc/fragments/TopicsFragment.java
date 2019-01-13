@@ -37,18 +37,15 @@ public class TopicsFragment extends Fragment implements TopicsAdapter.TopicsAdap
 
     private static final String TAG = TopicsFragment.class.getSimpleName();
 
-    //@BindView(R.id.topicsRv1)
-    //RecyclerView mRecyclerView1;
     @BindView(R.id.verticalTopicsRv)
     RecyclerView verticalRv;
-    ArrayList<RealmResults<Module>> modulesTopics = new ArrayList<RealmResults<Module>>();
+    private ArrayList<RealmResults<Module>> modulesTopics = new ArrayList<RealmResults<Module>>();
     private ModuleViewModel mModuleViewModel;
     private String accessToken;
     private SharedPreferences sharedPref;
     private RecyclerView.LayoutManager vertManager;
     private TopicsAdapter topicsAdapter;
     private String category;
-    private ArrayList<Module> moduleList = new ArrayList<Module>();
     private List<String> mTopicIDList;
 
     public static TopicsFragment newInstance() {
@@ -64,7 +61,9 @@ public class TopicsFragment extends Fragment implements TopicsAdapter.TopicsAdap
         topicsAdapter = new TopicsAdapter(modulesTopics, getActivity(), this);
         category = "knowledge";
 
-       // mModuleViewModel.topicAndModuleCall(getActivity(), accessToken, category);
+        //mModuleViewModel.topicAndModuleCall(getActivity(), accessToken, Const.CAT_KNOWLEDGE);
+        //mModuleViewModel.topicAndModuleCall(getActivity(), accessToken, Const.CAT_PREPARATION);
+
         getModulesForCategory();
 
         /*mModuleViewModel.getAllResultsLive().observe(this, new Observer<RealmResults<Module>>() {
@@ -110,7 +109,6 @@ public class TopicsFragment extends Fragment implements TopicsAdapter.TopicsAdap
         View view = inflater.inflate(R.layout.topics_fragment, container, false);
         ButterKnife.bind(this, view);
 
-        //TabLayout tabLayout = new TabLayout(getActivity());
         TabLayout tabLayout = (TabLayout) view.findViewById(R.id.top_tabs);
         tabLayout.setVisibility(View.VISIBLE);
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -120,17 +118,14 @@ public class TopicsFragment extends Fragment implements TopicsAdapter.TopicsAdap
                 switch (tabPosition) {
                     case 0:
                         category = "knowledge";
-                        Log.d(TAG, "Category selected: " + category);
                         getModulesForCategory();
                         break;
                     case 1:
                         category = "preparation";
-                        Log.d(TAG, "Category selected: " + category);
                         getModulesForCategory();
                         break;
                     default:
                         category = "knowledge";
-                        Log.d(TAG, "Category selected: " + category);
                         getModulesForCategory();
                         break;
                 }
@@ -150,8 +145,6 @@ public class TopicsFragment extends Fragment implements TopicsAdapter.TopicsAdap
        /* realmModules = realm.where(Module.class)
                 .findAll();
         realmModules.sort("displayOrder");*/
-
-
         setUpTopicsAdapter();
 
         return view;
@@ -189,6 +182,7 @@ public class TopicsFragment extends Fragment implements TopicsAdapter.TopicsAdap
         for (int i = 0; i < mTopicIDList.size(); i++) {
             RealmResults<Module> modules = mModuleViewModel.getModulesForTopic(mTopicIDList.get(i));
             Log.d(TAG, "setUpTopicsAdapter() RealmResults<Module> size: " + modules.size());
+            //only create a recycler view if there are some modules in the topic
             if (modules.size() > 0) {
                 modulesTopics.add(mModuleViewModel.getModulesForTopic(mTopicIDList.get(i)));
                 Log.d(TAG, "setUpTopicsAdapter() ArrayList<RealmResults<Module>> modulesTopics size: " + modulesTopics.size());
@@ -196,8 +190,6 @@ public class TopicsFragment extends Fragment implements TopicsAdapter.TopicsAdap
             topicsAdapter.setData(modulesTopics);
         }
 
-        //topicsAdapter = new TopicsAdapter(modulesTopics, getActivity(), this);
-        Log.d(TAG, "Setting up TopicsAdapter");
         verticalRv.setHasFixedSize(true);
         vertManager = new LinearLayoutManager(this.getActivity(), LinearLayoutManager.VERTICAL, false);
         verticalRv.setLayoutManager(vertManager);
@@ -214,8 +206,7 @@ public class TopicsFragment extends Fragment implements TopicsAdapter.TopicsAdap
     public void onResume() {
         super.onResume();
         mModuleViewModel.onResume();
-        //setUpModulesAdapter();
-        setUpTopicsAdapter();
+        getModulesForCategory();
     }
 
     @Override
@@ -225,5 +216,11 @@ public class TopicsFragment extends Fragment implements TopicsAdapter.TopicsAdap
         Bundle b = new Bundle();
         b.putString(Const.MODULE_ID, selectedModuleID);
         Navigation.findNavController(getActivity(), R.id.my_nav_host_fragment).navigate(R.id.action_topicsFragment_to_moduleFragment, b);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mModuleViewModel.closeRealm();
     }
 }

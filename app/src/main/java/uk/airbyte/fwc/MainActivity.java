@@ -40,7 +40,6 @@ public class MainActivity extends AppCompatActivity {
         navController = Navigation.findNavController(this, R.id.my_nav_host_fragment);
 
         sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-
         mAccessToken = sharedPref.getString(Const.ACCESS_TOKEN, "");
         Log.d(TAG, "AccessToken from shared pref: " + mAccessToken);
 
@@ -50,11 +49,6 @@ public class MainActivity extends AppCompatActivity {
             NavigationUI.setupWithNavController(bottomNavigation, navController);
         } else {
             navController.navigate(R.id.splash_fragment);
-
-            //BottomNavigationView bottomNavigation = (BottomNavigationView) findViewById(R.id.btm_navigation);
-            //bottomNavigation.setVisibility(View.VISIBLE);
-            //NavigationUI.setupWithNavController(bottomNavigation, navController);
-
             }
         }
 
@@ -70,11 +64,6 @@ public class MainActivity extends AppCompatActivity {
             NavigationUI.setupWithNavController(bottomNavigation, navController);
         } else {
             navController.navigate(R.id.splash_fragment);
-
-            //BottomNavigationView bottomNavigation = (BottomNavigationView) findViewById(R.id.btm_navigation);
-            //bottomNavigation.setVisibility(View.VISIBLE);
-            //NavigationUI.setupWithNavController(bottomNavigation, navController);
-
         }
     }
 }

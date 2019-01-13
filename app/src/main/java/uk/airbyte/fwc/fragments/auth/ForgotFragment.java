@@ -61,8 +61,7 @@ public class ForgotFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_forgot, container, false);
         ButterKnife.bind(this, view);
         backSignInBtn.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_forgotFragment_to_signInFragment));
@@ -121,5 +120,11 @@ public class ForgotFragment extends Fragment {
 
     private Boolean isValidEmail(String email) {
         return !TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mAuthViewModel.closeRealm();
     }
 }

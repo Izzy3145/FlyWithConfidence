@@ -59,11 +59,6 @@ public class SignInFragment extends Fragment {
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -144,5 +139,11 @@ public class SignInFragment extends Fragment {
 
     private Boolean isValidEmail(String email){
         return !TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mAuthViewModel.closeRealm();
     }
 }

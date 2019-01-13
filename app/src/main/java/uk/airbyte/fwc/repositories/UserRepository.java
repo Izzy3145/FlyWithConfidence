@@ -31,7 +31,6 @@ public class UserRepository {
         });
     }
 
-
     public void registerUserRealm(final User body) {
         realmInstance.executeTransactionAsync(new Realm.Transaction(){
             @Override
@@ -53,5 +52,9 @@ public class UserRepository {
                 realm.deleteAll();
             }
         });
+    }
+
+    public void onDestroy(){
+        realmInstance.close();
     }
 }

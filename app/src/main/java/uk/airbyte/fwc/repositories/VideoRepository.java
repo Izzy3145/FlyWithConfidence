@@ -35,4 +35,8 @@ public class VideoRepository {
         });
     }
 
+    public void onDestroy(){
+        realmInstance.close();
+    }
+
 }

@@ -62,20 +62,10 @@ public class RegisterFragment extends Fragment {
     private String lastName;
     private String email;
     private String password;
-    private String userID;
-    private String accessToken;
     private AuthViewModel mAuthViewModel;
-    private SharedPreferences sharedPref;
-    private SharedPreferences.Editor editor;
 
     public RegisterFragment() {
         // Required empty public constructor
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
     }
 
     @Override
@@ -196,5 +186,10 @@ public class RegisterFragment extends Fragment {
         return !TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mAuthViewModel.closeRealm();
+    }
 }
 

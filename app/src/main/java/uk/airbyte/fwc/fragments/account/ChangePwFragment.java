@@ -1,7 +1,6 @@
 package uk.airbyte.fwc.fragments.account;
 
 
-import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -19,20 +18,15 @@ import androidx.navigation.Navigation;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import uk.airbyte.fwc.MainActivity;
 import uk.airbyte.fwc.R;
-import uk.airbyte.fwc.model.Password;
-import uk.airbyte.fwc.model.Success;
 import uk.airbyte.fwc.utils.Const;
 import uk.airbyte.fwc.viewmodels.AccountViewModel;
-import uk.airbyte.fwc.viewmodels.AuthViewModel;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class ChangePwFragment extends Fragment {
 
-    private AccountViewModel mViewModel;
     @BindView(R.id.cancelBtn)
     Button cancelBtn;
     @BindView(R.id.saveBtn)
@@ -43,6 +37,7 @@ public class ChangePwFragment extends Fragment {
     TextInputEditText inputNewPw;
     @BindView(R.id.inputConfPw)
     TextInputEditText inputConfPw;
+    private AccountViewModel mAccountViewModel;
     private SharedPreferences sharedPref;
     private String accessToken;
     private String currentPassword;
@@ -56,7 +51,7 @@ public class ChangePwFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mViewModel = ViewModelProviders.of(getActivity()).get(AccountViewModel.class);
+        mAccountViewModel = ViewModelProviders.of(getActivity()).get(AccountViewModel.class);
         sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
         accessToken = sharedPref.getString(Const.ACCESS_TOKEN, "");
     }
@@ -85,11 +80,11 @@ public class ChangePwFragment extends Fragment {
             currentPassword = inputCurrentPw.getText().toString();
             confPassword = inputConfPw.getText().toString();
             newPassword = inputNewPw.getText().toString();
-            mViewModel.putNewPassword(getActivity(), accessToken, currentPassword, newPassword);
+            mAccountViewModel.putNewPassword(getActivity(), accessToken, currentPassword, newPassword);
             Navigation.findNavController(getActivity(), R.id.my_nav_host_fragment).navigate(R.id.action_changePwFragment_to_accountFragment);
         }
 
-        /*mViewModel.putUserPassword(getActivity(), accessToken, currentPassword, newPassword).observe(this, new Observer<Success>() {
+        /*mAccountViewModel.putUserPassword(getActivity(), accessToken, currentPassword, newPassword).observe(this, new Observer<Success>() {
             @Override
             public void onChanged(@Nullable Success success) {
 
@@ -108,6 +103,12 @@ public class ChangePwFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         //tells the fragment that its activity has completed its own Activity.onCreate()
-        mViewModel = ViewModelProviders.of(getActivity()).get(AccountViewModel.class);
+        mAccountViewModel = ViewModelProviders.of(getActivity()).get(AccountViewModel.class);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mAccountViewModel.closeRealm();
     }
 }

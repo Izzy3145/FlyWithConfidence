@@ -15,8 +15,6 @@ public class ModuleRepository {
     private final RealmResults<Module> moduleRealm;
     private List<Module> listOfModules = new ArrayList<Module>();
 
-    //TODO: close realm on each onDestroy
-
     public ModuleRepository() {
         realmInstance = Realm.getDefaultInstance();
         moduleRealm = realmInstance.where(Module.class).findAll();
@@ -40,11 +38,17 @@ public class ModuleRepository {
         });
     }
 
+    public RealmResults<Module> getModulesForCategory(String topicID, String categoryName){
+        RealmResults<Module> realmCategoryModules = moduleRealm.where()
+                .equalTo("topic.id", topicID)
+                .equalTo("category.name", categoryName)
+                .findAll();
+        realmCategoryModules.sort("displayOrder");
+        return realmCategoryModules;
+    }
     public RealmResults<Module> getModulesForTopic(String topicID){
         RealmResults<Module> realmTopicModules = moduleRealm.where().equalTo("topic.id", topicID).findAll();
         realmTopicModules.sort("displayOrder");
-        //RealmResults<Module> realmModules = realmInstance.where(Module.class).findAll();
-        //realmModules.sort("displayOrder");
         return realmTopicModules;
     }
 
@@ -54,8 +58,6 @@ public class ModuleRepository {
 
     public RealmResults<Module> getModulesToDisplay(){
         moduleRealm.sort("displayOrder");
-        //RealmResults<Module> realmModules = realmInstance.where(Module.class).findAll();
-        //realmModules.sort("displayOrder");
         return moduleRealm;
     }
 
@@ -71,7 +73,6 @@ public class ModuleRepository {
             });
         }
     }
-//TODO: change to moduleRealm.where() ?
     public RealmResults<Module> getRealmFavourites() {
         RealmResults<Module> realmFavourites = realmInstance.where(Module.class)
                 .equalTo("favourited", true)
@@ -111,5 +112,9 @@ public class ModuleRepository {
                 unfavouritedModule.setFavourited(false);
             }
         });
+    }
+
+    public void onDestroy(){
+        realmInstance.close();
     }
 }

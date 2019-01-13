@@ -19,7 +19,6 @@ import androidx.navigation.Navigation;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.realm.Realm;
 import uk.airbyte.fwc.MainActivity;
 import uk.airbyte.fwc.R;
 import uk.airbyte.fwc.utils.Const;
@@ -37,7 +36,7 @@ public class AccountFragment extends Fragment {
     TextView logoutTv;
     private SharedPreferences sharedPref;
     private SharedPreferences.Editor editor;
-    private AccountViewModel mViewModel;
+    private AccountViewModel mAccountViewModel;
 
     public AccountFragment() {
         // Required empty public constructor
@@ -47,7 +46,7 @@ public class AccountFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        mViewModel = ViewModelProviders.of(getActivity()).get(AccountViewModel.class);
+        mAccountViewModel = ViewModelProviders.of(getActivity()).get(AccountViewModel.class);
     }
 
     @Override
@@ -76,10 +75,16 @@ public class AccountFragment extends Fragment {
         editor.putString(Const.USER_ID, "");
         editor.apply();
 
-        mViewModel.deleteRealmContents();
+        mAccountViewModel.deleteRealmContents();
 
         Intent openMain = new Intent(getActivity(), MainActivity.class);
         startActivity(openMain);
     }
 
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mAccountViewModel.closeRealm();
+    }
 }

@@ -62,10 +62,6 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.Favourit
     private RealmResults<Module> realmRecents;
     private RealmResults<Module> realmFavourites;
 
-    public static HomeFragment newInstance() {
-        return new HomeFragment();
-    }
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -221,5 +217,12 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.Favourit
     public void onPause() {
         super.onPause();
         mModuleViewModel.onPause();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mModuleViewModel.closeRealm();
+        mVideoViewModel.closeRealm();
     }
 }

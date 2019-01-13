@@ -39,6 +39,7 @@ public class ModuleViewModel extends ViewModel implements OrderedRealmCollection
     private RealmResults<Module> favouriteResults;
     private RealmResults<Module> recentsResults;
     private RealmResults<Module> topicResults;
+    private RealmResults<Module> categoryModuleResults;
     private RealmResults<Module> allResults;
     private RealmListLiveData<Module> allResultsLive;
     private int numberOfTopics;
@@ -62,6 +63,9 @@ public class ModuleViewModel extends ViewModel implements OrderedRealmCollection
         moduleRepository.clearListeners();
     }
 
+    public void closeRealm(){
+        moduleRepository.onDestroy();
+    }
 
     public void setFavourite(Boolean isFavourite, Module module) {
         moduleRepository.setRealmFavourite(isFavourite, module);
@@ -71,6 +75,12 @@ public class ModuleViewModel extends ViewModel implements OrderedRealmCollection
         allResults = moduleRepository.getModulesToDisplay();
         return allResults;
     }
+
+    public RealmResults<Module> getTopicsForCategory() {
+        categoryModuleResults = moduleRepository.getModulesToDisplay();
+        return allResults;
+    }
+
 
     public RealmResults<Module> getModulesForTopic(String topicID) {
         topicResults = moduleRepository.getModulesForTopic(topicID);
@@ -126,7 +136,6 @@ public class ModuleViewModel extends ViewModel implements OrderedRealmCollection
                                 if (response.isSuccessful()) {
                                     Log.d(TAG, "Response moduleCall() success: " + response.body());
                                     moduleRepository.copyTopicModulesToRealm(response.body());
-
                                     numberOfModules = numberOfModules + response.body().size();
                                     Log.d(TAG, "topicAndModuleCall() moduleList size: " + numberOfModules);
                                     //modules.postValue(response.body());
@@ -162,7 +171,6 @@ public class ModuleViewModel extends ViewModel implements OrderedRealmCollection
             public void onFailure(Call<List<Topic>> call, Throwable t) {
                 Log.d(TAG, "Response topicAndModuleCall() failure");
                 Toast.makeText(context, "Error - please check your network connection", Toast.LENGTH_SHORT).show();
-                // modules.postValue(null);
             }
         });
     }
@@ -172,6 +180,7 @@ public class ModuleViewModel extends ViewModel implements OrderedRealmCollection
     public void onChange(RealmResults<Module> modules, OrderedCollectionChangeSet changeSet) {
         favouriteResults = moduleRepository.getRealmFavourites();
         recentsResults = moduleRepository.getRealmRecents();
+        //categoryModuleResults = moduleRepository.get
         //topicResults = moduleRepository.getModulesForTopic()
         allResults = moduleRepository.getModulesToDisplay();
     }

@@ -33,7 +33,6 @@ public class AuthViewModel extends ViewModel {
     private MutableLiveData<User> user;
     private MutableLiveData<Reminder> reminderSent;
     private APIService apiService = APIClient.getClient().create(APIService.class);
-    //private onErrorListener mListener;
     private final UserRepository userRepository;
     private SharedPreferences sharedPref;
     private SharedPreferences.Editor editor;
@@ -50,8 +49,11 @@ public class AuthViewModel extends ViewModel {
             Log.d(TAG, "In method getUserFromLogin()! ");
             loginCall(context, password, email);
         }
-
         return user;
+    }
+
+    public void closeRealm(){
+        userRepository.onDestroy();
     }
 
     //we will call this method to get the data
@@ -65,22 +67,21 @@ public class AuthViewModel extends ViewModel {
     }
 
     public LiveData<Reminder> getForgottenPw(Context context, String email) {
-
             reminderSent = new MutableLiveData<Reminder>();
             //we will load it asynchronously from server in this method
             forgotCall(context, email);
-
             return reminderSent;
     }
 
     public void loginCall(final Context context, String password, String email) {
+        sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+        editor = sharedPref.edit();
         apiService.login(new Login(password, email))
                 .enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 if (response.isSuccessful()) {
-                    sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
-                    editor = sharedPref.edit();
+
                     editor.putString(Const.ACCESS_TOKEN, response.body().getAccessToken());
                     editor.putString(Const.USER_ID, response.body().getId());
                     editor.apply();
@@ -101,25 +102,30 @@ public class AuthViewModel extends ViewModel {
             @Override
             public void onFailure(Call<User> call, Throwable t) {
                 Log.d(TAG, "Response loginCall() failure");
-                user.postValue(null);
+                Toast.makeText(context, "Error - please check your network connection", Toast.LENGTH_SHORT).show();
+
+                editor.putString(Const.ACCESS_TOKEN, "");
+                editor.putString(Const.USER_ID, "");
+                editor.apply();
             }
         });
     }
 
     public void registerCall(final Context context, String password, String email, String lName, String fName) {
+        sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+        editor = sharedPref.edit();
         apiService.registerUser(new Login(password, email, lName, fName))
                 .enqueue(new Callback<User>() {
                     @Override
                     public void onResponse(Call<User> call, Response<User> response) {
                         if (response.isSuccessful()) {
                             userRepository.registerUserRealm(response.body());
-                            sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
-                            editor = sharedPref.edit();
+
                             editor.putString(Const.USER_ID, response.body().getId());
                             editor.putString(Const.ACCESS_TOKEN, response.body().getAccessToken());
                             editor.apply();
                             Log.d(TAG, "Response registerCall() success: " + response.body());
-                            //user.postValue(response.body());
+
                             Intent openMain = new Intent(context, MainActivity.class);
                             context.startActivity(openMain);
 
@@ -135,7 +141,11 @@ public class AuthViewModel extends ViewModel {
                     @Override
                     public void onFailure(Call<User> call, Throwable t) {
                         Log.d(TAG, "Response registerCall() failure");
-                       // user.postValue(null);
+                        Toast.makeText(context, "Error - please check your network connection", Toast.LENGTH_SHORT).show();
+
+                        editor.putString(Const.USER_ID, "");
+                        editor.putString(Const.ACCESS_TOKEN, "");
+                        editor.apply();
                     }
                 });
     }
@@ -159,6 +169,7 @@ public class AuthViewModel extends ViewModel {
             @Override
             public void onFailure(Call<Reminder> call, Throwable t) {
                 Log.d(TAG, "Response forgotCall() failure");
+                Toast.makeText(context, "Error - please check your network connection", Toast.LENGTH_SHORT).show();
                 reminderSent.postValue(null);
             }
         });

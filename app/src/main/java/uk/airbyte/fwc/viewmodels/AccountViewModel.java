@@ -43,6 +43,10 @@ public class AccountViewModel extends ViewModel{
         return user;
     }
 
+    public void closeRealm(){
+        accountRepository.onDestroy();
+    }
+
     //we will call this method to get the data
     public LiveData<User> updateUserProfile(Context context, String accessToken, String fName, String lName, String email) {
         user = new MutableLiveData<User>();

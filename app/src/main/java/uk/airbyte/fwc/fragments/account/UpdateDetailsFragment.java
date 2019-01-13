@@ -9,7 +9,6 @@ import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +18,6 @@ import androidx.navigation.Navigation;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.realm.Realm;
 import uk.airbyte.fwc.R;
 import uk.airbyte.fwc.model.User;
 import uk.airbyte.fwc.utils.Const;
@@ -30,7 +28,6 @@ import uk.airbyte.fwc.viewmodels.AccountViewModel;
  */
 public class UpdateDetailsFragment extends Fragment {
 
-    private static final String TAG = UpdateDetailsFragment.class.getSimpleName();
     @BindView(R.id.cancelBtn)
     Button cancelBtn;
     @BindView(R.id.saveBtn)
@@ -41,7 +38,7 @@ public class UpdateDetailsFragment extends Fragment {
     TextInputEditText inputLastName;
     @BindView(R.id.inputEmail)
     TextInputEditText inputEmail;
-    private AccountViewModel mViewModel;
+    private AccountViewModel mAccountViewModel;
     private String mAccessToken;
     private String mUserID;
     private SharedPreferences sharedPref;
@@ -56,7 +53,7 @@ public class UpdateDetailsFragment extends Fragment {
         sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
         mAccessToken = sharedPref.getString(Const.ACCESS_TOKEN, "");
         mUserID = sharedPref.getString(Const.USER_ID, "");
-        mViewModel = ViewModelProviders.of(this).get(AccountViewModel.class);
+        mAccountViewModel = ViewModelProviders.of(this).get(AccountViewModel.class);
     }
 
     @Override
@@ -64,7 +61,7 @@ public class UpdateDetailsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         //FragmentUpdateDetailsBinding binding = FragmentUpdateDetailsBinding.inflate(inflater, container, false);
-        //binding.setAccountviewmodel(mViewModel);
+        //binding.setAccountviewmodel(mAccountViewModel);
         //binding.setLifecycleOwner(this);
         // User user = new User(null, "Izzy", "Stannett", "izzystannett@gmail.com");
         //binding.setUser(user);
@@ -89,13 +86,13 @@ public class UpdateDetailsFragment extends Fragment {
         final String lastName = inputLastName.getText().toString();
         final String email = inputEmail.getText().toString();
 
-        mViewModel.putUserProfile(getActivity(), mAccessToken, firstName, lastName, email);
+        mAccountViewModel.putUserProfile(getActivity(), mAccessToken, firstName, lastName, email);
 
         Navigation.findNavController(getActivity(), R.id.my_nav_host_fragment).
                 navigate(R.id.action_updateDetailsFragment_to_accountFragment);
 
 
-       /* mViewModel.updateUserProfile(getActivity(), mAccessToken, firstName, lastName, email).observe(this, new Observer<User>() {
+       /* mAccountViewModel.updateUserProfile(getActivity(), mAccessToken, firstName, lastName, email).observe(this, new Observer<User>() {
             @Override
             public void onChanged(@Nullable User user) {
                 if (user != null) {
@@ -121,7 +118,7 @@ public class UpdateDetailsFragment extends Fragment {
     }
 
     public void getUserDetails() {
-        mViewModel.getUserProfile(getActivity(), mAccessToken).observe(this, new Observer<User>() {
+        mAccountViewModel.getUserProfile(getActivity(), mAccessToken).observe(this, new Observer<User>() {
             @Override
             public void onChanged(@Nullable User user) {
                 if (user != null) {
@@ -131,5 +128,11 @@ public class UpdateDetailsFragment extends Fragment {
                 }
             }
         });
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mAccountViewModel.closeRealm();
     }
 }

@@ -4,6 +4,7 @@ package uk.airbyte.fwc.fragments;
 import android.arch.lifecycle.ViewModelProviders;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -36,7 +37,6 @@ import uk.airbyte.fwc.viewmodels.VideoViewModel;
  */
 public class ModuleFragment extends Fragment {
 
-    private static final String TAG = ModuleFragment.class.getSimpleName();
     @BindView(R.id.moduleIntroTv)
     TextView moduleIntroTv;
     @BindView(R.id.moduleNotesTv)
@@ -65,6 +65,11 @@ public class ModuleFragment extends Fragment {
         super.onCreate(savedInstanceState);
         mVideoViewModel = ViewModelProviders.of(getActivity()).get(VideoViewModel.class);
         mModuleViewModel = ViewModelProviders.of(getActivity()).get(ModuleViewModel.class);
+        if(savedInstanceState!=null){
+            selectedModuleID = savedInstanceState.getString(Const.MODULE_ID);
+        } else {
+            selectedModuleID = getArguments().getString(Const.MODULE_ID);
+        }
     }
 
     @Override
@@ -74,9 +79,10 @@ public class ModuleFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_module, container, false);
         view.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.lighter_grey));
         ButterKnife.bind(this, view);
-        getListOfModules();
 
+        getListOfModules();
         displayModuleInfo(mModule);
+
         favouriteButtonToggle();
 
         addFavouriteBtn.setOnClickListener(new View.OnClickListener() {
@@ -115,7 +121,6 @@ public class ModuleFragment extends Fragment {
     }
 
     public void getListOfModules() {
-        selectedModuleID = getArguments().getString(Const.MODULE_ID);
         mModule = mModuleViewModel.getModuleFromId(selectedModuleID);
         topicID = mModule.getTopic().getId();
         modulesInTopic = new ArrayList<>(mModuleViewModel.getModulesForTopic(topicID));
@@ -124,6 +129,7 @@ public class ModuleFragment extends Fragment {
 
     public void displayModuleInfo(Module module) {
         if (module != null) {
+            Log.d("ModuleFragment", "Module name: " + module.getName());
             moduleIntroTv.setText(module.getDescription());
             moduleNotesTv.setText(module.getNotes());
             isFavourite = mModule.getFavourited();
@@ -180,12 +186,26 @@ public class ModuleFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        Log.d(TAG, "onPause()");
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        Log.d(TAG, "onResume()");
+        Log.d("ModuleFragment", "onResume");
+        getListOfModules();
+        displayModuleInfo(mModule);
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(Const.MODULE_ID, selectedModuleID);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        //mVideoViewModel.closeRealm();
+        //mModuleViewModel.closeRealm();
     }
 }
