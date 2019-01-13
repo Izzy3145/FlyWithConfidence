@@ -49,7 +49,7 @@ public class TopicsFragment extends Fragment implements TopicsAdapter.TopicsAdap
     private TopicsAdapter topicsAdapter;
     private String category;
     private ArrayList<Module> moduleList = new ArrayList<Module>();
-    private List<String> mTopicIDList = new ArrayList<String>();
+    private List<String> mTopicIDList;
 
     public static TopicsFragment newInstance() {
         return new TopicsFragment();
@@ -169,10 +169,13 @@ public class TopicsFragment extends Fragment implements TopicsAdapter.TopicsAdap
 
     private void getModulesForCategory() {
         topicsAdapter.clearData();
+        mTopicIDList = new ArrayList<String>();
         mModuleViewModel.getListOfTopics(getActivity(), accessToken, category).observe(this, new Observer<List<Topic>>() {
             @Override
             public void onChanged(@Nullable List<Topic> topics) {
                 for (int i = 0; i < topics.size(); i++) {
+                    Log.d(TAG, "getModulesForCategory() category sent: " + category);
+
                     mTopicIDList.add(topics.get(i).getId());
                     Log.d(TAG, "getListOfTopics() topicID size:" + mTopicIDList.size());
                 }

@@ -111,6 +111,7 @@ public class ModuleViewModel extends ViewModel implements OrderedRealmCollection
         //method to save all found modules to Realm, and return list of topic IDs as liveData
         numberOfTopics = 0;
         numberOfModules = 0;
+        listOfTopics = new ArrayList<Topic>();
         apiService.getTopics(accessToken, category).enqueue(new Callback<List<Topic>>() {
             @Override
             public void onResponse(Call<List<Topic>> call, Response<List<Topic>> response) {
