@@ -77,7 +77,7 @@ public class ModuleViewModel extends ViewModel implements OrderedRealmCollection
         return topicResults;
     }
 
-    public Module getModuleFromId(String moduleID){
+    public Module getModuleFromId(String moduleID) {
         return moduleRepository.getModuleFromID(moduleID);
     }
 
@@ -100,10 +100,8 @@ public class ModuleViewModel extends ViewModel implements OrderedRealmCollection
     }
 
     public LiveData<List<Topic>> getListOfTopics(final Context context, final String accessToken, String category) {
-        if (topics == null) {
-            topics = new MutableLiveData<>();
-            topicAndModuleCall(context, accessToken, category);
-        }
+        topics = new MutableLiveData<>();
+        topicAndModuleCall(context, accessToken, category);
         return topics;
     }
 
@@ -116,14 +114,11 @@ public class ModuleViewModel extends ViewModel implements OrderedRealmCollection
             @Override
             public void onResponse(Call<List<Topic>> call, Response<List<Topic>> response) {
                 if (response.isSuccessful()) {
-
                     listOfTopics = response.body();
                     topics.postValue(listOfTopics);
                     for (int i = 0; i < listOfTopics.size(); i++) {
-
                         numberOfTopics++;
                         Log.d(TAG, "Number of Topics found: " + numberOfTopics);
-
                         String topicID = listOfTopics.get(i).getId();
                         apiService.getModulesForTopics(accessToken, topicID).enqueue(new Callback<List<Module>>() {
                             @Override

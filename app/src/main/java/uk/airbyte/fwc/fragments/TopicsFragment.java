@@ -64,8 +64,7 @@ public class TopicsFragment extends Fragment implements TopicsAdapter.TopicsAdap
         topicsAdapter = new TopicsAdapter(modulesTopics, getActivity(), this);
         category = "knowledge";
 
-        mModuleViewModel.topicAndModuleCall(getActivity(), accessToken, category);
-
+       // mModuleViewModel.topicAndModuleCall(getActivity(), accessToken, category);
         getModulesForCategory();
 
         /*mModuleViewModel.getAllResultsLive().observe(this, new Observer<RealmResults<Module>>() {
