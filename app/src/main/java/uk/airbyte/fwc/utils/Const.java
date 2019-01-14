@@ -8,4 +8,5 @@ public class Const {
     public static final String COURSES_WEBSITE = "https://flyingwithconfidence.com/?utm_source=flyinconfidence&utm_medium=android_app&utm_campaign=Fly_In_Confidence_Android_App_Debug";
     public static final String CAT_KNOWLEDGE = "Knowledge";
     public static final String CAT_PREPARATION = "Preparation";
+    public static final String EDITING_STATUS = "Editing status";
 }

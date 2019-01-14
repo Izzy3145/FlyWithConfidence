@@ -58,7 +58,7 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.Favourit
     private String videoSelected;
     private Fragment videoFragment;
     private String selectedModuleID;
-    private int mEditing = 0;
+    private int mEditing;
     private RealmResults<Module> realmRecents;
     private RealmResults<Module> realmFavourites;
 
@@ -69,6 +69,13 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.Favourit
         videoFragment = fragmentManager.findFragmentById(R.id.videoFragment);
         mVideoViewModel = ViewModelProviders.of(getActivity()).get(VideoViewModel.class);
         mModuleViewModel = ViewModelProviders.of(getActivity()).get(ModuleViewModel.class);
+
+        if (savedInstanceState == null) {
+            mEditing = 0;
+        } else {
+            mEditing = savedInstanceState.getInt(Const.EDITING_STATUS);
+        }
+
     }
 
     @Override
@@ -104,17 +111,21 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.Favourit
             public void onClick(View v) {
                 if (mEditing == 0) {
                     mEditing = 1;
-                    editFavButton.setText(getResources().getString(R.string.done));
                     setUpRecentsAdapter();
                     setUpFavouritesAdapter();
                 } else if (mEditing == 1) {
                     mEditing = 0;
-                    editFavButton.setText(getResources().getString(R.string.edit));
                     setUpRecentsAdapter();
                     setUpFavouritesAdapter();
                 }
             }
         });
+
+        if (mEditing == 0) {
+            editFavButton.setText(getResources().getString(R.string.done));
+        } else if (mEditing == 1) {
+            editFavButton.setText(getResources().getString(R.string.edit));
+        }
 
         setUpRecentsAdapter();
 
@@ -137,10 +148,6 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.Favourit
     }
 
     private void setUpRecentsAdapter() {
-       /* realmRecents = realm.where(Module.class)
-                .notEqualTo("lastViewed", 0)
-                .findAll();
-        realmRecents.sort("lastViewed", Sort.DESCENDING);*/
         realmRecents = mModuleViewModel.getRecents();
         if (realmRecents != null) {
             recentsRvGroup.setVisibility(View.VISIBLE);
@@ -160,7 +167,6 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.Favourit
 
     @Override
     public void onClickModule(Module module, int position) {
-        Log.d(TAG, "OnClickMethod clicked");
         selectedModuleID = "";
         selectedModuleID = module.getId();
         Bundle b = new Bundle();
@@ -170,38 +176,22 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.Favourit
 
     @Override
     public void onClickRecentsDelete(Module module, int position) {
-        /*realm.executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                Module unfavouritedModule = realm.where(Module.class)
-                        .equalTo("id", unfavouritedModuleID)
-                        .findFirst();
-                unfavouritedModule.setLastViewed(0);
-            }
-        });*/
         mModuleViewModel.deleteRecent(module.getId());
         setUpRecentsAdapter();
     }
 
     @Override
     public void onClickMethod(Module module, int position) {
-        //TODO: sort this out
+        selectedModuleID = "";
+        selectedModuleID = module.getId();
+        Bundle b = new Bundle();
+        b.putString(Const.MODULE_ID, selectedModuleID);
+        Navigation.findNavController(getActivity(), R.id.my_nav_host_fragment).navigate(R.id.action_home_dest_to_moduleFragment, b);
     }
 
     @Override
     public void onClickDeleteMethod(Module module, int position) {
         mModuleViewModel.deleteFavourite(module.getId());
-        /*final String unfavouritedModuleID = module.getId();
-        realm.executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                Module unfavouritedModule = realm.where(Module.class)
-                        .equalTo("id", unfavouritedModuleID)
-                        .findFirst();
-                unfavouritedModule.setFavourited(false);
-            }
-        });
-*/
         setUpFavouritesAdapter();
     }
 
@@ -217,6 +207,12 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.Favourit
     public void onPause() {
         super.onPause();
         mModuleViewModel.onPause();
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(Const.EDITING_STATUS, mEditing);
     }
 
     @Override

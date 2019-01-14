@@ -26,21 +26,15 @@ public class FavouritesAdapter extends RealmRecyclerViewAdapter<Module, Favourit
 
     private final static String TAG = FavouritesAdapter.class.getSimpleName();
     private Context mContext;
-    private ArrayList<Module> mListOfModules;
+    private RealmResults<Module> mModules;
     private FavouritesAdapterListener mClickHandler;
     private int mEditting;
     private Realm realm;
 
-  /* public FavouritesAdapter(Context c, ArrayList<Module> listOfModules, FavouritesAdapterListener clickHandler, int editting) {
-        mContext = c;
-        mListOfModules = listOfModules;
-        mClickHandler = clickHandler;
-        mEditting = editting;
-    }*/
-
     public FavouritesAdapter(RealmResults<Module> modules, Context c, FavouritesAdapterListener clickHandler, int editting){
         super(modules, true, true);
        // setHasStableIds(true);
+        mModules = modules;
         mContext = c;
         realm = Realm.getDefaultInstance();
         mClickHandler = clickHandler;
@@ -62,7 +56,7 @@ public class FavouritesAdapter extends RealmRecyclerViewAdapter<Module, Favourit
     public void onBindViewHolder(@NonNull FavouritesAdapter.ViewHolder holder, int position) {
 
         //TODO: test when full API response available, set proper error image, sort out cropping
-        //TODO: Ask Steve - is there a cleaner/better way of doing this?
+        //TODO: Ask - is there a cleaner/better way of doing this?
         try {
             final int adapterPosition = holder.getAdapterPosition();
             final Module module = getItem(position);
@@ -101,24 +95,14 @@ public class FavouritesAdapter extends RealmRecyclerViewAdapter<Module, Favourit
        }
     }
 
-    //TODO: remove the three red crosses from empty thumbnails when Edit is not selected
-
-    /*@Override
-    public int getItemCount() {
-        if (mListOfModules.size() < 10) {
-            return 10;
-        } else {
-            return mListOfModules.size();
-        }*/
-
-    public void setModulesToAdapter(ArrayList<Module> foundModuleList){
-        mListOfModules = foundModuleList;
+    public void setModulesToAdapter(RealmResults<Module> foundModuleList){
+        mModules = foundModuleList;
         notifyDataSetChanged();
     }
 
     public void clearModulesList(){
-        if(mListOfModules!=null) {
-            mListOfModules.clear();
+        if(mModules!=null) {
+            mModules.clear();
         }
     }
 
@@ -148,7 +132,7 @@ public class FavouritesAdapter extends RealmRecyclerViewAdapter<Module, Favourit
         public void onClick(View view) {
             Module module;
             int adapterPosition = getAdapterPosition();
-            module = mListOfModules.get(adapterPosition);
+            module = mModules.get(adapterPosition);
             mClickHandler.onClickMethod(module, adapterPosition);
         }
     }

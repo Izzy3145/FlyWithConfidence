@@ -14,6 +14,10 @@ public class ModuleRepository {
     private final Realm realmInstance;
     private final RealmResults<Module> moduleRealm;
     private List<Module> listOfModules = new ArrayList<Module>();
+    private Module favModule;
+    private Boolean mIsFavourite;
+    private String mDelRecentID;
+    private String mDelFavID;
 
     public ModuleRepository() {
         realmInstance = Realm.getDefaultInstance();
@@ -28,12 +32,14 @@ public class ModuleRepository {
         moduleRealm.removeAllChangeListeners();
     }
 
-    public void setRealmFavourite(final Boolean isFavourite, final Module module){
+    public void setRealmFavourite(Boolean isFavourite, Module module){
+        mIsFavourite = isFavourite;
+        favModule = module;
         realmInstance.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                module.setFavourited(isFavourite);
-                realm.copyToRealmOrUpdate(module);
+                favModule.setFavourited(mIsFavourite);
+                realm.copyToRealmOrUpdate(favModule);
             }
         });
     }
@@ -89,25 +95,26 @@ public class ModuleRepository {
         return realmRecents;
     }
 
-    public void deleteRealmRecent(final String moduleID){
-        //TODO: remove finals?
+    public void deleteRealmRecent(String moduleID){
+        mDelRecentID = moduleID;
         realmInstance.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
                 Module unfavouritedModule = realm.where(Module.class)
-                        .equalTo("id", moduleID)
+                        .equalTo("id", mDelRecentID)
                         .findFirst();
                 unfavouritedModule.setLastViewed(0);
             }
         });
     }
 
-    public void deleteRealmFavourite(final String moduleID) {
+    public void deleteRealmFavourite(String moduleID) {
+        mDelFavID = moduleID;
         realmInstance.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
                 Module unfavouritedModule = realm.where(Module.class)
-                        .equalTo("id", moduleID)
+                        .equalTo("id", mDelFavID)
                         .findFirst();
                 unfavouritedModule.setFavourited(false);
             }
