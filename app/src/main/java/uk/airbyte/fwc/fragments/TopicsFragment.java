@@ -44,8 +44,7 @@ public class TopicsFragment extends Fragment implements TopicsAdapter.TopicsAdap
     private RecyclerView.LayoutManager vertManager;
     private TopicsAdapter topicsAdapter;
     private String category;
-    private List<String> mKnowledgeTopicIDList;
-    private List<String> mPreparationTopicIDList;
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -55,9 +54,6 @@ public class TopicsFragment extends Fragment implements TopicsAdapter.TopicsAdap
         mModuleViewModel = ViewModelProviders.of(getActivity()).get(ModuleViewModel.class);
         topicsAdapter = new TopicsAdapter(knowledgeModules, getActivity(), this);
         category = Const.API_KNOWLEDGE;
-
-        //getKnowledgeTopicsAndModules();
-       // getPreparationTopicsAndModules();
     }
 
 
@@ -107,75 +103,6 @@ public class TopicsFragment extends Fragment implements TopicsAdapter.TopicsAdap
         return view;
     }
 
-    /*private void getKnowledgeTopicsAndModules() {
-        mKnowledgeTopicIDList = new ArrayList<String>();
-        mModuleViewModel.getKnowledgeTopicsAndModules(getActivity(), accessToken).observe(this, new Observer<List<Topic>>() {
-            @Override
-            public void onChanged(@Nullable List<Topic> topics) {
-                for (int i = 0; i < topics.size(); i++) {
-                    //create a list of local topic IDs, to help with setting up the double adapter
-
-                    mKnowledgeTopicIDList.add(topics.get(i).getId());
-                    Log.d(TAG, "getKnowledgeTopicsAndModules() topicID List size:" + mKnowledgeTopicIDList.size());
-                }
-                setUpTopicsAdapter();
-                mModuleViewModel.getKnowledgeTopicsAndModules(getActivity(), accessToken).removeObservers(getActivity());
-            }
-        });
-    }
-
-    private void getPreparationTopicsAndModules() {
-        mPreparationTopicIDList = new ArrayList<String>();
-        mModuleViewModel.getPreparationTopicsAndModules(getActivity(), accessToken).observe(this, new Observer<List<Topic>>() {
-            @Override
-            public void onChanged(@Nullable List<Topic> topics) {
-                for (int i = 0; i < topics.size(); i++) {
-                    //create a list of local topic IDs, to help with setting up the double adapter
-                    mPreparationTopicIDList.add(topics.get(i).getId());
-                    Log.d(TAG, "getPreparationTopicsAndModules() preparation topicID size:" + mPreparationTopicIDList.size());
-                }
-                setUpTopicsAdapter();
-                mModuleViewModel.getPreparationTopicsAndModules(getActivity(), accessToken).removeObservers(getActivity());
-            }
-        });
-    }
-
-    private void setUpTopicsAdapter() {
-        if (category.equals(Const.API_KNOWLEDGE)) {
-            knowledgeModules = new ArrayList<RealmResults<Module>>();
-            for (int i = 0; i < mKnowledgeTopicIDList.size(); i++) {
-                //get individual list of modules for each topic from Realm
-                RealmResults<Module> modules = mModuleViewModel.getModulesForTopic(mKnowledgeTopicIDList.get(i));
-                Log.d(TAG, "setUpTopicsAdapter() RealmResults<Module> size: " + modules.size());
-                //only create a recycler view if there are some modules in the topic
-                if (modules.size() > 0) {
-                    knowledgeModules.add(mModuleViewModel.getModulesForTopic(mKnowledgeTopicIDList.get(i)));
-                    Log.d(TAG, "setUpTopicsAdapter() ArrayList<RealmResults<Module>> preparationModules size: " + knowledgeModules.size());
-                }
-                topicsAdapter.setData(knowledgeModules);
-            }
-
-        } else if (category.equals(Const.API_PREPARATION)) {
-            preparationModules = new ArrayList<RealmResults<Module>>();
-            for (int i = 0; i < mPreparationTopicIDList.size(); i++) {
-                //get individual list of modules for each topic from Realm
-                RealmResults<Module> modules = mModuleViewModel.getModulesForTopic(mPreparationTopicIDList.get(i));
-                Log.d(TAG, "setUpTopicsAdapter() RealmResults<Module> size: " + modules.size());
-                //only create a recycler view if there are some modules in the topic
-                if (modules.size() > 0) {
-                    preparationModules.add(mModuleViewModel.getModulesForTopic(mPreparationTopicIDList.get(i)));
-                    Log.d(TAG, "setUpTopicsAdapter() ArrayList<RealmResults<Module>> preparationModules size: " + preparationModules.size());
-                }
-                topicsAdapter.setData(preparationModules);
-            }
-        }
-
-        verticalRv.setHasFixedSize(true);
-        vertManager = new LinearLayoutManager(this.getActivity(), LinearLayoutManager.VERTICAL, false);
-        verticalRv.setLayoutManager(vertManager);
-        verticalRv.setAdapter(topicsAdapter);
-    }*/
-
     private void setUpKnowledgeAdapter(){
         knowledgeModules = mModuleViewModel.getKnowledgeAdapterData();
         topicsAdapter.setData(knowledgeModules);
@@ -186,7 +113,7 @@ public class TopicsFragment extends Fragment implements TopicsAdapter.TopicsAdap
     }
 
     private void setUpPreparationAdapter(){
-        preparationModules = mModuleViewModel.getKnowledgeAdapterData();
+        preparationModules = mModuleViewModel.getPreparationAdapterData();
         topicsAdapter.setData(preparationModules);
         verticalRv.setHasFixedSize(true);
         vertManager = new LinearLayoutManager(this.getActivity(), LinearLayoutManager.VERTICAL, false);
@@ -220,7 +147,8 @@ public class TopicsFragment extends Fragment implements TopicsAdapter.TopicsAdap
         selectedModuleID = module.getId();
         Bundle b = new Bundle();
         b.putString(Const.MODULE_ID, selectedModuleID);
-        Navigation.findNavController(getActivity(), R.id.my_nav_host_fragment).navigate(R.id.action_topicsFragment_to_moduleFragment, b);
+        Navigation.findNavController(getActivity(), R.id.my_nav_host_fragment)
+                .navigate(R.id.action_topicsFragment_to_moduleFragment, b);
     }
 
     @Override

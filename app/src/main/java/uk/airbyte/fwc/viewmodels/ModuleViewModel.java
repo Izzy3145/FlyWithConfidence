@@ -115,7 +115,9 @@ public class ModuleViewModel extends ViewModel implements OrderedRealmCollection
         for (int i = 0; i < knowledgeTopics.size(); i++) {
             String topicID = knowledgeTopics.get(i).getId();
             RealmResults<Module> modules = moduleRepository.getModulesForCategory(topicID, Const.REALM_KNOWLEDGE);
-            knowledgeModules.add(modules);
+            if (modules.size() > 0) {
+                knowledgeModules.add(modules);
+            }
         }
         return knowledgeModules;
     }
@@ -189,7 +191,9 @@ public class ModuleViewModel extends ViewModel implements OrderedRealmCollection
         for (int i = 0; i < preparationTopics.size(); i++) {
             String topicID = preparationTopics.get(i).getId();
             RealmResults<Module> modules = moduleRepository.getModulesForCategory(topicID, Const.REALM_PREPARATION);
-            preparationModules.add(modules);
+            if (modules.size() > 0) {
+                preparationModules.add(modules);
+            }
         }
         return preparationModules;
     }

@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private String userID;
     private BottomNavigationView bottomNavigation;
     private ModuleViewModel mModuleViewModel;
-    private Boolean dataRetrieved;
+    private Boolean dataRetrieved = false;
 
 
     @Override
@@ -55,9 +55,10 @@ public class MainActivity extends AppCompatActivity {
         if(mAccessToken != null && mAccessToken.length()>0){
             bottomNavigation.setVisibility(View.VISIBLE);
             NavigationUI.setupWithNavController(bottomNavigation, navController);
-            mModuleViewModel.getKnowledgeTopicsAndModules(this, mAccessToken);
-            mModuleViewModel.getPreparationTopicsAndModules(this, mAccessToken);
+            mModuleViewModel.knowledgeTopicAndModuleCall(this, mAccessToken);
+            mModuleViewModel.preparationTopicAndModuleCall(this, mAccessToken);
             dataRetrieved = true;
+            //TODO: add progressBar
         } else {
             navController.navigate(R.id.splash_fragment);
             }
@@ -73,8 +74,9 @@ public class MainActivity extends AppCompatActivity {
             bottomNavigation.setVisibility(View.VISIBLE);
             NavigationUI.setupWithNavController(bottomNavigation, navController);
             if(!dataRetrieved) {
-                mModuleViewModel.getKnowledgeTopicsAndModules(this, mAccessToken);
-                mModuleViewModel.getPreparationTopicsAndModules(this, mAccessToken);
+                mModuleViewModel.knowledgeTopicAndModuleCall(this, mAccessToken);
+                mModuleViewModel.preparationTopicAndModuleCall(this, mAccessToken);
+                //TODO: add progressBar
             }
         } else {
             navController.navigate(R.id.splash_fragment);

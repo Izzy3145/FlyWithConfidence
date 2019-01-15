@@ -181,7 +181,7 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.Favourit
         selectedModuleID = module.getId();
         Bundle b = new Bundle();
         b.putString(Const.MODULE_ID, selectedModuleID);
-        Navigation.findNavController(getActivity(), R.id.my_nav_host_fragment).navigate(R.id.action_home_dest_to_moduleFragment, b);
+        Navigation.findNavController(getActivity(), R.id.my_nav_host_fragment).navigate(R.id.action_home_to_module, b);
     }
 
     @Override
@@ -202,7 +202,7 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.Favourit
         selectedModuleID = module.getId();
         Bundle b = new Bundle();
         b.putString(Const.MODULE_ID, selectedModuleID);
-        Navigation.findNavController(getActivity(), R.id.my_nav_host_fragment).navigate(R.id.action_home_dest_to_moduleFragment, b);
+        Navigation.findNavController(getActivity(), R.id.my_nav_host_fragment).navigate(R.id.action_home_to_module, b);
     }
 
     @Override

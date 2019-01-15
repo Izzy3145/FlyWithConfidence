@@ -191,7 +191,7 @@ public class VideoFragment extends Fragment {
         if (mSimpleExoPlayer != null) {
             playbackReady = false;
             //TODO: reinstate this
-            //mVideoViewModel.setVideoPosition(mShowPlay, mSimpleExoPlayer);
+            mVideoViewModel.setVideoPosition(mShowPlay, mSimpleExoPlayer);
         }
     }
 }
