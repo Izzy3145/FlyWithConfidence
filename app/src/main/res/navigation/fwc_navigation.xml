@@ -16,7 +16,8 @@
             app:destination="@id/homeFragment" />
         <action
             android:id="@+id/action_home_dest_to_topicsFragment"
-            app:destination="@id/topicsFragment" />
+            app:destination="@id/topicsFragment"
+            app:launchSingleTop="false" />
         <action
             android:id="@+id/action_home_dest_to_accountFragment"
             app:destination="@id/accountFragment" />

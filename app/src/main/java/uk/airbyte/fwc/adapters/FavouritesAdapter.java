@@ -12,8 +12,6 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.realm.Realm;
@@ -22,23 +20,23 @@ import io.realm.RealmResults;
 import uk.airbyte.fwc.R;
 import uk.airbyte.fwc.model.Module;
 
-public class FavouritesAdapter extends RealmRecyclerViewAdapter<Module, FavouritesAdapter.ViewHolder>{
+public class FavouritesAdapter extends RealmRecyclerViewAdapter<Module, FavouritesAdapter.ViewHolder> {
 
     private final static String TAG = FavouritesAdapter.class.getSimpleName();
     private Context mContext;
     private RealmResults<Module> mModules;
     private FavouritesAdapterListener mClickHandler;
-    private int mEditting;
+    private int mEditing;
     private Realm realm;
 
-    public FavouritesAdapter(RealmResults<Module> modules, Context c, FavouritesAdapterListener clickHandler, int editting){
+    public FavouritesAdapter(RealmResults<Module> modules, Context c, FavouritesAdapterListener clickHandler, int editting) {
         super(modules, true, true);
-       // setHasStableIds(true);
+        setHasStableIds(true);
         mModules = modules;
         mContext = c;
         realm = Realm.getDefaultInstance();
         mClickHandler = clickHandler;
-        mEditting = editting;
+        mEditing = editting;
     }
 
 
@@ -60,58 +58,53 @@ public class FavouritesAdapter extends RealmRecyclerViewAdapter<Module, Favourit
         try {
             final int adapterPosition = holder.getAdapterPosition();
             final Module module = getItem(position);
-           //final Module module = mListOfModules.get(position);
-           holder.mVideoTitle.setText(module.getName());
+            //final Module module = mListOfModules.get(position);
+            holder.mVideoTitle.setText(module.getName());
             holder.mVideoThumbnail.setClipToOutline(true);
             Picasso.get()
-                   .load(module.getMedia().getThumbnail())
-                   .placeholder(R.drawable.captain_placeholder)
-                   .error(R.drawable.captain)
-                   .resize(160,90)
-                   .centerCrop()
-                   .into(holder.mVideoThumbnail);
+                    .load(module.getMedia().getThumbnail())
+                    .placeholder(R.drawable.captain_placeholder)
+                    .error(R.drawable.captain)
+                    .resize(160, 90)
+                    .centerCrop()
+                    .into(holder.mVideoThumbnail);
 
-           if(mEditting == 0){
-               holder.mDeleteFavBtn.setVisibility(View.GONE);
-           } else {
-               holder.mDeleteFavBtn.setVisibility(View.VISIBLE);
-               holder.mDeleteFavBtn.setOnClickListener(new View.OnClickListener() {
-                   @Override
-                   public void onClick(View v) {
-                       mClickHandler.onClickDeleteMethod(module, adapterPosition);
-                   }
-               });
-           }
-       } catch (IndexOutOfBoundsException e){
-           holder.mVideoTitle.setText("");
-           Log.d(TAG, "Index Out Of Bounds Exception: " + e);
-           Picasso.get()
-                   .load(R.drawable.artboard)
-                   .placeholder(R.drawable.artboard)
-                   .error(R.drawable.captain)
-                   .resize(160,90)
-                   .centerCrop()
-                   .into(holder.mVideoThumbnail);
-       }
-    }
+            //TODO: move to modules adapter when multiple network calls eliminated
+            if(module.getFavourited()){
+                holder.mFavouritesOverlay.setVisibility(View.VISIBLE);
+            } else {
+                holder.mFavouritesOverlay.setVisibility(View.GONE);
+            }
 
-    public void setModulesToAdapter(RealmResults<Module> foundModuleList){
-        mModules = foundModuleList;
-        notifyDataSetChanged();
-    }
-
-    public void clearModulesList(){
-        if(mModules!=null) {
-            mModules.clear();
+            if (mEditing == 0) {
+                holder.mDeleteFavBtn.setVisibility(View.GONE);
+            } else {
+                holder.mDeleteFavBtn.setVisibility(View.VISIBLE);
+                holder.mDeleteFavBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mClickHandler.onClickFavDeleteMethod(module, adapterPosition);
+                    }
+                });
+            }
+        } catch (IndexOutOfBoundsException e) {
+            holder.mVideoTitle.setText("");
+            Log.d(TAG, "Index Out Of Bounds Exception: " + e);
+            Picasso.get()
+                    .load(R.drawable.artboard)
+                    .placeholder(R.drawable.artboard)
+                    .error(R.drawable.captain)
+                    .resize(160, 90)
+                    .centerCrop()
+                    .into(holder.mVideoThumbnail);
         }
     }
 
     //create onClickListener interface
     public interface FavouritesAdapterListener {
-        void onClickMethod(Module module, int position);
-        void onClickDeleteMethod(Module module, int position);
+        void onClickFavMethod(Module module, int position);
+        void onClickFavDeleteMethod(Module module, int position);
     }
-
 
     //create viewholder class
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -121,6 +114,8 @@ public class FavouritesAdapter extends RealmRecyclerViewAdapter<Module, Favourit
         ImageView mVideoThumbnail;
         @BindView(R.id.deleteFavBtn)
         ImageView mDeleteFavBtn;
+        @BindView(R.id.favouritesOverlay)
+        ImageView mFavouritesOverlay;
 
         private ViewHolder(View itemView) {
             super(itemView);
@@ -133,7 +128,7 @@ public class FavouritesAdapter extends RealmRecyclerViewAdapter<Module, Favourit
             Module module;
             int adapterPosition = getAdapterPosition();
             module = mModules.get(adapterPosition);
-            mClickHandler.onClickMethod(module, adapterPosition);
+            mClickHandler.onClickFavMethod(module, adapterPosition);
         }
     }
 }

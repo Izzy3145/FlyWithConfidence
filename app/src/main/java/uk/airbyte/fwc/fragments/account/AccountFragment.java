@@ -46,6 +46,7 @@ public class AccountFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        mAccountViewModel = new AccountViewModel();
         mAccountViewModel = ViewModelProviders.of(getActivity()).get(AccountViewModel.class);
     }
 

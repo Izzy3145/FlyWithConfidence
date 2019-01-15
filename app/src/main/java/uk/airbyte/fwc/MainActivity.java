@@ -1,6 +1,7 @@
 package uk.airbyte.fwc;
 
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.support.design.widget.BottomNavigationView;
@@ -29,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     private NavController navController;
     private String mAccessToken;
     private String userID;
+    private BottomNavigationView bottomNavigation;
 
 
     @Override
@@ -38,13 +40,13 @@ public class MainActivity extends AppCompatActivity {
 
         navHost = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.my_nav_host_fragment);
         navController = Navigation.findNavController(this, R.id.my_nav_host_fragment);
+        bottomNavigation = (BottomNavigationView) findViewById(R.id.btm_navigation);
 
         sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         mAccessToken = sharedPref.getString(Const.ACCESS_TOKEN, "");
         Log.d(TAG, "AccessToken from shared pref: " + mAccessToken);
 
         if(mAccessToken != null && mAccessToken.length()>0){
-            BottomNavigationView bottomNavigation = (BottomNavigationView) findViewById(R.id.btm_navigation);
             bottomNavigation.setVisibility(View.VISIBLE);
             NavigationUI.setupWithNavController(bottomNavigation, navController);
         } else {
@@ -59,11 +61,24 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "AccessToken from shared pref: " + mAccessToken);
 
         if(mAccessToken != null && mAccessToken.length()>0){
-            BottomNavigationView bottomNavigation = (BottomNavigationView) findViewById(R.id.btm_navigation);
             bottomNavigation.setVisibility(View.VISIBLE);
             NavigationUI.setupWithNavController(bottomNavigation, navController);
         } else {
             navController.navigate(R.id.splash_fragment);
         }
+    }
+
+
+    public void hideNavBar(){
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        bottomNavigation.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onBackPressed() {
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        bottomNavigation.setVisibility(View.VISIBLE);
+
+        // navController.navigate(R.id.homeFragment);
     }
 }

@@ -24,6 +24,7 @@ import uk.airbyte.fwc.model.Module;
 import uk.airbyte.fwc.model.RealmListLiveData;
 import uk.airbyte.fwc.model.Topic;
 import uk.airbyte.fwc.repositories.ModuleRepository;
+import uk.airbyte.fwc.utils.Const;
 
 public class ModuleViewModel extends ViewModel implements OrderedRealmCollectionChangeListener<RealmResults<Module>> {
 
@@ -31,9 +32,15 @@ public class ModuleViewModel extends ViewModel implements OrderedRealmCollection
 
     //TODO:cleanup
 
-    private MutableLiveData<List<Module>> modules;
-    private MutableLiveData<List<Topic>> topics;
-    private List<Topic> listOfTopics;
+
+    private MutableLiveData<List<Topic>> liveKnowledgeTopics;
+    private List<Topic> knowledgeTopics;
+    private int numKnowledgeTopics;
+    private int numKnowledgeModules;
+    private MutableLiveData<List<Topic>> livePreparationTopics;
+    private List<Topic> preparationTopics;
+    private int numPreparationTopics;
+    private int numPreparationModules;
     private APIService apiService = APIClient.getClient().create(APIService.class);
     private final ModuleRepository moduleRepository;
     private RealmResults<Module> favouriteResults;
@@ -42,8 +49,7 @@ public class ModuleViewModel extends ViewModel implements OrderedRealmCollection
     private RealmResults<Module> categoryModuleResults;
     private RealmResults<Module> allResults;
     private RealmListLiveData<Module> allResultsLive;
-    private int numberOfTopics;
-    private int numberOfModules;
+
 
 
     public ModuleViewModel() {
@@ -109,36 +115,35 @@ public class ModuleViewModel extends ViewModel implements OrderedRealmCollection
         moduleRepository.deleteRealmFavourite(moduleID);
     }
 
-    public LiveData<List<Topic>> getListOfTopics(final Context context, final String accessToken, String category) {
-        topics = new MutableLiveData<>();
-        topicAndModuleCall(context, accessToken, category);
-        return topics;
+    //methods to get all knowledge topics and modules, and return list of topics as liveData
+    public LiveData<List<Topic>> getKnowledgeTopicsAndModules(final Context context, final String accessToken) {
+        liveKnowledgeTopics = new MutableLiveData<>();
+        knowledgeTopicAndModuleCall(context, accessToken);
+        return liveKnowledgeTopics;
     }
 
-    public void topicAndModuleCall(final Context context, final String accessToken, String category) {
-        //method to save all found modules to Realm, and return list of topic IDs as liveData
-        numberOfTopics = 0;
-        numberOfModules = 0;
-        listOfTopics = new ArrayList<Topic>();
-        apiService.getTopics(accessToken, category).enqueue(new Callback<List<Topic>>() {
+    public void knowledgeTopicAndModuleCall(final Context context, final String accessToken) {
+        numKnowledgeTopics = 0;
+        numKnowledgeModules = 0;
+        knowledgeTopics = new ArrayList<Topic>();
+        apiService.getTopics(accessToken, Const.API_KNOWLEDGE).enqueue(new Callback<List<Topic>>() {
             @Override
             public void onResponse(Call<List<Topic>> call, Response<List<Topic>> response) {
                 if (response.isSuccessful()) {
-                    listOfTopics = response.body();
-                    topics.postValue(listOfTopics);
-                    for (int i = 0; i < listOfTopics.size(); i++) {
-                        numberOfTopics++;
-                        Log.d(TAG, "Number of Topics found: " + numberOfTopics);
-                        String topicID = listOfTopics.get(i).getId();
+                    knowledgeTopics = response.body();
+                    liveKnowledgeTopics.postValue(knowledgeTopics);
+                    for (int i = 0; i < knowledgeTopics.size(); i++) {
+                        numKnowledgeTopics++;
+                        Log.d(TAG, "Number of Knowledge Topics found: " + numKnowledgeTopics);
+                        String topicID = knowledgeTopics.get(i).getId();
                         apiService.getModulesForTopics(accessToken, topicID).enqueue(new Callback<List<Module>>() {
                             @Override
                             public void onResponse(Call<List<Module>> call, Response<List<Module>> response) {
                                 if (response.isSuccessful()) {
                                     Log.d(TAG, "Response moduleCall() success: " + response.body());
                                     moduleRepository.copyTopicModulesToRealm(response.body());
-                                    numberOfModules = numberOfModules + response.body().size();
-                                    Log.d(TAG, "topicAndModuleCall() moduleList size: " + numberOfModules);
-                                    //modules.postValue(response.body());
+                                    numKnowledgeModules = numKnowledgeModules + response.body().size();
+                                    Log.d(TAG, "Knowledge knowledgeTopicAndModuleCall() moduleList size: " + numKnowledgeModules);
                                 } else {
                                     APIError error = ErrorUtils.parseError(response);
                                     String errorCode = String.valueOf(error.status());
@@ -156,20 +161,83 @@ public class ModuleViewModel extends ViewModel implements OrderedRealmCollection
                             }
                         });
                     }
-
-                    Log.d(TAG, "Response topicAndModuleCall() success: " + response.body());
+                    Log.d(TAG, "Response knowledgeTopicAndModuleCall() success: " + response.body());
                 } else {
                     APIError error = ErrorUtils.parseError(response);
                     String errorCode = String.valueOf(error.status());
                     String errorMessage = error.message();
                     Toast.makeText(context, "Error: " + errorCode + " " + errorMessage, Toast.LENGTH_SHORT).show();
-                    Log.d("topicAndModuleCall() error message", error.message());
+                    Log.d("knowledgeTopicAndModuleCall() error message", error.message());
                 }
             }
 
             @Override
             public void onFailure(Call<List<Topic>> call, Throwable t) {
-                Log.d(TAG, "Response topicAndModuleCall() failure");
+                Log.d(TAG, "Response knowledgeTopicAndModuleCall() failure");
+                Toast.makeText(context, "Error - please check your network connection", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    //methods to get all knowledge topics and modules, and return list of topics as liveData
+    public LiveData<List<Topic>> getPreparationTopicsAndModules(final Context context, final String accessToken) {
+        livePreparationTopics = new MutableLiveData<>();
+        preparationTopicAndModuleCall(context, accessToken);
+        return livePreparationTopics;
+    }
+
+    public void preparationTopicAndModuleCall(final Context context, final String accessToken) {
+        numPreparationTopics = 0;
+        numPreparationModules = 0;
+        preparationTopics = new ArrayList<Topic>();
+        apiService.getTopics(accessToken, Const.API_PREPARATION).enqueue(new Callback<List<Topic>>() {
+            @Override
+            public void onResponse(Call<List<Topic>> call, Response<List<Topic>> response) {
+                if (response.isSuccessful()) {
+                    preparationTopics = response.body();
+                    livePreparationTopics.postValue(preparationTopics);
+                    for (int i = 0; i < preparationTopics.size(); i++) {
+                        numPreparationTopics++;
+                        Log.d(TAG, "Number of Preparation Topics found: " + numPreparationTopics);
+                        String topicID = preparationTopics.get(i).getId();
+                        apiService.getModulesForTopics(accessToken, topicID).enqueue(new Callback<List<Module>>() {
+                            @Override
+                            public void onResponse(Call<List<Module>> call, Response<List<Module>> response) {
+                                if (response.isSuccessful()) {
+                                    Log.d(TAG, "Response moduleCall() success: " + response.body());
+                                    moduleRepository.copyTopicModulesToRealm(response.body());
+                                    numPreparationModules = numPreparationModules + response.body().size();
+                                    Log.d(TAG, "Preparation TopicAndModuleCall() moduleList size: " + numPreparationModules);
+                                } else {
+                                    APIError error = ErrorUtils.parseError(response);
+                                    String errorCode = String.valueOf(error.status());
+                                    String errorMessage = error.message();
+                                    Toast.makeText(context, "Error: " + errorCode + " " + errorMessage, Toast.LENGTH_SHORT).show();
+                                    Log.d("moduleCall() error message", error.message());
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<List<Module>> call, Throwable t) {
+                                Log.d(TAG, "Response moduleCall() failure");
+                                Toast.makeText(context, "Error - please check your network connection", Toast.LENGTH_SHORT).show();
+                                //modules.postValue(null);
+                            }
+                        });
+                    }
+                    Log.d(TAG, "Response preparationTopicAndModuleCall() success: " + response.body());
+                } else {
+                    APIError error = ErrorUtils.parseError(response);
+                    String errorCode = String.valueOf(error.status());
+                    String errorMessage = error.message();
+                    Toast.makeText(context, "Error: " + errorCode + " " + errorMessage, Toast.LENGTH_SHORT).show();
+                    Log.d("preparationTopicAndModuleCall() error message", error.message());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Topic>> call, Throwable t) {
+                Log.d(TAG, "Response preparationTopicAndModuleCall() failure");
                 Toast.makeText(context, "Error - please check your network connection", Toast.LENGTH_SHORT).show();
             }
         });
@@ -195,11 +263,11 @@ public class ModuleViewModel extends ViewModel implements OrderedRealmCollection
     }
 
         public LiveData<List<Module>> getTopics(Context context, String accessToken, String category) {
-           if (topics == null) {
-                topics = new MutableLiveData<List<Topic>>();
+           if (liveKnowledgeTopics == null) {
+                liveKnowledgeTopics = new MutableLiveData<List<Topic>>();
              topicCall(context, accessToken, category);
           }
-         return topics;
+         return liveKnowledgeTopics;
       }
 
      private void moduleCall(final Context context, String accessToken, String topicID) {

@@ -23,7 +23,7 @@ public class VideoViewModel extends ViewModel {
 
     public void select(ShowPlay imageOrVideo) {
         Log.d(TAG, "Video selected: " + imageOrVideo);
-        selectedVideo.setValue(imageOrVideo);
+        selectedVideo.postValue(imageOrVideo);
     }
 
     public LiveData<ShowPlay> getSelected() {

@@ -148,14 +148,12 @@ public class VideoFragment extends Fragment {
             saveState();
         }
         releasePlayer();
-        Log.d(TAG, "onPause()");
     }
 
     @Override
     public void onResume() {
         super.onResume();
         passShowPlayObj(mShowPlay);
-        Log.d(TAG, "onResume()");
     }
 
     @Override
@@ -178,7 +176,7 @@ public class VideoFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         releasePlayer();
-        mVideoViewModel.closeRealm();
+       // mVideoViewModel.closeRealm();
     }
 
     public void releasePlayer() {
@@ -192,7 +190,8 @@ public class VideoFragment extends Fragment {
     private void saveState() {
         if (mSimpleExoPlayer != null) {
             playbackReady = false;
-            mVideoViewModel.setVideoPosition(mShowPlay, mSimpleExoPlayer);
+            //TODO: reinstate this
+            //mVideoViewModel.setVideoPosition(mShowPlay, mSimpleExoPlayer);
         }
     }
 }

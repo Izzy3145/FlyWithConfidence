@@ -12,6 +12,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="431e14b6-1454-44ab-a504-94e0a3ce814e" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.gradle/4.6/fileContent/fileContent.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.6/fileContent/fileContent.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.6/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.6/fileHashes/fileHashes.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.6/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.6/fileHashes/fileHashes.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.6/javaCompile/classAnalysis.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.6/javaCompile/classAnalysis.bin" afterDir="false" />
@@ -20,11 +21,22 @@
       <change beforePath="$PROJECT_DIR$/.gradle/4.6/taskHistory/taskHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.6/taskHistory/taskHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.6/taskHistory/taskHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.6/taskHistory/taskHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/MainActivity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/adapters/FavouritesAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/adapters/FavouritesAdapter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/fragments/HomeFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/fragments/HomeFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/repositories/ModuleRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/repositories/ModuleRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/fragments/ModuleFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/fragments/ModuleFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/fragments/TopicsFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/fragments/TopicsFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/fragments/VideoFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/fragments/VideoFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/fragments/account/AccountFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/fragments/account/AccountFragment.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/utils/Const.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/utils/Const.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/viewmodels/ModuleViewModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/viewmodels/ModuleViewModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/viewmodels/VideoViewModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/viewmodels/VideoViewModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/home_fragment.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/home_fragment.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/video_thumbnail_item.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/video_thumbnail_item.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/navigation/fwc_navigation.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/navigation/fwc_navigation.xml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -46,45 +58,12 @@
     </system>
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file leaf-file-name="ModuleRepository.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/repositories/ModuleRepository.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1380">
-              <caret line="110" column="37" selection-start-line="110" selection-start-column="37" selection-end-line="110" selection-end-column="37" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="VideoViewModel.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/viewmodels/VideoViewModel.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="375">
-              <caret line="41" column="36" selection-start-line="41" selection-start-column="36" selection-end-line="41" selection-end-column="36" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Const.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/utils/Const.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="150">
-              <caret line="10" column="65" selection-start-line="10" selection-start-column="65" selection-end-line="10" selection-end-column="65" />
-            </state>
-          </provider>
-        </entry>
-      </file>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file leaf-file-name="HomeFragment.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/fragments/HomeFragment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="330">
-              <caret line="180" column="5" selection-start-line="180" selection-start-column="5" selection-end-line="180" selection-end-column="5" />
-              <folding>
-                <element signature="e#4424#5053#0" expanded="true" />
-                <element signature="e#5052#5053#0" expanded="true" />
-                <element signature="e#5120#5159#0" expanded="true" />
-                <element signature="e#5232#5271#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="563">
+              <caret line="107" column="19" selection-start-line="107" selection-start-column="19" selection-end-line="107" selection-end-column="19" />
             </state>
           </provider>
         </entry>
@@ -92,62 +71,52 @@
       <file leaf-file-name="ModuleViewModel.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/viewmodels/ModuleViewModel.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="166">
-              <caret line="70" column="17" selection-start-line="70" selection-start-column="17" selection-end-line="70" selection-end-column="17" />
+            <state relative-caret-position="350">
+              <caret line="209" column="12" selection-start-line="209" selection-start-column="12" selection-end-line="209" selection-end-column="12" />
               <folding>
-                <element signature="e#2073#2074#0" expanded="true" />
-                <element signature="e#2117#2118#0" expanded="true" />
+                <element signature="e#2049#2050#0" expanded="true" />
+                <element signature="e#2098#2099#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="FavouritesAdapter.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/adapters/FavouritesAdapter.java">
+      <file leaf-file-name="APIService.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/api/APIService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="285">
-              <caret line="127" column="8" selection-start-line="127" selection-start-column="8" selection-end-line="127" selection-end-column="8" />
+            <state relative-caret-position="60">
+              <caret line="20" column="17" selection-start-line="20" selection-start-column="17" selection-end-line="20" selection-end-column="17" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ModulesAdapter.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/adapters/ModulesAdapter.java">
+      <file leaf-file-name="Const.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/utils/Const.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1205">
-              <caret line="25" column="15" selection-start-line="25" selection-start-column="12" selection-end-line="25" selection-end-column="41" />
+            <state relative-caret-position="210">
+              <caret line="14" selection-start-line="14" selection-end-line="14" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ModuleFragment.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/fragments/ModuleFragment.java">
+      <file leaf-file-name="topic_modules_rv.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/topic_modules_rv.xml">
+          <provider editor-type-id="android-designer2">
+            <state />
+          </provider>
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1306">
-              <caret line="204" column="13" selection-start-line="204" selection-start-column="13" selection-end-line="204" selection-end-column="13" />
-              <folding>
-                <element signature="e#2806#3486#0" expanded="true" />
-                <element signature="e#3485#3486#0" expanded="true" />
-                <element signature="e#3531#4155#0" expanded="true" />
-                <element signature="e#4154#4155#0" expanded="true" />
-                <element signature="e#6147#6184#0" expanded="true" />
-                <element signature="e#6248#6284#0" expanded="true" />
-                <element signature="e#6354#6380#0" expanded="true" />
-                <element signature="e#6743#6744#0" expanded="true" />
-                <element signature="e#6774#6775#0" expanded="true" />
-              </folding>
-            </state>
+            <state />
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TopicsFragment.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/fragments/TopicsFragment.java">
+      <file leaf-file-name="home_fragment.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/home_fragment.xml">
+          <provider editor-type-id="android-designer2">
+            <state />
+          </provider>
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="488">
-              <caret line="87" column="10" selection-start-line="87" selection-start-column="10" selection-end-line="87" selection-end-column="10" />
-              <folding>
-                <element signature="e#1468#1490#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="165">
+              <caret line="11" column="37" selection-start-line="11" selection-start-column="37" selection-end-line="11" selection-end-column="37" />
             </state>
           </provider>
         </entry>
@@ -155,13 +124,67 @@
       <file leaf-file-name="VideoFragment.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/fragments/VideoFragment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-26">
-              <caret line="82" column="43" selection-start-line="82" selection-start-column="43" selection-end-line="82" selection-end-column="43" />
+            <state relative-caret-position="279">
+              <caret line="192" column="34" selection-start-line="192" selection-start-column="34" selection-end-line="192" selection-end-column="34" />
             </state>
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="MainActivity.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/MainActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="244">
+              <caret line="62" selection-start-line="62" selection-end-line="62" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TopicsFragment.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/fragments/TopicsFragment.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="122">
+              <caret line="166" selection-start-line="166" selection-end-line="166" />
+              <folding>
+                <element signature="e#1359#1381#0" expanded="true" />
+                <element signature="e#1461#1483#0" expanded="true" />
+                <element signature="e#6763#7427#0" expanded="true" />
+                <element signature="e#7426#7427#0" expanded="true" />
+                <element signature="e#7618#8295#0" expanded="true" />
+                <element signature="e#8294#8295#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="fwc_navigation.xml" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/navigation/fwc_navigation.xml">
+          <provider selected="true" editor-type-id="android-designer2">
+            <state />
+          </provider>
+          <provider editor-type-id="text-editor">
+            <state />
+          </provider>
+        </entry>
+      </file>
     </leaf>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>orien</find>
+      <find>getTopicsAndModules</find>
+      <find>gettopicsandmodules</find>
+      <find>getTopicsandm</find>
+      <find>gettopicsand</find>
+      <find>gettopicsandmo</find>
+      <find>getKnowledgeTopicsAndModules</find>
+      <find>getPreparationTopicsAndModules</find>
+      <find>preparation</find>
+      <find>Number of</find>
+      <find>number of preparation</find>
+      <find>number of Knowledge</find>
+      <find>getK</find>
+      <find>getprep</find>
+    </findStrings>
   </component>
   <component name="Git.Settings">
     <option name="PREVIOUS_COMMIT_AUTHORS">
@@ -2574,24 +2597,28 @@
       <list>
         <option value="$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/repositories/VideoRepository.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/viewmodels/AccountViewModel.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/viewmodels/VideoViewModel.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/fragments/account/AccountFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/fragments/account/ChangePwFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/fragments/account/UpdateDetailsFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/fragments/auth/ForgotFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/fragments/auth/RegisterFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/fragments/auth/SignInFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/viewmodels/AuthViewModel.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/fragments/VideoFragment.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/MainActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/repositories/UserRepository.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/viewmodels/ModuleViewModel.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/fragments/TopicsFragment.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/fragments/ModuleFragment.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/utils/Const.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/adapters/FavouritesAdapter.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/fragments/HomeFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/repositories/ModuleRepository.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/viewmodels/VideoViewModel.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/fragments/ModuleFragment.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/video_thumbnail_item.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/adapters/FavouritesAdapter.java" />
+        <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/home_fragment.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/fragments/account/AccountFragment.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/MainActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/utils/Const.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/fragments/HomeFragment.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/fragments/VideoFragment.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/fragments/TopicsFragment.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/viewmodels/ModuleViewModel.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/navigation/fwc_navigation.xml" />
       </list>
     </option>
   </component>
@@ -2605,6 +2632,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="AndroidView">
         <subPane>
           <expand>
@@ -2628,28 +2656,7 @@
               <item name="app" type="feadf853:AndroidModuleNode" />
               <item name="java" type="edd41e36:AndroidSourceTypeNode" />
               <item name="fwc" type="cbb59c9e:AndroidPsiDirectoryNode" />
-              <item name="adapters" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="fwc-android" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
-              <item name="fwc" type="cbb59c9e:AndroidPsiDirectoryNode" />
               <item name="fragments" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="fwc-android" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
-              <item name="fwc" type="cbb59c9e:AndroidPsiDirectoryNode" />
-              <item name="repositories" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="fwc-android" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
-              <item name="fwc" type="cbb59c9e:AndroidPsiDirectoryNode" />
-              <item name="utils" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="fwc-android" type="1abcf292:AndroidViewProjectNode" />
@@ -2658,18 +2665,38 @@
               <item name="fwc" type="cbb59c9e:AndroidPsiDirectoryNode" />
               <item name="viewmodels" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="fwc-android" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="res" type="d4f16f75:AndroidResFolderNode" />
+            </path>
+            <path>
+              <item name="fwc-android" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="res" type="d4f16f75:AndroidResFolderNode" />
+              <item name="navigation" type="ddeffd01:AndroidResFolderTypeNode" />
+            </path>
+            <path>
+              <item name="fwc-android" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="res" type="d4f16f75:AndroidResFolderNode" />
+              <item name="values" type="ddeffd01:AndroidResFolderTypeNode" />
+            </path>
+            <path>
+              <item name="fwc-android" type="1abcf292:AndroidViewProjectNode" />
+              <item name="Gradle Scripts" type="ae0cef3a:AndroidBuildScriptsGroupNode" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
       <pane id="ProjectPane" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="android.sdk.path" value="$USER_HOME$/Library/Android/sdk" />
-    <property name="device.picker.selection" value="Pixel_2_API_28" />
+    <property name="device.picker.selection" value="Nexus_5X_API_28" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="AndroidSdkUpdater" />
   </component>
@@ -2824,43 +2851,83 @@
       <option name="project" value="LOCAL" />
       <updated>1547404823215</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="favourites adapter click bug fixed">
+      <created>1547458851240</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1547458851240</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="808" extended-state="0" />
     <editor active="true" />
     <layout>
+      <window_info anchor="bottom" id="Android Profiler" order="7" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Android Profiler" />
-      <window_info anchor="right" id="Palette&#9;" />
-      <window_info id="Image Layers" />
-      <window_info id="Build Variants" side_tool="true" />
-      <window_info anchor="right" id="Capture Analysis" />
-      <window_info anchor="bottom" id="Event Log" side_tool="true" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.3305204" />
-      <window_info anchor="bottom" id="Version Control" />
-      <window_info anchor="bottom" id="Terminal" />
-      <window_info anchor="bottom" id="Logcat" />
+      <window_info anchor="right" id="Palette&#9;" order="3" />
+      <window_info id="Image Layers" order="2" />
+      <window_info id="Build Variants" order="2" side_tool="true" />
+      <window_info anchor="right" id="Capture Analysis" order="3" />
+      <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.3305204" />
+      <window_info anchor="bottom" id="Version Control" order="7" />
+      <window_info anchor="bottom" id="Terminal" order="7" />
+      <window_info anchor="bottom" id="Logcat" order="7" />
       <window_info id="Captures" order="2" weight="0.25" />
-      <window_info id="Capture Tool" />
-      <window_info id="Designer" />
+      <window_info id="Capture Tool" order="2" />
+      <window_info id="Designer" order="2" />
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24964234" />
-      <window_info anchor="bottom" id="Build" weight="0.32913166" />
+      <window_info anchor="bottom" id="Build" order="7" weight="0.32911393" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32911393" />
-      <window_info anchor="right" id="Gradle" />
+      <window_info anchor="right" id="Gradle" order="3" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info anchor="right" id="Theme Preview" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
-      <window_info id="Favorites" side_tool="true" />
-      <window_info anchor="right" id="Device File Explorer" side_tool="true" />
+      <window_info anchor="right" id="Device File Explorer" order="3" side_tool="true" weight="0.3297568" />
+      <window_info anchor="right" id="Theme Preview" order="3" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.3994374" />
+      <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Preview" order="3" weight="0.3297568" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
     </layout>
+    <layout-to-restore>
+      <window_info anchor="bottom" id="Build" order="0" weight="0.32913166" />
+      <window_info id="Designer" order="0" />
+      <window_info id="Build Variants" order="1" side_tool="true" />
+      <window_info id="Image Layers" order="2" />
+      <window_info anchor="bottom" id="Run" order="8" weight="0.3305204" />
+      <window_info anchor="bottom" id="Cvs" order="10" weight="0.25" />
+      <window_info anchor="right" id="Ant Build" order="7" weight="0.25" />
+      <window_info anchor="bottom" id="Android Profiler" order="1" />
+      <window_info id="Favorites" order="3" side_tool="true" />
+      <window_info id="Captures" order="7" weight="0.25" />
+      <window_info id="Capture Tool" order="4" />
+      <window_info anchor="right" id="Capture Analysis" order="0" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="6" type="SLIDING" weight="0.4" />
+      <window_info anchor="bottom" id="Event Log" order="2" side_tool="true" />
+      <window_info anchor="right" id="Preview" order="1" weight="0.3297568" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="8" weight="0.25" />
+      <window_info anchor="bottom" id="Find" order="7" weight="0.32911393" />
+      <window_info anchor="right" id="Device File Explorer" order="2" side_tool="true" weight="0.3297568" />
+      <window_info anchor="bottom" id="Logcat" order="3" />
+      <window_info anchor="bottom" id="Version Control" order="4" />
+      <window_info anchor="bottom" id="Terminal" order="5" />
+      <window_info anchor="right" id="Gradle" order="3" />
+      <window_info active="true" content_ui="combo" id="Project" order="5" visible="true" weight="0.24964234" />
+      <window_info anchor="bottom" id="Message" order="6" />
+      <window_info anchor="bottom" id="TODO" order="12" />
+      <window_info anchor="right" id="Palette&#9;" order="4" />
+      <window_info anchor="right" id="Theme Preview" order="5" />
+      <window_info id="Structure" order="6" side_tool="true" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="11" weight="0.4" />
+      <window_info anchor="bottom" id="Debug" order="9" weight="0.3994374" />
+    </layout-to-restore>
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
@@ -2869,20 +2936,116 @@
     <MESSAGE value="duplicate topicIDlist bug fixed" />
     <MESSAGE value="categorys bug fixed - adapter is clearing" />
     <MESSAGE value="some improvements perhaps(?) realm.close" />
-    <option name="LAST_COMMIT_MESSAGE" value="some improvements perhaps(?) realm.close" />
+    <MESSAGE value="favourites adapter click bug fixed" />
+    <option name="LAST_COMMIT_MESSAGE" value="favourites adapter click bug fixed" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/fragments/TopicsFragment.java</url>
+          <line>182</line>
+          <properties class="uk.airbyte.fwc.fragments.TopicsFragment" method="getPreparationTopicsAndModules">
+            <option name="EMULATED" value="true" />
+          </properties>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/fragments/TopicsFragment.java</url>
+          <line>164</line>
+          <properties class="uk.airbyte.fwc.fragments.TopicsFragment" method="getKnowledgeTopicsAndModules">
+            <option name="EMULATED" value="true" />
+          </properties>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+      </breakpoints>
+      <option name="time" value="5" />
+    </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/adapters/TopicsAdapter.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/fragments/HomeFragment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-623">
-          <caret line="17" column="13" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="13" />
+        <state relative-caret-position="1560">
+          <caret line="138" column="20" selection-start-line="138" selection-start-column="20" selection-end-line="138" selection-end-column="20" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/fragments/account/AccountFragment.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/viewmodels/ModuleViewModel.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="295">
-          <caret line="87" column="39" selection-start-line="87" selection-start-column="39" selection-end-line="87" selection-end-column="39" />
+        <state relative-caret-position="1170">
+          <caret line="111" column="39" selection-start-line="111" selection-start-column="39" selection-end-line="111" selection-end-column="39" />
+          <folding>
+            <element signature="e#2049#2050#0" expanded="true" />
+            <element signature="e#2098#2099#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/api/APIService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="20" column="17" selection-start-line="20" selection-start-column="17" selection-end-line="20" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/utils/Const.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="14" selection-start-line="14" selection-end-line="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/topic_modules_rv.xml">
+      <provider editor-type-id="android-designer2">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/home_fragment.xml">
+      <provider editor-type-id="android-designer2">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="11" column="37" selection-start-line="11" selection-start-column="37" selection-end-line="11" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="14" column="46" selection-start-line="14" selection-start-column="46" selection-end-line="14" selection-end-column="46" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/fragments/VideoFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2415">
+          <caret line="191" column="34" selection-start-line="191" selection-start-column="34" selection-end-line="191" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/MainActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="705">
+          <caret line="64" column="81" selection-start-line="64" selection-start-column="81" selection-end-line="64" selection-end-column="81" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/fragments/TopicsFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2190">
+          <caret line="176" column="20" selection-start-line="176" selection-start-column="20" selection-end-line="176" selection-end-column="20" />
+          <folding>
+            <element signature="e#1359#1381#0" expanded="true" />
+            <element signature="e#1461#1483#0" expanded="true" />
+            <element signature="e#6763#7427#0" expanded="true" />
+            <element signature="e#7426#7427#0" expanded="true" />
+            <element signature="e#7618#8295#0" expanded="true" />
+            <element signature="e#8294#8295#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -2921,13 +3084,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/viewmodels/AccountViewModel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1410">
-          <caret line="116" column="55" selection-start-line="116" selection-end-line="117" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/viewmodels/AuthViewModel.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1200">
@@ -2949,31 +3105,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/MainActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="169">
-          <caret line="42" column="68" selection-start-line="42" selection-start-column="68" selection-end-line="42" selection-end-column="68" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/repositories/VideoRepository.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="39" column="5" selection-start-line="39" selection-start-column="5" selection-end-line="39" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/repositories/UserRepository.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="304">
-          <caret line="32" selection-start-line="32" selection-end-line="32" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/fragments/ModuleFragment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1306">
-          <caret line="204" column="13" selection-start-line="204" selection-start-column="13" selection-end-line="204" selection-end-column="13" />
+        <state relative-caret-position="29">
+          <caret line="103" column="68" selection-start-line="103" selection-start-column="68" selection-end-line="103" selection-end-column="68" />
           <folding>
             <element signature="e#2806#3486#0" expanded="true" />
             <element signature="e#3485#3486#0" expanded="true" />
@@ -2988,80 +3123,217 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/viewmodels/VideoViewModel.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable-xhdpi/favourite_overlay.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable-xhdpi/favourite_overlay_on.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable-hdpi/favourite_overlay_on.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable-hdpi/favourite_overlay.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/video_thumbnail_item.xml">
+      <provider editor-type-id="android-designer2">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="375">
-          <caret line="41" column="36" selection-start-line="41" selection-start-column="36" selection-end-line="41" selection-end-column="36" />
+        <state relative-caret-position="615">
+          <caret line="41" column="17" selection-start-line="41" selection-start-column="17" selection-end-line="41" selection-end-column="17" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/fragments/VideoFragment.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/adapters/TopicsAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-26">
-          <caret line="82" column="43" selection-start-line="82" selection-start-column="43" selection-end-line="82" selection-end-column="43" />
+        <state relative-caret-position="-316">
+          <caret line="17" column="13" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="13" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/fragments/TopicsFragment.java">
+    <entry file="file://$PROJECT_DIR$/app/build.gradle">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="488">
-          <caret line="87" column="10" selection-start-line="87" selection-start-column="10" selection-end-line="87" selection-end-column="10" />
-          <folding>
-            <element signature="e#1468#1490#0" expanded="true" />
-          </folding>
-        </state>
+        <state relative-caret-position="-491" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/utils/Const.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/adapters/ModulesAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="10" column="65" selection-start-line="10" selection-start-column="65" selection-end-line="10" selection-end-column="65" />
+        <state relative-caret-position="1379">
+          <caret line="124" column="17" selection-start-line="124" selection-start-column="17" selection-end-line="124" selection-end-column="17" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/adapters/FavouritesAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="127" column="8" selection-start-line="127" selection-start-column="8" selection-end-line="127" selection-end-column="8" />
+        <state relative-caret-position="-44">
+          <caret line="105" column="23" selection-start-line="105" selection-start-column="23" selection-end-line="105" selection-end-column="23" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/adapters/ModulesAdapter.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/viewmodels/VideoViewModel.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1205">
-          <caret line="25" column="15" selection-start-line="25" selection-start-column="12" selection-end-line="25" selection-end-column="41" />
+        <state relative-caret-position="270">
+          <caret line="36" column="23" selection-start-line="36" selection-start-column="23" selection-end-line="36" selection-end-column="23" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/fragments/HomeFragment.java">
+    <entry file="file://$USER_HOME$/Library/Android/sdk/sources/android-28/android/view/WindowManager.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="180" column="5" selection-start-line="180" selection-start-column="5" selection-end-line="180" selection-end-column="5" />
-          <folding>
-            <element signature="e#4424#5053#0" expanded="true" />
-            <element signature="e#5052#5053#0" expanded="true" />
-            <element signature="e#5120#5159#0" expanded="true" />
-            <element signature="e#5232#5271#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="138">
+          <caret line="1129" column="32" selection-start-line="1129" selection-start-column="32" selection-end-line="1129" selection-end-column="32" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/viewmodels/ModuleViewModel.java">
+    <entry file="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/constraint-layout-1.1.3.aar/c9a50ac24d59f46f56ba2d0fc588349c/jars/classes.jar!/android/support/constraint/ConstraintSet.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="166">
-          <caret line="70" column="17" selection-start-line="70" selection-start-column="17" selection-end-line="70" selection-end-column="17" />
-          <folding>
-            <element signature="e#2073#2074#0" expanded="true" />
-            <element signature="e#2117#2118#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="-1241">
+          <caret line="570" column="16" selection-start-line="570" selection-start-column="16" selection-end-line="570" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/repositories/VideoRepository.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="21" column="28" selection-start-line="21" selection-start-column="28" selection-end-line="21" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/repositories/UserRepository.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="566">
+          <caret line="57" column="29" selection-start-line="57" selection-start-column="8" selection-end-line="57" selection-end-column="29" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/repositories/ModuleRepository.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1380">
-          <caret line="110" column="37" selection-start-line="110" selection-start-column="37" selection-end-line="110" selection-end-column="37" />
+        <state relative-caret-position="544">
+          <caret line="124" column="21" selection-start-line="124" selection-start-column="21" selection-end-line="124" selection-end-column="21" />
         </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/viewmodels/AccountViewModel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="31" column="29" selection-start-line="31" selection-start-column="29" selection-end-line="31" selection-end-column="29" />
+          <folding>
+            <element signature="e#1074#1075#0" expanded="true" />
+            <element signature="e#1134#1135#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/fragments/account/AccountFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="349">
+          <caret line="48" column="48" selection-start-line="48" selection-start-column="32" selection-end-line="48" selection-end-column="48" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
+      <provider editor-type-id="android-manifest">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="14" column="46" selection-start-line="14" selection-start-column="46" selection-end-line="14" selection-end-column="46" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/topic_modules_rv.xml">
+      <provider editor-type-id="android-designer2">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/home_fragment.xml">
+      <provider editor-type-id="android-designer2">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="11" column="37" selection-start-line="11" selection-start-column="37" selection-end-line="11" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/api/APIService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="20" column="17" selection-start-line="20" selection-start-column="17" selection-end-line="20" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/utils/Const.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="14" selection-start-line="14" selection-end-line="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/fragments/VideoFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="279">
+          <caret line="192" column="34" selection-start-line="192" selection-start-column="34" selection-end-line="192" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/fragments/HomeFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="563">
+          <caret line="107" column="19" selection-start-line="107" selection-start-column="19" selection-end-line="107" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/viewmodels/ModuleViewModel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="350">
+          <caret line="209" column="12" selection-start-line="209" selection-start-column="12" selection-end-line="209" selection-end-column="12" />
+          <folding>
+            <element signature="e#2049#2050#0" expanded="true" />
+            <element signature="e#2098#2099#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/MainActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="244">
+          <caret line="62" selection-start-line="62" selection-end-line="62" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/fragments/TopicsFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="122">
+          <caret line="166" selection-start-line="166" selection-end-line="166" />
+          <folding>
+            <element signature="e#1359#1381#0" expanded="true" />
+            <element signature="e#1461#1483#0" expanded="true" />
+            <element signature="e#6763#7427#0" expanded="true" />
+            <element signature="e#7426#7427#0" expanded="true" />
+            <element signature="e#7618#8295#0" expanded="true" />
+            <element signature="e#8294#8295#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/navigation/fwc_navigation.xml">
+      <provider selected="true" editor-type-id="android-designer2">
+        <state />
+      </provider>
+      <provider editor-type-id="text-editor">
+        <state />
       </provider>
     </entry>
   </component>

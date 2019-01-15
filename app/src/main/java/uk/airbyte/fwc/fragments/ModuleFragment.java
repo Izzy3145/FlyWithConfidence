@@ -26,6 +26,7 @@ import butterknife.ButterKnife;
 import io.realm.Realm;
 import io.realm.RealmResults;
 import uk.airbyte.fwc.R;
+import uk.airbyte.fwc.adapters.ModulesAdapter;
 import uk.airbyte.fwc.model.Module;
 import uk.airbyte.fwc.model.ShowPlay;
 import uk.airbyte.fwc.utils.Const;
@@ -36,6 +37,8 @@ import uk.airbyte.fwc.viewmodels.VideoViewModel;
  * A simple {@link Fragment} subclass.
  */
 public class ModuleFragment extends Fragment {
+
+    private static final String TAG = ModuleFragment.class.getSimpleName();
 
     @BindView(R.id.moduleIntroTv)
     TextView moduleIntroTv;
@@ -122,18 +125,20 @@ public class ModuleFragment extends Fragment {
 
     public void getListOfModules() {
         mModule = mModuleViewModel.getModuleFromId(selectedModuleID);
+        Log.d(TAG, "getListOfModules() selectedModuleID: " + selectedModuleID);
         topicID = mModule.getTopic().getId();
         modulesInTopic = new ArrayList<>(mModuleViewModel.getModulesForTopic(topicID));
+        Log.d(TAG, "getListOfModules() modulesInTopic.size(): " + modulesInTopic.size());
     }
 
 
     public void displayModuleInfo(Module module) {
         if (module != null) {
-            Log.d("ModuleFragment", "Module name: " + module.getName());
             moduleIntroTv.setText(module.getDescription());
             moduleNotesTv.setText(module.getNotes());
             isFavourite = mModule.getFavourited();
             if (module.getMedia().getVideo1080() != null) {
+                Log.d(TAG, "displayModuleInfo() media;" + module.getMedia().getVideo1080());
                 mVideoViewModel.select(new ShowPlay(module.getId(), null, null,
                         module.getMedia().getVideo1080(), module.getCurrentWindow(), module.getPlayerPosition()));
             }
@@ -175,10 +180,8 @@ public class ModuleFragment extends Fragment {
         }
     }
 
-
     private void addBullet(String s, String txt) {
         int index = txt.indexOf(s);
-        // You can change the attributes as you need ... I just added a bit of color and formating
         BulletSpan bullet = new BulletSpan(20, Color.BLACK);
         spanString.setSpan(bullet, index, index + 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
     }
@@ -191,7 +194,7 @@ public class ModuleFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        Log.d("ModuleFragment", "onResume");
+        Log.d(TAG, "onResume");
         getListOfModules();
         displayModuleInfo(mModule);
     }
@@ -200,6 +203,7 @@ public class ModuleFragment extends Fragment {
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putString(Const.MODULE_ID, selectedModuleID);
+        Log.d(TAG, "moduleID to outState: " + selectedModuleID);
     }
 
     @Override
