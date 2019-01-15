@@ -1,5 +1,6 @@
 package uk.airbyte.fwc;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
@@ -18,6 +19,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 import uk.airbyte.fwc.utils.Const;
+import uk.airbyte.fwc.viewmodels.ModuleViewModel;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -31,6 +33,8 @@ public class MainActivity extends AppCompatActivity {
     private String mAccessToken;
     private String userID;
     private BottomNavigationView bottomNavigation;
+    private ModuleViewModel mModuleViewModel;
+    private Boolean dataRetrieved;
 
 
     @Override
@@ -42,6 +46,8 @@ public class MainActivity extends AppCompatActivity {
         navController = Navigation.findNavController(this, R.id.my_nav_host_fragment);
         bottomNavigation = (BottomNavigationView) findViewById(R.id.btm_navigation);
 
+        mModuleViewModel = ViewModelProviders.of(this).get(ModuleViewModel.class);;
+
         sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         mAccessToken = sharedPref.getString(Const.ACCESS_TOKEN, "");
         Log.d(TAG, "AccessToken from shared pref: " + mAccessToken);
@@ -49,6 +55,9 @@ public class MainActivity extends AppCompatActivity {
         if(mAccessToken != null && mAccessToken.length()>0){
             bottomNavigation.setVisibility(View.VISIBLE);
             NavigationUI.setupWithNavController(bottomNavigation, navController);
+            mModuleViewModel.getKnowledgeTopicsAndModules(this, mAccessToken);
+            mModuleViewModel.getPreparationTopicsAndModules(this, mAccessToken);
+            dataRetrieved = true;
         } else {
             navController.navigate(R.id.splash_fragment);
             }
@@ -63,6 +72,10 @@ public class MainActivity extends AppCompatActivity {
         if(mAccessToken != null && mAccessToken.length()>0){
             bottomNavigation.setVisibility(View.VISIBLE);
             NavigationUI.setupWithNavController(bottomNavigation, navController);
+            if(!dataRetrieved) {
+                mModuleViewModel.getKnowledgeTopicsAndModules(this, mAccessToken);
+                mModuleViewModel.getPreparationTopicsAndModules(this, mAccessToken);
+            }
         } else {
             navController.navigate(R.id.splash_fragment);
         }
@@ -78,7 +91,5 @@ public class MainActivity extends AppCompatActivity {
     public void onBackPressed() {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         bottomNavigation.setVisibility(View.VISIBLE);
-
-        // navController.navigate(R.id.homeFragment);
     }
 }

@@ -46,61 +46,18 @@ public class TopicsFragment extends Fragment implements TopicsAdapter.TopicsAdap
     private String category;
     private List<String> mKnowledgeTopicIDList;
     private List<String> mPreparationTopicIDList;
-    private List<String> mCategoryTopicIDList;
-    private String realmCategoryName;
-
-    public static TopicsFragment newInstance() {
-        return new TopicsFragment();
-    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
         accessToken = sharedPref.getString(Const.ACCESS_TOKEN, "");
-        mModuleViewModel = ViewModelProviders.of(this).get(ModuleViewModel.class);
-        topicsAdapter = new TopicsAdapter(preparationModules, getActivity(), this);
+        mModuleViewModel = ViewModelProviders.of(getActivity()).get(ModuleViewModel.class);
+        topicsAdapter = new TopicsAdapter(knowledgeModules, getActivity(), this);
         category = Const.API_KNOWLEDGE;
 
-        //mModuleViewModel.knowledgeTopicAndModuleCall(getActivity(), accessToken, Const.CAT_KNOWLEDGE);
-        //mModuleViewModel.knowledgeTopicAndModuleCall(getActivity(), accessToken, Const.CAT_PREPARATION);
-
-        getKnowledgeTopicsAndModules();
-        getPreparationTopicsAndModules();
-        /*mModuleViewModel.getAllResultsLive().observe(this, new Observer<RealmResults<Module>>() {
-            @Override
-            public void onChanged(@Nullable RealmResults<Module> modules) {
-                realmModules = modules;
-                setUpModulesAdapter();
-                //TODO: shouldn't need to call setUpModulesAdapter...
-            }
-        });*/
-
-        //get and save all modules - move this to viewmodel, or somewhere else?
-        /*mModuleViewModel.getModulesFromTopics(getActivity(), accessToken, category).observe(this, new Observer<List<Module>>() {
-            @Override
-            public void onChanged(@Nullable List<Module> modules) {
-                if (modules != null) {
-                    moduleList.addAll(modules);
-                    numberOfTopics++;
-                    realm.executeTransaction(new Realm.Transaction() {
-                        @Override
-                        public void execute(Realm realm) {
-                            realm.copyToRealmOrUpdate(moduleList);
-                        }
-                    });
-
-                    for (int i = 0; i < modules.size(); i++) {
-                        Log.d(TAG, "topicID: " + modules.get(i).getTopic().getId() + " Module name: " + modules.get(i).getName());
-                    }
-                    //modulesAdapter.setModulesToAdapter(moduleList);
-                }
-                Log.d(TAG, "moduleList size: " + moduleList.size());
-                Log.d(TAG, "Number of Topics found: " + numberOfTopics);
-            }
-        });*/
-
-        //method to receive all found topic IDs
+        //getKnowledgeTopicsAndModules();
+       // getPreparationTopicsAndModules();
     }
 
 
@@ -120,17 +77,17 @@ public class TopicsFragment extends Fragment implements TopicsAdapter.TopicsAdap
                     case 0:
                         category = Const.API_KNOWLEDGE;
                         topicsAdapter.clearData();
-                        setUpTopicsAdapter();
+                        setUpKnowledgeAdapter();
                         break;
                     case 1:
                         category = Const.API_PREPARATION;
                         topicsAdapter.clearData();
-                        setUpTopicsAdapter();
+                        setUpPreparationAdapter();
                         break;
                     default:
                         category = Const.API_KNOWLEDGE;
                         topicsAdapter.clearData();
-                        setUpTopicsAdapter();
+                        setUpKnowledgeAdapter();
 
                         break;
                 }
@@ -145,25 +102,12 @@ public class TopicsFragment extends Fragment implements TopicsAdapter.TopicsAdap
             }
         });
 
-       /* realmModules = realm.where(Module.class)
-                .findAll();
-        realmModules.sort("displayOrder");*/
-        setUpTopicsAdapter();
+        setUpKnowledgeAdapter();
 
         return view;
     }
 
-   /* private void setUpModulesAdapter(){
-       // Log.d(TAG, "Realm results size: " + realmModules.size());
-        modulesAdapter = new ModulesAdapter(realmModules, getActivity(), this, 0);
-        mRecyclerView1.setHasFixedSize(true);
-        horizManager = new LinearLayoutManager(this.getActivity(), LinearLayoutManager.HORIZONTAL, false);
-        mRecyclerView1.setLayoutManager(horizManager);
-        mRecyclerView1.setAdapter(modulesAdapter);
-    }*/
-
-    private void getKnowledgeTopicsAndModules() {
-        //topicsAdapter.clearData();
+    /*private void getKnowledgeTopicsAndModules() {
         mKnowledgeTopicIDList = new ArrayList<String>();
         mModuleViewModel.getKnowledgeTopicsAndModules(getActivity(), accessToken).observe(this, new Observer<List<Topic>>() {
             @Override
@@ -230,6 +174,24 @@ public class TopicsFragment extends Fragment implements TopicsAdapter.TopicsAdap
         vertManager = new LinearLayoutManager(this.getActivity(), LinearLayoutManager.VERTICAL, false);
         verticalRv.setLayoutManager(vertManager);
         verticalRv.setAdapter(topicsAdapter);
+    }*/
+
+    private void setUpKnowledgeAdapter(){
+        knowledgeModules = mModuleViewModel.getKnowledgeAdapterData();
+        topicsAdapter.setData(knowledgeModules);
+        verticalRv.setHasFixedSize(true);
+        vertManager = new LinearLayoutManager(this.getActivity(), LinearLayoutManager.VERTICAL, false);
+        verticalRv.setLayoutManager(vertManager);
+        verticalRv.setAdapter(topicsAdapter);
+    }
+
+    private void setUpPreparationAdapter(){
+        preparationModules = mModuleViewModel.getKnowledgeAdapterData();
+        topicsAdapter.setData(preparationModules);
+        verticalRv.setHasFixedSize(true);
+        vertManager = new LinearLayoutManager(this.getActivity(), LinearLayoutManager.VERTICAL, false);
+        verticalRv.setLayoutManager(vertManager);
+        verticalRv.setAdapter(topicsAdapter);
     }
 
     @Override
@@ -242,7 +204,14 @@ public class TopicsFragment extends Fragment implements TopicsAdapter.TopicsAdap
     public void onResume() {
         super.onResume();
         mModuleViewModel.onResume();
-        setUpTopicsAdapter();
+        if (category.equals(Const.API_KNOWLEDGE)) {
+            topicsAdapter.clearData();
+            setUpKnowledgeAdapter();
+        } else {
+            category = Const.API_PREPARATION;
+            topicsAdapter.clearData();
+            setUpPreparationAdapter();
+        }
     }
 
     @Override
