@@ -163,9 +163,8 @@ public class VideoFragment extends Fragment {
     //TODO: do i need this?
     @Override
     public void onStop() {
-        releasePlayer();
-
         super.onStop();
+        releasePlayer();
         if (mShowPlay != null) {
             saveState();
         }
@@ -189,15 +188,14 @@ public class VideoFragment extends Fragment {
         if (mSimpleExoPlayer != null) {
             mSimpleExoPlayer.stop();
             mSimpleExoPlayer.release();
-            mSimpleExoPlayer = null;
         }
     }
 
     private void saveState() {
         if (mSimpleExoPlayer != null) {
             playbackReady = mSimpleExoPlayer.getPlayWhenReady();
-            //TODO: reinstate this
             mVideoViewModel.setVideoPosition(mShowPlay, mSimpleExoPlayer);
         }
+        mSimpleExoPlayer = null;
     }
 }
