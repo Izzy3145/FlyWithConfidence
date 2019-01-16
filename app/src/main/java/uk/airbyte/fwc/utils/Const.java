@@ -11,4 +11,6 @@ public class Const {
     public static final String API_KNOWLEDGE = "knowledge";
     public static final String API_PREPARATION = "preparation";
     public static final String EDITING_STATUS = "Editing status";
+    public static final String DATA_RETRIEVED = "Data retrieved";
+
 }

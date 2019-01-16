@@ -69,13 +69,6 @@ public class FavouritesAdapter extends RealmRecyclerViewAdapter<Module, Favourit
                     .centerCrop()
                     .into(holder.mVideoThumbnail);
 
-            //TODO: move to modules adapter when multiple network calls eliminated
-            if(module.getFavourited()){
-                holder.mFavouritesOverlay.setVisibility(View.VISIBLE);
-            } else {
-                holder.mFavouritesOverlay.setVisibility(View.GONE);
-            }
-
             if (mEditing == 0) {
                 holder.mDeleteFavBtn.setVisibility(View.GONE);
             } else {
@@ -114,8 +107,6 @@ public class FavouritesAdapter extends RealmRecyclerViewAdapter<Module, Favourit
         ImageView mVideoThumbnail;
         @BindView(R.id.deleteFavBtn)
         ImageView mDeleteFavBtn;
-        @BindView(R.id.favouritesOverlay)
-        ImageView mFavouritesOverlay;
 
         private ViewHolder(View itemView) {
             super(itemView);

@@ -3,7 +3,6 @@ package uk.airbyte.fwc.adapters;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,51 +24,30 @@ public class ModulesAdapter extends RealmRecyclerViewAdapter<Module, ModulesAdap
     private Context mContext;
     private RealmResults<Module> mModules;
     private ModulesAdapterListener mClickHandler;
-    private int mEditting;
+    private int mEditing;
+    private boolean mIsRecents;
     private Realm realm;
     private static final String TAG = ModulesAdapter.class.getSimpleName();
 
-    public ModulesAdapter(RealmResults<Module> modules, ModulesAdapterListener clickHandler){
+    public ModulesAdapter(RealmResults<Module> modules, ModulesAdapterListener clickHandler) {
         super(modules, true, true);
         //TODO: test setHasStableIds(true)
         //setHasStableIds(true);
-       // mContext = c;
         realm = Realm.getDefaultInstance();
         mClickHandler = clickHandler;
-       // mEditting = editting;
         mModules = modules;
     }
 
-    public ModulesAdapter(RealmResults<Module> modules, Context c, ModulesAdapterListener clickHandler, int editting){
+    public ModulesAdapter(RealmResults<Module> modules, Context c, ModulesAdapterListener clickHandler, int editing, boolean isRecents) {
         super(modules, true, true);
         //setHasStableIds(true);
         mContext = c;
         realm = Realm.getDefaultInstance();
         mClickHandler = clickHandler;
-        mEditting = editting;
+        mEditing = editing;
         mModules = modules;
+        mIsRecents = isRecents;
     }
-
-    /*public void changeEditMode(){
-        if(!mEditting){
-            mEditting = true;
-        } else {
-            mEditting = false;
-        }
-    }*/
-
-    /*public ModulesAdapter(Context c, ArrayList<Module> listOfModules, FavouritesAdapterListener clickHandler) {
-        mContext = c;
-        mListOfModules = listOfModules;
-        mClickHandler = clickHandler;
-    }
-
-    public ModulesAdapter(Context c, ArrayList<Module> listOfModules, FavouritesAdapterListener clickHandler, int editting) {
-        mContext = c;
-        mListOfModules = listOfModules;
-        mClickHandler = clickHandler;
-        mEditting = editting;
-    }*/
 
     @NonNull
     @Override
@@ -84,9 +62,9 @@ public class ModulesAdapter extends RealmRecyclerViewAdapter<Module, ModulesAdap
     @Override
     public void onBindViewHolder(@NonNull ModulesAdapter.ViewHolder holder, int position) {
         //TODO: test when full API response available & set proper error image
-           final int adapterPosition = holder.getAdapterPosition();
+        try {
+            final int adapterPosition = holder.getAdapterPosition();
             final Module module = getItem(position);
-           // final Module module = mListOfModules.get(position);
             holder.mVideoTitle.setText(module.getName());
             holder.mVideoThumbnail.setClipToOutline(true);
             Picasso.get()
@@ -98,7 +76,17 @@ public class ModulesAdapter extends RealmRecyclerViewAdapter<Module, ModulesAdap
                     .fit()
                     .into(holder.mVideoThumbnail);
 
-            if (mEditting == 0) {
+            if(!mIsRecents) {
+                if (module.getFavourited()) {
+                    holder.mFavouritesOverlay.setVisibility(View.VISIBLE);
+                    holder.mFavouritesOverlay.setClipToOutline(true);
+                } else {
+                    holder.mFavouritesOverlay.setVisibility(View.GONE);
+                }
+            }
+
+
+            if (mEditing == 0) {
                 holder.mDeleteFavBtn.setVisibility(View.GONE);
             } else {
                 holder.mDeleteFavBtn.setVisibility(View.VISIBLE);
@@ -109,21 +97,23 @@ public class ModulesAdapter extends RealmRecyclerViewAdapter<Module, ModulesAdap
                     }
                 });
             }
+        } catch (NullPointerException e) {
+            e.printStackTrace();
         }
+    }
 
 
     public void setData(RealmResults<Module> modules) {
         mModules = modules;
-        Log.d(TAG, "Modules realm list size: " +mModules.size());
-        //notifyDataSetChanged();
         updateData(modules);
     }
 
     //create onClickListener interface
     public interface ModulesAdapterListener {
         void onClickModule(Module module, int position);
+
         void onClickRecentsDelete(Module module, int position);
-        }
+    }
 
     //create viewholder class
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -133,6 +123,8 @@ public class ModulesAdapter extends RealmRecyclerViewAdapter<Module, ModulesAdap
         ImageView mVideoThumbnail;
         @BindView(R.id.deleteFavBtn)
         ImageView mDeleteFavBtn;
+        @BindView(R.id.favouritesOverlay)
+        ImageView mFavouritesOverlay;
 
         private ViewHolder(View itemView) {
             super(itemView);

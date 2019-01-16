@@ -159,7 +159,7 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.Favourit
         myRecentsRv.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this.getActivity(), LinearLayoutManager.HORIZONTAL, false);
         myRecentsRv.setLayoutManager(mLayoutManager);
-        mModulesAdapter = new ModulesAdapter(realmRecents, getActivity(), this, mEditing);
+        mModulesAdapter = new ModulesAdapter(realmRecents, getActivity(), this, mEditing, true);
         myRecentsRv.setAdapter(mModulesAdapter);
     }
 

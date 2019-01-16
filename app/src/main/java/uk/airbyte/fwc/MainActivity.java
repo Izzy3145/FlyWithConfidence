@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Log.d(TAG, "onCreate called");
 
         navHost = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.my_nav_host_fragment);
         navController = Navigation.findNavController(this, R.id.my_nav_host_fragment);
@@ -51,6 +52,10 @@ public class MainActivity extends AppCompatActivity {
         sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         mAccessToken = sharedPref.getString(Const.ACCESS_TOKEN, "");
         Log.d(TAG, "AccessToken from shared pref: " + mAccessToken);
+
+        if(savedInstanceState != null){
+            dataRetrieved = savedInstanceState.getBoolean(Const.DATA_RETRIEVED);
+        }
 
         if(mAccessToken != null && mAccessToken.length()>0){
             bottomNavigation.setVisibility(View.VISIBLE);
@@ -67,6 +72,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        Log.d(TAG, "onResume called");
+
         mAccessToken = sharedPref.getString(Const.ACCESS_TOKEN, "");
         Log.d(TAG, "AccessToken from shared pref: " + mAccessToken);
 
@@ -76,11 +83,19 @@ public class MainActivity extends AppCompatActivity {
             if(!dataRetrieved) {
                 mModuleViewModel.knowledgeTopicAndModuleCall(this, mAccessToken);
                 mModuleViewModel.preparationTopicAndModuleCall(this, mAccessToken);
+                dataRetrieved = true;
                 //TODO: add progressBar
             }
         } else {
             navController.navigate(R.id.splash_fragment);
         }
+    }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d(TAG, "onPause called");
     }
 
 
@@ -93,5 +108,11 @@ public class MainActivity extends AppCompatActivity {
     public void onBackPressed() {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         bottomNavigation.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean(Const.DATA_RETRIEVED, dataRetrieved);
     }
 }
