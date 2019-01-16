@@ -34,7 +34,6 @@ public class MainActivity extends AppCompatActivity {
     private ModuleViewModel mModuleViewModel;
     private Boolean dataRetrieved;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,10 +92,10 @@ public class MainActivity extends AppCompatActivity {
                 mModuleViewModel.preparationTopicAndModuleCall(this, mAccessToken);
                 dataRetrieved = true;
                 //TODO: add progressBar
+            } else {
+                dataRetrieved = false;
+                navController.navigate(R.id.splash_fragment);
             }
-        } else {
-            dataRetrieved = false;
-            navController.navigate(R.id.splash_fragment);
         }
     }
 

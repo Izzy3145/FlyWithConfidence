@@ -14,13 +14,15 @@ public class VideoRepository {
 
     private final Realm realmInstance;
     private Module mModule;
+    private SimpleExoPlayer mSimpleExoPlayer;
 
     public VideoRepository() {
         realmInstance = Realm.getDefaultInstance();
     }
 
-    public void setPositionRealm(ShowPlay showPlayObj, final SimpleExoPlayer mSimpleExoPlayer){
-                mModule = realmInstance.where(Module.class)
+    public void setPositionRealm(ShowPlay showPlayObj, SimpleExoPlayer simpleExoPlayer) {
+        mSimpleExoPlayer = simpleExoPlayer;
+        mModule = realmInstance.where(Module.class)
                 .equalTo("id", showPlayObj.getModuleID())
                 .findFirst();
         realmInstance.executeTransaction(new Realm.Transaction() {
@@ -35,7 +37,7 @@ public class VideoRepository {
         });
     }
 
-    public void onDestroy(){
+    public void onDestroy() {
         realmInstance.close();
     }
 

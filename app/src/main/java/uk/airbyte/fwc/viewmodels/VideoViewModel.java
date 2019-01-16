@@ -31,7 +31,7 @@ public class VideoViewModel extends ViewModel {
     }
 
     public void clearVideo() {
-        selectedVideo.postValue(null);
+        selectedVideo.setValue(null);
     }
 
     public void setVideoPosition(ShowPlay showPlay, SimpleExoPlayer mSimpleExoPlayer) {

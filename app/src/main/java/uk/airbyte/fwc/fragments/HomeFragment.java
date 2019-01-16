@@ -77,7 +77,9 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.Favourit
         super.onCreate(savedInstanceState);
         fragmentManager = getFragmentManager();
         videoFragment = fragmentManager.findFragmentById(R.id.videoFragment);
+        mVideoViewModel = new VideoViewModel();
         mVideoViewModel = ViewModelProviders.of(getActivity()).get(VideoViewModel.class);
+        mModuleViewModel = new ModuleViewModel();
         mModuleViewModel = ViewModelProviders.of(getActivity()).get(ModuleViewModel.class);
 
         if (savedInstanceState == null) {

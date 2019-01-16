@@ -51,6 +51,7 @@ public class TopicsFragment extends Fragment implements TopicsAdapter.TopicsAdap
         super.onCreate(savedInstanceState);
         sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
         accessToken = sharedPref.getString(Const.ACCESS_TOKEN, "");
+        mModuleViewModel = new ModuleViewModel();
         mModuleViewModel = ViewModelProviders.of(getActivity()).get(ModuleViewModel.class);
         topicsAdapter = new TopicsAdapter(knowledgeModules, getActivity(), this);
         category = Const.API_KNOWLEDGE;

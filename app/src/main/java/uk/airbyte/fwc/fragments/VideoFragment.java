@@ -34,6 +34,7 @@ import uk.airbyte.fwc.viewmodels.VideoViewModel;
 
 
 public class VideoFragment extends Fragment {
+
     private static final String TAG = VideoFragment.class.getSimpleName();
 
     @BindView(R.id.exo_player_view)
@@ -66,6 +67,7 @@ public class VideoFragment extends Fragment {
         ButterKnife.bind(this, view);
         simpleExoPlayerView.setVisibility(View.GONE);
         placeholderImageView.setVisibility(View.VISIBLE);
+        mVideoViewModel.clearVideo();
         return view;
     }
 
@@ -89,8 +91,8 @@ public class VideoFragment extends Fragment {
         if (showPlay == null) {
             videoOrImageDisplay(null, null, null, 0, 0);
         } else {
-            videoOrImageDisplay(mShowPlay.getImage(), mShowPlay.getThumbnail(), mShowPlay.getVideoUrl(),
-                    mShowPlay.getCurrentWindow(), mShowPlay.getPlayerPosition());
+            videoOrImageDisplay(showPlay.getImage(), showPlay.getThumbnail(), showPlay.getVideoUrl(),
+                    showPlay.getCurrentWindow(), showPlay.getPlayerPosition());
         }
     }
 
@@ -144,10 +146,11 @@ public class VideoFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
+        releasePlayer();
+
         if (mShowPlay != null) {
             saveState();
         }
-        releasePlayer();
     }
 
     @Override
@@ -156,13 +159,16 @@ public class VideoFragment extends Fragment {
         passShowPlayObj(mShowPlay);
     }
 
+
+    //TODO: do i need this?
     @Override
     public void onStop() {
+        releasePlayer();
+
         super.onStop();
         if (mShowPlay != null) {
             saveState();
         }
-        releasePlayer();
     }
 
     @Override
@@ -189,7 +195,7 @@ public class VideoFragment extends Fragment {
 
     private void saveState() {
         if (mSimpleExoPlayer != null) {
-            playbackReady = false;
+            playbackReady = mSimpleExoPlayer.getPlayWhenReady();
             //TODO: reinstate this
             mVideoViewModel.setVideoPosition(mShowPlay, mSimpleExoPlayer);
         }
