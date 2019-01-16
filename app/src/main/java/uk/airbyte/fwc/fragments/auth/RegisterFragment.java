@@ -84,12 +84,20 @@ public class RegisterFragment extends Fragment {
     }
 
     @OnClick(R.id.createAccountBtn)
-    public void createNewAccount(){
+    public void createNewAccount() {
 
-        if (!validateFirstName()) { return; }
-        if (!validateLastName()) { return; }
-        if (!validateEmail()) { return; }
-        if (!validatePassword()) { return; }
+        if (!validateFirstName()) {
+            return;
+        }
+        if (!validateLastName()) {
+            return;
+        }
+        if (!validateEmail()) {
+            return;
+        }
+        if (!validatePassword()) {
+            return;
+        }
 
         firstName = inputFirstName.getText().toString().trim();
         lastName = inputLastName.getText().toString().trim();
@@ -97,46 +105,11 @@ public class RegisterFragment extends Fragment {
         password = inputPassword.getText().toString().trim();
         //TODO:add progress indicator
 
-        /*mAuthViewModel.getUserFromRegister(getActivity(), password, email, lastName,firstName).observe(this, new Observer<User>() {
-            @Override
-            public void onChanged(@Nullable User user) {
-                if(user != null){
-
-                    //editor.putString(Const.USER_ID, user.getId());
-                    Log.d(TAG, "User first name: " + user.getFirstName());
-                    Log.d(TAG, "User last name: " + user.getLastName());
-                    Log.d(TAG, "User id: " + user.getId());
-                    Log.d(TAG, "User accessToken: " + user.getAccessToken());
-
-                    userID = user.getId();
-                    accessToken = user.getAccessToken();
-
-                    editor = sharedPref.edit();
-                    editor.putString(Const.USER_ID, userID);
-                    editor.putString(Const.ACCESS_TOKEN, accessToken);
-                    editor.apply();
-
-                    realm.executeTransactionAsync(new Realm.Transaction(){
-
-                        @Override
-                        public void execute(Realm realm) {
-                            User user = realm.createObject(User.class, userID);
-                            user.setFirstName(firstName);
-                            user.setLastName(lastName);
-                            user.setEmailAddress(email);
-                            user.setAccessToken(accessToken);
-                        }
-                    });
-
-
-                }
-            }
-        });*/
-                mAuthViewModel.registerCall(getActivity(), password, email, lastName,firstName);
+        mAuthViewModel.registerCall(getActivity(), password, email, lastName, firstName);
     }
 
-    private Boolean validateFirstName(){
-        if(inputFirstName.getText().toString().trim().isEmpty()){
+    private Boolean validateFirstName() {
+        if (inputFirstName.getText().toString().trim().isEmpty()) {
             inputLayoutFirstName.setError("Enter a valid first name");
             inputFirstName.requestFocus();
             return false;
@@ -146,8 +119,8 @@ public class RegisterFragment extends Fragment {
         return true;
     }
 
-    private Boolean validateLastName(){
-        if(inputLastName.getText().toString().trim().isEmpty()){
+    private Boolean validateLastName() {
+        if (inputLastName.getText().toString().trim().isEmpty()) {
             inputLayoutLastName.setError("Enter a valid second name");
             inputLastName.requestFocus();
             return false;
@@ -157,9 +130,9 @@ public class RegisterFragment extends Fragment {
         return true;
     }
 
-    private Boolean validateEmail(){
+    private Boolean validateEmail() {
         String email = inputEmailAddress.getText().toString().trim();
-        if(email.isEmpty() || !isValidEmail(email)){
+        if (email.isEmpty() || !isValidEmail(email)) {
             inputLayoutEmailAddress.setError("Enter a valid email address");
             inputEmailAddress.requestFocus();
             return false;
@@ -169,8 +142,8 @@ public class RegisterFragment extends Fragment {
         return true;
     }
 
-    private Boolean validatePassword(){
-        if(inputPassword.getText().toString().trim().isEmpty()){
+    private Boolean validatePassword() {
+        if (inputPassword.getText().toString().trim().isEmpty()) {
             inputLayoutPassword.setError("Enter the password");
             inputPassword.requestFocus();
             return false;
@@ -181,8 +154,7 @@ public class RegisterFragment extends Fragment {
     }
 
 
-
-    private Boolean isValidEmail(String email){
+    private Boolean isValidEmail(String email) {
         return !TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
 

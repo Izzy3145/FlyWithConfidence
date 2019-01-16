@@ -30,16 +30,12 @@ public class ModuleViewModel extends ViewModel implements OrderedRealmCollection
 
     private final static String TAG = ModuleViewModel.class.getSimpleName();
 
-    //TODO:cleanup
-
     private ArrayList<RealmResults<Module>> knowledgeModules = new ArrayList<RealmResults<Module>>();
-    private MutableLiveData<List<Topic>> liveKnowledgeTopics;
     private List<Topic> knowledgeTopics;
     private int numKnowledgeTopics;
     private int numKnowledgeModules;
 
     private ArrayList<RealmResults<Module>> preparationModules = new ArrayList<RealmResults<Module>>();
-    private MutableLiveData<List<Topic>> livePreparationTopics;
     private List<Topic> preparationTopics;
     private int numPreparationTopics;
     private int numPreparationModules;
@@ -104,12 +100,6 @@ public class ModuleViewModel extends ViewModel implements OrderedRealmCollection
     }
 
     //methods to get all KNOWLEDGE topics and modules, and return list of topics as liveData
-    public LiveData<List<Topic>> getKnowledgeTopicsAndModules(final Context context, final String accessToken) {
-        liveKnowledgeTopics = new MutableLiveData<>();
-        knowledgeTopicAndModuleCall(context, accessToken);
-        return liveKnowledgeTopics;
-    }
-
     public ArrayList<RealmResults<Module>> getKnowledgeAdapterData() {
         knowledgeModules = new ArrayList<RealmResults<Module>>();
         for (int i = 0; i < knowledgeTopics.size(); i++) {
@@ -157,7 +147,6 @@ public class ModuleViewModel extends ViewModel implements OrderedRealmCollection
                             public void onFailure(Call<List<Module>> call, Throwable t) {
                                 Log.d(TAG, "Response moduleCall() failure");
                                 Toast.makeText(context, "Error - please check your network connection", Toast.LENGTH_SHORT).show();
-                                //modules.postValue(null);
                             }
                         });
                     }
@@ -180,12 +169,6 @@ public class ModuleViewModel extends ViewModel implements OrderedRealmCollection
     }
 
     //methods to get all PREAPARTION topics and modules, and return list of topics as liveData
-    public LiveData<List<Topic>> getPreparationTopicsAndModules(final Context context, final String accessToken) {
-        livePreparationTopics = new MutableLiveData<>();
-        preparationTopicAndModuleCall(context, accessToken);
-        return livePreparationTopics;
-    }
-
     public ArrayList<RealmResults<Module>> getPreparationAdapterData() {
         preparationModules = new ArrayList<RealmResults<Module>>();
         for (int i = 0; i < preparationTopics.size(); i++) {

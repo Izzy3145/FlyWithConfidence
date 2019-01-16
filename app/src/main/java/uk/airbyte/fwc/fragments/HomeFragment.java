@@ -100,11 +100,8 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.Favourit
                 videoSelected = "asset:///intro.mp4";
                 watchNowBtn.setVisibility(View.GONE);
                 videoOverlayGroup.setVisibility(View.GONE);
-                //TODO: get player position of intro video (not cached in db)
-                mVideoViewModel.select(new ShowPlay(null, null, null, videoSelected, 0, 0));
-
-                // getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
+                mVideoViewModel.select(new ShowPlay(null, null, null,
+                        videoSelected, 0, 0, true));
                 ((MainActivity) getActivity()).hideNavBar();
             }
         });
@@ -128,31 +125,32 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.Favourit
                 }
             }
         });
-
         setEditBtn();
-
         return view;
     }
 
-    private void setEditBtn(){
-        if(mEditing == 0) {
+    private void setEditBtn() {
+        if (mEditing == 0) {
             editFavButton.setText(getResources().getString(R.string.edit));
-        } else if(mEditing == 1) {
+        } else if (mEditing == 1) {
             editFavButton.setText(getResources().getString(R.string.done));
         }
     }
 
     private void setUpFavouritesAdapter() {
         realmFavourites = mModuleViewModel.getFavourites();
+        Log.d(TAG, "Realm favourites size: " + realmFavourites);
         mFavouritesRv.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this.getActivity(), LinearLayoutManager.HORIZONTAL, false);
         mFavouritesRv.setLayoutManager(mLayoutManager);
         mFavouritesAdapter = new FavouritesAdapter(realmFavourites, getActivity(), this, mEditing);
         mFavouritesRv.setAdapter(mFavouritesAdapter);
-        }
+    }
 
     private void setUpRecentsAdapter() {
         realmRecents = mModuleViewModel.getRecents();
+        Log.d(TAG, "Realm recents size: " + realmRecents);
+
         if (realmRecents != null) {
             recentsRvGroup.setVisibility(View.VISIBLE);
         }
@@ -172,7 +170,7 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.Favourit
     @Override
     public void onClickModule(Module module, int position) {
         // mis-clicking prevention, using threshold of 1000 ms
-        if (SystemClock.elapsedRealtime() - mLastClickTime < 1000){
+        if (SystemClock.elapsedRealtime() - mLastClickTime < 1000) {
             return;
         }
         mLastClickTime = SystemClock.elapsedRealtime();
@@ -193,7 +191,7 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.Favourit
     @Override
     public void onClickFavMethod(Module module, int position) {
         // mis-clicking prevention, using threshold of 1000 ms
-        if (SystemClock.elapsedRealtime() - mLastClickTime < 1000){
+        if (SystemClock.elapsedRealtime() - mLastClickTime < 1000) {
             return;
         }
         mLastClickTime = SystemClock.elapsedRealtime();
@@ -216,6 +214,7 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.Favourit
         super.onResume();
         selectedModuleID = "";
         setUpFavouritesAdapter();
+        setUpRecentsAdapter();
         mModuleViewModel.onResume();
     }
 
@@ -223,6 +222,8 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.Favourit
     public void onPause() {
         super.onPause();
         mModuleViewModel.onPause();
+        setUpFavouritesAdapter();
+        setUpRecentsAdapter();
     }
 
     @Override
@@ -252,7 +253,7 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.Favourit
             // portrait!
 
             //TODO: fix this up, scaleType might help?
-            ConstraintLayout.LayoutParams p = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT,ConstraintLayout.LayoutParams.WRAP_CONTENT);
+            ConstraintLayout.LayoutParams p = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, ConstraintLayout.LayoutParams.WRAP_CONTENT);
             videoFragParent.setLayoutParams(p);
             //videoFragParent.requestLayout();
 

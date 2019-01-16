@@ -176,7 +176,7 @@ public class VideoFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         releasePlayer();
-       // mVideoViewModel.closeRealm();
+        mVideoViewModel.closeRealm();
     }
 
     public void releasePlayer() {

@@ -40,7 +40,6 @@ public class UpdateDetailsFragment extends Fragment {
     TextInputEditText inputEmail;
     private AccountViewModel mAccountViewModel;
     private String mAccessToken;
-    private String mUserID;
     private SharedPreferences sharedPref;
 
     public UpdateDetailsFragment() {
@@ -52,21 +51,12 @@ public class UpdateDetailsFragment extends Fragment {
         super.onCreate(savedInstanceState);
         sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
         mAccessToken = sharedPref.getString(Const.ACCESS_TOKEN, "");
-        mUserID = sharedPref.getString(Const.USER_ID, "");
         mAccountViewModel = ViewModelProviders.of(this).get(AccountViewModel.class);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        //FragmentUpdateDetailsBinding binding = FragmentUpdateDetailsBinding.inflate(inflater, container, false);
-        //binding.setAccountviewmodel(mAccountViewModel);
-        //binding.setLifecycleOwner(this);
-        // User user = new User(null, "Izzy", "Stannett", "izzystannett@gmail.com");
-        //binding.setUser(user);
-        //View view = binding.getRoot();
-
         View view = inflater.inflate(R.layout.fragment_update_details, container, false);
         ButterKnife.bind(this, view);
         cancelBtn.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_updateDetailsFragment_to_accountFragment));
@@ -90,31 +80,6 @@ public class UpdateDetailsFragment extends Fragment {
 
         Navigation.findNavController(getActivity(), R.id.my_nav_host_fragment).
                 navigate(R.id.action_updateDetailsFragment_to_accountFragment);
-
-
-       /* mAccountViewModel.updateUserProfile(getActivity(), mAccessToken, firstName, lastName, email).observe(this, new Observer<User>() {
-            @Override
-            public void onChanged(@Nullable User user) {
-                if (user != null) {
-                    mUserID = user.getId();
-                    realm.executeTransaction(new Realm.Transaction() {
-                        @Override
-                        public void execute(Realm realm) {
-                            User user = realm.where(User.class).equalTo("id", mUserID).findFirst();
-                            if (user != null) {
-                                user.setFirstName(firstName);
-                                user.setLastName(lastName);
-                                user.setEmailAddress(email);
-                                Log.d(TAG, "Realm user first name: " + user.getFirstName());
-                                Log.d(TAG, "Realm user last name: " + user.getLastName());
-                                Log.d(TAG, "Realm user id: " + user.getId());
-                                Log.d(TAG, "Realm user accessToken: " + user.getAccessToken());
-                            }
-                        }
-                    });
-                }
-            }
-        });*/
     }
 
     public void getUserDetails() {

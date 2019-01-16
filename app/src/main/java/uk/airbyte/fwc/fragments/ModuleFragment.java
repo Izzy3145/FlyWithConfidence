@@ -100,7 +100,6 @@ public class ModuleFragment extends Fragment {
                     Toast.makeText(getActivity(), "Module favourited: " + isFavourite, Toast.LENGTH_SHORT).show();
                     favouriteButtonToggle();
                 }
-
                 mModuleViewModel.setFavourite(isFavourite, mModule);
             }
         });
@@ -140,7 +139,7 @@ public class ModuleFragment extends Fragment {
             if (module.getMedia().getVideo1080() != null) {
                 Log.d(TAG, "displayModuleInfo() media;" + module.getMedia().getVideo1080());
                 mVideoViewModel.select(new ShowPlay(module.getId(), null, null,
-                        module.getMedia().getVideo1080(), module.getCurrentWindow(), module.getPlayerPosition()));
+                        module.getMedia().getVideo1080(), module.getCurrentWindow(), module.getPlayerPosition(), false));
             }
 
             String sep = System.lineSeparator();
@@ -209,7 +208,7 @@ public class ModuleFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        //mVideoViewModel.closeRealm();
-        //mModuleViewModel.closeRealm();
+        mVideoViewModel.closeRealm();
+        mModuleViewModel.closeRealm();
     }
 }

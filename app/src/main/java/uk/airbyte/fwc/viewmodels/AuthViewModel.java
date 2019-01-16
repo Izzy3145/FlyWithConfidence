@@ -26,11 +26,8 @@ import uk.airbyte.fwc.utils.Const;
 
 public class AuthViewModel extends ViewModel {
 
-    //TODO: cleanup
-
     private static final String TAG = AuthViewModel.class.getSimpleName();
 
-    private MutableLiveData<User> user;
     private MutableLiveData<Reminder> reminderSent;
     private APIService apiService = APIClient.getClient().create(APIService.class);
     private final UserRepository userRepository;
@@ -41,29 +38,8 @@ public class AuthViewModel extends ViewModel {
         userRepository = new UserRepository();
     }
 
-    //we will call this method to get the data
-    public LiveData<User> getUserFromLogin(Context context, String password, String email) {
-        if (user == null) {
-            user = new MutableLiveData<User>();
-            //we will load it asynchronously from server in this method
-            Log.d(TAG, "In method getUserFromLogin()! ");
-            loginCall(context, password, email);
-        }
-        return user;
-    }
-
     public void closeRealm(){
         userRepository.onDestroy();
-    }
-
-    //we will call this method to get the data
-    public LiveData<User> getUserFromRegister(Context context, String password, String email, String lName, String fName) {
-        if (user == null) {
-            user = new MutableLiveData<User>();
-            //we will load it asynchronously from server in this method
-            registerCall(context, password, email, lName, fName);
-        }
-        return user;
     }
 
     public LiveData<Reminder> getForgottenPw(Context context, String email) {
@@ -89,7 +65,6 @@ public class AuthViewModel extends ViewModel {
                     Intent openMain = new Intent(context, MainActivity.class);
                     context.startActivity(openMain);
                     Log.d(TAG, "Response loginCall() success: " + response.body());
-                    //user.postValue(response.body());
                 } else {
                     APIError error = ErrorUtils.parseError(response);
                     String errorCode = String.valueOf(error.status());
@@ -103,7 +78,6 @@ public class AuthViewModel extends ViewModel {
             public void onFailure(Call<User> call, Throwable t) {
                 Log.d(TAG, "Response loginCall() failure");
                 Toast.makeText(context, "Error - please check your network connection", Toast.LENGTH_SHORT).show();
-
                 editor.putString(Const.ACCESS_TOKEN, "");
                 editor.putString(Const.USER_ID, "");
                 editor.apply();

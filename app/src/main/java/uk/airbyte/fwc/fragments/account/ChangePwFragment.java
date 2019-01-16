@@ -83,20 +83,6 @@ public class ChangePwFragment extends Fragment {
             mAccountViewModel.putNewPassword(getActivity(), accessToken, currentPassword, newPassword);
             Navigation.findNavController(getActivity(), R.id.my_nav_host_fragment).navigate(R.id.action_changePwFragment_to_accountFragment);
         }
-
-        /*mAccountViewModel.putUserPassword(getActivity(), accessToken, currentPassword, newPassword).observe(this, new Observer<Success>() {
-            @Override
-            public void onChanged(@Nullable Success success) {
-
-                if(success != null){
-                    if (success.getSuccess()){
-
-                        //Toast.makeText(getActivity(), "ChangePwFragment: Password updated!", Toast.LENGTH_SHORT).show();
-                    } else {
-                       //Toast.makeText(getActivity(), "ChangePwFragment: Password update unsuccessful", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            }*/
     }
 
     @Override

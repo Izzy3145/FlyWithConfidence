@@ -27,14 +27,12 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
 
     private SharedPreferences sharedPref;
-    private SharedPreferences.Editor editor;
     private NavHost navHost;
     private NavController navController;
     private String mAccessToken;
-    private String userID;
     private BottomNavigationView bottomNavigation;
     private ModuleViewModel mModuleViewModel;
-    private Boolean dataRetrieved = false;
+    private Boolean dataRetrieved;
 
 
     @Override
@@ -47,27 +45,37 @@ public class MainActivity extends AppCompatActivity {
         navController = Navigation.findNavController(this, R.id.my_nav_host_fragment);
         bottomNavigation = (BottomNavigationView) findViewById(R.id.btm_navigation);
 
-        mModuleViewModel = ViewModelProviders.of(this).get(ModuleViewModel.class);;
+        mModuleViewModel = ViewModelProviders.of(this).get(ModuleViewModel.class);
 
         sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         mAccessToken = sharedPref.getString(Const.ACCESS_TOKEN, "");
         Log.d(TAG, "AccessToken from shared pref: " + mAccessToken);
 
-        if(savedInstanceState != null){
+        if (savedInstanceState != null) {
             dataRetrieved = savedInstanceState.getBoolean(Const.DATA_RETRIEVED);
         }
 
-        if(mAccessToken != null && mAccessToken.length()>0){
+        if (mAccessToken != null && mAccessToken.length() > 0) {
             bottomNavigation.setVisibility(View.VISIBLE);
             NavigationUI.setupWithNavController(bottomNavigation, navController);
-            mModuleViewModel.knowledgeTopicAndModuleCall(this, mAccessToken);
-            mModuleViewModel.preparationTopicAndModuleCall(this, mAccessToken);
-            dataRetrieved = true;
+            if (dataRetrieved = false) {
+                mModuleViewModel.knowledgeTopicAndModuleCall(this, mAccessToken);
+                mModuleViewModel.preparationTopicAndModuleCall(this, mAccessToken);
+                dataRetrieved = true;
+            }
             //TODO: add progressBar
         } else {
+            dataRetrieved = false;
             navController.navigate(R.id.splash_fragment);
-            }
         }
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        if (savedInstanceState != null) {
+            dataRetrieved = savedInstanceState.getBoolean(Const.DATA_RETRIEVED);
+        }
+    }
 
     @Override
     protected void onResume() {
@@ -77,16 +85,17 @@ public class MainActivity extends AppCompatActivity {
         mAccessToken = sharedPref.getString(Const.ACCESS_TOKEN, "");
         Log.d(TAG, "AccessToken from shared pref: " + mAccessToken);
 
-        if(mAccessToken != null && mAccessToken.length()>0){
+        if (mAccessToken != null && mAccessToken.length() > 0) {
             bottomNavigation.setVisibility(View.VISIBLE);
             NavigationUI.setupWithNavController(bottomNavigation, navController);
-            if(!dataRetrieved) {
+            if (!dataRetrieved) {
                 mModuleViewModel.knowledgeTopicAndModuleCall(this, mAccessToken);
                 mModuleViewModel.preparationTopicAndModuleCall(this, mAccessToken);
                 dataRetrieved = true;
                 //TODO: add progressBar
             }
         } else {
+            dataRetrieved = false;
             navController.navigate(R.id.splash_fragment);
         }
     }
@@ -99,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void hideNavBar(){
+    public void hideNavBar() {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         bottomNavigation.setVisibility(View.GONE);
     }
@@ -113,6 +122,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putBoolean(Const.DATA_RETRIEVED, dataRetrieved);
+        if (dataRetrieved != null) {
+            outState.putBoolean(Const.DATA_RETRIEVED, dataRetrieved);
+        }
     }
 }

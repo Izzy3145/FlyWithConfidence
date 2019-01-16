@@ -104,8 +104,8 @@ public class ModulesAdapter extends RealmRecyclerViewAdapter<Module, ModulesAdap
 
 
     public void setData(RealmResults<Module> modules) {
-        mModules = modules;
-        updateData(modules);
+            mModules = modules;
+            updateData(modules);
     }
 
     //create onClickListener interface

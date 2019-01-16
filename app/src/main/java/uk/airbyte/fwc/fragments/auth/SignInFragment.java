@@ -61,7 +61,6 @@ public class SignInFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_sign_in, container, false);
         ButterKnife.bind(this, view);
         forgotBtn.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_signInFragment_to_forgotFragment));
@@ -72,7 +71,6 @@ public class SignInFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        //tells the fragment that its activity has completed its own Activity.onCreate()
         mAuthViewModel = ViewModelProviders.of(getActivity()).get(AuthViewModel.class);
     }
 
@@ -89,29 +87,7 @@ public class SignInFragment extends Fragment {
         email = inputEmailAddress.getText().toString().trim();
         password = inputPassword.getText().toString().trim();
 
-        Log.d(TAG, "Email address: " + email);
-        Log.d(TAG, " Password: " + password);
-
         mAuthViewModel.loginCall(getActivity() ,password, email);
-        /*mAuthViewModel.getUserFromLogin(getActivity() ,password, email).observe(this, new Observer<User>() {
-            @Override
-            public void onChanged(@Nullable User user) {
-                if(user != null){
-                    Log.d(TAG, "User first name: " + user.getFirstName());
-                    Log.d(TAG, "User last name: " + user.getLastName());
-                    Log.d(TAG, "User id: " + user.getId());
-                    Log.d(TAG, "User accessToken: " + user.getAccessToken());
-
-                    editor = sharedPref.edit();
-                    editor.putString(Const.ACCESS_TOKEN, user.getAccessToken());
-                    editor.putString(Const.USER_ID, user.getId());
-                    editor.apply();
-
-                    Intent openMain = new Intent(getActivity(), MainActivity.class);
-                    startActivity(openMain);
-                }
-            }
-        });*/
     }
 
     private Boolean validateEmail(){

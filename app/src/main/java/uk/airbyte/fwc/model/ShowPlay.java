@@ -10,20 +10,31 @@ public class ShowPlay {
     private String videoUrl;
     private int currentWindow;
     private long playerPosition;
+    private boolean isIntro;
 
     public ShowPlay(){};
 
-    public ShowPlay(@Nullable  String moduleID, String image, String thumbnail, String videoUrl, int currentWindow, long playerPosition){
+    public ShowPlay(@Nullable  String moduleID, String image, String thumbnail, String videoUrl,
+                    int currentWindow, long playerPosition, boolean isIntro){
         this.moduleID = moduleID;
         this.image = image;
         this.thumbnail = thumbnail;
         this.videoUrl = videoUrl;
         this.currentWindow = currentWindow;
         this.playerPosition = playerPosition;
+        this.isIntro = isIntro;
     }
 
     public String getImage() {
         return image;
+    }
+
+    public boolean isIntro() {
+        return isIntro;
+    }
+
+    public void setIntro(boolean intro) {
+        isIntro = intro;
     }
 
     public String getModuleID() {

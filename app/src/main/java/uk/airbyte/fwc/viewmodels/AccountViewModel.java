@@ -21,7 +21,6 @@ import uk.airbyte.fwc.model.User;
 import uk.airbyte.fwc.repositories.UserRepository;
 
 public class AccountViewModel extends ViewModel{
-    //TODO: cleanup
 
     private static final String TAG = AccountViewModel.class.getSimpleName();
     private MutableLiveData<User> user;
@@ -47,21 +46,6 @@ public class AccountViewModel extends ViewModel{
         accountRepository.onDestroy();
     }
 
-    //we will call this method to get the data
-    public LiveData<User> updateUserProfile(Context context, String accessToken, String fName, String lName, String email) {
-        user = new MutableLiveData<User>();
-        //we will load it asynchronously from server in this method
-        putUserProfile(context, accessToken, fName, lName, email);
-        return user;
-    }
-
-    //we will call this method to get the data
-    public LiveData<Success> putUserPassword(Context context, String accessToken, String currentPassword, String newPassword) {
-        success = new MutableLiveData<Success>();
-        //we will load it asynchronously from server in this method
-        putNewPassword(context, accessToken, currentPassword, newPassword);
-        return success;
-    }
 
     private void profileCall(final Context context, String accessToken) {
         apiService.getUserProfile(accessToken)

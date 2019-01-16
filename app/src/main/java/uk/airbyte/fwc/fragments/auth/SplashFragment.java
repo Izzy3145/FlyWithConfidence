@@ -33,7 +33,6 @@ public class SplashFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_splash, container, false);
-        //ButterKnife.bind(this, view);
         getStartedBtn = (Button) view.findViewById(R.id.startButton);
         getStartedBtn.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_splash_fragment_to_registerFragment));
         registeredBtn = (Button) view.findViewById(R.id.registeredBtn);

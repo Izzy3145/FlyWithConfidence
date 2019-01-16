@@ -34,8 +34,10 @@ public class VideoViewModel extends ViewModel {
         selectedVideo.postValue(null);
     }
 
-    public void setVideoPosition(ShowPlay showPlay, SimpleExoPlayer mSimpleExoPlayer){
-        videoRepository.setPositionRealm(showPlay, mSimpleExoPlayer);
+    public void setVideoPosition(ShowPlay showPlay, SimpleExoPlayer mSimpleExoPlayer) {
+        if (!showPlay.isIntro()) {
+            videoRepository.setPositionRealm(showPlay, mSimpleExoPlayer);
+        }
     }
 
     public void closeRealm(){
