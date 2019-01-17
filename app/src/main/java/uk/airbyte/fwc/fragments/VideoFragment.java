@@ -4,33 +4,49 @@ import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewDebug;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.SeekBar;
 
 import com.google.android.exoplayer2.DefaultLoadControl;
+import com.google.android.exoplayer2.ExoPlaybackException;
+import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.LoadControl;
 import com.google.android.exoplayer2.SimpleExoPlayer;
+import com.google.android.exoplayer2.Timeline;
 import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory;
 import com.google.android.exoplayer2.source.ExtractorMediaSource;
 import com.google.android.exoplayer2.source.MediaSource;
+import com.google.android.exoplayer2.source.TrackGroupArray;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
+import com.google.android.exoplayer2.trackselection.TrackSelectionArray;
 import com.google.android.exoplayer2.trackselection.TrackSelector;
 import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
 import com.squareup.picasso.Picasso;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import uk.airbyte.fwc.R;
 import uk.airbyte.fwc.model.ShowPlay;
 import uk.airbyte.fwc.viewmodels.VideoViewModel;
+
+import static java.security.AccessController.getContext;
 
 
 public class VideoFragment extends Fragment {
@@ -41,11 +57,37 @@ public class VideoFragment extends Fragment {
     SimpleExoPlayerView simpleExoPlayerView;
     @BindView(R.id.placeholder_image_view)
     ImageView placeholderImageView;
+    @BindView(R.id.playbackBar)
+    FrameLayout playbackBar;
+//    @BindView(R.id.foregroundBar)
+//    ImageView foregroundBar;
+//    @BindView(R.id.backgroundBar)
+//    ImageView backgroundBar;
+//    @BindView(R.id.dotContainer)
+//    FrameLayout dotContainer;
+//    @BindView(R.id.playbackDot)
+//    LinearLayout playbackDot;
+    @BindView(R.id.seekBar)
+    SeekBar seekBar;
+
     private boolean playbackReady = true;
     private SimpleExoPlayer mSimpleExoPlayer;
     private VideoViewModel mVideoViewModel;
     @Nullable
     private ShowPlay mShowPlay;
+
+    float currentPercent = 0f;
+
+    // Handler on UI thread
+    private Handler handler = new Handler(Looper.getMainLooper());
+
+    // Update video time
+    Runnable updateBar = new Runnable() {
+        @Override
+        public void run() {
+            onVideoTick(((float) mSimpleExoPlayer.getCurrentPosition()) / ((float) mSimpleExoPlayer.getDuration()), mSimpleExoPlayer.getCurrentPosition());
+        }
+    };
 
     public VideoFragment() {
         // Required empty public constructor
@@ -68,6 +110,33 @@ public class VideoFragment extends Fragment {
         simpleExoPlayerView.setVisibility(View.GONE);
         placeholderImageView.setVisibility(View.VISIBLE);
         mVideoViewModel.clearVideo();
+        moveBar(0);
+//        foregroundBar.setVisibility(View.VISIBLE);
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                // use seekBar getProgress
+
+//                float seekBarWidth = seekBar.getWidth();
+//                seekBar.setMax((int) seekBarWidth);
+//
+//                float seekBarProgress = seekBar.getProgress();
+//
+//                float percent =  seekBarProgress / seekBarWidth;
+//                mSimpleExoPlayer.seekTo((long) percent);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                // stopping videotick from being called or pause timer so moveBar doesn't get called
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                // start videotick again so moveBar proceeds
+
+            }
+        });
         return view;
     }
 
@@ -141,6 +210,29 @@ public class VideoFragment extends Fragment {
             mSimpleExoPlayer.setPlayWhenReady(playbackReady);
             mSimpleExoPlayer.seekTo(sCurrentWindow, sPlaybackPosition);
         }
+
+        TimerTask progress = new TimerTask() {
+            @Override
+            public void run() {
+                handler.post(updateBar);
+            }
+        };
+
+        Timer timer = new Timer();
+
+        // play bar update interval
+        timer.scheduleAtFixedRate(progress, 0, 50);
+    }
+
+    private void moveBar(float percent) {
+        float seekBarWidth = seekBar.getWidth();
+        seekBar.setMax((int) seekBarWidth);
+        seekBar.setProgress((int) (seekBarWidth * percent), true);
+
+
+//        float backWidth = backgroundBar.getWidth();
+//        foregroundBar.setTranslationX(-backWidth + ((int) (backWidth * percent)));
+//        playbackDot.setTranslationX(((int) (backWidth * percent)));
     }
 
     @Override
@@ -184,6 +276,7 @@ public class VideoFragment extends Fragment {
         mVideoViewModel.closeRealm();
     }
 
+
     public void releasePlayer() {
         if (mSimpleExoPlayer != null) {
             mSimpleExoPlayer.stop();
@@ -197,5 +290,10 @@ public class VideoFragment extends Fragment {
             mVideoViewModel.setVideoPosition(mShowPlay, mSimpleExoPlayer);
         }
         mSimpleExoPlayer = null;
+    }
+
+    void onVideoTick(float percent, long currentTimeMillis) {
+        currentPercent = percent;
+        moveBar(percent);
     }
 }
