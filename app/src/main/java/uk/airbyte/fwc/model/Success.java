@@ -5,8 +5,6 @@ import com.google.gson.annotations.SerializedName;
 
 public class Success {
 
-    //TODO: ASK - is there a better way to do this?
-
         @SerializedName("success")
         @Expose
         private Boolean success;

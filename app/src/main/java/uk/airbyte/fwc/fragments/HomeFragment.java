@@ -1,7 +1,6 @@
 package uk.airbyte.fwc.fragments;
 
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.SystemClock;
@@ -18,13 +17,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.Button;
 
 import androidx.navigation.Navigation;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.realm.Realm;
 import io.realm.RealmResults;
 import uk.airbyte.fwc.MainActivity;
 import uk.airbyte.fwc.R;
@@ -50,7 +47,7 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.Favourit
     Group videoOverlayGroup;
     @BindView(R.id.recentsGroup)
     Group recentsRvGroup;
-    @BindView(R.id.videoParent)
+    @BindView(R.id.homeLayout)
     ConstraintLayout videoParent;
     @BindView(R.id.videoFragParent)
     ConstraintLayout videoFragParent;
@@ -253,20 +250,23 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.Favourit
             videoFragParent.requestLayout();
         } else {
             // portrait!
+            ConstraintLayout vidConsLay = videoFragParent;
 
-            //TODO: fix this up, scaleType might help?
-            ConstraintLayout.LayoutParams p = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, ConstraintLayout.LayoutParams.WRAP_CONTENT);
+            ConstraintLayout.LayoutParams p = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, ConstraintLayout.LayoutParams.MATCH_CONSTRAINT_SPREAD);
+            p.dimensionRatio = "h, 1:1";
             videoFragParent.setLayoutParams(p);
             //videoFragParent.requestLayout();
 
             ConstraintSet set = new ConstraintSet();
             set.clone(videoFragParent);
-            set.setDimensionRatio(R.id.videoFragParent, "h, 1:1");
-            set.connect(R.id.videoFragParent, ConstraintSet.END, R.id.videoParent, ConstraintSet.END);
-            set.connect(R.id.videoFragParent, ConstraintSet.START, R.id.videoParent, ConstraintSet.START);
-            set.connect(R.id.videoFragParent, ConstraintSet.TOP, R.id.videoParent, ConstraintSet.TOP);
-            set.constrainDefaultHeight(R.id.videoFragParent, ConstraintSet.MATCH_CONSTRAINT_SPREAD);
-            set.constrainDefaultWidth(R.id.videoFragParent, ConstraintSet.MATCH_CONSTRAINT_SPREAD);
+
+            set.connect(R.id.videoFragParent, ConstraintSet.END, R.id.homeLayout, ConstraintSet.END);
+            set.connect(R.id.videoFragParent, ConstraintSet.START, R.id.homeLayout, ConstraintSet.START);
+            set.connect(R.id.videoFragParent, ConstraintSet.TOP, R.id.homeLayout, ConstraintSet.TOP);
+            //set.setDimensionRatio(R.id.videoFragParent, "1:1");
+
+            //set.constrainDefaultHeight(R.id.videoFragParent, ConstraintSet.MATCH_CONSTRAINT_SPREAD);
+            //set.constrainDefaultWidth(R.id.videoFragParent, ConstraintSet.MATCH_CONSTRAINT_SPREAD);
             set.applyTo(videoFragParent);
 
             //watchNowBtn.setVisibility(View.VISIBLE);
