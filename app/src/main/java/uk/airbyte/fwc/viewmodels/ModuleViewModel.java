@@ -86,6 +86,14 @@ public class ModuleViewModel extends ViewModel implements OrderedRealmCollection
         return favouriteResults;
     }
 
+    public Boolean getFavouritedStatus(String moduleID){
+        return moduleRepository.getFavouriteStatus(moduleID);
+    }
+
+    public void setFavouriteStatus(Boolean isFavourite, String moduleID){
+        moduleRepository.setRealmFavouriteFromID(isFavourite,moduleID);
+    }
+
     public RealmResults<Module> getRecents() {
         recentsResults = moduleRepository.getRealmRecents();
         return recentsResults;

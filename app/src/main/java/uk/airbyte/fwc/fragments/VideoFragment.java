@@ -2,6 +2,7 @@ package uk.airbyte.fwc.fragments;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -42,8 +43,10 @@ import java.util.TimerTask;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import uk.airbyte.fwc.MainActivity;
 import uk.airbyte.fwc.R;
 import uk.airbyte.fwc.model.ShowPlay;
+import uk.airbyte.fwc.viewmodels.ModuleViewModel;
 import uk.airbyte.fwc.viewmodels.VideoViewModel;
 
 import static java.security.AccessController.getContext;
@@ -69,12 +72,24 @@ public class VideoFragment extends Fragment {
 //    LinearLayout playbackDot;
     @BindView(R.id.seekBar)
     SeekBar seekBar;
+    @BindView(R.id.vid_full_screen)
+    ImageView vidFullScreen;
+    @BindView(R.id.exit_cross)
+    ImageView exitCross;
+    @BindView(R.id.vid_fav_off)
+    ImageView favBtnOff;
+    @BindView(R.id.vid_fav_on)
+    ImageView favBtnOn;
 
     private boolean playbackReady = true;
     private SimpleExoPlayer mSimpleExoPlayer;
     private VideoViewModel mVideoViewModel;
+    private ModuleViewModel mModuleViewModel;
     @Nullable
     private ShowPlay mShowPlay;
+    private Boolean isFavourite;
+    private Timer timer;
+    private boolean mUserIsSeeking;
 
     float currentPercent = 0f;
 
@@ -85,7 +100,10 @@ public class VideoFragment extends Fragment {
     Runnable updateBar = new Runnable() {
         @Override
         public void run() {
-            onVideoTick(((float) mSimpleExoPlayer.getCurrentPosition()) / ((float) mSimpleExoPlayer.getDuration()), mSimpleExoPlayer.getCurrentPosition());
+            //get percentage of the way through the video, current pos/total duration
+            //use it to move the seekBar on UI
+            onVideoTick(((float) mSimpleExoPlayer.getCurrentPosition()) /
+                    ((float) mSimpleExoPlayer.getDuration()), mSimpleExoPlayer.getCurrentPosition());
         }
     };
 
@@ -97,6 +115,7 @@ public class VideoFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mVideoViewModel = ViewModelProviders.of(getActivity()).get(VideoViewModel.class);
+        mModuleViewModel = ViewModelProviders.of(getActivity()).get(ModuleViewModel.class);
     }
 
     //TODO: change error image
@@ -110,31 +129,88 @@ public class VideoFragment extends Fragment {
         simpleExoPlayerView.setVisibility(View.GONE);
         placeholderImageView.setVisibility(View.VISIBLE);
         mVideoViewModel.clearVideo();
+        if(mShowPlay == null){
+            setFavBtn(false);
+        } else {
+            setFavBtn(mModuleViewModel.getFavouritedStatus(mShowPlay.getModuleID()));
+        }
+
+        vidFullScreen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity) getActivity()).hideNavBar();
+            }
+        });
+
+        exitCross.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //todo: pop back
+            }
+        });
+
+        favBtnOn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(isFavourite){
+                    isFavourite = false;
+                } else {
+                    isFavourite = true;
+                }
+                mModuleViewModel.setFavouriteStatus(isFavourite, mShowPlay.getModuleID());
+                setFavBtn(isFavourite);
+            }
+        });
+
+        favBtnOff.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(isFavourite){
+                    isFavourite = false;
+                } else {
+                    isFavourite = true;
+                }
+                mModuleViewModel.setFavouriteStatus(isFavourite, mShowPlay.getModuleID());
+                setFavBtn(isFavourite);
+            }
+        });
+
         moveBar(0);
 //        foregroundBar.setVisibility(View.VISIBLE);
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                // use seekBar getProgress
+            int userSelectedPosition = 0;
 
-//                float seekBarWidth = seekBar.getWidth();
-//                seekBar.setMax((int) seekBarWidth);
-//
-//                float seekBarProgress = seekBar.getProgress();
-//
-//                float percent =  seekBarProgress / seekBarWidth;
-//                mSimpleExoPlayer.seekTo((long) percent);
-            }
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
+                mUserIsSeeking = true;
+                timer.cancel();
                 // stopping videotick from being called or pause timer so moveBar doesn't get called
             }
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                if (fromUser) {
+                    userSelectedPosition = progress;
+                }
+                // use seekBar getProgress
+
+//               float seekBarWidth = seekBar.getWidth();
+//                seekBar.setMax((int) seekBarWidth);
+//
+//                  float seekBarProgress = seekBar.getProgress();
+//
+//                float percent =  seekBarProgress / seekBarWidth;
+//                mSimpleExoPlayer.seekTo((long) i/ (long) seekBarWidth);
+            }
+
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 // start videotick again so moveBar proceeds
-
+                mUserIsSeeking = false;
+                float seekBarWidth = seekBar.getWidth();
+                mSimpleExoPlayer.seekTo((userSelectedPosition/(int) seekBarWidth) * mSimpleExoPlayer.getDuration());
+                //TODO: not working
             }
         });
         return view;
@@ -154,6 +230,16 @@ public class VideoFragment extends Fragment {
                 passShowPlayObj(mShowPlay);
             }
         });
+    }
+
+    private void setFavBtn(Boolean isFavourite){
+        if(isFavourite){
+            favBtnOff.setVisibility(View.GONE);
+            favBtnOn.setVisibility(View.VISIBLE);
+        } else {
+            favBtnOff.setVisibility(View.VISIBLE);
+            favBtnOn.setVisibility(View.GONE);
+        }
     }
 
     private void passShowPlayObj(ShowPlay showPlay) {
@@ -218,10 +304,11 @@ public class VideoFragment extends Fragment {
             }
         };
 
-        Timer timer = new Timer();
+        timer = new Timer();
 
         // play bar update interval
         timer.scheduleAtFixedRate(progress, 0, 50);
+        //every 50ms, call VideoTick to move the progress bar
     }
 
     private void moveBar(float percent) {
@@ -295,5 +382,17 @@ public class VideoFragment extends Fragment {
     void onVideoTick(float percent, long currentTimeMillis) {
         currentPercent = percent;
         moveBar(percent);
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        int currentOrientation = getResources().getConfiguration().orientation;
+        if (currentOrientation == Configuration.ORIENTATION_LANDSCAPE) {
+            vidFullScreen.setVisibility(View.GONE);
+        } else {
+            vidFullScreen.setVisibility(View.VISIBLE);
+
+        }
     }
 }

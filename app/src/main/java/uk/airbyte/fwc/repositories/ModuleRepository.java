@@ -16,6 +16,7 @@ public class ModuleRepository {
     private List<Module> listOfModules = new ArrayList<Module>();
     private Module favModule;
     private Boolean mIsFavourite;
+    private Boolean vidIsFavourite;
     private String mDelRecentID;
     private String mDelFavID;
 
@@ -30,6 +31,23 @@ public class ModuleRepository {
 
     public void clearListeners() {
         moduleRealm.removeAllChangeListeners();
+    }
+
+    public boolean getFavouriteStatus(String moduleID){
+        Module module = moduleRealm.where().equalTo("id", moduleID).findFirst();
+        return module.getFavourited();
+    }
+
+    public void setRealmFavouriteFromID(Boolean isFavourite, String moduleID){
+        final Module module = moduleRealm.where().equalTo("id", moduleID).findFirst();
+        vidIsFavourite = isFavourite;
+        realmInstance.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                module.setFavourited(vidIsFavourite);
+                realm.copyToRealmOrUpdate(module);
+            }
+        });
     }
 
     public void setRealmFavourite(Boolean isFavourite, Module module){
