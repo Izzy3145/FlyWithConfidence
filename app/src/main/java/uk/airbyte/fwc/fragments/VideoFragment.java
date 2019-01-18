@@ -41,6 +41,7 @@ import com.squareup.picasso.Picasso;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import androidx.navigation.Navigation;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import uk.airbyte.fwc.MainActivity;
@@ -62,7 +63,7 @@ public class VideoFragment extends Fragment {
     ImageView placeholderImageView;
     @BindView(R.id.playbackBar)
     FrameLayout playbackBar;
-//    @BindView(R.id.foregroundBar)
+    //    @BindView(R.id.foregroundBar)
 //    ImageView foregroundBar;
 //    @BindView(R.id.backgroundBar)
 //    ImageView backgroundBar;
@@ -102,8 +103,10 @@ public class VideoFragment extends Fragment {
         public void run() {
             //get percentage of the way through the video, current pos/total duration
             //use it to move the seekBar on UI
-            onVideoTick(((float) mSimpleExoPlayer.getCurrentPosition()) /
-                    ((float) mSimpleExoPlayer.getDuration()), mSimpleExoPlayer.getCurrentPosition());
+            if (mSimpleExoPlayer != null) {
+                onVideoTick(((float) mSimpleExoPlayer.getCurrentPosition()) /
+                        ((float) mSimpleExoPlayer.getDuration()), mSimpleExoPlayer.getCurrentPosition());
+            }
         }
     };
 
@@ -129,11 +132,6 @@ public class VideoFragment extends Fragment {
         simpleExoPlayerView.setVisibility(View.GONE);
         placeholderImageView.setVisibility(View.VISIBLE);
         mVideoViewModel.clearVideo();
-        if(mShowPlay == null){
-            setFavBtn(false);
-        } else {
-            setFavBtn(mModuleViewModel.getFavouritedStatus(mShowPlay.getModuleID()));
-        }
 
         vidFullScreen.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -145,14 +143,20 @@ public class VideoFragment extends Fragment {
         exitCross.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //todo: pop back
+                int currentOrientation = getResources().getConfiguration().orientation;
+                if (currentOrientation == Configuration.ORIENTATION_LANDSCAPE) {
+                    ((MainActivity) getActivity()).onBackPressed();
+                } else {
+                    Navigation.findNavController(getActivity(), R.id.my_nav_host_fragment)
+                            .popBackStack();
+                }
             }
         });
 
         favBtnOn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(isFavourite){
+                if (isFavourite) {
                     isFavourite = false;
                 } else {
                     isFavourite = true;
@@ -165,7 +169,7 @@ public class VideoFragment extends Fragment {
         favBtnOff.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(isFavourite){
+                if (isFavourite) {
                     isFavourite = false;
                 } else {
                     isFavourite = true;
@@ -184,9 +188,10 @@ public class VideoFragment extends Fragment {
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
                 mUserIsSeeking = true;
-                timer.cancel();
+                //timer.cancel();
                 // stopping videotick from being called or pause timer so moveBar doesn't get called
             }
+
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 if (fromUser) {
@@ -209,7 +214,7 @@ public class VideoFragment extends Fragment {
                 // start videotick again so moveBar proceeds
                 mUserIsSeeking = false;
                 float seekBarWidth = seekBar.getWidth();
-                mSimpleExoPlayer.seekTo((userSelectedPosition/(int) seekBarWidth) * mSimpleExoPlayer.getDuration());
+                mSimpleExoPlayer.seekTo((userSelectedPosition / (int) seekBarWidth) * mSimpleExoPlayer.getDuration());
                 //TODO: not working
             }
         });
@@ -228,12 +233,18 @@ public class VideoFragment extends Fragment {
                 }
                 mShowPlay = showPlay;
                 passShowPlayObj(mShowPlay);
+
+                if(mShowPlay!=null) {
+                    isFavourite = mModuleViewModel.getFavouritedStatus(mShowPlay.getModuleID());
+                    setFavBtn(isFavourite);
+                }
+
             }
         });
     }
 
-    private void setFavBtn(Boolean isFavourite){
-        if(isFavourite){
+    private void setFavBtn(Boolean isFavourite) {
+        if (isFavourite) {
             favBtnOff.setVisibility(View.GONE);
             favBtnOn.setVisibility(View.VISIBLE);
         } else {

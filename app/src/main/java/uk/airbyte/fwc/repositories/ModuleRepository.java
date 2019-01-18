@@ -35,7 +35,11 @@ public class ModuleRepository {
 
     public boolean getFavouriteStatus(String moduleID){
         Module module = moduleRealm.where().equalTo("id", moduleID).findFirst();
-        return module.getFavourited();
+        if(module.getFavourited() == null) {
+            return false;
+        } else {
+            return module.getFavourited();
+        }
     }
 
     public void setRealmFavouriteFromID(Boolean isFavourite, String moduleID){

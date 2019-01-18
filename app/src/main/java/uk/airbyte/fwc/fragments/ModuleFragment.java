@@ -124,10 +124,8 @@ public class ModuleFragment extends Fragment {
 
     public void getListOfModules() {
         mModule = mModuleViewModel.getModuleFromId(selectedModuleID);
-        Log.d(TAG, "getListOfModules() selectedModuleID: " + selectedModuleID);
         topicID = mModule.getTopic().getId();
         modulesInTopic = new ArrayList<>(mModuleViewModel.getModulesForTopic(topicID));
-        Log.d(TAG, "getListOfModules() modulesInTopic.size(): " + modulesInTopic.size());
     }
 
 
@@ -136,11 +134,8 @@ public class ModuleFragment extends Fragment {
             moduleIntroTv.setText(module.getDescription());
             moduleNotesTv.setText(module.getNotes());
             isFavourite = mModule.getFavourited();
-            if (module.getMedia().getVideo1080() != null) {
-                Log.d(TAG, "displayModuleInfo() media;" + module.getMedia().getVideo1080());
-                mVideoViewModel.select(new ShowPlay(module.getId(), null, null,
+            mVideoViewModel.select(new ShowPlay(module.getId(), null, null,
                         module.getMedia().getVideo1080(), module.getCurrentWindow(), module.getPlayerPosition(), false));
-            }
 
             String sep = System.lineSeparator();
             StringBuilder sb = new StringBuilder();
