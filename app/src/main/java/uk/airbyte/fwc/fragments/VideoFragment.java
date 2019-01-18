@@ -3,6 +3,9 @@ package uk.airbyte.fwc.fragments;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.res.Configuration;
+import android.content.res.Resources;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -14,6 +17,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewDebug;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -81,6 +86,10 @@ public class VideoFragment extends Fragment {
     ImageView favBtnOff;
     @BindView(R.id.vid_fav_on)
     ImageView favBtnOn;
+    @BindView(R.id.playBtn)
+    ImageView playBtn;
+    @BindView(R.id.pauseBtn)
+    ImageView pauseBtn;
 
     private boolean playbackReady = true;
     private SimpleExoPlayer mSimpleExoPlayer;
@@ -132,6 +141,36 @@ public class VideoFragment extends Fragment {
         simpleExoPlayerView.setVisibility(View.GONE);
         placeholderImageView.setVisibility(View.VISIBLE);
         mVideoViewModel.clearVideo();
+
+        Resources res = getActivity().getResources();
+        final int whiteColor = res.getColor(R.color.colorWhite);
+        playBtn.setColorFilter(whiteColor, PorterDuff.Mode.SRC_ATOP);
+        pauseBtn.setColorFilter(whiteColor, PorterDuff.Mode.SRC_ATOP);
+
+        togglePlayPause();
+
+        playBtn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                playbackReady = !playbackReady;
+                if (mSimpleExoPlayer != null) {
+                    mSimpleExoPlayer.setPlayWhenReady(!playbackReady);
+                }
+                togglePlayPause();
+            }
+
+        });
+
+        pauseBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                playbackReady = !playbackReady;
+                if (mSimpleExoPlayer != null) {
+                    mSimpleExoPlayer.setPlayWhenReady(!playbackReady);
+                }
+                togglePlayPause();
+            }
+        });
 
         vidFullScreen.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -238,9 +277,28 @@ public class VideoFragment extends Fragment {
                     isFavourite = mModuleViewModel.getFavouritedStatus(mShowPlay.getModuleID());
                     setFavBtn(isFavourite);
                 }
-
             }
         });
+    }
+
+    public void togglePlayPause(){
+        if(!playbackReady){
+            playBtn.setVisibility(View.VISIBLE);
+            pauseBtn.setVisibility(View.GONE);
+            AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);
+            anim.setDuration(2000);
+            anim.setRepeatCount(0);
+            anim.setFillAfter(true);
+            playBtn.startAnimation(anim);
+        } else {
+            playBtn.setVisibility(View.GONE);
+            pauseBtn.setVisibility(View.VISIBLE);
+            AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);
+            anim.setDuration(2000);
+            anim.setRepeatCount(0);
+            anim.setFillAfter(true);
+            pauseBtn.startAnimation(anim);
+        }
     }
 
     private void setFavBtn(Boolean isFavourite) {
