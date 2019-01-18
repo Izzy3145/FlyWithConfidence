@@ -22,7 +22,6 @@
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/fragments/VideoFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/fragments/VideoFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_video.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_video.xml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -48,28 +47,56 @@
       <file leaf-file-name="VideoFragment.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/fragments/VideoFragment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-401">
-              <caret line="149" column="26" selection-start-line="149" selection-start-column="26" selection-end-line="149" selection-end-column="26" />
+            <state relative-caret-position="197">
+              <caret line="259" column="47" selection-start-line="259" selection-start-column="47" selection-end-line="259" selection-end-column="47" />
               <folding>
-                <element signature="e#3505#3958#0" expanded="true" />
-                <element signature="e#3957#3958#0" expanded="true" />
-                <element signature="e#5518#6111#0" expanded="true" />
-                <element signature="e#6110#6111#0" expanded="true" />
-                <element signature="e#6485#7186#0" expanded="true" />
-                <element signature="e#7185#7186#0" expanded="true" />
-                <element signature="e#7231#7408#0" expanded="true" />
-                <element signature="e#7407#7408#0" expanded="true" />
-                <element signature="e#7449#7981#0" expanded="true" />
-                <element signature="e#7980#7981#0" expanded="true" />
-                <element signature="e#8021#8427#0" expanded="true" />
-                <element signature="e#8426#8427#0" expanded="true" />
-                <element signature="e#8468#8874#0" expanded="true" />
-                <element signature="e#8873#8874#0" expanded="true" />
-                <element signature="e#8351#8859#0" expanded="true" />
-                <element signature="e#8858#8859#0" expanded="true" />
-                <element signature="e#11666#11802#0" expanded="true" />
-                <element signature="e#11801#11802#0" expanded="true" />
+                <element signature="e#3801#4254#0" expanded="true" />
+                <element signature="e#4253#4254#0" expanded="true" />
+                <element signature="e#5470#5806#0" expanded="true" />
+                <element signature="e#5805#5806#0" expanded="true" />
+                <element signature="e#5846#6182#0" expanded="true" />
+                <element signature="e#6181#6182#0" expanded="true" />
+                <element signature="e#6227#6404#0" expanded="true" />
+                <element signature="e#6403#6404#0" expanded="true" />
+                <element signature="e#6445#6977#0" expanded="true" />
+                <element signature="e#6976#6977#0" expanded="true" />
+                <element signature="e#7017#7423#0" expanded="true" />
+                <element signature="e#7422#7423#0" expanded="true" />
+                <element signature="e#7464#7870#0" expanded="true" />
+                <element signature="e#7869#7870#0" expanded="true" />
+                <element signature="e#9294#9470#0" expanded="true" />
+                <element signature="e#9469#9470#0" expanded="true" />
+                <element signature="e#9987#10496#0" expanded="true" />
+                <element signature="e#10495#10496#0" expanded="true" />
+                <element signature="e#14437#14573#0" expanded="true" />
+                <element signature="e#14572#14573#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SimpleExoPlayer.java" pinned="false" current-in-tab="false">
+        <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.android.exoplayer/exoplayer/r2.2.0/e63476a0d9b07faca75844eb071e90562837eb8a/exoplayer-r2.2.0-sources.jar!/com/google/android/exoplayer2/SimpleExoPlayer.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="153">
+              <caret line="589" column="25" selection-start-line="589" selection-start-column="25" selection-end-line="589" selection-end-column="25" />
+              <folding>
+                <element signature="e#17876#17877#0" expanded="true" />
+                <element signature="e#17911#17912#0" expanded="true" />
+                <element signature="e#17981#17982#0" expanded="true" />
+                <element signature="e#18029#18030#0" expanded="true" />
+                <element signature="e#19395#19396#0" expanded="true" />
+                <element signature="e#19432#19433#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ExoPlayer.java" pinned="false" current-in-tab="false">
+        <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.android.exoplayer/exoplayer/r2.2.0/e63476a0d9b07faca75844eb071e90562837eb8a/exoplayer-r2.2.0-sources.jar!/com/google/android/exoplayer2/ExoPlayer.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="112">
+              <caret line="430" column="7" selection-start-line="430" selection-start-column="7" selection-end-line="430" selection-end-column="7" />
             </state>
           </provider>
         </entry>
@@ -78,15 +105,6 @@
         <entry file="file://$PROJECT_DIR$/app/src/main/res/values/colors.xml">
           <provider selected="true" editor-type-id="text-editor">
             <state />
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MainActivity.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/MainActivity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="456">
-              <caret line="115" column="20" selection-start-line="115" selection-start-column="20" selection-end-line="115" selection-end-column="20" />
-            </state>
           </provider>
         </entry>
       </file>
@@ -141,15 +159,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TopicsFragment.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/fragments/TopicsFragment.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="424">
-              <caret line="150" column="17" selection-start-line="150" selection-start-column="7" selection-end-line="151" selection-end-column="75" />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="ModuleFragment.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/fragments/ModuleFragment.java">
           <provider selected="true" editor-type-id="text-editor">
@@ -176,8 +185,8 @@
   <component name="Git.Settings">
     <option name="PREVIOUS_COMMIT_AUTHORS">
       <list>
-        <option value="izzy3145 &lt;isobel.stannett@gmail.com&gt;" />
         <option value="Izzy Stannett &lt;izzystannett@gmail.com&gt;" />
+        <option value="izzy3145 &lt;isobel.stannett@gmail.com&gt;" />
         <option value="Izzy3145" />
       </list>
     </option>
@@ -2812,7 +2821,14 @@
       <option name="project" value="LOCAL" />
       <updated>1547825634922</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="togglePlayPause with anim">
+      <created>1547828744765</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1547828744765</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -2827,21 +2843,21 @@
       <window_info anchor="right" id="Capture Analysis" order="3" />
       <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.26680973" side_tool="true" weight="0.32911393" />
       <window_info anchor="right" id="Preview" order="3" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.7331903" visible="true" weight="0.32911393" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.7331903" weight="0.32911393" />
       <window_info anchor="bottom" id="Version Control" order="7" weight="0.32911393" />
       <window_info anchor="bottom" id="Terminal" order="7" />
       <window_info anchor="bottom" id="Logcat" order="7" />
       <window_info id="Captures" order="2" weight="0.25" />
       <window_info id="Capture Tool" order="2" />
       <window_info id="Designer" order="2" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24964234" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.24964234" />
       <window_info anchor="bottom" id="Build" order="7" weight="0.32911393" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32911393" />
       <window_info anchor="right" id="Gradle" order="3" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Device File Explorer" order="3" side_tool="true" />
       <window_info anchor="right" id="Theme Preview" order="3" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.3994374" />
+      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.3994374" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -2858,43 +2874,56 @@
     <MESSAGE value="pre-pull commit" />
     <MESSAGE value="video scrub attempt, video UI work" />
     <MESSAGE value="video buttons working" />
-    <option name="LAST_COMMIT_MESSAGE" value="video buttons working" />
+    <MESSAGE value="togglePlayPause with anim" />
+    <option name="LAST_COMMIT_MESSAGE" value="togglePlayPause with anim" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/fragments/VideoFragment.java</url>
-          <line>131</line>
+          <line>254</line>
           <properties />
-          <option name="timeStamp" value="18" />
+          <option name="timeStamp" value="35" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/viewmodels/VideoViewModel.java</url>
-          <line>25</line>
+          <url>file://$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/fragments/VideoFragment.java</url>
+          <line>255</line>
           <properties />
-          <option name="timeStamp" value="22" />
+          <option name="timeStamp" value="36" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/viewmodels/VideoViewModel.java</url>
-          <line>29</line>
+          <url>file://$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/fragments/VideoFragment.java</url>
+          <line>256</line>
           <properties />
-          <option name="timeStamp" value="25" />
+          <option name="timeStamp" value="37" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/fragments/ModuleFragment.java</url>
-          <line>136</line>
+          <url>file://$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/fragments/VideoFragment.java</url>
+          <line>261</line>
           <properties />
-          <option name="timeStamp" value="32" />
+          <option name="timeStamp" value="39" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/fragments/ModuleFragment.java</url>
-          <line>137</line>
+          <url>file://$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/fragments/VideoFragment.java</url>
+          <line>262</line>
           <properties />
-          <option name="timeStamp" value="33" />
+          <option name="timeStamp" value="40" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/fragments/VideoFragment.java</url>
+          <line>258</line>
+          <properties />
+          <option name="timeStamp" value="41" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/fragments/VideoFragment.java</url>
+          <line>259</line>
+          <properties />
+          <option name="timeStamp" value="42" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="35" />
+      <option name="time" value="43" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
@@ -2903,24 +2932,26 @@
         <state relative-caret-position="2040">
           <caret line="136" column="33" selection-start-line="136" selection-start-column="33" selection-end-line="136" selection-end-column="33" />
           <folding>
-            <element signature="e#3505#3958#0" expanded="true" />
-            <element signature="e#3957#3958#0" expanded="true" />
-            <element signature="e#5518#6111#0" expanded="true" />
-            <element signature="e#6110#6111#0" expanded="true" />
-            <element signature="e#6485#7186#0" expanded="true" />
-            <element signature="e#7185#7186#0" expanded="true" />
-            <element signature="e#7231#7408#0" expanded="true" />
-            <element signature="e#7407#7408#0" expanded="true" />
-            <element signature="e#7449#7981#0" expanded="true" />
-            <element signature="e#7980#7981#0" expanded="true" />
-            <element signature="e#8021#8427#0" expanded="true" />
-            <element signature="e#8426#8427#0" expanded="true" />
-            <element signature="e#8468#8874#0" expanded="true" />
-            <element signature="e#8873#8874#0" expanded="true" />
-            <element signature="e#8351#8859#0" expanded="true" />
-            <element signature="e#8858#8859#0" expanded="true" />
-            <element signature="e#11666#11802#0" expanded="true" />
-            <element signature="e#11801#11802#0" expanded="true" />
+            <element signature="e#3801#4254#0" expanded="true" />
+            <element signature="e#4253#4254#0" expanded="true" />
+            <element signature="e#5470#5806#0" expanded="true" />
+            <element signature="e#5805#5806#0" expanded="true" />
+            <element signature="e#5846#6182#0" expanded="true" />
+            <element signature="e#6181#6182#0" expanded="true" />
+            <element signature="e#6227#6404#0" expanded="true" />
+            <element signature="e#6403#6404#0" expanded="true" />
+            <element signature="e#6445#6977#0" expanded="true" />
+            <element signature="e#6976#6977#0" expanded="true" />
+            <element signature="e#7017#7423#0" expanded="true" />
+            <element signature="e#7422#7423#0" expanded="true" />
+            <element signature="e#7464#7870#0" expanded="true" />
+            <element signature="e#7869#7870#0" expanded="true" />
+            <element signature="e#9294#9470#0" expanded="true" />
+            <element signature="e#9469#9470#0" expanded="true" />
+            <element signature="e#9987#10496#0" expanded="true" />
+            <element signature="e#10495#10496#0" expanded="true" />
+            <element signature="e#14437#14573#0" expanded="true" />
+            <element signature="e#14572#14573#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -3004,24 +3035,26 @@
         <state relative-caret-position="1320">
           <caret line="88" column="46" selection-start-line="88" selection-start-column="46" selection-end-line="88" selection-end-column="46" />
           <folding>
-            <element signature="e#3505#3958#0" expanded="true" />
-            <element signature="e#3957#3958#0" expanded="true" />
-            <element signature="e#5518#6111#0" expanded="true" />
-            <element signature="e#6110#6111#0" expanded="true" />
-            <element signature="e#6485#7186#0" expanded="true" />
-            <element signature="e#7185#7186#0" expanded="true" />
-            <element signature="e#7231#7408#0" expanded="true" />
-            <element signature="e#7407#7408#0" expanded="true" />
-            <element signature="e#7449#7981#0" expanded="true" />
-            <element signature="e#7980#7981#0" expanded="true" />
-            <element signature="e#8021#8427#0" expanded="true" />
-            <element signature="e#8426#8427#0" expanded="true" />
-            <element signature="e#8468#8874#0" expanded="true" />
-            <element signature="e#8873#8874#0" expanded="true" />
-            <element signature="e#8351#8859#0" expanded="true" />
-            <element signature="e#8858#8859#0" expanded="true" />
-            <element signature="e#11666#11802#0" expanded="true" />
-            <element signature="e#11801#11802#0" expanded="true" />
+            <element signature="e#3801#4254#0" expanded="true" />
+            <element signature="e#4253#4254#0" expanded="true" />
+            <element signature="e#5470#5806#0" expanded="true" />
+            <element signature="e#5805#5806#0" expanded="true" />
+            <element signature="e#5846#6182#0" expanded="true" />
+            <element signature="e#6181#6182#0" expanded="true" />
+            <element signature="e#6227#6404#0" expanded="true" />
+            <element signature="e#6403#6404#0" expanded="true" />
+            <element signature="e#6445#6977#0" expanded="true" />
+            <element signature="e#6976#6977#0" expanded="true" />
+            <element signature="e#7017#7423#0" expanded="true" />
+            <element signature="e#7422#7423#0" expanded="true" />
+            <element signature="e#7464#7870#0" expanded="true" />
+            <element signature="e#7869#7870#0" expanded="true" />
+            <element signature="e#9294#9470#0" expanded="true" />
+            <element signature="e#9469#9470#0" expanded="true" />
+            <element signature="e#9987#10496#0" expanded="true" />
+            <element signature="e#10495#10496#0" expanded="true" />
+            <element signature="e#14437#14573#0" expanded="true" />
+            <element signature="e#14572#14573#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -3094,23 +3127,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/fragments/ModuleFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="126">
-          <caret line="136" selection-start-line="136" selection-end-line="136" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/viewmodels/VideoViewModel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="29" selection-start-line="29" selection-end-line="29" />
-          <folding>
-            <element signature="e#976#977#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/viewmodels/ModuleViewModel.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="385">
@@ -3144,29 +3160,70 @@
         <state />
       </provider>
     </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.android.exoplayer/exoplayer/r2.2.0/e63476a0d9b07faca75844eb071e90562837eb8a/exoplayer-r2.2.0-sources.jar!/com/google/android/exoplayer2/SimpleExoPlayer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="589" column="25" selection-start-line="589" selection-start-column="25" selection-end-line="589" selection-end-column="25" />
+          <folding>
+            <element signature="e#17876#17877#0" expanded="true" />
+            <element signature="e#17911#17912#0" expanded="true" />
+            <element signature="e#17981#17982#0" expanded="true" />
+            <element signature="e#18029#18030#0" expanded="true" />
+            <element signature="e#19395#19396#0" expanded="true" />
+            <element signature="e#19432#19433#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.google.android.exoplayer/exoplayer/r2.2.0/e63476a0d9b07faca75844eb071e90562837eb8a/exoplayer-r2.2.0-sources.jar!/com/google/android/exoplayer2/ExoPlayer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="112">
+          <caret line="430" column="7" selection-start-line="430" selection-start-column="7" selection-end-line="430" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/fragments/ModuleFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="126">
+          <caret line="136" selection-start-line="136" selection-end-line="136" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/viewmodels/VideoViewModel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="29" selection-start-line="29" selection-end-line="29" />
+          <folding>
+            <element signature="e#976#977#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/uk/airbyte/fwc/fragments/VideoFragment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-401">
-          <caret line="149" column="26" selection-start-line="149" selection-start-column="26" selection-end-line="149" selection-end-column="26" />
+        <state relative-caret-position="197">
+          <caret line="259" column="47" selection-start-line="259" selection-start-column="47" selection-end-line="259" selection-end-column="47" />
           <folding>
-            <element signature="e#3505#3958#0" expanded="true" />
-            <element signature="e#3957#3958#0" expanded="true" />
-            <element signature="e#5518#6111#0" expanded="true" />
-            <element signature="e#6110#6111#0" expanded="true" />
-            <element signature="e#6485#7186#0" expanded="true" />
-            <element signature="e#7185#7186#0" expanded="true" />
-            <element signature="e#7231#7408#0" expanded="true" />
-            <element signature="e#7407#7408#0" expanded="true" />
-            <element signature="e#7449#7981#0" expanded="true" />
-            <element signature="e#7980#7981#0" expanded="true" />
-            <element signature="e#8021#8427#0" expanded="true" />
-            <element signature="e#8426#8427#0" expanded="true" />
-            <element signature="e#8468#8874#0" expanded="true" />
-            <element signature="e#8873#8874#0" expanded="true" />
-            <element signature="e#8351#8859#0" expanded="true" />
-            <element signature="e#8858#8859#0" expanded="true" />
-            <element signature="e#11666#11802#0" expanded="true" />
-            <element signature="e#11801#11802#0" expanded="true" />
+            <element signature="e#3801#4254#0" expanded="true" />
+            <element signature="e#4253#4254#0" expanded="true" />
+            <element signature="e#5470#5806#0" expanded="true" />
+            <element signature="e#5805#5806#0" expanded="true" />
+            <element signature="e#5846#6182#0" expanded="true" />
+            <element signature="e#6181#6182#0" expanded="true" />
+            <element signature="e#6227#6404#0" expanded="true" />
+            <element signature="e#6403#6404#0" expanded="true" />
+            <element signature="e#6445#6977#0" expanded="true" />
+            <element signature="e#6976#6977#0" expanded="true" />
+            <element signature="e#7017#7423#0" expanded="true" />
+            <element signature="e#7422#7423#0" expanded="true" />
+            <element signature="e#7464#7870#0" expanded="true" />
+            <element signature="e#7869#7870#0" expanded="true" />
+            <element signature="e#9294#9470#0" expanded="true" />
+            <element signature="e#9469#9470#0" expanded="true" />
+            <element signature="e#9987#10496#0" expanded="true" />
+            <element signature="e#10495#10496#0" expanded="true" />
+            <element signature="e#14437#14573#0" expanded="true" />
+            <element signature="e#14572#14573#0" expanded="true" />
           </folding>
         </state>
       </provider>

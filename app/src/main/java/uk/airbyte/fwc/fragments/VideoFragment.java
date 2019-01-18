@@ -227,7 +227,7 @@ public class VideoFragment extends Fragment {
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
                 mUserIsSeeking = true;
-                //timer.cancel();
+                timer.cancel();
                 // stopping videotick from being called or pause timer so moveBar doesn't get called
             }
 
@@ -236,15 +236,6 @@ public class VideoFragment extends Fragment {
                 if (fromUser) {
                     userSelectedPosition = progress;
                 }
-                // use seekBar getProgress
-
-//               float seekBarWidth = seekBar.getWidth();
-//                seekBar.setMax((int) seekBarWidth);
-//
-//                  float seekBarProgress = seekBar.getProgress();
-//
-//                float percent =  seekBarProgress / seekBarWidth;
-//                mSimpleExoPlayer.seekTo((long) i/ (long) seekBarWidth);
             }
 
 
@@ -253,8 +244,23 @@ public class VideoFragment extends Fragment {
                 // start videotick again so moveBar proceeds
                 mUserIsSeeking = false;
                 float seekBarWidth = seekBar.getWidth();
-                mSimpleExoPlayer.seekTo((userSelectedPosition / (int) seekBarWidth) * mSimpleExoPlayer.getDuration());
-                //TODO: not working
+                float percent =  userSelectedPosition / seekBarWidth;
+                long duration = mSimpleExoPlayer.getDuration();
+               // mSimpleExoPlayer.seekTo(userSelectedPosition);
+                float newPosition = percent * duration;
+                mSimpleExoPlayer.seekTo((long) newPosition);
+
+                seekBar.setProgress(seekBar.getProgress());
+                TimerTask progress = new TimerTask() {
+                    @Override
+                    public void run() {
+                        handler.post(updateBar);
+                    }
+                };
+
+                timer = new Timer();
+                // play bar update interval
+                timer.scheduleAtFixedRate(progress, 0, 50);
             }
         });
         return view;
