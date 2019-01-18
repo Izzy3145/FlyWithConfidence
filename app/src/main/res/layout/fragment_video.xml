@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/parentVideoView"
     tools:context=".fragments.VideoFragment">
 
     <!-- captain_placeholder image view -->
@@ -30,80 +31,20 @@
         app:layout_constraintTop_toTopOf="parent"
         app:use_controller="false" />
 
-
-    <FrameLayout
-        android:id="@+id/playbackBar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent">
-
-        <!--<ImageView-->
-        <!--android:id="@+id/backgroundBar"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="6dp"-->
-        <!--android:layout_gravity="bottom"-->
-        <!--android:layout_margin="20dp"-->
-        <!--android:src="@drawable/video_bar_background" />-->
-
         <SeekBar
             android:id="@+id/seekBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent" />
 
-        <!--<FrameLayout-->
-        <!--android:id="@+id/barContainer"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_gravity="bottom"-->
-        <!--android:layout_margin="20dp"-->
-        <!--android:paddingLeft="5dp">-->
-
-        <!--<ImageView-->
-        <!--android:id="@+id/foregroundBar"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="10dp"-->
-        <!--android:src="@drawable/video_bar"-->
-        <!--android:visibility="invisible" />-->
-        <!--</FrameLayout>-->
-
-        <!--<ImageView-->
-        <!--android:layout_width="10dp"-->
-        <!--android:layout_height="10dp"-->
-        <!--android:layout_gravity="bottom"-->
-        <!--android:layout_margin="20dp"-->
-        <!--android:src="@drawable/video_bar_foreground" />-->
-
-        <!--<FrameLayout-->
-        <!--android:id="@+id/dotContainer"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="35dp"-->
-        <!--android:layout_gravity="bottom"-->
-        <!--android:clipChildren="false">-->
-
-        <!--<LinearLayout-->
-        <!--android:id="@+id/playbackDot"-->
-        <!--android:layout_width="20dp"-->
-        <!--android:layout_height="20dp"-->
-        <!--android:background="@drawable/blue_circle"-->
-        <!--android:orientation="vertical">-->
-
-        <!--</LinearLayout>-->
-
-
-        <!--</FrameLayout>-->
-    </FrameLayout>
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/overlay_layout"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -149,7 +90,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="32dp"
             android:src="@drawable/vid_full_screen"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />

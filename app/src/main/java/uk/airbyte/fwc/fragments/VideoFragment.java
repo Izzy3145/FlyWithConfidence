@@ -11,9 +11,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewDebug;
 import android.view.ViewGroup;
@@ -66,16 +68,6 @@ public class VideoFragment extends Fragment {
     SimpleExoPlayerView simpleExoPlayerView;
     @BindView(R.id.placeholder_image_view)
     ImageView placeholderImageView;
-    @BindView(R.id.playbackBar)
-    FrameLayout playbackBar;
-    //    @BindView(R.id.foregroundBar)
-//    ImageView foregroundBar;
-//    @BindView(R.id.backgroundBar)
-//    ImageView backgroundBar;
-//    @BindView(R.id.dotContainer)
-//    FrameLayout dotContainer;
-//    @BindView(R.id.playbackDot)
-//    LinearLayout playbackDot;
     @BindView(R.id.seekBar)
     SeekBar seekBar;
     @BindView(R.id.vid_full_screen)
@@ -90,6 +82,10 @@ public class VideoFragment extends Fragment {
     ImageView playBtn;
     @BindView(R.id.pauseBtn)
     ImageView pauseBtn;
+    @BindView(R.id.parentVideoView)
+    ConstraintLayout parentVideoView;
+    @BindView(R.id.overlay_layout)
+    ConstraintLayout videoOverlayLayout;
 
     private boolean playbackReady = true;
     private SimpleExoPlayer mSimpleExoPlayer;
@@ -147,7 +143,21 @@ public class VideoFragment extends Fragment {
         playBtn.setColorFilter(whiteColor, PorterDuff.Mode.SRC_ATOP);
         pauseBtn.setColorFilter(whiteColor, PorterDuff.Mode.SRC_ATOP);
 
-        togglePlayPause();
+        parentVideoView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                videoOverlayLayout.setBackgroundColor(getResources().getColor(R.color.trans_grey));
+                videoOverlayLayout.setVisibility(View.VISIBLE);
+                togglePlayPause();
+                AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);
+                anim.setDuration(3000);
+                anim.setRepeatCount(0);
+                anim.setFillAfter(true);
+                videoOverlayLayout.startAnimation(anim);
+                return false;
+            }
+        });
+
 
         playBtn.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -279,7 +289,7 @@ public class VideoFragment extends Fragment {
                 mShowPlay = showPlay;
                 passShowPlayObj(mShowPlay);
 
-                if(mShowPlay!=null) {
+                if(mShowPlay!=null && !mShowPlay.isIntro()) {
                     isFavourite = mModuleViewModel.getFavouritedStatus(mShowPlay.getModuleID());
                     setFavBtn(isFavourite);
                 }
@@ -292,7 +302,7 @@ public class VideoFragment extends Fragment {
             playBtn.setVisibility(View.VISIBLE);
             pauseBtn.setVisibility(View.GONE);
             AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);
-            anim.setDuration(2000);
+            anim.setDuration(3000);
             anim.setRepeatCount(0);
             anim.setFillAfter(true);
             playBtn.startAnimation(anim);
@@ -300,7 +310,7 @@ public class VideoFragment extends Fragment {
             playBtn.setVisibility(View.GONE);
             pauseBtn.setVisibility(View.VISIBLE);
             AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);
-            anim.setDuration(2000);
+            anim.setDuration(3000);
             anim.setRepeatCount(0);
             anim.setFillAfter(true);
             pauseBtn.startAnimation(anim);
