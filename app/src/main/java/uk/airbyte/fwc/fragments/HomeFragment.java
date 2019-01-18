@@ -250,12 +250,9 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.Favourit
             videoFragParent.requestLayout();
         } else {
             // portrait!
-            ConstraintLayout vidConsLay = videoFragParent;
-
             ConstraintLayout.LayoutParams p = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT, ConstraintLayout.LayoutParams.MATCH_CONSTRAINT_SPREAD);
             p.dimensionRatio = "h, 1:1";
             videoFragParent.setLayoutParams(p);
-            //videoFragParent.requestLayout();
 
             ConstraintSet set = new ConstraintSet();
             set.clone(videoFragParent);
@@ -263,14 +260,10 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.Favourit
             set.connect(R.id.videoFragParent, ConstraintSet.END, R.id.homeLayout, ConstraintSet.END);
             set.connect(R.id.videoFragParent, ConstraintSet.START, R.id.homeLayout, ConstraintSet.START);
             set.connect(R.id.videoFragParent, ConstraintSet.TOP, R.id.homeLayout, ConstraintSet.TOP);
-            //set.setDimensionRatio(R.id.videoFragParent, "1:1");
-
-            //set.constrainDefaultHeight(R.id.videoFragParent, ConstraintSet.MATCH_CONSTRAINT_SPREAD);
-            //set.constrainDefaultWidth(R.id.videoFragParent, ConstraintSet.MATCH_CONSTRAINT_SPREAD);
             set.applyTo(videoFragParent);
 
-            //watchNowBtn.setVisibility(View.VISIBLE);
-            //videoOverlayGroup.setVisibility(View.VISIBLE);
+            watchNowBtn.setVisibility(View.VISIBLE);
+            videoOverlayGroup.setVisibility(View.VISIBLE);
 
         }
     }
