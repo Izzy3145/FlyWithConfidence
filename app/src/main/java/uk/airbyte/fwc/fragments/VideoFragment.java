@@ -4,7 +4,6 @@ import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,32 +12,22 @@ import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewDebug;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.SeekBar;
 
 import com.google.android.exoplayer2.DefaultLoadControl;
-import com.google.android.exoplayer2.ExoPlaybackException;
-import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.LoadControl;
 import com.google.android.exoplayer2.SimpleExoPlayer;
-import com.google.android.exoplayer2.Timeline;
 import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory;
 import com.google.android.exoplayer2.source.ExtractorMediaSource;
 import com.google.android.exoplayer2.source.MediaSource;
-import com.google.android.exoplayer2.source.TrackGroupArray;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
-import com.google.android.exoplayer2.trackselection.TrackSelectionArray;
 import com.google.android.exoplayer2.trackselection.TrackSelector;
 import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
@@ -56,8 +45,6 @@ import uk.airbyte.fwc.R;
 import uk.airbyte.fwc.model.ShowPlay;
 import uk.airbyte.fwc.viewmodels.ModuleViewModel;
 import uk.airbyte.fwc.viewmodels.VideoViewModel;
-
-import static java.security.AccessController.getContext;
 
 
 public class VideoFragment extends Fragment {
@@ -84,7 +71,7 @@ public class VideoFragment extends Fragment {
     ImageView pauseBtn;
     @BindView(R.id.parentVideoView)
     ConstraintLayout parentVideoView;
-    @BindView(R.id.overlay_layout)
+    @BindView(R.id.module_vid_overlay)
     ConstraintLayout videoOverlayLayout;
 
     private boolean playbackReady = true;
@@ -168,7 +155,6 @@ public class VideoFragment extends Fragment {
                 }
                 togglePlayPause();
             }
-
         });
 
         pauseBtn.setOnClickListener(new View.OnClickListener() {
@@ -185,7 +171,7 @@ public class VideoFragment extends Fragment {
         vidFullScreen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity) getActivity()).hideNavBar();
+                ((MainActivity) getActivity()).hideNavBarAndLandscape();
             }
         });
 

@@ -107,8 +107,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void hideNavBar() {
+    public void hideNavBarAndLandscape() {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        bottomNavigation.setVisibility(View.GONE);
+    }
+
+    public void hideNavBar() {
         bottomNavigation.setVisibility(View.GONE);
     }
 

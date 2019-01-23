@@ -54,7 +54,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/welcomeAboardTv"
+                android:id="@+id/welcome_title_land"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:paddingTop="16dp"
@@ -63,7 +63,7 @@
                 android:textAlignment="center"
                 android:textColor="@color/colorWhite"
                 android:textSize="18sp"
-                app:layout_constraintBottom_toTopOf="@+id/welcomeDescTv"
+                app:layout_constraintBottom_toTopOf="@+id/welcome_desc_land"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
@@ -71,12 +71,12 @@
                 app:layout_constraintVertical_chainStyle="packed" />
 
             <TextView
-                android:id="@+id/welcomeDescTv"
+                android:id="@+id/welcome_desc_land"
                 android:layout_width="0dp"
                 android:layout_height="55dp"
                 android:paddingTop="8dp"
                 android:paddingBottom="16dp"
-                android:text="@string/an_introduction_to_fly_in_confidence"
+                android:text="@string/an_introduction_to_fwc"
                 android:textAlignment="center"
                 android:textColor="@color/colorWhite"
                 android:textSize="14sp"
@@ -84,7 +84,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/welcomeAboardTv" />
+                app:layout_constraintTop_toBottomOf="@+id/welcome_title_land" />
 
             <Button
                 android:id="@+id/watchNowBtn"
@@ -98,7 +98,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/welcomeDescTv" />
+                app:layout_constraintTop_toBottomOf="@+id/welcome_desc_land" />
 
         </android.support.constraint.ConstraintLayout>
 

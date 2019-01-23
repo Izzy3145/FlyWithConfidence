@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.constraint.Group;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.text.SpannableString;
@@ -23,10 +24,8 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.realm.Realm;
-import io.realm.RealmResults;
+import uk.airbyte.fwc.MainActivity;
 import uk.airbyte.fwc.R;
-import uk.airbyte.fwc.adapters.ModulesAdapter;
 import uk.airbyte.fwc.model.Module;
 import uk.airbyte.fwc.model.ShowPlay;
 import uk.airbyte.fwc.utils.Const;
@@ -50,6 +49,19 @@ public class ModuleFragment extends Fragment {
     Button addFavouriteBtn;
     @BindView(R.id.nextModuleBtn)
     Button nextModuleBtn;
+    @BindView(R.id.unlockTopicBtn)
+    Button unlockTopicBtn;
+    @BindView(R.id.locked_topic_title)
+    TextView lockedTopicTitle;
+    @BindView(R.id.locked_module_title)
+    TextView lockedModuleTitle;
+    @BindView(R.id.locked_module_desc)
+    TextView lockedTopicDesc;
+
+    @BindView(R.id.unlockedModuleGroup)
+    Group unlockedModuleGroup;
+    @BindView(R.id.lockedModuleGroup)
+    Group lockedModuleGroup;
     private String selectedModuleID;
     private VideoViewModel mVideoViewModel;
     private ModuleViewModel mModuleViewModel;
@@ -58,6 +70,7 @@ public class ModuleFragment extends Fragment {
     private String topicID;
     private SpannableString spanString;
     private Boolean isFavourite;
+    private Boolean canView;
 
     public ModuleFragment() {
         // Required empty public constructor
@@ -80,45 +93,61 @@ public class ModuleFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_module, container, false);
-        view.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.lighter_grey));
         ButterKnife.bind(this, view);
 
+        ((MainActivity) getActivity()).hideNavBar();
+
+
         getListOfModules();
+        canView = mModule.getCanView();
         displayModuleInfo(mModule);
 
-        favouriteButtonToggle();
-
-        addFavouriteBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (isFavourite != null) {
-                    isFavourite = !isFavourite;
-                    Toast.makeText(getActivity(), "Module favourited: " + isFavourite, Toast.LENGTH_SHORT).show();
-                    favouriteButtonToggle();
-                } else {
-                    isFavourite = true;
-                    Toast.makeText(getActivity(), "Module favourited: " + isFavourite, Toast.LENGTH_SHORT).show();
-                    favouriteButtonToggle();
+        if(canView) {
+            view.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.lighter_grey));
+            unlockedModuleGroup.setVisibility(View.VISIBLE);
+            lockedModuleGroup.setVisibility(View.GONE);
+            favouriteButtonToggle();
+            addFavouriteBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (isFavourite != null) {
+                        isFavourite = !isFavourite;
+                        Toast.makeText(getActivity(), "Module favourited: " + isFavourite, Toast.LENGTH_SHORT).show();
+                        favouriteButtonToggle();
+                    } else {
+                        isFavourite = true;
+                        Toast.makeText(getActivity(), "Module favourited: " + isFavourite, Toast.LENGTH_SHORT).show();
+                        favouriteButtonToggle();
+                    }
+                    mModuleViewModel.setFavourite(isFavourite, mModule);
                 }
-                mModuleViewModel.setFavourite(isFavourite, mModule);
-            }
-        });
+            });
 
-        nextModuleBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int displayNumber = Integer.parseInt(mModule.getDisplayOrder());
-                if (displayNumber < modulesInTopic.size()) {
-                    mModule = modulesInTopic.get((displayNumber));
-                    mVideoViewModel.clearVideo();
-                    displayModuleInfo(mModule);
-                    favouriteButtonToggle();
-                } else {
-                    Toast.makeText(getActivity(), "No more modules in this topic!", Toast.LENGTH_SHORT).show();
+            nextModuleBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int displayNumber = Integer.parseInt(mModule.getDisplayOrder());
+                    if (displayNumber < modulesInTopic.size()) {
+                        mModule = modulesInTopic.get((displayNumber));
+                        mVideoViewModel.clearVideo();
+                        displayModuleInfo(mModule);
+                        favouriteButtonToggle();
+                    } else {
+                        Toast.makeText(getActivity(), "No more modules in this topic!", Toast.LENGTH_SHORT).show();
+                    }
+
                 }
-
-            }
-        });
+            });
+        } else {
+            unlockedModuleGroup.setVisibility(View.GONE);
+            lockedModuleGroup.setVisibility(View.VISIBLE);
+                unlockTopicBtn.setOnClickListener(new View.OnClickListener(){
+                    @Override
+                    public void onClick(View v) {
+                        //TODO: take you to purchasing screen...?
+                    }
+                });
+        }
         return view;
     }
 
@@ -130,35 +159,42 @@ public class ModuleFragment extends Fragment {
 
 
     public void displayModuleInfo(Module module) {
-        if (module != null) {
-            moduleIntroTv.setText(module.getDescription());
-            moduleNotesTv.setText(module.getNotes());
-            isFavourite = mModule.getFavourited();
-            mVideoViewModel.select(new ShowPlay(module.getId(), null, null,
+        if(canView) {
+            if (module != null) {
+                moduleIntroTv.setText(module.getDescription());
+                moduleNotesTv.setText(module.getNotes());
+                isFavourite = mModule.getFavourited();
+                mVideoViewModel.select(new ShowPlay(module.getId(), null, null,
                         module.getMedia().getVideo1080(), module.getCurrentWindow(), module.getPlayerPosition(), false));
 
-            String sep = System.lineSeparator();
-            StringBuilder sb = new StringBuilder();
-            //TODO: check this with full API response
+                String sep = System.lineSeparator();
+                StringBuilder sb = new StringBuilder();
+                //TODO: check this with full API response
             /*ArrayList<String> bulletsList = new ArrayList<>(0);
             for(int i = 0; i < module.getBullets().size(); i++){
                 String bulletNote =  module.getBullets().get(i);
                 bulletsList.add(bulletNote);
             }*/
-            ArrayList<String> bulletsList = new ArrayList<>();
-            bulletsList.add("Test 1");
-            bulletsList.add("Test 2");
-            bulletsList.add("Test 3");
-            bulletsList.add("Test 4");
-            for (String s : bulletsList) {
-                sb.append(sep + s);
+                ArrayList<String> bulletsList = new ArrayList<>();
+                bulletsList.add("Test 1");
+                bulletsList.add("Test 2");
+                bulletsList.add("Test 3");
+                bulletsList.add("Test 4");
+                for (String s : bulletsList) {
+                    sb.append(sep + s);
+                }
+                String concat = sb.toString();
+                spanString = new SpannableString(concat);
+                for (String s : bulletsList) {
+                    addBullet(s, concat);
+                }
+                thingsToTv.setText(spanString);
             }
-            String concat = sb.toString();
-            spanString = new SpannableString(concat);
-            for (String s : bulletsList) {
-                addBullet(s, concat);
-            }
-            thingsToTv.setText(spanString);
+
+        } else {
+            lockedTopicTitle.setText(module.getTopic().getName());
+            lockedModuleTitle.setText(module.getName());
+            lockedTopicDesc.setText(module.getDescription());
         }
     }
 

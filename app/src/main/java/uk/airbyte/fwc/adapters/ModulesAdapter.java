@@ -77,6 +77,13 @@ public class ModulesAdapter extends RealmRecyclerViewAdapter<Module, ModulesAdap
                     .into(holder.mVideoThumbnail);
 
             if(!mIsRecents) {
+                if(!module.getCanView()){
+                    holder.mLockedOverlay.setVisibility(View.VISIBLE);
+                    holder.mFavouritesOverlay.setClipToOutline(true);
+                } else {
+                    holder.mLockedOverlay.setVisibility(View.GONE);
+                }
+
                 if (module.getFavourited()) {
                     holder.mFavouritesOverlay.setVisibility(View.VISIBLE);
                     holder.mFavouritesOverlay.setClipToOutline(true);
@@ -84,7 +91,6 @@ public class ModulesAdapter extends RealmRecyclerViewAdapter<Module, ModulesAdap
                     holder.mFavouritesOverlay.setVisibility(View.GONE);
                 }
             }
-
 
             if (mEditing == 0) {
                 holder.mDeleteFavBtn.setVisibility(View.GONE);
@@ -125,6 +131,8 @@ public class ModulesAdapter extends RealmRecyclerViewAdapter<Module, ModulesAdap
         ImageView mDeleteFavBtn;
         @BindView(R.id.favouritesOverlay)
         ImageView mFavouritesOverlay;
+        @BindView(R.id.lockedOverlay)
+        ImageView mLockedOverlay;
 
         private ViewHolder(View itemView) {
             super(itemView);

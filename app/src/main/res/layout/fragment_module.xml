@@ -9,6 +9,7 @@
     tools:context=".fragments.ModuleFragment">
 
     <android.support.constraint.ConstraintLayout
+        android:id="@+id/unlocked_module_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -117,7 +118,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/thingsToTv" />
 
-        <!--TODO: make this image show up! -->
         <ImageView
             android:id="@+id/fav_btn_image"
             android:layout_width="24dp"
@@ -147,57 +147,74 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/addToFavouritesBtn" />
 
+        <Button
+            android:id="@+id/lockedCloseBtn"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/locked_close_btn"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
         <ImageView
-            android:id="@+id/imageView7"
-            android:layout_width="448dp"
+            android:id="@+id/locked_module_image"
+            android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintDimensionRatio="h,16:9"
+            android:src="@drawable/captain"
+            app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:src="@tools:sample/backgrounds/scenic[1]" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/topicTitleTv"
+            android:id="@+id/locked_topic_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:background="@color/colorWhite"
-            android:padding="16dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingTop="16dp"
+            android:paddingBottom="4dp"
             android:text="Controlling an aircraft"
             android:textAlignment="center"
             android:textColor="@color/fwc_blue"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView7" />
+            app:layout_constraintTop_toBottomOf="@+id/locked_module_image" />
 
         <TextView
-            android:id="@+id/topicTitleDetailTv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:id="@+id/locked_module_title"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:background="@color/colorWhite"
-            android:padding="16dp"
+            android:paddingStart="16dp"
+            android:paddingTop="4dp"
+            android:paddingEnd="16dp"
+            android:paddingBottom="4dp"
             android:text="In depth: Elevators"
             android:textAlignment="center"
             android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/topicTitleTv" />
+            app:layout_constraintTop_toBottomOf="@+id/locked_topic_title" />
 
         <TextView
-            android:id="@+id/topicDescriptionTv"
+            android:id="@+id/locked_module_desc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:background="@color/colorWhite"
-            android:padding="16dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
             android:text="From British Airway's state of the art pilot training facility."
             android:textAlignment="center"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/topicTitleDetailTv" />
+            app:layout_constraintTop_toBottomOf="@+id/locked_topic_title" />
 
         <Button
             android:id="@+id/unlockTopicBtn"
@@ -214,21 +231,21 @@
             android:textSize="17sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/topicDescriptionTv" />
+            app:layout_constraintTop_toBottomOf="@+id/locked_module_desc" />
 
         <android.support.constraint.Group
             android:id="@+id/unlockedModuleGroup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="visible"
-            app:constraint_referenced_ids="videoFragment,textView8,moduleNotesTv,moduleIntroTv,thingsToTv,textView11,textView10,nextModuleBtn,addToFavouritesBtn" />
+            android:visibility="gone"
+            app:constraint_referenced_ids="videoFragment,textView8,moduleNotesTv,moduleIntroTv,thingsToTv,textView11,textView10,nextModuleBtn,addToFavouritesBtn,fav_btn_image" />
 
         <android.support.constraint.Group
             android:id="@+id/lockedModuleGroup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="gone"
-            app:constraint_referenced_ids="topicTitleDetailTv,imageView7,unlockTopicBtn,topicTitleTv,topicDescriptionTv" />
+            android:visibility="visible"
+            app:constraint_referenced_ids="locked_topic_title,locked_module_image,unlockTopicBtn,locked_module_title,locked_module_desc,lockedCloseBtn" />
 
 
     </android.support.constraint.ConstraintLayout>

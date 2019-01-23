@@ -101,7 +101,7 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.Favourit
                 videoOverlayGroup.setVisibility(View.GONE);
                 mVideoViewModel.select(new ShowPlay(null, null, null,
                         videoSelected, 0, 0, true));
-                ((MainActivity) getActivity()).hideNavBar();
+                ((MainActivity) getActivity()).hideNavBarAndLandscape();
             }
         });
 
