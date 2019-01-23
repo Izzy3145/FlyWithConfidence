@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import androidx.navigation.Navigation;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import uk.airbyte.fwc.MainActivity;
@@ -57,7 +58,8 @@ public class ModuleFragment extends Fragment {
     TextView lockedModuleTitle;
     @BindView(R.id.locked_module_desc)
     TextView lockedTopicDesc;
-
+    @BindView(R.id.lockedCloseBtn)
+    Button lockedCloseBtn;
     @BindView(R.id.unlockedModuleGroup)
     Group unlockedModuleGroup;
     @BindView(R.id.lockedModuleGroup)
@@ -141,10 +143,19 @@ public class ModuleFragment extends Fragment {
         } else {
             unlockedModuleGroup.setVisibility(View.GONE);
             lockedModuleGroup.setVisibility(View.VISIBLE);
+
                 unlockTopicBtn.setOnClickListener(new View.OnClickListener(){
                     @Override
                     public void onClick(View v) {
-                        //TODO: take you to purchasing screen...?
+                        //TODO: add in purchase functionality?
+                    }
+                });
+                lockedCloseBtn.setOnClickListener(new View.OnClickListener(){
+
+                    @Override
+                    public void onClick(View v) {
+                        Navigation.findNavController(getActivity(), R.id.my_nav_host_fragment)
+                                .popBackStack();
                     }
                 });
         }

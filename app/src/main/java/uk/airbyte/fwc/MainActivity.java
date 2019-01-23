@@ -120,6 +120,8 @@ public class MainActivity extends AppCompatActivity {
     public void onBackPressed() {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         bottomNavigation.setVisibility(View.VISIBLE);
+        Navigation.findNavController(this, R.id.my_nav_host_fragment)
+                .popBackStack();
     }
 
     @Override
