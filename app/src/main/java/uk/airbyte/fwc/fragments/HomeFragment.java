@@ -17,7 +17,6 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AlphaAnimation;
 import android.widget.Button;
 
 import androidx.navigation.Navigation;
@@ -43,7 +42,7 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.Favourit
     @BindView(R.id.myRecentsRv)
     RecyclerView myRecentsRv;
     @BindView(R.id.home_intro_play_btn)
-    Button introPlayBtn;
+    Button homeIntroPlayBtn;
     ///@BindView(R.id.intro_pause_btn)
    // Button introPauseBtn;
     //@BindView(R.id.videoOverlayGroup)
@@ -98,11 +97,11 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.Favourit
         View view = inflater.inflate(R.layout.home_fragment, container, false);
         ButterKnife.bind(this, view);
 
-        introPlayBtn.setOnClickListener(new View.OnClickListener() {
+        homeIntroPlayBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 videoSelected = "asset:///intro.mp4";
-                introPlayBtn.setVisibility(View.GONE);
+                homeIntroPlayBtn.setVisibility(View.GONE);
                 /*introPauseBtn.setVisibility(View.VISIBLE);
                 AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);
                 anim.setDuration(3000);
@@ -261,15 +260,6 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.Favourit
             videoFragParent.setLayoutParams(p);
             videoFragParent.requestLayout();
 
-            videoFragParent.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-          //          videoOverlayGroup.setVisibility(View.VISIBLE);
-                    return false;
-                }
-            });
-  ;
-
         } else {
             // portrait!
             ConstraintLayout.LayoutParams p = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT,
@@ -284,7 +274,7 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.Favourit
             set.connect(R.id.videoFragParent, ConstraintSet.TOP, R.id.homeLayout, ConstraintSet.TOP);
             set.applyTo(videoFragParent);
 
-            introPlayBtn.setVisibility(View.VISIBLE);
+            homeIntroPlayBtn.setVisibility(View.VISIBLE);
          //   videoOverlayGroup.setVisibility(View.VISIBLE);
             recentsGroup.setVisibility(View.VISIBLE);
             favouritesGroup.setVisibility(View.VISIBLE);

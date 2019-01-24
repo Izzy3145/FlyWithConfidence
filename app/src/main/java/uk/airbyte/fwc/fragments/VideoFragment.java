@@ -82,23 +82,9 @@ public class VideoFragment extends Fragment {
     ConstraintLayout moduleVidOverlay;
     @BindView(R.id.intro_vid_overlay_land)
     ConstraintLayout introVidOverlayLand;
-
+    float currentPercent = 0f;
     private boolean playbackReady = true;
     private SimpleExoPlayer mSimpleExoPlayer;
-    private VideoViewModel mVideoViewModel;
-    private ModuleViewModel mModuleViewModel;
-    @Nullable
-    private ShowPlay mShowPlay;
-    private Boolean isFavourite;
-    private Boolean isIntro;
-    private Timer timer;
-    private boolean mUserIsSeeking;
-
-    float currentPercent = 0f;
-
-    // Handler on UI thread
-    private Handler handler = new Handler(Looper.getMainLooper());
-
     // Update video time
     Runnable updateBar = new Runnable() {
         @Override
@@ -111,6 +97,16 @@ public class VideoFragment extends Fragment {
             }
         }
     };
+    private VideoViewModel mVideoViewModel;
+    private ModuleViewModel mModuleViewModel;
+    @Nullable
+    private ShowPlay mShowPlay;
+    private Boolean isFavourite;
+    private Boolean isIntro;
+    private Timer timer;
+    private boolean mUserIsSeeking;
+    // Handler on UI thread
+    private Handler handler = new Handler(Looper.getMainLooper());
 
     public VideoFragment() {
         // Required empty public constructor
@@ -131,9 +127,12 @@ public class VideoFragment extends Fragment {
                 mShowPlay = showPlay;
                 passShowPlayObj(mShowPlay);
 
-                if(mShowPlay!=null && !mShowPlay.isIntro()) {
+                if (mShowPlay != null && !mShowPlay.isIntro()) {
                     isFavourite = mModuleViewModel.getFavouritedStatus(mShowPlay.getModuleID());
                     setFavBtn(isFavourite);
+                }
+                if (mShowPlay != null && mShowPlay.isIntro()) {
+                    setUpIntroVidUI();
                 }
             }
         });
@@ -159,160 +158,109 @@ public class VideoFragment extends Fragment {
         parentVideoView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if(isIntro != null && isIntro){
-                    introVidOverlayLand.setBackgroundColor(getResources().getColor(R.color.trans_grey));
-                    introVidOverlayLand.setVisibility(View.VISIBLE);
-                    togglePlayPause();
-                    AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);
-                    anim.setDuration(3000);
-                    anim.setRepeatCount(0);
-                    anim.setFillAfter(true);
-                    introVidOverlayLand.startAnimation(anim);
-                } else {
-                    moduleVidOverlay.setBackgroundColor(getResources().getColor(R.color.trans_grey));
-                    moduleVidOverlay.setVisibility(View.VISIBLE);
-                    togglePlayPause();
-                    AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);
-                    anim.setDuration(3000);
-                    anim.setRepeatCount(0);
-                    anim.setFillAfter(true);
-                    moduleVidOverlay.startAnimation(anim);
-                }
+                moduleVidOverlay.setBackgroundColor(getResources().getColor(R.color.trans_grey));
+                moduleVidOverlay.setVisibility(View.VISIBLE);
+                togglePlayPause();
+                AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);
+                anim.setDuration(3000);
+                anim.setRepeatCount(0);
+                anim.setFillAfter(true);
+                moduleVidOverlay.startAnimation(anim);
                 return false;
             }
         });
 
-        if(isIntro != null && isIntro){
-            introPlayBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    playbackReady = !playbackReady;
-                    if (mSimpleExoPlayer != null) {
-                        mSimpleExoPlayer.setPlayWhenReady(!playbackReady);
-                    }
-                    togglePlayPause();
+        playBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                playbackReady = !playbackReady;
+                if (mSimpleExoPlayer != null) {
+                    mSimpleExoPlayer.setPlayWhenReady(playbackReady);
                 }
-            });
-        } else {
-            playBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    playbackReady = !playbackReady;
-                    if (mSimpleExoPlayer != null) {
-                        mSimpleExoPlayer.setPlayWhenReady(!playbackReady);
-                    }
-                    togglePlayPause();
-                }
-            });
-        }
+                togglePlayPause();
+            }
+        });
 
-        if(isIntro != null && isIntro){
-            introPauseBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    playbackReady = !playbackReady;
-                    if (mSimpleExoPlayer != null) {
-                        mSimpleExoPlayer.setPlayWhenReady(!playbackReady);
-                    }
-                    togglePlayPause();
+        pauseBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                playbackReady = !playbackReady;
+                if (mSimpleExoPlayer != null) {
+                    mSimpleExoPlayer.setPlayWhenReady(playbackReady);
                 }
-            });
-        } else {
-            pauseBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    playbackReady = !playbackReady;
-                    if (mSimpleExoPlayer != null) {
-                        mSimpleExoPlayer.setPlayWhenReady(!playbackReady);
-                    }
-                    togglePlayPause();
-                }
-            });
-        }
+                togglePlayPause();
+            }
+        });
 
-        if(isIntro != null && !isIntro) {
-            vidFullScreen.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ((MainActivity) getActivity()).hideNavBarAndLandscape();
-                }
-            });
-        }
+        vidFullScreen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity) getActivity()).hideNavBarAndLandscape();
+            }
+        });
 
-        if(isIntro != null && isIntro){
-            introExitCross.setOnClickListener(new View.OnClickListener(){
-                @Override
-                public void onClick(View v) {
+        exitCross.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int currentOrientation = getResources().getConfiguration().orientation;
+                if (currentOrientation == Configuration.ORIENTATION_LANDSCAPE) {
                     ((MainActivity) getActivity()).onBackPressed();
+                } else {
+                    Navigation.findNavController(getActivity(), R.id.my_nav_host_fragment)
+                            .popBackStack();
                 }
-            });
-        } else {
-            exitCross.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int currentOrientation = getResources().getConfiguration().orientation;
-                    if (currentOrientation == Configuration.ORIENTATION_LANDSCAPE) {
-                        ((MainActivity) getActivity()).onBackPressed();
-                    } else {
-                        Navigation.findNavController(getActivity(), R.id.my_nav_host_fragment)
-                                .popBackStack();
-                    }
-                }
-            });
-        }
+            }
+        });
 
-        if(isIntro != null && !isIntro) {
-            favBtnOn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (isFavourite) {
-                        isFavourite = false;
-                    } else {
-                        isFavourite = true;
-                    }
-                    mModuleViewModel.setFavouriteStatus(isFavourite, mShowPlay.getModuleID());
-                    setFavBtn(isFavourite);
+        favBtnOn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isFavourite) {
+                    isFavourite = false;
+                } else {
+                    isFavourite = true;
                 }
-            });
+                mModuleViewModel.setFavouriteStatus(isFavourite, mShowPlay.getModuleID());
+                setFavBtn(isFavourite);
+            }
+        });
 
-            favBtnOff.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (isFavourite) {
-                        isFavourite = false;
-                    } else {
-                        isFavourite = true;
-                    }
-                    mModuleViewModel.setFavouriteStatus(isFavourite, mShowPlay.getModuleID());
-                    setFavBtn(isFavourite);
+        favBtnOff.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isFavourite) {
+                    isFavourite = false;
+                } else {
+                    isFavourite = true;
                 }
-            });
-        }
+                mModuleViewModel.setFavouriteStatus(isFavourite, mShowPlay.getModuleID());
+                setFavBtn(isFavourite);
+            }
+        });
 
         moveBar(0);
-//        foregroundBar.setVisibility(View.VISIBLE);
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             int userSelectedPosition = 0;
+
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
                 mUserIsSeeking = true;
                 timer.cancel();
-                // stopping videotick from being called or pause timer so moveBar doesn't get called
             }
+
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 if (fromUser) {
                     userSelectedPosition = progress;
                 }
             }
+
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                // start videotick again so moveBar proceeds
                 mUserIsSeeking = false;
                 float seekBarWidth = seekBar.getWidth();
-                float percent =  userSelectedPosition / seekBarWidth;
+                float percent = userSelectedPosition / seekBarWidth;
                 long duration = mSimpleExoPlayer.getDuration();
-               // mSimpleExoPlayer.seekTo(userSelectedPosition);
                 float newPosition = percent * duration;
                 mSimpleExoPlayer.seekTo((long) newPosition);
 
@@ -324,36 +272,67 @@ public class VideoFragment extends Fragment {
                     }
                 };
                 timer = new Timer();
-                // play bar update interval
                 timer.scheduleAtFixedRate(progress, 0, 50);
             }
         });
         return view;
     }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        /*mVideoViewModel = ViewModelProviders.of(getActivity()).get(VideoViewModel.class);
-        mVideoViewModel.getSelected().observe(this, new Observer<ShowPlay>() {
-            @Override
-            public void onChanged(@Nullable ShowPlay showPlay) {
-                if (mShowPlay != null) {
-                    saveState();
-                }
-                mShowPlay = showPlay;
-                passShowPlayObj(mShowPlay);
+    private void setUpIntroVidUI() {
+        moduleVidOverlay.setVisibility(View.GONE);
 
-                if(mShowPlay!=null && !mShowPlay.isIntro()) {
-                    isFavourite = mModuleViewModel.getFavouritedStatus(mShowPlay.getModuleID());
-                    setFavBtn(isFavourite);
-                }
+        parentVideoView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                introVidOverlayLand.setBackgroundColor(getResources().getColor(R.color.trans_grey));
+                introVidOverlayLand.setVisibility(View.VISIBLE);
+                togglePlayPause();
+                AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);
+                anim.setDuration(3000);
+                anim.setRepeatCount(0);
+                anim.setFillAfter(true);
+                introVidOverlayLand.startAnimation(anim);
+                return false;
             }
-        });*/
+        });
+
+
+        introExitCross.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                playbackReady = false;
+                if (mSimpleExoPlayer != null) {
+                    mSimpleExoPlayer.setPlayWhenReady(playbackReady);
+                }
+                ((MainActivity) getActivity()).onBackPressed();
+            }
+        });
+
+        introPauseBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                playbackReady = !playbackReady;
+                if (mSimpleExoPlayer != null) {
+                    mSimpleExoPlayer.setPlayWhenReady(playbackReady);
+                }
+                togglePlayPause();
+            }
+        });
+
+        introPlayBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                playbackReady = !playbackReady;
+                if (mSimpleExoPlayer != null) {
+                    mSimpleExoPlayer.setPlayWhenReady(playbackReady);
+                }
+                togglePlayPause();
+            }
+        });
     }
 
-    public void togglePlayPause(){
-        if(isIntro){
+    public void togglePlayPause() {
+        if (isIntro) {
             if (!playbackReady) {
                 introPlayBtn.setVisibility(View.VISIBLE);
                 introPauseBtn.setVisibility(View.GONE);
@@ -492,17 +471,6 @@ public class VideoFragment extends Fragment {
     public void onResume() {
         super.onResume();
         passShowPlayObj(mShowPlay);
-    }
-
-
-    //TODO: do i need this?
-    @Override
-    public void onStop() {
-        super.onStop();
-        releasePlayer();
-        if (mShowPlay != null) {
-            saveState();
-        }
     }
 
     @Override
