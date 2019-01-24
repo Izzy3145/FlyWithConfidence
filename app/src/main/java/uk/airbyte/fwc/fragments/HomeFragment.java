@@ -46,7 +46,9 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.Favourit
     @BindView(R.id.videoOverlayGroup)
     Group videoOverlayGroup;
     @BindView(R.id.recentsGroup)
-    Group recentsRvGroup;
+    Group recentsGroup;
+    @BindView(R.id.favouritesGroup)
+    Group favouritesGroup;
     @BindView(R.id.homeLayout)
     ConstraintLayout videoParent;
     @BindView(R.id.videoFragParent)
@@ -138,7 +140,6 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.Favourit
 
     private void setUpFavouritesAdapter() {
         realmFavourites = mModuleViewModel.getFavourites();
-        Log.d(TAG, "Realm favourites size: " + realmFavourites);
         mFavouritesRv.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this.getActivity(), LinearLayoutManager.HORIZONTAL, false);
         mFavouritesRv.setLayoutManager(mLayoutManager);
@@ -148,10 +149,8 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.Favourit
 
     private void setUpRecentsAdapter() {
         realmRecents = mModuleViewModel.getRecents();
-        Log.d(TAG, "Realm recents size: " + realmRecents);
-
-        if (realmRecents != null) {
-            recentsRvGroup.setVisibility(View.VISIBLE);
+        if (realmRecents != null && realmRecents.size() > 0) {
+            recentsGroup.setVisibility(View.VISIBLE);
         }
         myRecentsRv.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this.getActivity(), LinearLayoutManager.HORIZONTAL, false);
@@ -245,10 +244,16 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.Favourit
         int currentOrientation = getResources().getConfiguration().orientation;
         if (currentOrientation == Configuration.ORIENTATION_LANDSCAPE) {
             // landscape!
+            recentsGroup.setVisibility(View.GONE);
+            favouritesGroup.setVisibility(View.GONE);
+            ((MainActivity) getActivity()).hideNavBar();
+
             ConstraintLayout.LayoutParams p = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT,
                     ConstraintLayout.LayoutParams.MATCH_PARENT);
             videoFragParent.setLayoutParams(p);
             videoFragParent.requestLayout();
+  ;
+
         } else {
             // portrait!
             ConstraintLayout.LayoutParams p = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT,
@@ -258,7 +263,6 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.Favourit
 
             ConstraintSet set = new ConstraintSet();
             set.clone(videoFragParent);
-
             set.connect(R.id.videoFragParent, ConstraintSet.END, R.id.homeLayout, ConstraintSet.END);
             set.connect(R.id.videoFragParent, ConstraintSet.START, R.id.homeLayout, ConstraintSet.START);
             set.connect(R.id.videoFragParent, ConstraintSet.TOP, R.id.homeLayout, ConstraintSet.TOP);
@@ -266,6 +270,9 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.Favourit
 
             watchNowBtn.setVisibility(View.VISIBLE);
             videoOverlayGroup.setVisibility(View.VISIBLE);
+            recentsGroup.setVisibility(View.VISIBLE);
+            favouritesGroup.setVisibility(View.VISIBLE);
+            ((MainActivity) getActivity()).showNavBar();
 
         }
     }

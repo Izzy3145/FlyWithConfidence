@@ -112,6 +112,10 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigation.setVisibility(View.GONE);
     }
 
+    public void showNavBar() {
+        bottomNavigation.setVisibility(View.VISIBLE);
+    }
+
     @Override
     public void onBackPressed() {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
