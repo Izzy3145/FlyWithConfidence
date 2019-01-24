@@ -2,6 +2,7 @@ package uk.airbyte.fwc.utils;
 
 public class Const {
     public static final String ACCESS_TOKEN = "User access token";
+    public static final String SIS_ACCESS_TOKEN = "Saved user access token";
     public static final String USER_ID = "Unique user id";
     public static final String MODULE_ID = "Module ID";
     public static final String FWC_WEBSITE = "http://flyingwithconfidence.com/courses";
@@ -11,6 +12,8 @@ public class Const {
     public static final String API_KNOWLEDGE = "knowledge";
     public static final String API_PREPARATION = "preparation";
     public static final String EDITING_STATUS = "Editing status";
+    public static final String SIS_DATA_RETRIEVED = "Saved data retrieved";
     public static final String DATA_RETRIEVED = "Data retrieved";
+
 
 }

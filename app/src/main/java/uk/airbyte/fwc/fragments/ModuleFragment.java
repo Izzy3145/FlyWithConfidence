@@ -57,7 +57,7 @@ public class ModuleFragment extends Fragment {
     @BindView(R.id.locked_module_title)
     TextView lockedModuleTitle;
     @BindView(R.id.locked_module_desc)
-    TextView lockedTopicDesc;
+    TextView lockedModuleDesc;
     @BindView(R.id.lockedCloseBtn)
     Button lockedCloseBtn;
     @BindView(R.id.unlockedModuleGroup)
@@ -68,6 +68,7 @@ public class ModuleFragment extends Fragment {
     private VideoViewModel mVideoViewModel;
     private ModuleViewModel mModuleViewModel;
     private Module mModule;
+    private Module nextModule;
     private ArrayList<Module> modulesInTopic = new ArrayList<>(0);
     private String topicID;
     private SpannableString spanString;
@@ -99,7 +100,6 @@ public class ModuleFragment extends Fragment {
 
         ((MainActivity) getActivity()).hideNavBar();
 
-
         getListOfModules();
         canView = mModule.getCanView();
         displayModuleInfo(mModule);
@@ -130,14 +130,17 @@ public class ModuleFragment extends Fragment {
                 public void onClick(View v) {
                     int displayNumber = Integer.parseInt(mModule.getDisplayOrder());
                     if (displayNumber < modulesInTopic.size()) {
-                        mModule = modulesInTopic.get((displayNumber));
                         mVideoViewModel.clearVideo();
-                        displayModuleInfo(mModule);
-                        favouriteButtonToggle();
+                        nextModule = modulesInTopic.get(displayNumber);
+                        Bundle bundle = new Bundle();
+                        bundle.putString(Const.MODULE_ID, nextModule.getId());
+                        Navigation.findNavController(getActivity(), R.id.my_nav_host_fragment).navigate(R.id.moduleFragment, bundle);
+
+                       // displayModuleInfo(mModule);
+                        //favouriteButtonToggle();
                     } else {
                         Toast.makeText(getActivity(), "No more modules in this topic!", Toast.LENGTH_SHORT).show();
                     }
-
                 }
             });
         } else {
@@ -151,7 +154,6 @@ public class ModuleFragment extends Fragment {
                     }
                 });
                 lockedCloseBtn.setOnClickListener(new View.OnClickListener(){
-
                     @Override
                     public void onClick(View v) {
                         Navigation.findNavController(getActivity(), R.id.my_nav_host_fragment)
@@ -201,11 +203,10 @@ public class ModuleFragment extends Fragment {
                 }
                 thingsToTv.setText(spanString);
             }
-
         } else {
             lockedTopicTitle.setText(module.getTopic().getName());
             lockedModuleTitle.setText(module.getName());
-            lockedTopicDesc.setText(module.getDescription());
+            lockedModuleDesc.setText(module.getDescription());
         }
     }
 

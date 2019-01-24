@@ -218,23 +218,18 @@ public class VideoFragment extends Fragment {
 //        foregroundBar.setVisibility(View.VISIBLE);
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             int userSelectedPosition = 0;
-
-
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
                 mUserIsSeeking = true;
                 timer.cancel();
                 // stopping videotick from being called or pause timer so moveBar doesn't get called
             }
-
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 if (fromUser) {
                     userSelectedPosition = progress;
                 }
             }
-
-
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 // start videotick again so moveBar proceeds
@@ -253,7 +248,6 @@ public class VideoFragment extends Fragment {
                         handler.post(updateBar);
                     }
                 };
-
                 timer = new Timer();
                 // play bar update interval
                 timer.scheduleAtFixedRate(progress, 0, 50);
@@ -387,10 +381,6 @@ public class VideoFragment extends Fragment {
         seekBar.setMax((int) seekBarWidth);
         seekBar.setProgress((int) (seekBarWidth * percent), true);
 
-
-//        float backWidth = backgroundBar.getWidth();
-//        foregroundBar.setTranslationX(-backWidth + ((int) (backWidth * percent)));
-//        playbackDot.setTranslationX(((int) (backWidth * percent)));
     }
 
     @Override

@@ -3,14 +3,10 @@ package uk.airbyte.fwc;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
-import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.support.design.widget.BottomNavigationView;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
 import androidx.navigation.NavController;
@@ -38,51 +34,50 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Log.d(TAG, "onCreate called");
 
         navHost = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.my_nav_host_fragment);
         navController = Navigation.findNavController(this, R.id.my_nav_host_fragment);
         bottomNavigation = (BottomNavigationView) findViewById(R.id.btm_navigation);
-
         mModuleViewModel = ViewModelProviders.of(this).get(ModuleViewModel.class);
 
-        sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        mAccessToken = sharedPref.getString(Const.ACCESS_TOKEN, "");
-        Log.d(TAG, "AccessToken from shared pref: " + mAccessToken);
-
-        if (savedInstanceState != null) {
-            dataRetrieved = savedInstanceState.getBoolean(Const.DATA_RETRIEVED);
+        if(savedInstanceState != null){
+            mAccessToken = savedInstanceState.getString(Const.SIS_ACCESS_TOKEN);
+            dataRetrieved = savedInstanceState.getBoolean(Const.SIS_DATA_RETRIEVED);
+        } else {
+            sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+            mAccessToken = sharedPref.getString(Const.ACCESS_TOKEN, "");
+            dataRetrieved = false;
         }
+
 
         if (mAccessToken != null && mAccessToken.length() > 0) {
             bottomNavigation.setVisibility(View.VISIBLE);
             NavigationUI.setupWithNavController(bottomNavigation, navController);
-            if (dataRetrieved = false) {
+            if (!dataRetrieved) {
                 mModuleViewModel.knowledgeTopicAndModuleCall(this, mAccessToken);
                 mModuleViewModel.preparationTopicAndModuleCall(this, mAccessToken);
                 dataRetrieved = true;
             }
-            //TODO: add progressBar
         } else {
-            dataRetrieved = false;
             navController.navigate(R.id.splash_fragment);
+            bottomNavigation.setVisibility(View.GONE);
         }
     }
 
     @Override
     public void onRestoreInstanceState(Bundle savedInstanceState) {
         if (savedInstanceState != null) {
-            dataRetrieved = savedInstanceState.getBoolean(Const.DATA_RETRIEVED);
+            dataRetrieved = savedInstanceState.getBoolean(Const.SIS_DATA_RETRIEVED);
+            mAccessToken = savedInstanceState.getString(Const.SIS_ACCESS_TOKEN);
         }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        Log.d(TAG, "onResume called");
 
         mAccessToken = sharedPref.getString(Const.ACCESS_TOKEN, "");
-        Log.d(TAG, "AccessToken from shared pref: " + mAccessToken);
+        dataRetrieved = sharedPref.getBoolean(Const.DATA_RETRIEVED, false);
 
         if (mAccessToken != null && mAccessToken.length() > 0) {
             bottomNavigation.setVisibility(View.VISIBLE);
@@ -92,10 +87,10 @@ public class MainActivity extends AppCompatActivity {
                 mModuleViewModel.preparationTopicAndModuleCall(this, mAccessToken);
                 dataRetrieved = true;
                 //TODO: add progressBar
-            } else {
-                dataRetrieved = false;
-                navController.navigate(R.id.splash_fragment);
             }
+        } else {
+            navController.navigate(R.id.splash_fragment);
+            bottomNavigation.setVisibility(View.GONE);
         }
     }
 
@@ -103,7 +98,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        Log.d(TAG, "onPause called");
+       // sharedPref.edit().putString(Const.ACCESS_TOKEN, mAccessToken).apply();
+        //sharedPref.edit().putBoolean(Const.DATA_RETRIEVED, dataRetrieved).apply();
     }
 
 
@@ -127,8 +123,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        if (dataRetrieved != null) {
-            outState.putBoolean(Const.DATA_RETRIEVED, dataRetrieved);
-        }
+        outState.putBoolean(Const.SIS_DATA_RETRIEVED, dataRetrieved);
+        outState.putString(Const.SIS_ACCESS_TOKEN, mAccessToken);
     }
 }
