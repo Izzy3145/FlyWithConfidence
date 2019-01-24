@@ -115,14 +115,13 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-
     </android.support.constraint.ConstraintLayout>
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/intro_vid_overlay_land"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -148,6 +147,43 @@
             android:layout_marginEnd="24dp"
             android:src="@drawable/ba_logo"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/intro_play_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/roundedwhitebutton"
+            android:drawableStart="@drawable/vid_play"
+            android:drawablePadding="2dp"
+            android:minWidth="120dp"
+            android:paddingStart="24dp"
+            android:paddingEnd="22dp"
+            android:text="@string/play"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toBottomOf="@id/intro_vid_overlay_land"
+            app:layout_constraintEnd_toEndOf="@id/intro_vid_overlay_land"
+            app:layout_constraintStart_toStartOf="@id/intro_vid_overlay_land"
+            app:layout_constraintTop_toTopOf="@+id/intro_vid_overlay_land" />
+
+        <Button
+            android:id="@+id/intro_pause_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/roundedwhitebutton"
+            android:drawableStart="@drawable/vid_pause"
+            android:drawablePadding="2dp"
+            android:minWidth="120dp"
+            android:paddingStart="24dp"
+            android:paddingEnd="22dp"
+            android:text="@string/pause"
+            android:textAlignment="center"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/intro_vid_overlay_land"
+            app:layout_constraintEnd_toEndOf="@id/intro_vid_overlay_land"
+            app:layout_constraintStart_toStartOf="@id/intro_vid_overlay_land"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView

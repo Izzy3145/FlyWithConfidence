@@ -79,7 +79,7 @@ public class ModulesAdapter extends RealmRecyclerViewAdapter<Module, ModulesAdap
             if(!mIsRecents) {
                 if(!module.getCanView()){
                     holder.mLockedOverlay.setVisibility(View.VISIBLE);
-                    holder.mFavouritesOverlay.setClipToOutline(true);
+                    holder.mLockedOverlay.setClipToOutline(true);
                 } else {
                     holder.mLockedOverlay.setVisibility(View.GONE);
                 }

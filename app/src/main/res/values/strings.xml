@@ -60,9 +60,11 @@
     <string name="play">PLAY</string>
     <string name="pause">PAUSE</string>
     <string name="done">Done</string>
-    <string name="edit">Edit</string>
     <string name="add_to_favourites">ADD TO FAVOURITES</string>
     <string name="remove_favourite">REMOVE FROM FAVOURITES</string>
+    <string name="edit">Edit</string>
+    <string name="recently_watched">RECENTLY WATCHED</string>
+    <string name="my_favourites">MY FAVOURITES</string>
 
 
 </resources>

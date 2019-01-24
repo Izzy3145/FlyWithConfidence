@@ -28,9 +28,28 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
+            <Button
+                android:id="@+id/home_intro_play_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/roundedwhitebutton"
+                android:drawableStart="@drawable/vid_play"
+                android:drawablePadding="2dp"
+                android:minWidth="120dp"
+                android:paddingStart="24dp"
+                android:paddingEnd="22dp"
+                android:text="@string/play"
+                android:textAlignment="center"
+                app:layout_constraintBottom_toBottomOf="@id/videoFragParent"
+                app:layout_constraintEnd_toEndOf="@id/videoFragParent"
+                app:layout_constraintHorizontal_bias="0.462"
+                app:layout_constraintStart_toStartOf="@id/videoFragParent"
+                app:layout_constraintTop_toTopOf="@+id/videoFragment" />
+
         </android.support.constraint.ConstraintLayout>
 
-        <android.support.constraint.ConstraintLayout
+        <!-- <android.support.constraint.ConstraintLayout
             android:id="@+id/video_overlay"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -55,12 +74,12 @@
                 android:id="@+id/welcome_title_land"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:paddingTop="16dp"
-                android:paddingBottom="8dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="2dp"
                 android:text="@string/welcome_aboard"
                 android:textAlignment="center"
                 android:textColor="@color/colorWhite"
-                android:textSize="18sp"
+                android:textSize="24sp"
                 app:layout_constraintBottom_toTopOf="@+id/welcome_desc_land"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -71,41 +90,63 @@
             <TextView
                 android:id="@+id/welcome_desc_land"
                 android:layout_width="0dp"
-                android:layout_height="55dp"
-                android:paddingTop="8dp"
-                android:paddingBottom="16dp"
+                android:layout_height="wrap_content"
+                android:paddingTop="2dp"
+                android:paddingBottom="12dp"
                 android:text="@string/an_introduction_to_fwc"
                 android:textAlignment="center"
                 android:textColor="@color/colorWhite"
                 android:textSize="14sp"
-                app:layout_constraintBottom_toTopOf="@+id/watchNowBtn"
+                app:layout_constraintBottom_toTopOf="@+id/intro_play_btn"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/welcome_title_land" />
 
+
             <Button
-                android:id="@+id/watchNowBtn"
+                android:id="@+id/intro_play_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/roundedwhitebutton"
+                android:minWidth="120dp"
                 android:drawableStart="@drawable/vid_play"
-                android:padding="8dp"
-                android:text="@string/watch_now"
+                android:drawablePadding="2dp"
+                android:paddingStart="24dp"
+                android:paddingEnd="22dp"
+                android:text="@string/play"
+                android:textAlignment="center"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/welcome_desc_land" />
 
-        </android.support.constraint.ConstraintLayout>
+            <Button
+                android:id="@+id/intro_pause_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/roundedwhitebutton"
+                android:minWidth="120dp"
+                android:drawableStart="@drawable/vid_pause"
+                android:drawablePadding="2dp"
+                android:paddingStart="24dp"
+                android:paddingEnd="22dp"
+                android:text="@string/play"
+                android:textAlignment="center"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/welcome_desc_land"
+                android:visibility="gone"/>
+
+        </android.support.constraint.ConstraintLayout> -->
 
         <TextView
             android:id="@+id/myFavouritesTv"
             android:layout_width="0dp"
             android:layout_height="49dp"
             android:padding="16dp"
-            android:text="MY FAVOURITES"
+            android:text="@string/my_favourites"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -130,7 +171,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:padding="16dp"
-            android:text="RECENTLY WATCHED"
+            android:text="@string/recently_watched"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -154,18 +195,18 @@
             android:visibility="gone"
             app:constraint_referenced_ids="myRecentsTv,myRecentsRv" />
 
-        <android.support.constraint.Group
+       <!-- <android.support.constraint.Group
             android:id="@+id/videoOverlayGroup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:constraint_referenced_ids="video_overlay" />
+            app:constraint_referenced_ids="video_overlay" /> -->
 
         <Button
             android:id="@+id/edit_fav_button"
             android:layout_width="86dp"
             android:layout_height="wrap_content"
             android:background="@null"
-            android:text="Edit"
+            android:text="@string/edit"
             android:textAllCaps="false"
             android:textColor="@color/darker_grey"
             app:layout_constraintBottom_toBottomOf="@+id/myFavouritesTv"

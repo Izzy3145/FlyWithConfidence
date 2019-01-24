@@ -17,6 +17,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 
@@ -61,6 +62,8 @@ public class VideoFragment extends Fragment {
     ImageView vidFullScreen;
     @BindView(R.id.exit_cross)
     ImageView exitCross;
+    @BindView(R.id.intro_exit_cross)
+    ImageView introExitCross;
     @BindView(R.id.vid_fav_off)
     ImageView favBtnOff;
     @BindView(R.id.vid_fav_on)
@@ -69,10 +72,16 @@ public class VideoFragment extends Fragment {
     ImageView playBtn;
     @BindView(R.id.pauseBtn)
     ImageView pauseBtn;
+    @BindView(R.id.intro_play_btn)
+    Button introPlayBtn;
+    @BindView(R.id.intro_pause_btn)
+    Button introPauseBtn;
     @BindView(R.id.parentVideoView)
     ConstraintLayout parentVideoView;
     @BindView(R.id.module_vid_overlay)
-    ConstraintLayout videoOverlayLayout;
+    ConstraintLayout moduleVidOverlay;
+    @BindView(R.id.intro_vid_overlay_land)
+    ConstraintLayout introVidOverlayLand;
 
     private boolean playbackReady = true;
     private SimpleExoPlayer mSimpleExoPlayer;
@@ -81,6 +90,7 @@ public class VideoFragment extends Fragment {
     @Nullable
     private ShowPlay mShowPlay;
     private Boolean isFavourite;
+    private Boolean isIntro;
     private Timer timer;
     private boolean mUserIsSeeking;
 
@@ -111,6 +121,22 @@ public class VideoFragment extends Fragment {
         super.onCreate(savedInstanceState);
         mVideoViewModel = ViewModelProviders.of(getActivity()).get(VideoViewModel.class);
         mModuleViewModel = ViewModelProviders.of(getActivity()).get(ModuleViewModel.class);
+        mVideoViewModel = ViewModelProviders.of(getActivity()).get(VideoViewModel.class);
+        mVideoViewModel.getSelected().observe(this, new Observer<ShowPlay>() {
+            @Override
+            public void onChanged(@Nullable ShowPlay showPlay) {
+                if (mShowPlay != null) {
+                    saveState();
+                }
+                mShowPlay = showPlay;
+                passShowPlayObj(mShowPlay);
+
+                if(mShowPlay!=null && !mShowPlay.isIntro()) {
+                    isFavourite = mModuleViewModel.getFavouritedStatus(mShowPlay.getModuleID());
+                    setFavBtn(isFavourite);
+                }
+            }
+        });
     }
 
     //TODO: change error image
@@ -133,86 +159,135 @@ public class VideoFragment extends Fragment {
         parentVideoView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                videoOverlayLayout.setBackgroundColor(getResources().getColor(R.color.trans_grey));
-                videoOverlayLayout.setVisibility(View.VISIBLE);
-                togglePlayPause();
-                AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);
-                anim.setDuration(3000);
-                anim.setRepeatCount(0);
-                anim.setFillAfter(true);
-                videoOverlayLayout.startAnimation(anim);
+                if(isIntro != null && isIntro){
+                    introVidOverlayLand.setBackgroundColor(getResources().getColor(R.color.trans_grey));
+                    introVidOverlayLand.setVisibility(View.VISIBLE);
+                    togglePlayPause();
+                    AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);
+                    anim.setDuration(3000);
+                    anim.setRepeatCount(0);
+                    anim.setFillAfter(true);
+                    introVidOverlayLand.startAnimation(anim);
+                } else {
+                    moduleVidOverlay.setBackgroundColor(getResources().getColor(R.color.trans_grey));
+                    moduleVidOverlay.setVisibility(View.VISIBLE);
+                    togglePlayPause();
+                    AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);
+                    anim.setDuration(3000);
+                    anim.setRepeatCount(0);
+                    anim.setFillAfter(true);
+                    moduleVidOverlay.startAnimation(anim);
+                }
                 return false;
             }
         });
 
-
-        playBtn.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                playbackReady = !playbackReady;
-                if (mSimpleExoPlayer != null) {
-                    mSimpleExoPlayer.setPlayWhenReady(!playbackReady);
+        if(isIntro != null && isIntro){
+            introPlayBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    playbackReady = !playbackReady;
+                    if (mSimpleExoPlayer != null) {
+                        mSimpleExoPlayer.setPlayWhenReady(!playbackReady);
+                    }
+                    togglePlayPause();
                 }
-                togglePlayPause();
-            }
-        });
-
-        pauseBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                playbackReady = !playbackReady;
-                if (mSimpleExoPlayer != null) {
-                    mSimpleExoPlayer.setPlayWhenReady(!playbackReady);
+            });
+        } else {
+            playBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    playbackReady = !playbackReady;
+                    if (mSimpleExoPlayer != null) {
+                        mSimpleExoPlayer.setPlayWhenReady(!playbackReady);
+                    }
+                    togglePlayPause();
                 }
-                togglePlayPause();
-            }
-        });
+            });
+        }
 
-        vidFullScreen.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((MainActivity) getActivity()).hideNavBarAndLandscape();
-            }
-        });
+        if(isIntro != null && isIntro){
+            introPauseBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    playbackReady = !playbackReady;
+                    if (mSimpleExoPlayer != null) {
+                        mSimpleExoPlayer.setPlayWhenReady(!playbackReady);
+                    }
+                    togglePlayPause();
+                }
+            });
+        } else {
+            pauseBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    playbackReady = !playbackReady;
+                    if (mSimpleExoPlayer != null) {
+                        mSimpleExoPlayer.setPlayWhenReady(!playbackReady);
+                    }
+                    togglePlayPause();
+                }
+            });
+        }
 
-        exitCross.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int currentOrientation = getResources().getConfiguration().orientation;
-                if (currentOrientation == Configuration.ORIENTATION_LANDSCAPE) {
+        if(isIntro != null && !isIntro) {
+            vidFullScreen.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ((MainActivity) getActivity()).hideNavBarAndLandscape();
+                }
+            });
+        }
+
+        if(isIntro != null && isIntro){
+            introExitCross.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v) {
                     ((MainActivity) getActivity()).onBackPressed();
-                } else {
-                    Navigation.findNavController(getActivity(), R.id.my_nav_host_fragment)
-                            .popBackStack();
                 }
-            }
-        });
+            });
+        } else {
+            exitCross.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int currentOrientation = getResources().getConfiguration().orientation;
+                    if (currentOrientation == Configuration.ORIENTATION_LANDSCAPE) {
+                        ((MainActivity) getActivity()).onBackPressed();
+                    } else {
+                        Navigation.findNavController(getActivity(), R.id.my_nav_host_fragment)
+                                .popBackStack();
+                    }
+                }
+            });
+        }
 
-        favBtnOn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (isFavourite) {
-                    isFavourite = false;
-                } else {
-                    isFavourite = true;
+        if(isIntro != null && !isIntro) {
+            favBtnOn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (isFavourite) {
+                        isFavourite = false;
+                    } else {
+                        isFavourite = true;
+                    }
+                    mModuleViewModel.setFavouriteStatus(isFavourite, mShowPlay.getModuleID());
+                    setFavBtn(isFavourite);
                 }
-                mModuleViewModel.setFavouriteStatus(isFavourite, mShowPlay.getModuleID());
-                setFavBtn(isFavourite);
-            }
-        });
+            });
 
-        favBtnOff.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (isFavourite) {
-                    isFavourite = false;
-                } else {
-                    isFavourite = true;
+            favBtnOff.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (isFavourite) {
+                        isFavourite = false;
+                    } else {
+                        isFavourite = true;
+                    }
+                    mModuleViewModel.setFavouriteStatus(isFavourite, mShowPlay.getModuleID());
+                    setFavBtn(isFavourite);
                 }
-                mModuleViewModel.setFavouriteStatus(isFavourite, mShowPlay.getModuleID());
-                setFavBtn(isFavourite);
-            }
-        });
+            });
+        }
 
         moveBar(0);
 //        foregroundBar.setVisibility(View.VISIBLE);
@@ -259,7 +334,7 @@ public class VideoFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mVideoViewModel = ViewModelProviders.of(getActivity()).get(VideoViewModel.class);
+        /*mVideoViewModel = ViewModelProviders.of(getActivity()).get(VideoViewModel.class);
         mVideoViewModel.getSelected().observe(this, new Observer<ShowPlay>() {
             @Override
             public void onChanged(@Nullable ShowPlay showPlay) {
@@ -274,26 +349,46 @@ public class VideoFragment extends Fragment {
                     setFavBtn(isFavourite);
                 }
             }
-        });
+        });*/
     }
 
     public void togglePlayPause(){
-        if(!playbackReady){
-            playBtn.setVisibility(View.VISIBLE);
-            pauseBtn.setVisibility(View.GONE);
-            AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);
-            anim.setDuration(3000);
-            anim.setRepeatCount(0);
-            anim.setFillAfter(true);
-            playBtn.startAnimation(anim);
+        if(isIntro){
+            if (!playbackReady) {
+                introPlayBtn.setVisibility(View.VISIBLE);
+                introPauseBtn.setVisibility(View.GONE);
+                AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);
+                anim.setDuration(3000);
+                anim.setRepeatCount(0);
+                anim.setFillAfter(true);
+                introPlayBtn.startAnimation(anim);
+            } else {
+                introPlayBtn.setVisibility(View.GONE);
+                introPauseBtn.setVisibility(View.VISIBLE);
+                AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);
+                anim.setDuration(3000);
+                anim.setRepeatCount(0);
+                anim.setFillAfter(true);
+                introPauseBtn.startAnimation(anim);
+            }
         } else {
-            playBtn.setVisibility(View.GONE);
-            pauseBtn.setVisibility(View.VISIBLE);
-            AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);
-            anim.setDuration(3000);
-            anim.setRepeatCount(0);
-            anim.setFillAfter(true);
-            pauseBtn.startAnimation(anim);
+            if (!playbackReady) {
+                playBtn.setVisibility(View.VISIBLE);
+                pauseBtn.setVisibility(View.GONE);
+                AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);
+                anim.setDuration(3000);
+                anim.setRepeatCount(0);
+                anim.setFillAfter(true);
+                playBtn.startAnimation(anim);
+            } else {
+                playBtn.setVisibility(View.GONE);
+                pauseBtn.setVisibility(View.VISIBLE);
+                AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);
+                anim.setDuration(3000);
+                anim.setRepeatCount(0);
+                anim.setFillAfter(true);
+                pauseBtn.startAnimation(anim);
+            }
         }
     }
 
@@ -308,11 +403,13 @@ public class VideoFragment extends Fragment {
     }
 
     private void passShowPlayObj(ShowPlay showPlay) {
-        if (showPlay == null) {
-            videoOrImageDisplay(null, null, null, 0, 0);
-        } else {
+        if (showPlay != null) {
+            isIntro = showPlay.isIntro();
             videoOrImageDisplay(showPlay.getImage(), showPlay.getThumbnail(), showPlay.getVideoUrl(),
                     showPlay.getCurrentWindow(), showPlay.getPlayerPosition());
+        } else {
+            isIntro = false;
+            videoOrImageDisplay(null, null, null, 0, 0);
         }
     }
 
@@ -368,9 +465,7 @@ public class VideoFragment extends Fragment {
                 handler.post(updateBar);
             }
         };
-
         timer = new Timer();
-
         // play bar update interval
         timer.scheduleAtFixedRate(progress, 0, 50);
         //every 50ms, call VideoTick to move the progress bar

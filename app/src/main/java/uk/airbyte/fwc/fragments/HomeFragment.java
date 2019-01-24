@@ -13,10 +13,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
 import android.widget.Button;
 
 import androidx.navigation.Navigation;
@@ -41,10 +42,12 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.Favourit
     RecyclerView mFavouritesRv;
     @BindView(R.id.myRecentsRv)
     RecyclerView myRecentsRv;
-    @BindView(R.id.watchNowBtn)
-    Button watchNowBtn;
-    @BindView(R.id.videoOverlayGroup)
-    Group videoOverlayGroup;
+    @BindView(R.id.home_intro_play_btn)
+    Button introPlayBtn;
+    ///@BindView(R.id.intro_pause_btn)
+   // Button introPauseBtn;
+    //@BindView(R.id.videoOverlayGroup)
+    //Group videoOverlayGroup;
     @BindView(R.id.recentsGroup)
     Group recentsGroup;
     @BindView(R.id.favouritesGroup)
@@ -95,12 +98,17 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.Favourit
         View view = inflater.inflate(R.layout.home_fragment, container, false);
         ButterKnife.bind(this, view);
 
-        watchNowBtn.setOnClickListener(new View.OnClickListener() {
+        introPlayBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 videoSelected = "asset:///intro.mp4";
-                watchNowBtn.setVisibility(View.GONE);
-                videoOverlayGroup.setVisibility(View.GONE);
+                introPlayBtn.setVisibility(View.GONE);
+                /*introPauseBtn.setVisibility(View.VISIBLE);
+                AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);
+                anim.setDuration(3000);
+                anim.setRepeatCount(0);
+                anim.setFillAfter(true);
+                videoOverlayGroup.startAnimation(anim);*/
                 mVideoViewModel.select(new ShowPlay(null, null, null,
                         videoSelected, 0, 0, true));
                 ((MainActivity) getActivity()).hideNavBarAndLandscape();
@@ -252,6 +260,14 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.Favourit
                     ConstraintLayout.LayoutParams.MATCH_PARENT);
             videoFragParent.setLayoutParams(p);
             videoFragParent.requestLayout();
+
+            videoFragParent.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+          //          videoOverlayGroup.setVisibility(View.VISIBLE);
+                    return false;
+                }
+            });
   ;
 
         } else {
@@ -268,8 +284,8 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.Favourit
             set.connect(R.id.videoFragParent, ConstraintSet.TOP, R.id.homeLayout, ConstraintSet.TOP);
             set.applyTo(videoFragParent);
 
-            watchNowBtn.setVisibility(View.VISIBLE);
-            videoOverlayGroup.setVisibility(View.VISIBLE);
+            introPlayBtn.setVisibility(View.VISIBLE);
+         //   videoOverlayGroup.setVisibility(View.VISIBLE);
             recentsGroup.setVisibility(View.VISIBLE);
             favouritesGroup.setVisibility(View.VISIBLE);
             ((MainActivity) getActivity()).showNavBar();
