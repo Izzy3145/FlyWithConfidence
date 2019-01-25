@@ -22,6 +22,7 @@ import android.view.animation.AlphaAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SeekBar;
+import android.widget.TextView;
 
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.ExoPlayerFactory;
@@ -85,6 +86,11 @@ public class VideoFragment extends Fragment {
     ConstraintLayout moduleVidOverlay;
     @BindView(R.id.intro_vid_overlay_land)
     ConstraintLayout introVidOverlayLand;
+    @BindView(R.id.welcome_desc_land)
+    TextView welcomeDescription;
+    @BindView(R.id.welcome_title_land)
+    TextView welcomeTitle;
+
     float currentPercent = 0f;
     private boolean playbackReady = true;
     private SimpleExoPlayer mSimpleExoPlayer;
@@ -241,6 +247,8 @@ public class VideoFragment extends Fragment {
                 } else {
                     Navigation.findNavController(getActivity(), R.id.my_nav_host_fragment)
                             .popBackStack();
+                    ((MainActivity) getActivity()).showNavBar();
+
                 }
             }
         });
@@ -315,13 +323,20 @@ public class VideoFragment extends Fragment {
         moduleVidOverlay.setVisibility(View.GONE);
 
         introVidOverlayLand.setBackgroundColor(getResources().getColor(R.color.trans_grey));
+        togglePlayPause();
         introVidOverlayLand.setVisibility(View.VISIBLE);
+        AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);
+        anim.setDuration(3000);
+        anim.setRepeatCount(0);
+        anim.setFillAfter(true);
+        introVidOverlayLand.startAnimation(anim);
 
-        /*parentVideoView.setOnTouchListener(new View.OnTouchListener() {
+        parentVideoView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-
+                introVidOverlayLand.setBackgroundColor(getResources().getColor(R.color.trans_grey));
                 togglePlayPause();
+                introVidOverlayLand.setVisibility(View.VISIBLE);
                 AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);
                 anim.setDuration(3000);
                 anim.setRepeatCount(0);
@@ -329,7 +344,7 @@ public class VideoFragment extends Fragment {
                 introVidOverlayLand.startAnimation(anim);
                 return false;
             }
-        });*/
+        });
 
         introExitCross.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -339,6 +354,11 @@ public class VideoFragment extends Fragment {
                     mSimpleExoPlayer.setPlayWhenReady(playbackReady);
                     introVidPosition = mSimpleExoPlayer.getCurrentPosition();
                 }
+
+                introVidOverlayLand.setVisibility(View.GONE);
+                parentVideoView.setOnTouchListener(null);
+
+
                 ((MainActivity) getActivity()).onBackPressed();
             }
         });
@@ -363,6 +383,8 @@ public class VideoFragment extends Fragment {
                     mSimpleExoPlayer.setPlayWhenReady(playbackReady);
                     mSimpleExoPlayer.seekTo(introVidPosition);
                 }
+                ((MainActivity) getActivity()).hideNavBarAndLandscape();
+
                 togglePlayPause();
             }
         });

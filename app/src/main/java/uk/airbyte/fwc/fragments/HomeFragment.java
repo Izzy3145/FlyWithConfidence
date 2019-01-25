@@ -15,6 +15,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,6 +58,8 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.Favourit
     ConstraintLayout videoParent;
     @BindView(R.id.videoFragParent)
     ConstraintLayout videoFragParent;
+    @BindView(R.id.video_overlay)
+    ConstraintLayout videoOverlay;
     @BindView(R.id.edit_fav_button)
     Button editFavButton;
 
@@ -108,17 +111,18 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.Favourit
             @Override
             public void onClick(View v) {
                 videoSelected = "asset:///intro.mp4";
-                //homeWatchBtn.setVisibility(View.GONE);
-                //homeWatchBtn.setVisibility(View.VISIBLE);
-                homeWatchBtn.setText(getString(R.string.pause));
+                homeWatchBtn.setText(getString(R.string.play));
                 AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);
                 anim.setDuration(3000);
                 anim.setRepeatCount(0);
                 anim.setFillAfter(true);
                 homeWatchBtn.startAnimation(anim);
+                videoOverlay.setVisibility(View.GONE);
                 mVideoViewModel.select(new ShowPlay(null, null, null,
                         videoSelected, 0, 0, true));
+
                 sharedPref.edit().putBoolean(Const.INTRO_VID_PLAYED, true).apply();
+                introVidPlayed = true;
                 ((MainActivity) getActivity()).hideNavBarAndLandscape();
             }
         });
@@ -226,14 +230,13 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.Favourit
     @Override
     public void onResume() {
         super.onResume();
+        Log.d(TAG, "onResume() called **");
+
         selectedModuleID = "";
         setUpFavouritesAdapter();
         setUpRecentsAdapter();
         mModuleViewModel.onResume();
-        introVidPlayed = sharedPref.getBoolean(Const.INTRO_VID_PLAYED, false);
-        if(introVidPlayed){
-            homeWatchBtn.setVisibility(View.GONE);
-        }
+
     }
 
     @Override
@@ -286,11 +289,11 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.Favourit
             set.connect(R.id.videoFragParent, ConstraintSet.START, R.id.homeLayout, ConstraintSet.START);
             set.connect(R.id.videoFragParent, ConstraintSet.TOP, R.id.homeLayout, ConstraintSet.TOP);
             set.applyTo(videoFragParent);
-
-            homeWatchBtn.setVisibility(View.VISIBLE);
-         //   videoOverlayGroup.setVisibility(View.VISIBLE);
             recentsGroup.setVisibility(View.VISIBLE);
             favouritesGroup.setVisibility(View.VISIBLE);
+            videoOverlay.setVisibility(View.VISIBLE);
+            homeWatchBtn.setVisibility(View.VISIBLE);
+
             ((MainActivity) getActivity()).showNavBar();
 
         }

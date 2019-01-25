@@ -119,15 +119,11 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (navHost.getNavController().getCurrentDestination().getId() == R.id.homeFragment) {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-            bottomNavigation.setVisibility(View.VISIBLE);
-        } else {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-            bottomNavigation.setVisibility(View.VISIBLE);
-            Navigation.findNavController(this, R.id.my_nav_host_fragment)
-                    .popBackStack();
-        }
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        Navigation.findNavController(this, R.id.my_nav_host_fragment)
+                .popBackStack();
+        bottomNavigation.setVisibility(View.VISIBLE);
+
     }
 
     @Override

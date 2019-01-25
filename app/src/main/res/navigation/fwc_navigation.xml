@@ -73,8 +73,8 @@
             android:id="@+id/action_topicsFragment_to_moduleFragment"
             app:destination="@id/moduleFragment"
             app:launchSingleTop="true"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
             app:popUpTo="@+id/topicsFragment" />
     </fragment>
     <fragment
