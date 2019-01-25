@@ -59,26 +59,38 @@ public class FavouritesAdapter extends RealmRecyclerViewAdapter<Module, Favourit
             final int adapterPosition = holder.getAdapterPosition();
             final Module module = getItem(position);
             //final Module module = mListOfModules.get(position);
-            holder.mVideoTitle.setText(module.getName());
-            holder.mVideoThumbnail.setClipToOutline(true);
-            Picasso.get()
-                    .load(module.getMedia().getThumbnail())
-                    .placeholder(R.drawable.captain_placeholder)
-                    .error(R.drawable.captain)
-                    .resize(160, 90)
-                    .centerCrop()
-                    .into(holder.mVideoThumbnail);
+            if(module != null) {
+                holder.mVideoTitle.setText(module.getName());
+                holder.mVideoThumbnail.setClipToOutline(true);
+                Picasso.get()
+                        .load(module.getMedia().getThumbnail())
+                        .placeholder(R.drawable.captain_placeholder)
+                        .error(R.drawable.captain)
+                        .resize(160, 90)
+                        .centerCrop()
+                        .into(holder.mVideoThumbnail);
 
-            if (mEditing == 0) {
-                holder.mDeleteFavBtn.setVisibility(View.GONE);
+                if (mEditing == 0) {
+                    holder.mDeleteFavBtn.setVisibility(View.GONE);
+                } else {
+                    holder.mDeleteFavBtn.setVisibility(View.VISIBLE);
+                    holder.mDeleteFavBtn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            mClickHandler.onClickFavDeleteMethod(module, adapterPosition);
+                        }
+                    });
+                }
             } else {
-                holder.mDeleteFavBtn.setVisibility(View.VISIBLE);
-                holder.mDeleteFavBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        mClickHandler.onClickFavDeleteMethod(module, adapterPosition);
-                    }
-                });
+                holder.mVideoTitle.setText("");
+                holder.mVideoThumbnail.setClipToOutline(true);
+                Picasso.get()
+                        .load(R.drawable.artboard)
+                        .placeholder(R.drawable.artboard)
+                        .error(R.drawable.captain)
+                        .resize(160, 90)
+                        .centerCrop()
+                        .into(holder.mVideoThumbnail);
             }
         } catch (IndexOutOfBoundsException e) {
             holder.mVideoTitle.setText("");
@@ -118,8 +130,21 @@ public class FavouritesAdapter extends RealmRecyclerViewAdapter<Module, Favourit
         public void onClick(View view) {
             Module module;
             int adapterPosition = getAdapterPosition();
-            module = mModules.get(adapterPosition);
-            mClickHandler.onClickFavMethod(module, adapterPosition);
+            try {
+                module = mModules.get(adapterPosition);
+                mClickHandler.onClickFavMethod(module, adapterPosition);
+            } catch (IndexOutOfBoundsException e){
+                Log.d(TAG, "Index out of bounds exception: " + e);
+            }
+        }
+    }
+
+    @Override
+    public int getItemCount() {
+        if (mModules.size() < 5){
+            return 5;
+        } else {
+            return mModules.size();
         }
     }
 }

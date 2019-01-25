@@ -14,6 +14,7 @@ import androidx.navigation.NavHost;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
+import uk.airbyte.fwc.fragments.HomeFragment;
 import uk.airbyte.fwc.utils.Const;
 import uk.airbyte.fwc.viewmodels.ModuleViewModel;
 
@@ -40,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigation = (BottomNavigationView) findViewById(R.id.btm_navigation);
         mModuleViewModel = ViewModelProviders.of(this).get(ModuleViewModel.class);
 
-        if(savedInstanceState != null){
+        if (savedInstanceState != null) {
             mAccessToken = savedInstanceState.getString(Const.SIS_ACCESS_TOKEN);
             dataRetrieved = savedInstanceState.getBoolean(Const.SIS_DATA_RETRIEVED);
         } else {
@@ -98,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-       // sharedPref.edit().putString(Const.ACCESS_TOKEN, mAccessToken).apply();
+        // sharedPref.edit().putString(Const.ACCESS_TOKEN, mAccessToken).apply();
         //sharedPref.edit().putBoolean(Const.DATA_RETRIEVED, dataRetrieved).apply();
     }
 
@@ -118,10 +119,15 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        bottomNavigation.setVisibility(View.VISIBLE);
-        Navigation.findNavController(this, R.id.my_nav_host_fragment)
-                .popBackStack();
+        if (navHost.getNavController().getCurrentDestination().getId() == R.id.homeFragment) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+            bottomNavigation.setVisibility(View.VISIBLE);
+        } else {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+            bottomNavigation.setVisibility(View.VISIBLE);
+            Navigation.findNavController(this, R.id.my_nav_host_fragment)
+                    .popBackStack();
+        }
     }
 
     @Override

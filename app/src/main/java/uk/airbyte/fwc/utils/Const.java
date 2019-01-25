@@ -14,6 +14,10 @@ public class Const {
     public static final String EDITING_STATUS = "Editing status";
     public static final String SIS_DATA_RETRIEVED = "Saved data retrieved";
     public static final String DATA_RETRIEVED = "Data retrieved";
+    public static final String INTRO_VID_PLAYED = "Intro vid played";
+    public static final String IS_INTRO_VID = "Is Intro vid";
+
+
 
 
 }

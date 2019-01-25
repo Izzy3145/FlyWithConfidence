@@ -9,9 +9,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -44,6 +46,7 @@ import butterknife.ButterKnife;
 import uk.airbyte.fwc.MainActivity;
 import uk.airbyte.fwc.R;
 import uk.airbyte.fwc.model.ShowPlay;
+import uk.airbyte.fwc.utils.Const;
 import uk.airbyte.fwc.viewmodels.ModuleViewModel;
 import uk.airbyte.fwc.viewmodels.VideoViewModel;
 
@@ -97,6 +100,7 @@ public class VideoFragment extends Fragment {
             }
         }
     };
+    private long introVidPosition = 0;
     private VideoViewModel mVideoViewModel;
     private ModuleViewModel mModuleViewModel;
     @Nullable
@@ -132,10 +136,15 @@ public class VideoFragment extends Fragment {
                     setFavBtn(isFavourite);
                 }
                 if (mShowPlay != null && mShowPlay.isIntro()) {
+                    isIntro = true;
                     setUpIntroVidUI();
                 }
             }
         });
+
+        if(savedInstanceState != null){
+            isIntro = savedInstanceState.getBoolean(Const.IS_INTRO_VID);
+        }
     }
 
     //TODO: change error image
@@ -155,20 +164,44 @@ public class VideoFragment extends Fragment {
         playBtn.setColorFilter(whiteColor, PorterDuff.Mode.SRC_ATOP);
         pauseBtn.setColorFilter(whiteColor, PorterDuff.Mode.SRC_ATOP);
 
-        parentVideoView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                moduleVidOverlay.setBackgroundColor(getResources().getColor(R.color.trans_grey));
-                moduleVidOverlay.setVisibility(View.VISIBLE);
-                togglePlayPause();
-                AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);
-                anim.setDuration(3000);
-                anim.setRepeatCount(0);
-                anim.setFillAfter(true);
-                moduleVidOverlay.startAnimation(anim);
-                return false;
-            }
-        });
+        Log.d(TAG, " passing through onCreateView()");
+
+        if(isIntro != null && isIntro){
+            introVidOverlayLand.setBackgroundColor(getResources().getColor(R.color.trans_grey));
+            introVidOverlayLand.setVisibility(View.VISIBLE);
+            togglePlayPause();
+
+            /*parentVideoView.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    introVidOverlayLand.setBackgroundColor(getResources().getColor(R.color.trans_grey));
+                    introVidOverlayLand.setVisibility(View.VISIBLE);
+                    togglePlayPause();
+                    AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);
+                    anim.setDuration(3000);
+                    anim.setRepeatCount(0);
+                    anim.setFillAfter(true);
+                    introVidOverlayLand.startAnimation(anim);
+                    return false;
+                }
+            });*/
+        } else {
+
+            parentVideoView.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    moduleVidOverlay.setBackgroundColor(getResources().getColor(R.color.trans_grey));
+                    moduleVidOverlay.setVisibility(View.VISIBLE);
+                    togglePlayPause();
+                    AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);
+                    anim.setDuration(3000);
+                    anim.setRepeatCount(0);
+                    anim.setFillAfter(true);
+                    moduleVidOverlay.startAnimation(anim);
+                    return false;
+                }
+            });
+        }
 
         playBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -281,11 +314,13 @@ public class VideoFragment extends Fragment {
     private void setUpIntroVidUI() {
         moduleVidOverlay.setVisibility(View.GONE);
 
-        parentVideoView.setOnTouchListener(new View.OnTouchListener() {
+        introVidOverlayLand.setBackgroundColor(getResources().getColor(R.color.trans_grey));
+        introVidOverlayLand.setVisibility(View.VISIBLE);
+
+        /*parentVideoView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                introVidOverlayLand.setBackgroundColor(getResources().getColor(R.color.trans_grey));
-                introVidOverlayLand.setVisibility(View.VISIBLE);
+
                 togglePlayPause();
                 AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);
                 anim.setDuration(3000);
@@ -294,8 +329,7 @@ public class VideoFragment extends Fragment {
                 introVidOverlayLand.startAnimation(anim);
                 return false;
             }
-        });
-
+        });*/
 
         introExitCross.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -303,6 +337,7 @@ public class VideoFragment extends Fragment {
                 playbackReady = false;
                 if (mSimpleExoPlayer != null) {
                     mSimpleExoPlayer.setPlayWhenReady(playbackReady);
+                    introVidPosition = mSimpleExoPlayer.getCurrentPosition();
                 }
                 ((MainActivity) getActivity()).onBackPressed();
             }
@@ -314,6 +349,7 @@ public class VideoFragment extends Fragment {
                 playbackReady = !playbackReady;
                 if (mSimpleExoPlayer != null) {
                     mSimpleExoPlayer.setPlayWhenReady(playbackReady);
+                    introVidPosition = mSimpleExoPlayer.getCurrentPosition();
                 }
                 togglePlayPause();
             }
@@ -325,6 +361,7 @@ public class VideoFragment extends Fragment {
                 playbackReady = !playbackReady;
                 if (mSimpleExoPlayer != null) {
                     mSimpleExoPlayer.setPlayWhenReady(playbackReady);
+                    mSimpleExoPlayer.seekTo(introVidPosition);
                 }
                 togglePlayPause();
             }
@@ -378,6 +415,14 @@ public class VideoFragment extends Fragment {
         } else {
             favBtnOff.setVisibility(View.VISIBLE);
             favBtnOn.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if(isIntro != null){
+            outState.putBoolean(Const.IS_INTRO_VID, isIntro);
         }
     }
 
@@ -471,6 +516,9 @@ public class VideoFragment extends Fragment {
     public void onResume() {
         super.onResume();
         passShowPlayObj(mShowPlay);
+        if(isIntro){
+            setUpIntroVidUI();
+        }
     }
 
     @Override
