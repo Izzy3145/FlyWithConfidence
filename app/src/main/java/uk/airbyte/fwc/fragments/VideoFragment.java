@@ -177,20 +177,6 @@ public class VideoFragment extends Fragment {
             introVidOverlayLand.setVisibility(View.VISIBLE);
             togglePlayPause();
 
-            /*parentVideoView.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    introVidOverlayLand.setBackgroundColor(getResources().getColor(R.color.trans_grey));
-                    introVidOverlayLand.setVisibility(View.VISIBLE);
-                    togglePlayPause();
-                    AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);
-                    anim.setDuration(3000);
-                    anim.setRepeatCount(0);
-                    anim.setFillAfter(true);
-                    introVidOverlayLand.startAnimation(anim);
-                    return false;
-                }
-            });*/
         } else {
 
             parentVideoView.setOnTouchListener(new View.OnTouchListener() {
@@ -392,8 +378,8 @@ public class VideoFragment extends Fragment {
     public void togglePlayPause() {
         if (isIntro) {
             if (!playbackReady) {
-                introPlayBtn.setVisibility(View.VISIBLE);
                 introPauseBtn.setVisibility(View.GONE);
+                introPlayBtn.setVisibility(View.VISIBLE);
                 AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);
                 anim.setDuration(3000);
                 anim.setRepeatCount(0);
@@ -410,8 +396,8 @@ public class VideoFragment extends Fragment {
             }
         } else {
             if (!playbackReady) {
-                playBtn.setVisibility(View.VISIBLE);
                 pauseBtn.setVisibility(View.GONE);
+                playBtn.setVisibility(View.VISIBLE);
                 AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);
                 anim.setDuration(3000);
                 anim.setRepeatCount(0);
@@ -434,8 +420,8 @@ public class VideoFragment extends Fragment {
             favBtnOff.setVisibility(View.GONE);
             favBtnOn.setVisibility(View.VISIBLE);
         } else {
-            favBtnOff.setVisibility(View.VISIBLE);
             favBtnOn.setVisibility(View.GONE);
+            favBtnOff.setVisibility(View.VISIBLE);
         }
     }
 

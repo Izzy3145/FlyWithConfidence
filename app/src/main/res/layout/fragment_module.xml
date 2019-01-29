@@ -27,7 +27,7 @@
             android:id="@+id/textView10"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="16dp"
             android:background="@color/colorWhite"
             android:padding="16dp"
             android:text="ABOUT THIS MODULE"
@@ -52,7 +52,8 @@
             android:id="@+id/textView11"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="1dp"
             android:background="@color/colorWhite"
             android:padding="16dp"
             android:text="NOTES FROM THE VIDEO"
@@ -77,7 +78,7 @@
             android:id="@+id/textView8"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
             android:background="@color/colorWhite"
             android:padding="16dp"
             android:text="THINGS TO REMEMBER"
@@ -103,14 +104,17 @@
         <Button
             android:id="@+id/addToFavouritesBtn"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="24dp"
             android:layout_marginTop="24dp"
-            android:layout_marginEnd="16dp"
-            android:background="@drawable/roundwhiteblackbtn"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
+            android:layout_marginEnd="24dp"
+            android:background="@drawable/roundblackbtn"
+            android:drawableStart="@drawable/ic_favourite_red"
+            android:drawablePadding="2dp"
+            android:paddingStart="30dp"
+            android:paddingEnd="22dp"
+            android:elevation="6dp"
             android:text="ADD TO FAVOURITES"
             android:textAlignment="center"
             android:textSize="17sp"
@@ -118,7 +122,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/thingsToTv" />
 
-        <ImageView
+       <!-- <ImageView
             android:id="@+id/fav_btn_image"
             android:layout_width="24dp"
             android:layout_height="24dp"
@@ -127,17 +131,18 @@
             app:layout_constraintBottom_toBottomOf="@+id/addToFavouritesBtn"
             app:layout_constraintStart_toStartOf="@+id/addToFavouritesBtn"
             app:layout_constraintTop_toTopOf="@+id/addToFavouritesBtn"
-            app:layout_constraintVertical_bias="0.461" />
+            app:layout_constraintVertical_bias="0.461" />-->
 
         <Button
             android:id="@+id/nextModuleBtn"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="24dp"
             android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="20dp"
+            android:elevation="6dp"
             android:background="@drawable/roundedbluebutton"
             android:text="NEXT MODULE"
             android:textColor="@android:color/white"
@@ -162,11 +167,15 @@
             android:id="@+id/locked_module_image"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:adjustViewBounds="false"
+            android:scaleType="centerCrop"
             android:src="@drawable/captain"
+            app:layout_constraintBottom_toTopOf="@+id/locked_topic_title"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:srcCompat="@drawable/captain" />
 
         <TextView
             android:id="@+id/locked_topic_title"
@@ -227,6 +236,10 @@
             android:layout_marginBottom="16dp"
             android:background="@drawable/roundedbluebutton"
             android:text="UNLOCK THIS TOPIC"
+            android:drawableStart="@drawable/locked_btn"
+            android:drawablePadding="2dp"
+            android:paddingStart="30dp"
+            android:paddingEnd="22dp"
             android:textColor="@android:color/white"
             android:textSize="17sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -237,16 +250,15 @@
             android:id="@+id/unlockedModuleGroup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="gone"
+            android:visibility="visible"
             app:constraint_referenced_ids="videoFragment,textView8,moduleNotesTv,moduleIntroTv,thingsToTv,textView11,textView10,nextModuleBtn,addToFavouritesBtn,fav_btn_image" />
 
         <android.support.constraint.Group
             android:id="@+id/lockedModuleGroup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="visible"
+            android:visibility="gone"
             app:constraint_referenced_ids="locked_topic_title,locked_module_image,unlockTopicBtn,locked_module_title,locked_module_desc,lockedCloseBtn" />
-
 
     </android.support.constraint.ConstraintLayout>
 

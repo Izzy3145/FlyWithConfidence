@@ -1,6 +1,7 @@
 package uk.airbyte.fwc.fragments.account;
 
 
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -21,11 +22,14 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import uk.airbyte.fwc.MainActivity;
 import uk.airbyte.fwc.R;
+import uk.airbyte.fwc.model.User;
 import uk.airbyte.fwc.utils.Const;
 import uk.airbyte.fwc.viewmodels.AccountViewModel;
 
 public class AccountFragment extends Fragment {
 
+    @BindView(R.id.currentUserTv)
+    TextView currentUserTv;
     @BindView(R.id.updateDetailsTv)
     TextView updateDetailsTv;
     @BindView(R.id.changePasswordTv)
@@ -37,6 +41,8 @@ public class AccountFragment extends Fragment {
     private SharedPreferences sharedPref;
     private SharedPreferences.Editor editor;
     private AccountViewModel mAccountViewModel;
+    private String accessToken;
+    private String fullName;
 
     public AccountFragment() {
         // Required empty public constructor
@@ -46,8 +52,11 @@ public class AccountFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        accessToken = sharedPref.getString(Const.ACCESS_TOKEN, "");
+
         mAccountViewModel = new AccountViewModel();
         mAccountViewModel = ViewModelProviders.of(getActivity()).get(AccountViewModel.class);
+
     }
 
     @Override
@@ -67,6 +76,20 @@ public class AccountFragment extends Fragment {
             }
         });
         return view;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        mAccountViewModel.getUserProfile(getActivity(), accessToken).observe(this, new Observer<User>() {
+            @Override
+            public void onChanged(@Nullable User user) {
+                if(user != null){
+                    fullName = user.getFirstName() + " " + user.getLastName();
+                    currentUserTv.setText(fullName);
+                }
+            }
+        });
     }
 
     @OnClick(R.id.logoutTv)

@@ -13,7 +13,7 @@
         android:layout_height="56dp"
         android:background="@color/colorWhite"
         android:gravity="center_vertical"
-        android:text="Izzy Stannett"
+        tools:text="Izzy Stannett"
         android:textAlignment="center"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"

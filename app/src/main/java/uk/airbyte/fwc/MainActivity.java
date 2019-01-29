@@ -11,6 +11,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -36,6 +37,8 @@ public class MainActivity extends AppCompatActivity implements  ModuleFragment.O
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
+    private static final String PRODUCT_ID = "com.anjlab.test.iab.s2.p5";
+    private static final String MERCHANT_ID=null;
     private SharedPreferences sharedPref;
     private NavHost navHost;
     private NavController navController;
@@ -56,32 +59,6 @@ public class MainActivity extends AppCompatActivity implements  ModuleFragment.O
 
         AppCenter.start(getApplication(), "91731501-accf-493e-9ab7-ddf86fcd759e",
                 Analytics.class, Crashes.class);
-
-        bp = new BillingProcessor(this, Const.PURCHASE_LICENSE_KEY, new BillingProcessor.IBillingHandler(){
-
-            @Override
-            public void onProductPurchased(@NonNull String productId, @Nullable TransactionDetails details) {
-                mPurchaseViewModel.postReceipt(MainActivity.this, purchasedTopicID, details.purchaseInfo.purchaseData.productId);
-                Toast.makeText(MainActivity.this, "New topic purchased!", Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onPurchaseHistoryRestored() {
-
-            }
-
-            @Override
-            public void onBillingError(int errorCode, @Nullable Throwable error) {
-                Toast.makeText(MainActivity.this, "Purchasing error, please try again.", Toast.LENGTH_LONG).show();
-
-            }
-
-            @Override
-            public void onBillingInitialized() {
-                Toast.makeText(MainActivity.this, "Billing initialised!", Toast.LENGTH_LONG).show();
-                readyToPurchase = true;
-            }
-        });
 
         navHost = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.my_nav_host_fragment);
         navController = Navigation.findNavController(this, R.id.my_nav_host_fragment);
@@ -120,6 +97,37 @@ public class MainActivity extends AppCompatActivity implements  ModuleFragment.O
             navController.navigate(R.id.splash_fragment);
             bottomNavigation.setVisibility(View.GONE);
         }
+
+        bp = new BillingProcessor(this, Const.PURCHASE_LICENSE_KEY, MERCHANT_ID,  new BillingProcessor.IBillingHandler(){
+
+            @Override
+            public void onProductPurchased(@NonNull String productId, @Nullable TransactionDetails details) {
+                //TODO: change value for receipt from "test"
+                mPurchaseViewModel.postReceipt(MainActivity.this, purchasedTopicID, "test");
+                Toast.makeText(MainActivity.this, "New topic purchased!", Toast.LENGTH_LONG).show(); }
+
+            @Override
+            public void onPurchaseHistoryRestored() {
+
+            }
+
+            @Override
+            public void onBillingError(int errorCode, @Nullable Throwable error) {
+                Log.d(TAG, "OnBillingError: " + errorCode);
+                if(error != null) {
+                    Log.d(TAG, "OnBillingError: " + error.toString());
+                }
+                Toast.makeText(MainActivity.this, "Purchasing error, please try again.", Toast.LENGTH_LONG).show();
+
+            }
+
+            @Override
+            public void onBillingInitialized() {
+                readyToPurchase = true;
+                Log.d(TAG, "onBillingInitialized()");
+                Toast.makeText(MainActivity.this, "Billing initialised!", Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     @Override
@@ -211,7 +219,8 @@ public class MainActivity extends AppCompatActivity implements  ModuleFragment.O
         if(!readyToPurchase){
             Toast.makeText(this, "Billing not initialised", Toast.LENGTH_LONG).show();
         } else {
-            bp.purchase(this, purchasedTopicID);
+            //TODO: get productID from topicID somehow?
+            bp.purchase(this, PRODUCT_ID);
         }
     }
 
