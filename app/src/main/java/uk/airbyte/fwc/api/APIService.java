@@ -10,9 +10,11 @@ import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Query;
+import uk.airbyte.fwc.model.ID;
 import uk.airbyte.fwc.model.Login;
 import uk.airbyte.fwc.model.Module;
 import uk.airbyte.fwc.model.Password;
+import uk.airbyte.fwc.model.Receipt;
 import uk.airbyte.fwc.model.Reminder;
 import uk.airbyte.fwc.model.Success;
 import uk.airbyte.fwc.model.Topic;
@@ -43,4 +45,7 @@ public interface APIService {
 
     @GET("/content/modules")
     Call<List<Module>> getModulesForTopics(@Header("User-Token") String accessToken, @Query("topic") String topicID);
+
+    @POST("/transaction")
+    Call<ID> purchaseTopic(@Body Receipt receipt);
 }

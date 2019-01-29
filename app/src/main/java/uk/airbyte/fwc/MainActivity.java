@@ -1,25 +1,38 @@
 package uk.airbyte.fwc;
 
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.navigation.NavController;
 import androidx.navigation.NavHost;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
-import uk.airbyte.fwc.fragments.HomeFragment;
+import uk.airbyte.fwc.fragments.ModuleFragment;
+import uk.airbyte.fwc.model.ID;
 import uk.airbyte.fwc.utils.Const;
 import uk.airbyte.fwc.viewmodels.ModuleViewModel;
+import uk.airbyte.fwc.viewmodels.PurchaseViewModel;
+
+import com.anjlab.android.iab.v3.BillingProcessor;
+import com.anjlab.android.iab.v3.TransactionDetails;
+import com.microsoft.appcenter.AppCenter;
+import com.microsoft.appcenter.analytics.Analytics;
+import com.microsoft.appcenter.crashes.Crashes;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements  ModuleFragment.OnPurchaseListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
@@ -30,16 +43,60 @@ public class MainActivity extends AppCompatActivity {
     private BottomNavigationView bottomNavigation;
     private ModuleViewModel mModuleViewModel;
     private Boolean dataRetrieved;
+    private BillingProcessor bp;
+    private boolean readyToPurchase = false;
+    private PurchaseViewModel mPurchaseViewModel;
+    private String purchasedTopicID;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        AppCenter.start(getApplication(), "91731501-accf-493e-9ab7-ddf86fcd759e",
+                Analytics.class, Crashes.class);
+
+        bp = new BillingProcessor(this, Const.PURCHASE_LICENSE_KEY, new BillingProcessor.IBillingHandler(){
+
+            @Override
+            public void onProductPurchased(@NonNull String productId, @Nullable TransactionDetails details) {
+                mPurchaseViewModel.postReceipt(MainActivity.this, purchasedTopicID, details.purchaseInfo.purchaseData.productId);
+                Toast.makeText(MainActivity.this, "New topic purchased!", Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onPurchaseHistoryRestored() {
+
+            }
+
+            @Override
+            public void onBillingError(int errorCode, @Nullable Throwable error) {
+                Toast.makeText(MainActivity.this, "Purchasing error, please try again.", Toast.LENGTH_LONG).show();
+
+            }
+
+            @Override
+            public void onBillingInitialized() {
+                Toast.makeText(MainActivity.this, "Billing initialised!", Toast.LENGTH_LONG).show();
+                readyToPurchase = true;
+            }
+        });
+
         navHost = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.my_nav_host_fragment);
         navController = Navigation.findNavController(this, R.id.my_nav_host_fragment);
         bottomNavigation = (BottomNavigationView) findViewById(R.id.btm_navigation);
         mModuleViewModel = ViewModelProviders.of(this).get(ModuleViewModel.class);
+        mPurchaseViewModel = ViewModelProviders.of(this).get(PurchaseViewModel.class);
+        mPurchaseViewModel = new PurchaseViewModel();
+        mPurchaseViewModel.postReceiptLive().observe(this, new Observer<ID>() {
+            @Override
+            public void onChanged(@Nullable ID id) {
+                if(id != null){
+                    navController.navigate(R.id.topicsFragment);
+                }
+            }
+        });
 
         if (savedInstanceState != null) {
             mAccessToken = savedInstanceState.getString(Const.SIS_ACCESS_TOKEN);
@@ -132,4 +189,30 @@ public class MainActivity extends AppCompatActivity {
         outState.putBoolean(Const.SIS_DATA_RETRIEVED, dataRetrieved);
         outState.putString(Const.SIS_ACCESS_TOKEN, mAccessToken);
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (!bp.handleActivityResult(requestCode, resultCode, data)) {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        if (bp != null) {
+            bp.release();
+        }
+        super.onDestroy();
+    }
+
+    @Override
+    public void onTopicPurchased(String topicID) {
+        purchasedTopicID = topicID;
+        if(!readyToPurchase){
+            Toast.makeText(this, "Billing not initialised", Toast.LENGTH_LONG).show();
+        } else {
+            bp.purchase(this, purchasedTopicID);
+        }
+    }
+
 }

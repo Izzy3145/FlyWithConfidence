@@ -112,11 +112,11 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.Favourit
             public void onClick(View v) {
                 videoSelected = "asset:///intro.mp4";
                 homeWatchBtn.setText(getString(R.string.play));
-                AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);
+                /*AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);
                 anim.setDuration(3000);
                 anim.setRepeatCount(0);
                 anim.setFillAfter(true);
-                homeWatchBtn.startAnimation(anim);
+                homeWatchBtn.startAnimation(anim);*/
                 videoOverlay.setVisibility(View.GONE);
                 mVideoViewModel.select(new ShowPlay(null, null, null,
                         videoSelected, 0, 0, true));

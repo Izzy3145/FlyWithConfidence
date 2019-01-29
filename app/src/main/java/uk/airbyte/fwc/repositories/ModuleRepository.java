@@ -33,16 +33,16 @@ public class ModuleRepository {
         moduleRealm.removeAllChangeListeners();
     }
 
-    public boolean getFavouriteStatus(String moduleID){
+    public boolean getFavouriteStatus(String moduleID) {
         Module module = moduleRealm.where().equalTo("id", moduleID).findFirst();
-        if(module.getFavourited() == null) {
+        if (module.getFavourited() == null) {
             return false;
         } else {
             return module.getFavourited();
         }
     }
 
-    public void setRealmFavouriteFromID(Boolean isFavourite, String moduleID){
+    public void setRealmFavouriteFromID(Boolean isFavourite, String moduleID) {
         final Module module = moduleRealm.where().equalTo("id", moduleID).findFirst();
         vidIsFavourite = isFavourite;
         realmInstance.executeTransaction(new Realm.Transaction() {
@@ -54,7 +54,7 @@ public class ModuleRepository {
         });
     }
 
-    public void setRealmFavourite(Boolean isFavourite, Module module){
+    public void setRealmFavourite(Boolean isFavourite, Module module) {
         mIsFavourite = isFavourite;
         favModule = module;
         realmInstance.executeTransaction(new Realm.Transaction() {
@@ -66,7 +66,7 @@ public class ModuleRepository {
         });
     }
 
-    public RealmResults<Module> getModulesForCategory(String topicID, String categoryName){
+    public RealmResults<Module> getModulesForCategory(String topicID, String categoryName) {
         RealmResults<Module> realmCategoryModules = moduleRealm.where()
                 .equalTo("topic.id", topicID)
                 .equalTo("category.name", categoryName)
@@ -74,24 +74,25 @@ public class ModuleRepository {
         realmCategoryModules.sort("displayOrder");
         return realmCategoryModules;
     }
-    public RealmResults<Module> getModulesForTopic(String topicID){
+
+    public RealmResults<Module> getModulesForTopic(String topicID) {
         RealmResults<Module> realmTopicModules = moduleRealm.where().equalTo("topic.id", topicID).findAll();
         realmTopicModules.sort("displayOrder");
         return realmTopicModules;
     }
 
-    public Module getModuleFromID(String moduleID){
+    public Module getModuleFromID(String moduleID) {
         return moduleRealm.where().equalTo("id", moduleID).findFirst();
     }
 
-    public RealmResults<Module> getModulesToDisplay(){
+    public RealmResults<Module> getModulesToDisplay() {
         moduleRealm.sort("displayOrder");
         return moduleRealm;
     }
 
-    public void copyTopicModulesToRealm(List<Module> listOfModulesForTopic){
+    public void copyTopicModulesToRealm(List<Module> listOfModulesForTopic) {
         //TODO: is this bit wrong?
-        if(listOfModulesForTopic != null) {
+        if (listOfModulesForTopic != null) {
             listOfModules.addAll(listOfModulesForTopic);
             realmInstance.executeTransaction(new Realm.Transaction() {
                 @Override
@@ -101,6 +102,7 @@ public class ModuleRepository {
             });
         }
     }
+
     public RealmResults<Module> getRealmFavourites() {
         RealmResults<Module> realmFavourites = realmInstance.where(Module.class)
                 .equalTo("favourited", true)
@@ -117,7 +119,7 @@ public class ModuleRepository {
         return realmRecents;
     }
 
-    public void deleteRealmRecent(String moduleID){
+    public void deleteRealmRecent(String moduleID) {
         mDelRecentID = moduleID;
         realmInstance.executeTransaction(new Realm.Transaction() {
             @Override
@@ -143,7 +145,23 @@ public class ModuleRepository {
         });
     }
 
-    public void onDestroy(){
+    public void moduleCanViewTrue(String topicID) {
+        final RealmResults<Module> realmTopicModules = moduleRealm.where().equalTo("topic.id", topicID).findAll();
+
+            realmInstance.executeTransaction(new Realm.Transaction() {
+                @Override
+                public void execute(Realm realm) {
+                    for (int i = 0; i < realmTopicModules.size(); i++) {
+                        Module purchasedModule = realmTopicModules.get(i);
+                        purchasedModule.setCanView(true);
+                    }
+                }
+
+            });
+
+    }
+
+    public void onDestroy() {
         realmInstance.close();
     }
 }

@@ -358,7 +358,6 @@ public class VideoFragment extends Fragment {
                 introVidOverlayLand.setVisibility(View.GONE);
                 parentVideoView.setOnTouchListener(null);
 
-
                 ((MainActivity) getActivity()).onBackPressed();
             }
         });

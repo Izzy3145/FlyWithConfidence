@@ -2,6 +2,7 @@ package uk.airbyte.fwc.fragments;
 
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -31,6 +32,7 @@ import uk.airbyte.fwc.model.Module;
 import uk.airbyte.fwc.model.ShowPlay;
 import uk.airbyte.fwc.utils.Const;
 import uk.airbyte.fwc.viewmodels.ModuleViewModel;
+import uk.airbyte.fwc.viewmodels.PurchaseViewModel;
 import uk.airbyte.fwc.viewmodels.VideoViewModel;
 
 /**
@@ -74,6 +76,7 @@ public class ModuleFragment extends Fragment {
     private SpannableString spanString;
     private Boolean isFavourite;
     private Boolean canView;
+    private OnPurchaseListener mListener;
 
     public ModuleFragment() {
         // Required empty public constructor
@@ -150,7 +153,8 @@ public class ModuleFragment extends Fragment {
                 unlockTopicBtn.setOnClickListener(new View.OnClickListener(){
                     @Override
                     public void onClick(View v) {
-                        //TODO: add in purchase functionality?
+                        //TODO: will be some other topic attribute
+                        mListener.onTopicPurchased(topicID);
                     }
                 });
                 lockedCloseBtn.setOnClickListener(new View.OnClickListener(){
@@ -162,6 +166,16 @@ public class ModuleFragment extends Fragment {
                 });
         }
         return view;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            mListener = (OnPurchaseListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString() + " must implement OnPurchaseListener");
+        }
     }
 
     public void getListOfModules() {
@@ -253,5 +267,9 @@ public class ModuleFragment extends Fragment {
         super.onDestroy();
         mVideoViewModel.closeRealm();
         mModuleViewModel.closeRealm();
+    }
+
+    public interface OnPurchaseListener{
+        void onTopicPurchased(String topicID);
     }
 }
