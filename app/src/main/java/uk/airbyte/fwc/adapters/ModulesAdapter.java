@@ -65,6 +65,10 @@ public class ModulesAdapter extends RealmRecyclerViewAdapter<Module, ModulesAdap
         try {
             final int adapterPosition = holder.getAdapterPosition();
             final Module module = getItem(position);
+            if(mIsRecents) {
+                holder.mVideoTopic.setVisibility(View.VISIBLE);
+                holder.mVideoTopic.setText(module.getTopic().getName());
+            }
             holder.mVideoTitle.setText(module.getName());
             holder.mVideoThumbnail.setClipToOutline(true);
             Picasso.get()
@@ -123,6 +127,8 @@ public class ModulesAdapter extends RealmRecyclerViewAdapter<Module, ModulesAdap
 
     //create viewholder class
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        @BindView(R.id.video_topic_tv)
+        TextView mVideoTopic;
         @BindView(R.id.video_title_tv)
         TextView mVideoTitle;
         @BindView(R.id.videoThumbnail)

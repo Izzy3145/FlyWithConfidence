@@ -58,6 +58,8 @@ public class FavouritesAdapter extends RealmRecyclerViewAdapter<Module, Favourit
             final Module module = getItem(position);
             //final Module module = mListOfModules.get(position);
             if(module != null) {
+                holder.mVideoTopic.setVisibility(View.VISIBLE);
+                holder.mVideoTopic.setText(module.getTopic().getName());
                 holder.mVideoTitle.setText(module.getName());
                 holder.mVideoThumbnail.setClipToOutline(true);
                 Picasso.get()
@@ -112,6 +114,8 @@ public class FavouritesAdapter extends RealmRecyclerViewAdapter<Module, Favourit
 
     //create viewholder class
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        @BindView(R.id.video_topic_tv)
+        TextView mVideoTopic;
         @BindView(R.id.video_title_tv)
         TextView mVideoTitle;
         @BindView(R.id.videoThumbnail)
