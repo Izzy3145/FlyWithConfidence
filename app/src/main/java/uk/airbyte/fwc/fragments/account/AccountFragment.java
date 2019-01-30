@@ -105,7 +105,6 @@ public class AccountFragment extends Fragment {
         startActivity(openMain);
     }
 
-
     @Override
     public void onDestroy() {
         super.onDestroy();

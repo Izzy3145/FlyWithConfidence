@@ -61,7 +61,6 @@ public class ModulesAdapter extends RealmRecyclerViewAdapter<Module, ModulesAdap
 
     @Override
     public void onBindViewHolder(@NonNull ModulesAdapter.ViewHolder holder, int position) {
-        //TODO: test when full API response available & set proper error image
         try {
             final int adapterPosition = holder.getAdapterPosition();
             final Module module = getItem(position);

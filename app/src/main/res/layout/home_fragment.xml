@@ -149,6 +149,7 @@
             android:layout_height="wrap_content"
             android:paddingTop="16dp"
             android:text="@string/my_favourites"
+            android:textColor="@color/darker_grey"
             app:layout_constraintEnd_toStartOf="@+id/guideline5"
             app:layout_constraintStart_toStartOf="@+id/guideline2"
             app:layout_constraintTop_toBottomOf="@+id/videoFragParent" />
@@ -169,6 +170,7 @@
             android:layout_height="wrap_content"
             android:paddingTop="8dp"
             android:text="@string/recently_watched"
+            android:textColor="@color/darker_grey"
             app:layout_constraintEnd_toStartOf="@+id/guideline5"
             app:layout_constraintStart_toStartOf="@+id/guideline2"
             app:layout_constraintTop_toBottomOf="@+id/myFavouritesRv" />
@@ -205,9 +207,10 @@
             android:background="@null"
             android:fontFamily="sans-serif"
             android:text="@string/edit"
-            android:textAllCaps="true"
-            android:textAlignment="viewEnd"
+            android:textAlignment="textEnd"
+            android:textAllCaps="false"
             android:textColor="@color/fwc_blue"
+            android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="@+id/myFavouritesTv"
             app:layout_constraintEnd_toEndOf="@+id/myFavouritesTv"
             app:layout_constraintTop_toTopOf="@+id/myFavouritesTv" />

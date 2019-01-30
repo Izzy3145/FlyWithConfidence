@@ -81,7 +81,6 @@ public class AccountViewModel extends ViewModel{
                     public void onResponse(Call<User> call, Response<User> response) {
                         if (response.isSuccessful()) {
                             accountRepository.updateUserDetailsRealm(response.body());
-                           // user.postValue(response.body());
                             Toast.makeText(context, "Profile updated!", Toast.LENGTH_SHORT).show();
                             Log.d(TAG, "Response updateUserProfile() success: " + response.body());
 
@@ -99,7 +98,6 @@ public class AccountViewModel extends ViewModel{
                     public void onFailure(Call<User> call, Throwable t) {
                         Log.d(TAG, "Response registerCall() failure");
                         Toast.makeText(context, "Error - please check your network connection", Toast.LENGTH_SHORT).show();
-                        user.postValue(null);
                     }
                 });
     }
