@@ -53,8 +53,6 @@ public class FavouritesAdapter extends RealmRecyclerViewAdapter<Module, Favourit
     @Override
     public void onBindViewHolder(@NonNull FavouritesAdapter.ViewHolder holder, int position) {
 
-        //TODO: test when full API response available, set proper error image, sort out cropping
-        //TODO: Ask - is there a cleaner/better way of doing this?
         try {
             final int adapterPosition = holder.getAdapterPosition();
             final Module module = getItem(position);
@@ -94,6 +92,7 @@ public class FavouritesAdapter extends RealmRecyclerViewAdapter<Module, Favourit
             }
         } catch (IndexOutOfBoundsException e) {
             holder.mVideoTitle.setText("");
+            holder.mVideoThumbnail.setClipToOutline(true);
             Log.d(TAG, "Index Out Of Bounds Exception: " + e);
             Picasso.get()
                     .load(R.drawable.artboard)

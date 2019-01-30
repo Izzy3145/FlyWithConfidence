@@ -98,7 +98,8 @@ public class MainActivity extends AppCompatActivity implements  ModuleFragment.O
             bottomNavigation.setVisibility(View.GONE);
         }
 
-        bp = new BillingProcessor(this, Const.PURCHASE_LICENSE_KEY, MERCHANT_ID,  new BillingProcessor.IBillingHandler(){
+        //TODO: enter proper license key from constants
+        bp = new BillingProcessor(this, null, MERCHANT_ID,  new BillingProcessor.IBillingHandler(){
 
             @Override
             public void onProductPurchased(@NonNull String productId, @Nullable TransactionDetails details) {
@@ -125,7 +126,6 @@ public class MainActivity extends AppCompatActivity implements  ModuleFragment.O
             public void onBillingInitialized() {
                 readyToPurchase = true;
                 Log.d(TAG, "onBillingInitialized()");
-                Toast.makeText(MainActivity.this, "Billing initialised!", Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -159,15 +159,6 @@ public class MainActivity extends AppCompatActivity implements  ModuleFragment.O
             bottomNavigation.setVisibility(View.GONE);
         }
     }
-
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        // sharedPref.edit().putString(Const.ACCESS_TOKEN, mAccessToken).apply();
-        //sharedPref.edit().putBoolean(Const.DATA_RETRIEVED, dataRetrieved).apply();
-    }
-
 
     public void hideNavBarAndLandscape() {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);

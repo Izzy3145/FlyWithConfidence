@@ -96,7 +96,7 @@
             android:background="@color/colorWhite"
             android:padding="16dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView8"
             tools:text="Things to remember things to remember things to remember things to remember " />
@@ -112,9 +112,9 @@
             android:background="@drawable/roundblackbtn"
             android:drawableStart="@drawable/ic_favourite_red"
             android:drawablePadding="2dp"
+            android:elevation="6dp"
             android:paddingStart="30dp"
             android:paddingEnd="22dp"
-            android:elevation="6dp"
             android:text="ADD TO FAVOURITES"
             android:textAlignment="center"
             android:textSize="17sp"
@@ -251,7 +251,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="visible"
-            app:constraint_referenced_ids="videoFragment,textView8,moduleNotesTv,moduleIntroTv,thingsToTv,textView11,textView10,nextModuleBtn,addToFavouritesBtn,fav_btn_image" />
+            app:constraint_referenced_ids="videoFragment,textView8,moduleNotesTv,moduleIntroTv,thingsToTv,textView11,textView10,nextModuleBtn,addToFavouritesBtn" />
 
         <android.support.constraint.Group
             android:id="@+id/lockedModuleGroup"
