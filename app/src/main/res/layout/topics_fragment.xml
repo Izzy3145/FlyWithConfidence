@@ -34,9 +34,9 @@
         android:id="@+id/verticalTopicsRv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:elevation="8dp"
+        android:layout_marginTop="16dp"
         android:background="@color/colorWhite"
+        android:elevation="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/top_tabs">

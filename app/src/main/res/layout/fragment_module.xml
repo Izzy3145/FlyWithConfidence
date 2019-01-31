@@ -131,17 +131,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/thingsToTv" />
 
-       <!-- <ImageView
-            android:id="@+id/fav_btn_image"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginStart="12dp"
-            android:src="@drawable/ic_favourite_red"
-            app:layout_constraintBottom_toBottomOf="@+id/addToFavouritesBtn"
-            app:layout_constraintStart_toStartOf="@+id/addToFavouritesBtn"
-            app:layout_constraintTop_toTopOf="@+id/addToFavouritesBtn"
-            app:layout_constraintVertical_bias="0.461" />-->
-
         <Button
             android:id="@+id/nextModuleBtn"
             android:layout_width="match_parent"
@@ -167,6 +156,7 @@
             android:layout_height="36dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
+            android:elevation="12dp"
             android:background="@drawable/locked_close_btn"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -188,17 +178,19 @@
 
         <TextView
             android:id="@+id/locked_topic_title"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:background="@color/colorWhite"
+            android:elevation="2dp"
             android:paddingStart="16dp"
-            android:paddingEnd="16dp"
             android:paddingTop="16dp"
+            android:paddingEnd="16dp"
             android:paddingBottom="4dp"
             android:text="Controlling an aircraft"
             android:textAlignment="center"
             android:textColor="@color/fwc_blue"
-            android:textSize="18sp"
+            android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/locked_module_image" />
@@ -206,49 +198,51 @@
         <TextView
             android:id="@+id/locked_module_title"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:background="@color/colorWhite"
+            android:elevation="2dp"
             android:paddingStart="16dp"
             android:paddingTop="4dp"
             android:paddingEnd="16dp"
             android:paddingBottom="4dp"
-            android:text="In depth: Elevators"
             android:textAlignment="center"
-            android:textSize="24sp"
+            android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/locked_topic_title" />
+            app:layout_constraintTop_toBottomOf="@+id/locked_topic_title"
+            tools:text="In depth: Elevators" />
 
         <TextView
             android:id="@+id/locked_module_desc"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@color/colorWhite"
+            android:elevation="2dp"
             android:paddingStart="16dp"
-            android:paddingEnd="16dp"
             android:paddingTop="4dp"
+            android:paddingEnd="16dp"
             android:paddingBottom="4dp"
-            android:text="From British Airway's state of the art pilot training facility."
             android:textAlignment="center"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/locked_topic_title" />
+            app:layout_constraintTop_toBottomOf="@+id/locked_module_title"
+            tools:text="From British Airway's state of the art pilot training facility." />
 
         <Button
             android:id="@+id/unlockTopicBtn"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_gravity="center"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="24dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="24dp"
             android:background="@drawable/roundedbluebutton"
-            android:text="UNLOCK THIS TOPIC"
             android:drawableStart="@drawable/locked_btn"
             android:drawablePadding="2dp"
+            android:elevation="6dp"
             android:paddingStart="30dp"
             android:paddingEnd="22dp"
+            android:text="UNLOCK THIS TOPIC"
             android:textColor="@android:color/white"
             android:textSize="17sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -259,14 +253,14 @@
             android:id="@+id/unlockedModuleGroup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="visible"
+            android:visibility="gone"
             app:constraint_referenced_ids="videoFragment,textView8,moduleNotesTv,moduleIntroTv,thingsToTv,textView11,textView10,nextModuleBtn,addToFavouritesBtn" />
 
         <android.support.constraint.Group
             android:id="@+id/lockedModuleGroup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="gone"
+            android:visibility="visible"
             app:constraint_referenced_ids="locked_topic_title,locked_module_image,unlockTopicBtn,locked_module_title,locked_module_desc,lockedCloseBtn" />
 
     </android.support.constraint.ConstraintLayout>
