@@ -31,7 +31,6 @@ public class ModulesAdapter extends RealmRecyclerViewAdapter<Module, ModulesAdap
 
     public ModulesAdapter(RealmResults<Module> modules, ModulesAdapterListener clickHandler) {
         super(modules, true, true);
-        //TODO: test setHasStableIds(true)
         //setHasStableIds(true);
         realm = Realm.getDefaultInstance();
         mClickHandler = clickHandler;

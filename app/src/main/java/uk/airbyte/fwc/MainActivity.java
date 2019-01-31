@@ -15,12 +15,15 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.navigation.NavArgument;
 import androidx.navigation.NavController;
 import androidx.navigation.NavHost;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
+import uk.airbyte.fwc.fragments.HomeFragment;
 import uk.airbyte.fwc.fragments.ModuleFragment;
+import uk.airbyte.fwc.fragments.VideoFragment;
 import uk.airbyte.fwc.model.ID;
 import uk.airbyte.fwc.utils.Const;
 import uk.airbyte.fwc.viewmodels.ModuleViewModel;
@@ -33,7 +36,7 @@ import com.microsoft.appcenter.analytics.Analytics;
 import com.microsoft.appcenter.crashes.Crashes;
 
 
-public class MainActivity extends AppCompatActivity implements  ModuleFragment.OnPurchaseListener {
+public class MainActivity extends AppCompatActivity implements  ModuleFragment.OnPurchaseListener, VideoFragment.IntroVidListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
@@ -175,10 +178,13 @@ public class MainActivity extends AppCompatActivity implements  ModuleFragment.O
 
     @Override
     public void onBackPressed() {
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        Navigation.findNavController(this, R.id.my_nav_host_fragment)
-                .popBackStack();
-        bottomNavigation.setVisibility(View.VISIBLE);
+
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+            Navigation.findNavController(this, R.id.my_nav_host_fragment)
+                    .popBackStack();
+        if (mAccessToken != null && mAccessToken.length() > 0) {
+            bottomNavigation.setVisibility(View.VISIBLE);
+        }
 
     }
 
@@ -215,4 +221,9 @@ public class MainActivity extends AppCompatActivity implements  ModuleFragment.O
         }
     }
 
+    @Override
+    public void setIntroVidPosition(long inPosition) {
+        Bundle b = new Bundle();
+        b.putLong(Const.INTRO_VID_POS, inPosition);
+    navController.navigate(R.id.homeFragment, b);    }
 }

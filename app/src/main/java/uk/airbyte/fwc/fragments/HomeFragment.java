@@ -118,8 +118,14 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.Favourit
                 anim.setFillAfter(true);
                 homeWatchBtn.startAnimation(anim);*/
                 videoOverlay.setVisibility(View.GONE);
-                mVideoViewModel.select(new ShowPlay(null, null, null,
-                        videoSelected, 0, 0, true));
+                if(getArguments() == null){
+                    mVideoViewModel.select(new ShowPlay(null, null, null,
+                            videoSelected, 0, 0, true));
+                } else {
+                    mVideoViewModel.select(new ShowPlay(null, null, null,
+                            videoSelected, 0, getArguments().getLong(Const.INTRO_VID_POS), true));
+                }
+
 
                 sharedPref.edit().putBoolean(Const.INTRO_VID_PLAYED, true).apply();
                 introVidPlayed = true;

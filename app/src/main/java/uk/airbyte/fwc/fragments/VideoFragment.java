@@ -2,6 +2,7 @@ package uk.airbyte.fwc.fragments;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.PorterDuff;
@@ -106,7 +107,7 @@ public class VideoFragment extends Fragment {
             }
         }
     };
-    private long introVidPosition = 0;
+    private long introVidPosition;
     private VideoViewModel mVideoViewModel;
     private ModuleViewModel mModuleViewModel;
     @Nullable
@@ -115,6 +116,7 @@ public class VideoFragment extends Fragment {
     private Boolean isIntro;
     private Timer timer;
     private boolean mUserIsSeeking;
+    private IntroVidListener mListener;
     // Handler on UI thread
     private Handler handler = new Handler(Looper.getMainLooper());
 
@@ -152,8 +154,6 @@ public class VideoFragment extends Fragment {
             isIntro = savedInstanceState.getBoolean(Const.IS_INTRO_VID);
         }
     }
-
-    //TODO: change error image
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -307,7 +307,6 @@ public class VideoFragment extends Fragment {
 
     private void setUpIntroVidUI() {
         moduleVidOverlay.setVisibility(View.GONE);
-
         introVidOverlayLand.setBackgroundColor(getResources().getColor(R.color.trans_grey));
         togglePlayPause();
         introVidOverlayLand.setVisibility(View.VISIBLE);
@@ -337,8 +336,9 @@ public class VideoFragment extends Fragment {
             public void onClick(View v) {
                 playbackReady = false;
                 if (mSimpleExoPlayer != null) {
-                    mSimpleExoPlayer.setPlayWhenReady(playbackReady);
                     introVidPosition = mSimpleExoPlayer.getCurrentPosition();
+                    mListener.setIntroVidPosition(introVidPosition);
+                    mSimpleExoPlayer.setPlayWhenReady(playbackReady);
                 }
 
                 introVidOverlayLand.setVisibility(View.GONE);
@@ -353,8 +353,9 @@ public class VideoFragment extends Fragment {
             public void onClick(View v) {
                 playbackReady = !playbackReady;
                 if (mSimpleExoPlayer != null) {
-                    mSimpleExoPlayer.setPlayWhenReady(playbackReady);
                     introVidPosition = mSimpleExoPlayer.getCurrentPosition();
+                    mListener.setIntroVidPosition(introVidPosition);
+                    mSimpleExoPlayer.setPlayWhenReady(playbackReady);
                 }
                 togglePlayPause();
             }
@@ -573,5 +574,19 @@ public class VideoFragment extends Fragment {
             vidFullScreen.setVisibility(View.VISIBLE);
 
         }
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            mListener = (IntroVidListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString() + " must implement IntroVidListener");
+        }
+    }
+
+    public interface IntroVidListener{
+        void setIntroVidPosition(long inPosition);
     }
 }

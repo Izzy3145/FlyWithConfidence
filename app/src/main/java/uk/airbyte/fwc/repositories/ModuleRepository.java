@@ -91,7 +91,6 @@ public class ModuleRepository {
     }
 
     public void copyTopicModulesToRealm(List<Module> listOfModulesForTopic) {
-        //TODO: is this bit wrong?
         if (listOfModulesForTopic != null) {
             listOfModules.addAll(listOfModulesForTopic);
             realmInstance.executeTransaction(new Realm.Transaction() {

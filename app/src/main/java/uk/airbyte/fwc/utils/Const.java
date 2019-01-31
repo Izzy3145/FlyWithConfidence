@@ -17,4 +17,6 @@ public class Const {
     public static final String INTRO_VID_PLAYED = "Intro vid played";
     public static final String IS_INTRO_VID = "Is Intro vid";
     public static final String PURCHASE_LICENSE_KEY = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA1gOMF2dE1S87YCQ5Wpv54XWq5OHDYU+dAkVvVjIlJbEh7gr6DgqsYV2aLcfYlkOpd25nTUVsQJeSpEyY5YAcb3bT2RolCZmXy8dWfsbo21Pm872z67RBk4Q9lvOuVbrBFYMUvyU5P3ZciAJ/s527pVHvtMTHjhGBJxA9X0IS4eSjb1yiNGX3tV6Q3m+rmqj2DnirFrgkHHF1ExZZ6XBXhIqeSJMiLyE/DLUJQcXjVLDqJAvRdsKTPY3sEU+aIsMKsHSG/TXjhrtIJCkhietN14+ZGklz8kowWuTDvUyEszVizpZRm8arESQK9U5+XPGGkKMF1y3S1J9c4Q0MNn0YCwIDAQAB";
+    public static final String INTRO_VID_POS = "Intro vid pos";
+
 }

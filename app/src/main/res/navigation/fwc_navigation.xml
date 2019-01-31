@@ -17,10 +17,18 @@
         <action
             android:id="@+id/action_home_dest_to_topicsFragment"
             app:destination="@id/topicsFragment"
-            app:launchSingleTop="false" />
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:launchSingleTop="false"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
         <action
             android:id="@+id/action_home_dest_to_accountFragment"
-            app:destination="@id/accountFragment" />
+            app:destination="@id/accountFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
         <action
             android:id="@+id/action_home_dest_to_moduleFragment"
             app:destination="@id/moduleFragment"
@@ -44,7 +52,7 @@
         <action
             android:id="@+id/action_splash_fragment_to_signInFragment"
             app:destination="@id/signInFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
+            app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
@@ -57,7 +65,11 @@
         <action
             android:id="@+id/action_home_to_module"
             app:destination="@+id/moduleFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
             app:launchSingleTop="false"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
             app:popUpTo="@+id/homeFragment" />
         <action
             android:id="@+id/action_homeFragment_to_videoFragment"
@@ -72,6 +84,8 @@
         <action
             android:id="@+id/action_topicsFragment_to_moduleFragment"
             app:destination="@id/moduleFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
             app:launchSingleTop="true"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim"
@@ -84,13 +98,25 @@
         tools:layout="@layout/account_fragment" >
         <action
             android:id="@+id/action_accountFragment_to_updateDetailsFragment"
-            app:destination="@id/updateDetailsFragment" />
+            app:destination="@id/updateDetailsFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
         <action
             android:id="@+id/action_accountFragment_to_changePwFragment"
-            app:destination="@id/changePwFragment" />
+            app:destination="@id/changePwFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
         <action
             android:id="@+id/action_accountFragment_to_home_dest"
-            app:destination="@id/home_dest" />
+            app:destination="@id/home_dest"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
@@ -178,7 +204,11 @@
         tools:layout="@layout/fragment_update_details" >
         <action
             android:id="@+id/action_updateDetailsFragment_to_accountFragment"
-            app:destination="@id/accountFragment" />
+            app:destination="@id/accountFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
     <fragment
         android:id="@+id/changePwFragment"
@@ -187,10 +217,11 @@
         tools:layout="@layout/fragment_change_pw" >
         <action
             android:id="@+id/action_changePwFragment_to_accountFragment"
-            app:destination="@id/accountFragment" />
-        <action
-            android:id="@+id/action_changePwFragment_to_updateDetailsFragment"
-            app:destination="@id/updateDetailsFragment" />
+            app:destination="@id/accountFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
     <fragment
         android:id="@+id/videoFragment"
