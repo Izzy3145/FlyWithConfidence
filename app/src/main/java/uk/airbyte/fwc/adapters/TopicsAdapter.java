@@ -26,13 +26,15 @@ public class TopicsAdapter extends RecyclerView.Adapter<TopicsAdapter.ViewHolder
 
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements ModulesAdapter.ModulesAdapterListener {
-        public final TextView title;
+        private TextView topicTitle;
+        private TextView topicDescription;
         private ModulesAdapter modulesAdapter;
 
         public ViewHolder(View view) {
             super(view);
             Context context = itemView.getContext();
-            title = (TextView) view.findViewById(R.id.horizTopicTitle);
+            topicTitle = (TextView) view.findViewById(R.id.horizTopicTitle);
+            topicDescription = (TextView) view.findViewById(R.id.horizTopicDescription);
             horizontalList = (RecyclerView) itemView.findViewById(R.id.horizTopicsRv);
             horizontalList.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
             modulesAdapter = new ModulesAdapter(null, this);
@@ -71,7 +73,7 @@ public class TopicsAdapter extends RecyclerView.Adapter<TopicsAdapter.ViewHolder
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
             if(mData != null && mData.get(position).where().findFirst() != null) {
-            holder.title.setText(mData.get(position).where().findFirst().getTopic().getName());
+            holder.topicTitle.setText(mData.get(position).where().findFirst().getTopic().getName());
             holder.modulesAdapter.setData(mData.get(position));
             //holder.modulesAdapter.setRowIndex(position);
         }

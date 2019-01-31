@@ -10,14 +10,31 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:layout_marginBottom="6dp"
         android:paddingTop="8dp"
         android:paddingBottom="4dp"
-        android:text="TOPIC TITLE"
-        android:textAllCaps="true"
         android:textColor="@color/darker_grey"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@id/horizTopicDescription"
         app:layout_constraintEnd_toStartOf="@+id/guideline4"
         app:layout_constraintStart_toStartOf="@+id/guideline3"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="The principles of flight" />
+
+    <TextView
+        android:id="@+id/horizTopicDescription"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/mandali"
+        android:paddingTop="8dp"
+        android:paddingBottom="4dp"
+        android:textColor="@color/darker_grey"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/horizTopicsRv"
+        app:layout_constraintEnd_toStartOf="@+id/guideline4"
+        app:layout_constraintStart_toStartOf="@+id/guideline3"
+        app:layout_constraintTop_toBottomOf="@id/horizTopicTitle"
+        tools:text="How does an aircraft fly, what keeps it in the air?" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/horizTopicsRv"
@@ -25,7 +42,7 @@
         android:layout_height="150dp"
         app:layout_constraintEnd_toStartOf="@+id/guideline4"
         app:layout_constraintStart_toStartOf="@+id/guideline3"
-        app:layout_constraintTop_toBottomOf="@+id/horizTopicTitle">
+        app:layout_constraintTop_toBottomOf="@+id/horizTopicDescription">
 
     </android.support.v7.widget.RecyclerView>
 

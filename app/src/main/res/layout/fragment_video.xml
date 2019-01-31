@@ -95,8 +95,8 @@
 
         <ImageView
             android:id="@+id/playBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
             android:src="@drawable/vid_play"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -106,8 +106,8 @@
 
         <ImageView
             android:id="@+id/pauseBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
             android:src="@drawable/vid_pause"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -151,9 +151,8 @@
 
         <Button
             android:id="@+id/intro_play_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
             android:background="@drawable/roundedwhitebutton"
             android:drawableStart="@drawable/vid_play"
             android:drawablePadding="2dp"
@@ -169,9 +168,8 @@
 
         <Button
             android:id="@+id/intro_pause_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
             android:background="@drawable/roundedwhitebutton"
             android:drawableStart="@drawable/vid_pause"
             android:drawablePadding="2dp"
