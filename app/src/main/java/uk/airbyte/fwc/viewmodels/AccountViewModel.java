@@ -24,6 +24,7 @@ public class AccountViewModel extends ViewModel{
 
     private static final String TAG = AccountViewModel.class.getSimpleName();
     private MutableLiveData<User> user;
+    private User foundUser;
     private MutableLiveData<Success> success;
     private APIService apiService = APIClient.getClient().create(APIService.class);
     private final UserRepository accountRepository;
@@ -40,6 +41,10 @@ public class AccountViewModel extends ViewModel{
             profileCall(context, accessToken);
         }
         return user;
+    }
+
+    public User getUserRealm(Context context, String accessToken){
+        return accountRepository.getUserDetailsRealm(accessToken);
     }
 
     public void closeRealm(){

@@ -10,23 +10,21 @@ public class UserRepository {
 
     private final Realm realmInstance;
     private final RealmResults<User> userRealm;
+    private User user;
+    private String mAccessToken;
+    private User foundUser;
 
     public UserRepository() {
         realmInstance = Realm.getDefaultInstance();
         userRealm = realmInstance.where(User.class).findAll();
     }
 
-    public void updateUserDetailsRealm(final User body) {
-        final String userID = body.getId();
+    public void updateUserDetailsRealm(User body) {
+        user = body;
         realmInstance.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                User user = realm.where(User.class).equalTo("id", userID).findFirst();
-                if (user != null) {
-                    user.setFirstName(body.getFirstName());
-                    user.setLastName(body.getLastName());
-                    user.setEmailAddress(body.getEmailAddress());
-                }
+                realm.copyToRealmOrUpdate(user);
             }
         });
     }
@@ -42,6 +40,20 @@ public class UserRepository {
                 user.setAccessToken(body.getAccessToken());
             }
         });
+    }
+
+    public User getUserDetailsRealm(String accessToken){
+        mAccessToken = accessToken;
+        realmInstance.executeTransaction(new Realm.Transaction(){
+            @Override
+            public void execute(Realm realm) {
+                User user = realm.where(User.class).equalTo("accessToken", mAccessToken).findFirst();
+                if(user != null){
+                    foundUser = user;
+                }
+            }
+        });
+        return foundUser;
     }
 
     public void deleteRealmContents(){

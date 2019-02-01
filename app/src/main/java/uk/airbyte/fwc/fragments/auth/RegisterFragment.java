@@ -18,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.navigation.Navigation;
 import butterknife.BindView;
@@ -147,9 +148,13 @@ public class RegisterFragment extends Fragment {
             inputLayoutPassword.setError("Enter the password");
             inputPassword.requestFocus();
             return false;
+        } else if (inputPassword.getText().toString().trim().length() < 6) {
+            Toast.makeText(getActivity(), "Password must be at least 7 characters", Toast.LENGTH_SHORT).show();
+            return false;
         } else {
             inputLayoutPassword.setErrorEnabled(false);
         }
+        
         return true;
     }
 

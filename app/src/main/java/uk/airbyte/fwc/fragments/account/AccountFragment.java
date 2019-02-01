@@ -75,22 +75,15 @@ public class AccountFragment extends Fragment {
                 startActivity(coursesWebsiteIntent);
             }
         });
+        User user = mAccountViewModel.getUserRealm(getActivity(), accessToken);
+        if(user != null){
+            fullName = user.getFirstName() + " " + user.getLastName();
+            currentUserTv.setText(fullName);
+        }
         return view;
     }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mAccountViewModel.getUserProfile(getActivity(), accessToken).observe(this, new Observer<User>() {
-            @Override
-            public void onChanged(@Nullable User user) {
-                if(user != null){
-                    fullName = user.getFirstName() + " " + user.getLastName();
-                    currentUserTv.setText(fullName);
-                }
-            }
-        });
-    }
+
 
     @OnClick(R.id.logoutTv)
     public void logout() {

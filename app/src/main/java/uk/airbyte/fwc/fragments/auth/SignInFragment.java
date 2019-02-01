@@ -19,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import androidx.navigation.Navigation;
 import butterknife.BindView;
@@ -39,6 +40,8 @@ public class SignInFragment extends Fragment {
     Button signInBtn;
     @BindView(R.id.forgotPasswordBtn)
     Button forgotBtn;
+    @BindView(R.id.loading_plane)
+    ImageView loadingPlane;
     @BindView(R.id.createAccountBtn)
     Button createAccountBtn;
     @BindView(R.id.inputEmailAddress)
@@ -76,6 +79,11 @@ public class SignInFragment extends Fragment {
 
     @OnClick(R.id.btnSignIn)
     public void signInAttempt(){
+        loadingPlane.setVisibility(View.VISIBLE);
+        loadingPlane.animate()
+                .rotation(360f)
+                .setDuration(2000);
+
         if (!validateEmail()) {
             return;
         }
