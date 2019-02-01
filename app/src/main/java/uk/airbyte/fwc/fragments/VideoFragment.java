@@ -3,6 +3,7 @@ package uk.airbyte.fwc.fragments;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
+import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.PorterDuff;
@@ -229,7 +230,7 @@ public class VideoFragment extends Fragment {
             public void onClick(View v) {
                 int currentOrientation = getResources().getConfiguration().orientation;
                 if (currentOrientation == Configuration.ORIENTATION_LANDSCAPE) {
-                    ((MainActivity) getActivity()).onBackPressed();
+                    getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
                 } else {
                     Navigation.findNavController(getActivity(), R.id.my_nav_host_fragment)
                             .popBackStack();
@@ -334,16 +335,6 @@ public class VideoFragment extends Fragment {
         introExitCross.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                playbackReady = false;
-                if (mSimpleExoPlayer != null) {
-                    introVidPosition = mSimpleExoPlayer.getCurrentPosition();
-                    mListener.setIntroVidPosition(introVidPosition);
-                    mSimpleExoPlayer.setPlayWhenReady(playbackReady);
-                }
-
-                introVidOverlayLand.setVisibility(View.GONE);
-                parentVideoView.setOnTouchListener(null);
-
                 ((MainActivity) getActivity()).onBackPressed();
             }
         });
@@ -538,12 +529,12 @@ public class VideoFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        playbackReady = false;
-        if (mSimpleExoPlayer != null) {
-            introVidPosition = mSimpleExoPlayer.getCurrentPosition();
-            mListener.setIntroVidPosition(introVidPosition);
-            mSimpleExoPlayer.setPlayWhenReady(playbackReady);
-        }
+//        playbackReady = false;
+//        if (mSimpleExoPlayer != null) {
+//            introVidPosition = mSimpleExoPlayer.getCurrentPosition();
+//            mListener.setIntroVidPosition(introVidPosition);
+//            mSimpleExoPlayer.setPlayWhenReady(playbackReady);
+//        }
         releasePlayer();
         mVideoViewModel.closeRealm();
     }
@@ -578,6 +569,17 @@ public class VideoFragment extends Fragment {
         } else {
             vidFullScreen.setVisibility(View.VISIBLE);
 
+            if (isIntro) {
+                playbackReady = false;
+                if (mSimpleExoPlayer != null) {
+                    introVidPosition = mSimpleExoPlayer.getCurrentPosition();
+                    mListener.setIntroVidPosition(introVidPosition);
+                    mSimpleExoPlayer.setPlayWhenReady(playbackReady);
+                }
+
+                introVidOverlayLand.setVisibility(View.GONE);
+                parentVideoView.setOnTouchListener(null);
+            }
         }
     }
 

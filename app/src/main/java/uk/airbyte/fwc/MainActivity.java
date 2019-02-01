@@ -21,6 +21,7 @@ import androidx.navigation.NavHost;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
+import butterknife.internal.Utils;
 import uk.airbyte.fwc.fragments.HomeFragment;
 import uk.airbyte.fwc.fragments.ModuleFragment;
 import uk.airbyte.fwc.fragments.VideoFragment;
@@ -36,17 +37,17 @@ import com.microsoft.appcenter.analytics.Analytics;
 import com.microsoft.appcenter.crashes.Crashes;
 
 
-public class MainActivity extends AppCompatActivity implements  ModuleFragment.OnPurchaseListener, VideoFragment.IntroVidListener {
+public class MainActivity extends AppCompatActivity implements ModuleFragment.OnPurchaseListener, VideoFragment.IntroVidListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
-    private static final String PRODUCT_ID = "com.anjlab.test.iab.s2.p5";
-    private static final String MERCHANT_ID=null;
+    private static final String PRODUCT_ID = "74e89e6e-fb05-4a59-ac5d-eb2e937bad16";
+    private static final String MERCHANT_ID = null;
     private SharedPreferences sharedPref;
     private NavHost navHost;
     private NavController navController;
     private String mAccessToken;
-    private BottomNavigationView bottomNavigation;
+    public BottomNavigationView bottomNavigation;
     private ModuleViewModel mModuleViewModel;
     private Boolean dataRetrieved;
     private BillingProcessor bp;
@@ -72,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements  ModuleFragment.O
         mPurchaseViewModel.postReceiptLive().observe(this, new Observer<ID>() {
             @Override
             public void onChanged(@Nullable ID id) {
-                if(id != null){
+                if (id != null) {
                     navController.navigate(R.id.topicsFragment);
                 }
             }
@@ -102,13 +103,14 @@ public class MainActivity extends AppCompatActivity implements  ModuleFragment.O
         }
 
         //TODO: enter proper license key from constants
-        bp = new BillingProcessor(this, null, MERCHANT_ID,  new BillingProcessor.IBillingHandler(){
+        bp = new BillingProcessor(this, Const.PURCHASE_LICENSE_KEY, MERCHANT_ID, new BillingProcessor.IBillingHandler() {
 
             @Override
             public void onProductPurchased(@NonNull String productId, @Nullable TransactionDetails details) {
                 //TODO: change value for receipt from "test"
                 mPurchaseViewModel.postReceipt(MainActivity.this, purchasedTopicID, "test");
-                Toast.makeText(MainActivity.this, "New topic purchased!", Toast.LENGTH_LONG).show(); }
+                Toast.makeText(MainActivity.this, "New topic purchased!", Toast.LENGTH_LONG).show();
+            }
 
             @Override
             public void onPurchaseHistoryRestored() {
@@ -118,7 +120,7 @@ public class MainActivity extends AppCompatActivity implements  ModuleFragment.O
             @Override
             public void onBillingError(int errorCode, @Nullable Throwable error) {
                 Log.d(TAG, "OnBillingError: " + errorCode);
-                if(error != null) {
+                if (error != null) {
                     Log.d(TAG, "OnBillingError: " + error.toString());
                 }
                 Toast.makeText(MainActivity.this, "Purchasing error, please try again.", Toast.LENGTH_LONG).show();
@@ -178,10 +180,9 @@ public class MainActivity extends AppCompatActivity implements  ModuleFragment.O
 
     @Override
     public void onBackPressed() {
-
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-            Navigation.findNavController(this, R.id.my_nav_host_fragment)
-                    .popBackStack();
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        Navigation.findNavController(this, R.id.my_nav_host_fragment)
+                .popBackStack();
         if (mAccessToken != null && mAccessToken.length() > 0) {
             bottomNavigation.setVisibility(View.VISIBLE);
         }
@@ -213,7 +214,7 @@ public class MainActivity extends AppCompatActivity implements  ModuleFragment.O
     @Override
     public void onTopicPurchased(String topicID) {
         purchasedTopicID = topicID;
-        if(!readyToPurchase){
+        if (!readyToPurchase) {
             Toast.makeText(this, "Billing not initialised", Toast.LENGTH_LONG).show();
         } else {
             //TODO: get productID from topicID somehow?
@@ -225,5 +226,6 @@ public class MainActivity extends AppCompatActivity implements  ModuleFragment.O
     public void setIntroVidPosition(long inPosition) {
         Bundle b = new Bundle();
         b.putLong(Const.INTRO_VID_POS, inPosition);
-         navController.navigate(R.id.homeFragment, b);    }
+        navController.navigate(R.id.homeFragment, b);
+    }
 }
