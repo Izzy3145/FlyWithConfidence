@@ -225,5 +225,5 @@ public class MainActivity extends AppCompatActivity implements  ModuleFragment.O
     public void setIntroVidPosition(long inPosition) {
         Bundle b = new Bundle();
         b.putLong(Const.INTRO_VID_POS, inPosition);
-    navController.navigate(R.id.homeFragment, b);    }
+         navController.navigate(R.id.homeFragment, b);    }
 }

@@ -354,7 +354,6 @@ public class VideoFragment extends Fragment {
                 playbackReady = !playbackReady;
                 if (mSimpleExoPlayer != null) {
                     introVidPosition = mSimpleExoPlayer.getCurrentPosition();
-                    mListener.setIntroVidPosition(introVidPosition);
                     mSimpleExoPlayer.setPlayWhenReady(playbackReady);
                 }
                 togglePlayPause();
@@ -539,6 +538,12 @@ public class VideoFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        playbackReady = false;
+        if (mSimpleExoPlayer != null) {
+            introVidPosition = mSimpleExoPlayer.getCurrentPosition();
+            mListener.setIntroVidPosition(introVidPosition);
+            mSimpleExoPlayer.setPlayWhenReady(playbackReady);
+        }
         releasePlayer();
         mVideoViewModel.closeRealm();
     }

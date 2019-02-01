@@ -76,8 +76,6 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.Favourit
     private RealmResults<Module> realmRecents;
     private RealmResults<Module> realmFavourites;
     private long mLastClickTime = 0;
-    private SharedPreferences sharedPref;
-    private Boolean introVidPlayed;
 
 
     @Override
@@ -89,8 +87,6 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.Favourit
         mVideoViewModel = ViewModelProviders.of(getActivity()).get(VideoViewModel.class);
         mModuleViewModel = new ModuleViewModel();
         mModuleViewModel = ViewModelProviders.of(getActivity()).get(ModuleViewModel.class);
-        sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        introVidPlayed = sharedPref.getBoolean(Const.INTRO_VID_PLAYED, false);
         if (savedInstanceState == null) {
             mEditing = 0;
         } else {
@@ -112,11 +108,6 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.Favourit
             public void onClick(View v) {
                 videoSelected = "asset:///intro.mp4";
                 homeWatchBtn.setText(getString(R.string.play));
-                /*AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);
-                anim.setDuration(3000);
-                anim.setRepeatCount(0);
-                anim.setFillAfter(true);
-                homeWatchBtn.startAnimation(anim);*/
                 videoOverlay.setVisibility(View.GONE);
                 if(getArguments() == null){
                     mVideoViewModel.select(new ShowPlay(null, null, null,
@@ -126,9 +117,6 @@ public class HomeFragment extends Fragment implements FavouritesAdapter.Favourit
                             videoSelected, 0, getArguments().getLong(Const.INTRO_VID_POS), true));
                 }
 
-
-                sharedPref.edit().putBoolean(Const.INTRO_VID_PLAYED, true).apply();
-                introVidPlayed = true;
                 ((MainActivity) getActivity()).hideNavBarAndLandscape();
             }
         });

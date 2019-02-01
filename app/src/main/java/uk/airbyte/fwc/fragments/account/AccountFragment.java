@@ -64,7 +64,7 @@ public class AccountFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.account_fragment, container, false);
-        view.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.lighter_grey));
+        view.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.background_grey));
         ButterKnife.bind(this, view);
         updateDetailsTv.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_accountFragment_to_updateDetailsFragment));
         changePwTv.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_accountFragment_to_changePwFragment));

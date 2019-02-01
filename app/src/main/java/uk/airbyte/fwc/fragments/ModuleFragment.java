@@ -32,7 +32,6 @@ import uk.airbyte.fwc.model.Module;
 import uk.airbyte.fwc.model.ShowPlay;
 import uk.airbyte.fwc.utils.Const;
 import uk.airbyte.fwc.viewmodels.ModuleViewModel;
-import uk.airbyte.fwc.viewmodels.PurchaseViewModel;
 import uk.airbyte.fwc.viewmodels.VideoViewModel;
 
 /**
@@ -108,7 +107,7 @@ public class ModuleFragment extends Fragment {
         displayModuleInfo(mModule);
 
         if(canView) {
-            view.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.lighter_grey));
+            view.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.background_grey));
             unlockedModuleGroup.setVisibility(View.VISIBLE);
             lockedModuleGroup.setVisibility(View.GONE);
             favouriteButtonToggle();

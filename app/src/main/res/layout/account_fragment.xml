@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background_grey"
     tools:context=".fragments.account.AccountFragment">
 
     <TextView
@@ -15,7 +16,7 @@
         android:gravity="center_vertical"
         android:textAlignment="center"
         android:elevation="8dp"
-        android:textColor="@color/darker_grey"
+        android:textColor="@color/primary_text"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -29,7 +30,7 @@
         android:layout_marginTop="2dp"
         android:padding="16dp"
         android:text="@string/my_account"
-        android:textColor="@color/darker_grey"
+        android:textColor="@color/primary_text"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -123,7 +124,7 @@
         android:layout_marginTop="2dp"
         android:padding="16dp"
         android:text="@string/attend_a_course"
-        android:textColor="@color/darker_grey"
+        android:textColor="@color/primary_text"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
