@@ -36,7 +36,7 @@
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/plane"
-        android:layout_width="240dp"
+        android:layout_width="match_parent"
         android:layout_height="120dp"
         android:layout_marginTop="72dp"
         app:layout_constraintEnd_toEndOf="parent"
