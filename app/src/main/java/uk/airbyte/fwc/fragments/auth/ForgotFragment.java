@@ -19,7 +19,10 @@ import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.RotateAnimation;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -53,6 +56,8 @@ public class ForgotFragment extends Fragment {
     Group sentGroup;
     @BindView(R.id.sentEmailTv)
     TextView sentEmailTv;
+    @BindView(R.id.loading_plane)
+    ImageView loadingPlane;
     private String email;
     private AuthViewModel mAuthViewModel;
 
@@ -76,6 +81,18 @@ public class ForgotFragment extends Fragment {
 
     @OnClick(R.id.btnSignIn)
     public void signIn() {
+        signInBtn.setVisibility(View.GONE);
+        loadingPlane.setVisibility(View.VISIBLE);
+        RotateAnimation rotate = new RotateAnimation(
+                0, 360,
+                Animation.RELATIVE_TO_SELF, 0.5f,
+                Animation.RELATIVE_TO_SELF, 0.5f
+        );
+
+        rotate.setDuration(2000);
+        rotate.setRepeatCount(Animation.INFINITE);
+        loadingPlane.startAnimation(rotate);
+
         if (!validateEmail()) {
             return;
         }

@@ -13,6 +13,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.RotateAnimation;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.navigation.NavArgument;
@@ -21,6 +24,7 @@ import androidx.navigation.NavHost;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
+import butterknife.BindView;
 import butterknife.internal.Utils;
 import uk.airbyte.fwc.fragments.HomeFragment;
 import uk.airbyte.fwc.fragments.ModuleFragment;
@@ -54,6 +58,8 @@ public class MainActivity extends AppCompatActivity implements ModuleFragment.On
     private boolean readyToPurchase = false;
     private PurchaseViewModel mPurchaseViewModel;
     private String purchasedTopicID;
+    @BindView(R.id.loading_plane)
+    ImageView loadingPlane;
 
 
     @Override
@@ -90,13 +96,27 @@ public class MainActivity extends AppCompatActivity implements ModuleFragment.On
 
 
         if (mAccessToken != null && mAccessToken.length() > 0) {
-            bottomNavigation.setVisibility(View.VISIBLE);
-            NavigationUI.setupWithNavController(bottomNavigation, navController);
+
             if (!dataRetrieved) {
+                RotateAnimation rotate = new RotateAnimation(
+                        0, 360,
+                        Animation.RELATIVE_TO_SELF, 0.5f,
+                        Animation.RELATIVE_TO_SELF, 0.5f
+                );
+
+                rotate.setDuration(2000);
+                rotate.setRepeatCount(10);
+                loadingPlane.startAnimation(rotate);
+
                 mModuleViewModel.knowledgeTopicAndModuleCall(this, mAccessToken);
                 mModuleViewModel.preparationTopicAndModuleCall(this, mAccessToken);
+                loadingPlane.setVisibility(View.VISIBLE);
                 dataRetrieved = true;
             }
+
+            bottomNavigation.setVisibility(View.VISIBLE);
+            NavigationUI.setupWithNavController(bottomNavigation, navController);
+
         } else {
             navController.navigate(R.id.splash_fragment);
             bottomNavigation.setVisibility(View.GONE);
@@ -151,14 +171,25 @@ public class MainActivity extends AppCompatActivity implements ModuleFragment.On
         dataRetrieved = sharedPref.getBoolean(Const.DATA_RETRIEVED, false);
 
         if (mAccessToken != null && mAccessToken.length() > 0) {
-            bottomNavigation.setVisibility(View.VISIBLE);
-            NavigationUI.setupWithNavController(bottomNavigation, navController);
+
             if (!dataRetrieved) {
+                RotateAnimation rotate = new RotateAnimation(
+                        0, 360,
+                        Animation.RELATIVE_TO_SELF, 0.5f,
+                        Animation.RELATIVE_TO_SELF, 0.5f
+                );
+
+                rotate.setDuration(2000);
+                rotate.setRepeatCount(10);
+                loadingPlane.startAnimation(rotate);
                 mModuleViewModel.knowledgeTopicAndModuleCall(this, mAccessToken);
                 mModuleViewModel.preparationTopicAndModuleCall(this, mAccessToken);
                 dataRetrieved = true;
-                //TODO: add progressBar
             }
+
+            bottomNavigation.setVisibility(View.VISIBLE);
+            NavigationUI.setupWithNavController(bottomNavigation, navController);
+
         } else {
             navController.navigate(R.id.splash_fragment);
             bottomNavigation.setVisibility(View.GONE);

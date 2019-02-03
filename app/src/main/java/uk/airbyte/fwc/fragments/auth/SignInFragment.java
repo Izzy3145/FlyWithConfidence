@@ -18,6 +18,8 @@ import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.RotateAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
 
@@ -79,10 +81,17 @@ public class SignInFragment extends Fragment {
 
     @OnClick(R.id.btnSignIn)
     public void signInAttempt(){
+        signInBtn.setVisibility(View.GONE);
         loadingPlane.setVisibility(View.VISIBLE);
-        loadingPlane.animate()
-                .rotation(360f)
-                .setDuration(2000);
+        RotateAnimation rotate = new RotateAnimation(
+                0, 360,
+                Animation.RELATIVE_TO_SELF, 0.5f,
+                Animation.RELATIVE_TO_SELF, 0.5f
+        );
+
+        rotate.setDuration(2000);
+        rotate.setRepeatCount(Animation.INFINITE);
+        loadingPlane.startAnimation(rotate);
 
         if (!validateEmail()) {
             return;
