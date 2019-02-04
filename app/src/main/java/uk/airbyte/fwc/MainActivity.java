@@ -8,6 +8,7 @@ import android.content.pm.ActivityInfo;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -25,6 +26,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.internal.Utils;
 import uk.airbyte.fwc.fragments.HomeFragment;
 import uk.airbyte.fwc.fragments.ModuleFragment;
@@ -58,14 +60,12 @@ public class MainActivity extends AppCompatActivity implements ModuleFragment.On
     private boolean readyToPurchase = false;
     private PurchaseViewModel mPurchaseViewModel;
     private String purchasedTopicID;
-    @BindView(R.id.loading_plane)
-    ImageView loadingPlane;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
 
         AppCenter.start(getApplication(), "91731501-accf-493e-9ab7-ddf86fcd759e",
                 Analytics.class, Crashes.class);
@@ -98,19 +98,8 @@ public class MainActivity extends AppCompatActivity implements ModuleFragment.On
         if (mAccessToken != null && mAccessToken.length() > 0) {
 
             if (!dataRetrieved) {
-                RotateAnimation rotate = new RotateAnimation(
-                        0, 360,
-                        Animation.RELATIVE_TO_SELF, 0.5f,
-                        Animation.RELATIVE_TO_SELF, 0.5f
-                );
-
-                rotate.setDuration(2000);
-                rotate.setRepeatCount(10);
-                loadingPlane.startAnimation(rotate);
-
                 mModuleViewModel.knowledgeTopicAndModuleCall(this, mAccessToken);
                 mModuleViewModel.preparationTopicAndModuleCall(this, mAccessToken);
-                loadingPlane.setVisibility(View.VISIBLE);
                 dataRetrieved = true;
             }
 
@@ -122,7 +111,6 @@ public class MainActivity extends AppCompatActivity implements ModuleFragment.On
             bottomNavigation.setVisibility(View.GONE);
         }
 
-        //TODO: enter proper license key from constants
         bp = new BillingProcessor(this, Const.PURCHASE_LICENSE_KEY, MERCHANT_ID, new BillingProcessor.IBillingHandler() {
 
             @Override
@@ -173,15 +161,7 @@ public class MainActivity extends AppCompatActivity implements ModuleFragment.On
         if (mAccessToken != null && mAccessToken.length() > 0) {
 
             if (!dataRetrieved) {
-                RotateAnimation rotate = new RotateAnimation(
-                        0, 360,
-                        Animation.RELATIVE_TO_SELF, 0.5f,
-                        Animation.RELATIVE_TO_SELF, 0.5f
-                );
 
-                rotate.setDuration(2000);
-                rotate.setRepeatCount(10);
-                loadingPlane.startAnimation(rotate);
                 mModuleViewModel.knowledgeTopicAndModuleCall(this, mAccessToken);
                 mModuleViewModel.preparationTopicAndModuleCall(this, mAccessToken);
                 dataRetrieved = true;

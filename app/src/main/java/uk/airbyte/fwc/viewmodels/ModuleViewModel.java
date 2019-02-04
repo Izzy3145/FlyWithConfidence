@@ -1,10 +1,12 @@
 package uk.airbyte.fwc.viewmodels;
 
+import android.app.ProgressDialog;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.content.Context;
 import android.util.Log;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -16,6 +18,7 @@ import io.realm.RealmResults;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import uk.airbyte.fwc.MainActivity;
 import uk.airbyte.fwc.api.APIClient;
 import uk.airbyte.fwc.api.APIError;
 import uk.airbyte.fwc.api.APIService;
@@ -123,6 +126,13 @@ public class ModuleViewModel extends ViewModel implements OrderedRealmCollection
     public void knowledgeTopicAndModuleCall(final Context context, final String accessToken) {
         numKnowledgeTopics = 0;
         numKnowledgeModules = 0;
+
+        final ProgressDialog progressDialog;
+        progressDialog = new ProgressDialog(context);
+        progressDialog.setMessage("Loading....");
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        // show it
+        progressDialog.show();
         knowledgeTopics = new ArrayList<Topic>();
         apiService.getTopics(accessToken, Const.API_KNOWLEDGE).enqueue(new Callback<List<Topic>>() {
             @Override
@@ -141,6 +151,7 @@ public class ModuleViewModel extends ViewModel implements OrderedRealmCollection
                                     Log.d(TAG, "Response moduleCall() success: " + response.body());
                                     moduleRepository.copyTopicModulesToRealm(response.body());
                                     numKnowledgeModules = numKnowledgeModules + response.body().size();
+                                    progressDialog.dismiss();
                                     Log.d(TAG, "Knowledge knowledgeTopicAndModuleCall() moduleList size: " + numKnowledgeModules);
                                 } else {
                                     APIError error = ErrorUtils.parseError(response);
@@ -154,6 +165,7 @@ public class ModuleViewModel extends ViewModel implements OrderedRealmCollection
                             @Override
                             public void onFailure(Call<List<Module>> call, Throwable t) {
                                 Log.d(TAG, "Response moduleCall() failure");
+                                progressDialog.dismiss();
                                 Toast.makeText(context, "Error - please check your network connection", Toast.LENGTH_SHORT).show();
                             }
                         });
@@ -171,6 +183,7 @@ public class ModuleViewModel extends ViewModel implements OrderedRealmCollection
             @Override
             public void onFailure(Call<List<Topic>> call, Throwable t) {
                 Log.d(TAG, "Response knowledgeTopicAndModuleCall() failure");
+                progressDialog.dismiss();
                 Toast.makeText(context, "Error - please check your network connection", Toast.LENGTH_SHORT).show();
             }
         });

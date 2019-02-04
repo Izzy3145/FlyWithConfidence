@@ -15,6 +15,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.RotateAnimation;
+import android.widget.ImageView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +39,8 @@ public class TopicsFragment extends Fragment implements TopicsAdapter.TopicsAdap
 
     @BindView(R.id.verticalTopicsRv)
     RecyclerView verticalRv;
+    @BindView(R.id.loading_plane)
+    ImageView loadingPlane;
     private ArrayList<RealmResults<Module>> preparationModules = new ArrayList<RealmResults<Module>>();
     private ArrayList<RealmResults<Module>> knowledgeModules = new ArrayList<RealmResults<Module>>();
     private ModuleViewModel mModuleViewModel;
@@ -55,6 +60,7 @@ public class TopicsFragment extends Fragment implements TopicsAdapter.TopicsAdap
         mModuleViewModel = ViewModelProviders.of(getActivity()).get(ModuleViewModel.class);
         topicsAdapter = new TopicsAdapter(knowledgeModules, getActivity(), this);
         category = Const.API_KNOWLEDGE;
+
     }
 
 
@@ -63,6 +69,19 @@ public class TopicsFragment extends Fragment implements TopicsAdapter.TopicsAdap
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.topics_fragment, container, false);
         ButterKnife.bind(this, view);
+
+        loadingPlane.setVisibility(View.VISIBLE);
+        RotateAnimation rotate = new RotateAnimation(
+                0, 360,
+                Animation.RELATIVE_TO_SELF, 0.5f,
+                Animation.RELATIVE_TO_SELF, 0.5f
+        );
+        rotate.setDuration(2000);
+        rotate.setRepeatCount(20);
+        loadingPlane.startAnimation(rotate);
+        loadingPlane.setVisibility(View.GONE);
+        verticalRv.setVisibility(View.VISIBLE);
+
 
         TabLayout tabLayout = (TabLayout) view.findViewById(R.id.top_tabs);
         tabLayout.setVisibility(View.VISIBLE);
@@ -104,7 +123,7 @@ public class TopicsFragment extends Fragment implements TopicsAdapter.TopicsAdap
         return view;
     }
 
-    private void setUpKnowledgeAdapter(){
+    private void setUpKnowledgeAdapter() {
         knowledgeModules = mModuleViewModel.getKnowledgeAdapterData();
         topicsAdapter.setData(knowledgeModules);
         verticalRv.setHasFixedSize(true);
@@ -113,7 +132,7 @@ public class TopicsFragment extends Fragment implements TopicsAdapter.TopicsAdap
         verticalRv.setAdapter(topicsAdapter);
     }
 
-    private void setUpPreparationAdapter(){
+    private void setUpPreparationAdapter() {
         preparationModules = mModuleViewModel.getPreparationAdapterData();
         topicsAdapter.setData(preparationModules);
         verticalRv.setHasFixedSize(true);

@@ -173,11 +173,13 @@
             android:layout_height="48dp"
             android:layout_gravity="center"
             android:layout_marginTop="24dp"
-            android:background="@drawable/vid_thumb"
+            android:background="@drawable/roundedbluebutton"
             android:src="@drawable/loading_plane"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/seperator3" />
 
     </android.support.constraint.ConstraintLayout>
@@ -204,10 +206,12 @@
         android:layout_below="@+id/forgotPasswordBtn"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="4dp"
+        android:layout_marginBottom="24dp"
         android:background="@null"
         android:text="@string/create_an_account"
         android:textColor="@android:color/white"
         android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/forgotPasswordBtn" />
