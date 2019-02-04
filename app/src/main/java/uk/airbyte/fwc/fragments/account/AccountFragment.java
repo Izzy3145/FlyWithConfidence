@@ -75,7 +75,7 @@ public class AccountFragment extends Fragment {
                 startActivity(coursesWebsiteIntent);
             }
         });
-        User user = mAccountViewModel.getUserRealm(getActivity(), accessToken);
+        User user = mAccountViewModel.getUserRealm(accessToken);
         if(user != null){
             fullName = user.getFirstName() + " " + user.getLastName();
             currentUserTv.setText(fullName);

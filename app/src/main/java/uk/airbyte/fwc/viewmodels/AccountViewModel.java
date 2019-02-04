@@ -27,10 +27,10 @@ public class AccountViewModel extends ViewModel{
     private User foundUser;
     private MutableLiveData<Success> success;
     private APIService apiService = APIClient.getClient().create(APIService.class);
-    private final UserRepository accountRepository;
+    private final UserRepository userRepository;
 
     public AccountViewModel() {
-        accountRepository = new UserRepository();
+        userRepository = new UserRepository();
         }
 
     //we will call this method to get the data
@@ -43,12 +43,12 @@ public class AccountViewModel extends ViewModel{
         return user;
     }
 
-    public User getUserRealm(Context context, String accessToken){
-        return accountRepository.getUserDetailsRealm(accessToken);
+    public User getUserRealm(String accessToken){
+        return userRepository.getUserDetailsRealm(accessToken);
     }
 
     public void closeRealm(){
-        accountRepository.onDestroy();
+        userRepository.onDestroy();
     }
 
 
@@ -85,7 +85,7 @@ public class AccountViewModel extends ViewModel{
                     @Override
                     public void onResponse(Call<User> call, Response<User> response) {
                         if (response.isSuccessful()) {
-                            accountRepository.updateUserDetailsRealm(response.body());
+                            userRepository.updateUserDetailsRealm(response.body());
                             Toast.makeText(context, "Profile updated!", Toast.LENGTH_SHORT).show();
                             Log.d(TAG, "Response updateUserProfile() success: " + response.body());
 
@@ -134,6 +134,6 @@ public class AccountViewModel extends ViewModel{
     }
 
     public void deleteRealmContents(){
-        accountRepository.deleteRealmContents();
+        userRepository.deleteRealmContents();
     }
 }

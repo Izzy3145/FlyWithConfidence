@@ -29,7 +29,7 @@ public class UserRepository {
         });
     }
 
-    public void registerUserRealm(final User body) {
+    public void saveUserRealm(final User body) {
         realmInstance.executeTransactionAsync(new Realm.Transaction(){
             @Override
             public void execute(Realm realm) {
@@ -43,17 +43,7 @@ public class UserRepository {
     }
 
     public User getUserDetailsRealm(String accessToken){
-        mAccessToken = accessToken;
-        realmInstance.executeTransaction(new Realm.Transaction(){
-            @Override
-            public void execute(Realm realm) {
-                User user = realm.where(User.class).equalTo("accessToken", mAccessToken).findFirst();
-                if(user != null){
-                    foundUser = user;
-                }
-            }
-        });
-        return foundUser;
+        return realmInstance.where(User.class).equalTo("accessToken", accessToken).findFirst();
     }
 
     public void deleteRealmContents(){

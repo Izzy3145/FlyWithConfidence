@@ -57,7 +57,7 @@ public class AuthViewModel extends ViewModel {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 if (response.isSuccessful()) {
-
+                    userRepository.saveUserRealm(response.body());
                     editor.putString(Const.ACCESS_TOKEN, response.body().getAccessToken());
                     editor.putString(Const.USER_ID, response.body().getId());
                     editor.apply();
@@ -93,7 +93,7 @@ public class AuthViewModel extends ViewModel {
                     @Override
                     public void onResponse(Call<User> call, Response<User> response) {
                         if (response.isSuccessful()) {
-                            userRepository.registerUserRealm(response.body());
+                            userRepository.saveUserRealm(response.body());
 
                             editor.putString(Const.USER_ID, response.body().getId());
                             editor.putString(Const.ACCESS_TOKEN, response.body().getAccessToken());
