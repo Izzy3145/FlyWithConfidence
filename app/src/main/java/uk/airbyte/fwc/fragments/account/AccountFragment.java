@@ -74,26 +74,20 @@ public class AccountFragment extends Fragment {
             }
         });
         User user = mAccountViewModel.getUserRealm(accessToken);
-        if(user != null){
+        if (user != null) {
             fullName = user.getFirstName() + " " + user.getLastName();
             currentUserTv.setText(fullName);
         }
-        return view;
-    }
-
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
         mAccountViewModel.updatedName().observe(this, new Observer<User>() {
             @Override
             public void onChanged(@Nullable User user) {
-                if(user != null){
+                if (user != null) {
                     fullName = user.getFirstName() + " " + user.getLastName();
                     currentUserTv.setText(fullName);
                 }
             }
         });
+        return view;
     }
 
     @OnClick(R.id.logoutTv)
