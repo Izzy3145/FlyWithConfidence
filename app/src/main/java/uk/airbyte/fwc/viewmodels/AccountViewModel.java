@@ -26,6 +26,7 @@ public class AccountViewModel extends ViewModel{
     private MutableLiveData<User> user;
     private User foundUser;
     private MutableLiveData<Success> success;
+    private MutableLiveData<User> userName = new MutableLiveData<>();
     private APIService apiService = APIClient.getClient().create(APIService.class);
     private final UserRepository userRepository;
 
@@ -45,6 +46,10 @@ public class AccountViewModel extends ViewModel{
 
     public User getUserRealm(String accessToken){
         return userRepository.getUserDetailsRealm(accessToken);
+    }
+
+    public LiveData<User> updatedName(){
+        return userName;
     }
 
     public void closeRealm(){
@@ -79,13 +84,14 @@ public class AccountViewModel extends ViewModel{
                 });
     }
 
-    public void putUserProfile(final Context context, String accessToken, String fName, String lName, String email) {
+    public void putUserProfile(final Context context, final String accessToken, String fName, String lName, String email) {
         apiService.updateUserProfile(accessToken, new Login(email, lName, fName))
                 .enqueue(new Callback<User>() {
                     @Override
                     public void onResponse(Call<User> call, Response<User> response) {
                         if (response.isSuccessful()) {
-                            userRepository.updateUserDetailsRealm(response.body());
+                            userRepository.updateUserDetailsRealm(response.body(), accessToken);
+                            userName.postValue(response.body());
                             Toast.makeText(context, "Profile updated!", Toast.LENGTH_SHORT).show();
                             Log.d(TAG, "Response updateUserProfile() success: " + response.body());
 

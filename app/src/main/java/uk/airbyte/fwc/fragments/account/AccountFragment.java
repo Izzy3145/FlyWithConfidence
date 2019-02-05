@@ -53,10 +53,8 @@ public class AccountFragment extends Fragment {
         super.onCreate(savedInstanceState);
         sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
         accessToken = sharedPref.getString(Const.ACCESS_TOKEN, "");
-
         mAccountViewModel = new AccountViewModel();
         mAccountViewModel = ViewModelProviders.of(getActivity()).get(AccountViewModel.class);
-
     }
 
     @Override
@@ -84,6 +82,19 @@ public class AccountFragment extends Fragment {
     }
 
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        mAccountViewModel.updatedName().observe(this, new Observer<User>() {
+            @Override
+            public void onChanged(@Nullable User user) {
+                if(user != null){
+                    fullName = user.getFirstName() + " " + user.getLastName();
+                    currentUserTv.setText(fullName);
+                }
+            }
+        });
+    }
 
     @OnClick(R.id.logoutTv)
     public void logout() {

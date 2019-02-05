@@ -19,8 +19,9 @@ public class UserRepository {
         userRealm = realmInstance.where(User.class).findAll();
     }
 
-    public void updateUserDetailsRealm(User body) {
+    public void updateUserDetailsRealm(User body, String accessToken) {
         user = body;
+        user.setAccessToken(accessToken);
         realmInstance.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
