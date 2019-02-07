@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -43,7 +44,14 @@ public class ChangePwFragment extends Fragment {
     private String currentPassword;
     private String confPassword;
     private String newPassword;
-
+    private View.OnTouchListener onTouchPws = new View.OnTouchListener(){
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            saveBtn.setClickable(true);
+            saveBtn.setTextColor(getResources().getColor(R.color.fwc_blue));
+            return false;
+        }
+    };
     public ChangePwFragment() {
         // Required empty public constructor
     }
@@ -62,12 +70,25 @@ public class ChangePwFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_change_pw, container, false);
         ButterKnife.bind(this, view);
         cancelBtn.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_changePwFragment_to_accountFragment));
+
+
+        if(inputCurrentPw.getText().toString().length() == 0 && inputConfPw.getText().toString().length() == 0 &&
+                inputNewPw.getText().toString().length() == 0){
+            saveBtn.setClickable(false);
+            saveBtn.setTextColor(getResources().getColor(R.color.video_grey_background));
+        }
+
+        inputCurrentPw.setOnTouchListener(onTouchPws);
+        inputNewPw.setOnTouchListener(onTouchPws);
+        inputConfPw.setOnTouchListener(onTouchPws);
+
         return view;
     }
 
+
+
     @OnClick(R.id.saveBtn)
     public void savePassword(){
-
         if(inputCurrentPw.getText().toString().length() == 0){
             Toast.makeText(getActivity(), "Please enter your current password!", Toast.LENGTH_SHORT).show();
         } else if(inputConfPw.getText().toString().length() == 0) {
