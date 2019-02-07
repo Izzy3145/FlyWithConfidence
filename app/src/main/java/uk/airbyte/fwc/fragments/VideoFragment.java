@@ -128,7 +128,6 @@ public class VideoFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mVideoViewModel = ViewModelProviders.of(getActivity()).get(VideoViewModel.class);
         mModuleViewModel = ViewModelProviders.of(getActivity()).get(ModuleViewModel.class);
         mVideoViewModel = ViewModelProviders.of(getActivity()).get(VideoViewModel.class);
         mVideoViewModel.getSelected().observe(this, new Observer<ShowPlay>() {

@@ -43,6 +43,7 @@ public class AccountFragment extends Fragment {
     private AccountViewModel mAccountViewModel;
     private String accessToken;
     private String fullName;
+    private User currentUser;
 
     public AccountFragment() {
         // Required empty public constructor
@@ -55,6 +56,8 @@ public class AccountFragment extends Fragment {
         accessToken = sharedPref.getString(Const.ACCESS_TOKEN, "");
         mAccountViewModel = new AccountViewModel();
         mAccountViewModel = ViewModelProviders.of(getActivity()).get(AccountViewModel.class);
+
+
     }
 
     @Override
@@ -73,21 +76,35 @@ public class AccountFragment extends Fragment {
                 startActivity(coursesWebsiteIntent);
             }
         });
-        User user = mAccountViewModel.getUserRealm(accessToken);
-        if (user != null) {
-            fullName = user.getFirstName() + " " + user.getLastName();
-            currentUserTv.setText(fullName);
+
+        //initially, get user details from realm
+        currentUser = mAccountViewModel.getUserRealm(accessToken);
+        if (currentUser != null) {
+            fullName = currentUser.getFirstName() + " " + currentUser.getLastName();
         }
+        currentUserTv.setText(fullName);
+
+        //TODO: BUG 1: this isn't picking up changes in user name
+        //continuously observe the view model for changes in name received from UpdateDetailsFragment putUserProfile() method
         mAccountViewModel.updatedName().observe(this, new Observer<User>() {
             @Override
             public void onChanged(@Nullable User user) {
                 if (user != null) {
-                    fullName = user.getFirstName() + " " + user.getLastName();
+                    currentUser = user;
+                    fullName = currentUser.getFirstName() + " " + currentUser.getLastName();
                     currentUserTv.setText(fullName);
                 }
             }
         });
+
         return view;
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        currentUserTv.setText(fullName);
     }
 
     @OnClick(R.id.logoutTv)

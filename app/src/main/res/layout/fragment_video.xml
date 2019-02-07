@@ -37,7 +37,6 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent" />
 
-
     <android.support.constraint.ConstraintLayout
         android:id="@+id/module_vid_overlay"
         android:layout_width="0dp"

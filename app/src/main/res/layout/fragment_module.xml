@@ -237,6 +237,7 @@
             android:layout_marginStart="24dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="24dp"
+            android:layout_marginBottom="16dp"
             android:background="@drawable/roundedbluebutton"
             android:drawableStart="@drawable/locked_btn"
             android:drawablePadding="2dp"
@@ -246,6 +247,7 @@
             android:text="UNLOCK THIS TOPIC"
             android:textColor="@android:color/white"
             android:textSize="17sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/locked_module_desc" />

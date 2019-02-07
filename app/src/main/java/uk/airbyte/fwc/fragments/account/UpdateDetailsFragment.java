@@ -41,6 +41,9 @@ public class UpdateDetailsFragment extends Fragment {
     private AccountViewModel mAccountViewModel;
     private String mAccessToken;
     private SharedPreferences sharedPref;
+    private String firstName;
+    private String lastName;
+    private String email;
 
     public UpdateDetailsFragment() {
         // Required empty public constructor
@@ -72,9 +75,9 @@ public class UpdateDetailsFragment extends Fragment {
 
     @OnClick(R.id.saveBtn)
     public void saveUserProfile() {
-        final String firstName = inputFirstName.getText().toString();
-        final String lastName = inputLastName.getText().toString();
-        final String email = inputEmail.getText().toString();
+        firstName = inputFirstName.getText().toString();
+        lastName = inputLastName.getText().toString();
+        email = inputEmail.getText().toString();
 
         mAccountViewModel.putUserProfile(getActivity(), mAccessToken, firstName, lastName, email);
 
