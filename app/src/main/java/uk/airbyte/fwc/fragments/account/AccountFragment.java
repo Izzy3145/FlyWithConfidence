@@ -55,9 +55,7 @@ public class AccountFragment extends Fragment {
         sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
         accessToken = sharedPref.getString(Const.ACCESS_TOKEN, "");
         mAccountViewModel = new AccountViewModel();
-        mAccountViewModel = ViewModelProviders.of(getActivity()).get(AccountViewModel.class);
-
-
+        mAccountViewModel = ViewModelProviders.of(this).get(AccountViewModel.class);
     }
 
     @Override
@@ -84,27 +82,7 @@ public class AccountFragment extends Fragment {
         }
         currentUserTv.setText(fullName);
 
-        //TODO: BUG 1: this isn't picking up changes in user name
-        //continuously observe the view model for changes in name received from UpdateDetailsFragment putUserProfile() method
-        mAccountViewModel.updatedName().observe(this, new Observer<User>() {
-            @Override
-            public void onChanged(@Nullable User user) {
-                if (user != null) {
-                    currentUser = user;
-                    fullName = currentUser.getFirstName() + " " + currentUser.getLastName();
-                    currentUserTv.setText(fullName);
-                }
-            }
-        });
-
         return view;
-    }
-
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        currentUserTv.setText(fullName);
     }
 
     @OnClick(R.id.logoutTv)

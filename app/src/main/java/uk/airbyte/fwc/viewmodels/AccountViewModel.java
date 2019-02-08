@@ -7,9 +7,12 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.navigation.Navigation;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import uk.airbyte.fwc.MainActivity;
+import uk.airbyte.fwc.R;
 import uk.airbyte.fwc.api.APIClient;
 import uk.airbyte.fwc.api.APIError;
 import uk.airbyte.fwc.api.APIService;
@@ -24,9 +27,9 @@ public class AccountViewModel extends ViewModel{
 
     private static final String TAG = AccountViewModel.class.getSimpleName();
     private MutableLiveData<User> user;
-    private User foundUser;
+    private MutableLiveData<Boolean> userUpdated;
     private MutableLiveData<Success> success;
-    private MutableLiveData<User> userName;
+    public MutableLiveData<User> userName;
     private APIService apiService = APIClient.getClient().create(APIService.class);
     private final UserRepository userRepository;
 
@@ -46,6 +49,13 @@ public class AccountViewModel extends ViewModel{
 
     public User getUserRealm(String accessToken){
         return userRepository.getUserDetailsRealm(accessToken);
+    }
+
+    public LiveData<Boolean> userUpdated(){
+        if(userUpdated == null){
+            userUpdated = new MutableLiveData<>();
+        }
+        return userUpdated;
     }
 
     public LiveData<User> updatedName(){
@@ -94,7 +104,8 @@ public class AccountViewModel extends ViewModel{
                     public void onResponse(Call<User> call, Response<User> response) {
                         if (response.isSuccessful()) {
                             userRepository.updateUserDetailsRealm(response.body(), accessToken);
-                            user.postValue(response.body());
+                            userUpdated.postValue(true);
+                            //userName.postValue(response.body());
                             Toast.makeText(context, "Profile updated!", Toast.LENGTH_SHORT).show();
                             Log.d(TAG, "Response updateUserProfile() success: " + response.body());
 
@@ -111,6 +122,7 @@ public class AccountViewModel extends ViewModel{
                     @Override
                     public void onFailure(Call<User> call, Throwable t) {
                         Log.d(TAG, "Response registerCall() failure");
+                        userUpdated.postValue(false);
                         Toast.makeText(context, "Error - please check your network connection", Toast.LENGTH_SHORT).show();
                     }
                 });

@@ -55,6 +55,15 @@ public class UpdateDetailsFragment extends Fragment {
         sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
         mAccessToken = sharedPref.getString(Const.ACCESS_TOKEN, "");
         mAccountViewModel = ViewModelProviders.of(this).get(AccountViewModel.class);
+        mAccountViewModel.userUpdated().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(@Nullable Boolean bool) {
+                if(bool != null && bool == true){
+                    Navigation.findNavController(getActivity(), R.id.my_nav_host_fragment).
+                             navigate(R.id.action_updateDetailsFragment_to_accountFragment);
+                }
+            }
+        });
     }
 
     @Override
@@ -80,9 +89,6 @@ public class UpdateDetailsFragment extends Fragment {
         email = inputEmail.getText().toString();
 
         mAccountViewModel.putUserProfile(getActivity(), mAccessToken, firstName, lastName, email);
-
-        Navigation.findNavController(getActivity(), R.id.my_nav_host_fragment).
-                navigate(R.id.action_updateDetailsFragment_to_accountFragment);
     }
 
     public void getUserDetails() {

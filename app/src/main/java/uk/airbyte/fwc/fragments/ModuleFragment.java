@@ -65,6 +65,7 @@ public class ModuleFragment extends Fragment {
     Group unlockedModuleGroup;
     @BindView(R.id.lockedModuleGroup)
     Group lockedModuleGroup;
+
     private String selectedModuleID;
     private VideoViewModel mVideoViewModel;
     private ModuleViewModel mModuleViewModel;
@@ -111,12 +112,12 @@ public class ModuleFragment extends Fragment {
             unlockedModuleGroup.setVisibility(View.VISIBLE);
             lockedModuleGroup.setVisibility(View.GONE);
             favouriteButtonToggle();
+
             addFavouriteBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (isFavourite != null) {
                         isFavourite = !isFavourite;
-                        Toast.makeText(getActivity(), "Module favourited: " + isFavourite, Toast.LENGTH_SHORT).show();
                         favouriteButtonToggle();
                     } else {
                         isFavourite = true;

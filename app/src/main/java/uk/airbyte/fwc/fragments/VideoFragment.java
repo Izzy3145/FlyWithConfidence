@@ -170,8 +170,6 @@ public class VideoFragment extends Fragment {
         playBtn.setColorFilter(whiteColor, PorterDuff.Mode.SRC_ATOP);
         pauseBtn.setColorFilter(whiteColor, PorterDuff.Mode.SRC_ATOP);
 
-        Log.d(TAG, " passing through onCreateView()");
-
         if(isIntro != null && isIntro){
             introVidOverlayLand.setBackgroundColor(getResources().getColor(R.color.trans_grey));
             introVidOverlayLand.setVisibility(View.VISIBLE);

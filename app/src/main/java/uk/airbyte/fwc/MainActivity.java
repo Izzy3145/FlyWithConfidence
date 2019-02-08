@@ -156,12 +156,11 @@ public class MainActivity extends AppCompatActivity implements ModuleFragment.On
         super.onResume();
 
         mAccessToken = sharedPref.getString(Const.ACCESS_TOKEN, "");
-        dataRetrieved = sharedPref.getBoolean(Const.DATA_RETRIEVED, false);
+        //dataRetrieved = sharedPref.getBoolean(Const.DATA_RETRIEVED, false);
 
         if (mAccessToken != null && mAccessToken.length() > 0) {
 
             if (!dataRetrieved) {
-
                 mModuleViewModel.knowledgeTopicAndModuleCall(this, mAccessToken);
                 mModuleViewModel.preparationTopicAndModuleCall(this, mAccessToken);
                 dataRetrieved = true;
