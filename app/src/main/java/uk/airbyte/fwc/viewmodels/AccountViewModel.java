@@ -37,11 +37,9 @@ public class AccountViewModel extends ViewModel{
         userRepository = new UserRepository();
         }
 
-    //we will call this method to get the data
     public LiveData<User> getUserProfile(Context context, String accessToken) {
         if (user == null) {
             user = new MutableLiveData<User>();
-            //we will load it asynchronously from server in this method
             profileCall(context, accessToken);
         }
         return user;
@@ -56,13 +54,6 @@ public class AccountViewModel extends ViewModel{
             userUpdated = new MutableLiveData<>();
         }
         return userUpdated;
-    }
-
-    public LiveData<User> updatedName(){
-        if(userName == null){
-            userName = new MutableLiveData<>();
-        }
-        return userName;
     }
 
     public void closeRealm(){
@@ -105,7 +96,6 @@ public class AccountViewModel extends ViewModel{
                         if (response.isSuccessful()) {
                             userRepository.updateUserDetailsRealm(response.body(), accessToken);
                             userUpdated.postValue(true);
-                            //userName.postValue(response.body());
                             Toast.makeText(context, "Profile updated!", Toast.LENGTH_SHORT).show();
                             Log.d(TAG, "Response updateUserProfile() success: " + response.body());
 

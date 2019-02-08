@@ -15,6 +15,8 @@ public class VideoViewModel extends ViewModel {
 
     private final static String TAG = VideoViewModel.class.getSimpleName();
     private MutableLiveData<ShowPlay> selectedVideo = new MutableLiveData<ShowPlay>();
+    private MutableLiveData<Boolean> favStatus = new MutableLiveData<Boolean>();
+
     private final VideoRepository videoRepository;
 
     public VideoViewModel() {
@@ -28,6 +30,14 @@ public class VideoViewModel extends ViewModel {
 
     public LiveData<ShowPlay> getSelected() {
         return selectedVideo;
+    }
+
+    public LiveData<Boolean> getFav() {
+        return favStatus;
+    }
+
+    public void setFav(Boolean favOnOff){
+        favStatus.postValue(favOnOff);
     }
 
     public void clearVideo() {

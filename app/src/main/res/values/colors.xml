@@ -23,5 +23,7 @@
     <color name="mustard">#ffdb58</color>
     <color name="trans_mustard">#90ffdb58</color>
 
+    <color name="remove_fav_red">#FF0A1E</color>
+
 
 </resources>

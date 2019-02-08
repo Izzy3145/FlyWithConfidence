@@ -246,6 +246,7 @@ public class VideoFragment extends Fragment {
                     isFavourite = true;
                 }
                 mModuleViewModel.setFavouriteStatus(isFavourite, mShowPlay.getModuleID());
+                mVideoViewModel.setFav(isFavourite);
                 setFavBtn(isFavourite);
             }
         });
@@ -259,6 +260,7 @@ public class VideoFragment extends Fragment {
                     isFavourite = true;
                 }
                 mModuleViewModel.setFavouriteStatus(isFavourite, mShowPlay.getModuleID());
+                mVideoViewModel.setFav(isFavourite);
                 setFavBtn(isFavourite);
             }
         });

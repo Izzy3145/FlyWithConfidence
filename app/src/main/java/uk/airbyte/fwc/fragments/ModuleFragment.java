@@ -1,6 +1,7 @@
 package uk.airbyte.fwc.fragments;
 
 
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.graphics.Color;
@@ -49,6 +50,8 @@ public class ModuleFragment extends Fragment {
     TextView thingsToTv;
     @BindView(R.id.addToFavouritesBtn)
     Button addFavouriteBtn;
+    @BindView(R.id.removeFavouritesBtn)
+    Button removeFavouriteBtn;
     @BindView(R.id.nextModuleBtn)
     Button nextModuleBtn;
     @BindView(R.id.unlockTopicBtn)
@@ -87,6 +90,15 @@ public class ModuleFragment extends Fragment {
         super.onCreate(savedInstanceState);
         mVideoViewModel = ViewModelProviders.of(getActivity()).get(VideoViewModel.class);
         mModuleViewModel = ViewModelProviders.of(getActivity()).get(ModuleViewModel.class);
+        mVideoViewModel.getFav().observe(getActivity(), new Observer<Boolean>() {
+            @Override
+            public void onChanged(@Nullable Boolean favOnOff) {
+                if(favOnOff != null){
+                    isFavourite = favOnOff;
+                    favouriteButtonToggle();
+                }
+            }
+        });
         if(savedInstanceState!=null){
             selectedModuleID = savedInstanceState.getString(Const.MODULE_ID);
         } else {
@@ -227,12 +239,15 @@ public class ModuleFragment extends Fragment {
     public void favouriteButtonToggle() {
         if (isFavourite != null) {
             if (!isFavourite) {
-                addFavouriteBtn.setText(getString(R.string.add_to_favourites));
+                addFavouriteBtn.setVisibility(View.VISIBLE);
+                removeFavouriteBtn.setVisibility(View.GONE);
             } else {
-                addFavouriteBtn.setText(getString(R.string.remove_favourite));
+                addFavouriteBtn.setVisibility(View.GONE);
+                removeFavouriteBtn.setVisibility(View.VISIBLE);
             }
         } else {
-            addFavouriteBtn.setText(R.string.add_to_favourites);
+            addFavouriteBtn.setVisibility(View.VISIBLE);
+            removeFavouriteBtn.setVisibility(View.GONE);
         }
     }
 

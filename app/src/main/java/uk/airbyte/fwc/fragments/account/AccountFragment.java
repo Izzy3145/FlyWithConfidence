@@ -3,6 +3,7 @@ package uk.airbyte.fwc.fragments.account;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -11,6 +12,7 @@ import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -87,20 +89,41 @@ public class AccountFragment extends Fragment {
 
     @OnClick(R.id.logoutTv)
     public void logout() {
-        editor = sharedPref.edit();
-        editor.putString(Const.ACCESS_TOKEN, "");
-        editor.putString(Const.USER_ID, "");
-        editor.apply();
-
-        mAccountViewModel.deleteRealmContents();
-
-        Intent openMain = new Intent(getActivity(), MainActivity.class);
-        startActivity(openMain);
+        showLogoutDialog();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         mAccountViewModel.closeRealm();
+    }
+
+    private void showLogoutDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+        builder.setTitle("Log out?");
+        builder.setMessage("This will log you out. Are you sure?");
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.setPositiveButton("Log out", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                editor = sharedPref.edit();
+                editor.putString(Const.ACCESS_TOKEN, "");
+                editor.putString(Const.USER_ID, "");
+                editor.apply();
+
+                mAccountViewModel.deleteRealmContents();
+
+                Intent openMain = new Intent(getActivity(), MainActivity.class);
+                startActivity(openMain);
+            }
+        });
+
+        builder.show();
     }
 }
