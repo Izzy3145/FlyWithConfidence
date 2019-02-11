@@ -8,7 +8,8 @@
     <application
         android:name=".FwcApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_fwc"
+        android:icon="@mipmap/ic_fly_wc"
+        android:roundIcon="@mipmap/ic_fly_wc_round"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">

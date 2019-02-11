@@ -49,6 +49,7 @@ public class ModuleViewModel extends ViewModel implements OrderedRealmCollection
     private RealmResults<Module> recentsResults;
     private RealmResults<Module> topicResults;
     private RealmResults<Module> allResults;
+    private MutableLiveData<Boolean> mIsFavourite;
 
     public ModuleViewModel() {
         moduleRepository = new ModuleRepository();
@@ -68,6 +69,7 @@ public class ModuleViewModel extends ViewModel implements OrderedRealmCollection
 
     public void setFavourite(Boolean isFavourite, Module module) {
         moduleRepository.setRealmFavourite(isFavourite, module);
+        mIsFavourite.postValue(isFavourite);
     }
 
     public RealmResults<Module> getAll() {
@@ -91,6 +93,13 @@ public class ModuleViewModel extends ViewModel implements OrderedRealmCollection
 
     public Boolean getFavouritedStatus(String moduleID){
         return moduleRepository.getFavouriteStatus(moduleID);
+    }
+
+    public LiveData<Boolean> getLiveFavStatus(){
+        if(mIsFavourite == null){
+            mIsFavourite = new MutableLiveData<>();
+        }
+        return mIsFavourite;
     }
 
     public void setFavouriteStatus(Boolean isFavourite, String moduleID){

@@ -88,17 +88,8 @@ public class ModuleFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mVideoViewModel = ViewModelProviders.of(getActivity()).get(VideoViewModel.class);
         mModuleViewModel = ViewModelProviders.of(getActivity()).get(ModuleViewModel.class);
-        mVideoViewModel.getFav().observe(getActivity(), new Observer<Boolean>() {
-            @Override
-            public void onChanged(@Nullable Boolean favOnOff) {
-                if(favOnOff != null){
-                    isFavourite = favOnOff;
-                    favouriteButtonToggle();
-                }
-            }
-        });
+
         if(savedInstanceState!=null){
             selectedModuleID = savedInstanceState.getString(Const.MODULE_ID);
         } else {
@@ -117,7 +108,6 @@ public class ModuleFragment extends Fragment {
 
         getListOfModules();
         canView = mModule.getCanView();
-        displayModuleInfo(mModule);
 
         if(canView) {
             view.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.background_grey));
@@ -133,7 +123,22 @@ public class ModuleFragment extends Fragment {
                         favouriteButtonToggle();
                     } else {
                         isFavourite = true;
-                        Toast.makeText(getActivity(), "Module favourited: " + isFavourite, Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getActivity(), "Module favourited: " + isFavourite, Toast.LENGTH_SHORT).show();
+                        favouriteButtonToggle();
+                    }
+                    mModuleViewModel.setFavourite(isFavourite, mModule);
+                }
+            });
+
+            removeFavouriteBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (isFavourite != null) {
+                        isFavourite = !isFavourite;
+                        favouriteButtonToggle();
+                    } else {
+                        isFavourite = true;
+                        //Toast.makeText(getActivity(), "Module favourited: " + isFavourite, Toast.LENGTH_SHORT).show();
                         favouriteButtonToggle();
                     }
                     mModuleViewModel.setFavourite(isFavourite, mModule);
@@ -150,9 +155,6 @@ public class ModuleFragment extends Fragment {
                         Bundle bundle = new Bundle();
                         bundle.putString(Const.MODULE_ID, nextModule.getId());
                         Navigation.findNavController(getActivity(), R.id.my_nav_host_fragment).navigate(R.id.moduleFragment, bundle);
-
-                       // displayModuleInfo(mModule);
-                        //favouriteButtonToggle();
                     } else {
                         Toast.makeText(getActivity(), "No more modules in this topic!", Toast.LENGTH_SHORT).show();
                     }
@@ -178,6 +180,23 @@ public class ModuleFragment extends Fragment {
                 });
         }
         return view;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        mVideoViewModel = ViewModelProviders.of(getActivity()).get(VideoViewModel.class);
+        mVideoViewModel.getFav().observe(getActivity(), new Observer<Boolean>() {
+            @Override
+            public void onChanged(@Nullable Boolean favOnOff) {
+                if(favOnOff != null){
+                    isFavourite = favOnOff;
+                    favouriteButtonToggle();
+                }
+            }
+        });
+        displayModuleInfo(mModule);
+
     }
 
     @Override

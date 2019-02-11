@@ -100,7 +100,6 @@ public class AccountFragment extends Fragment {
 
     private void showLogoutDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-
         builder.setTitle("Log out?");
         builder.setMessage("This will log you out. Are you sure?");
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

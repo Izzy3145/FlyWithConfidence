@@ -305,6 +305,19 @@ public class VideoFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        mModuleViewModel.getLiveFavStatus().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(@Nullable Boolean aBoolean) {
+                if(aBoolean != null) {
+                    setFavBtn(aBoolean);
+                }
+            }
+        });
+    }
+
     private void setUpIntroVidUI() {
         moduleVidOverlay.setVisibility(View.GONE);
         introVidOverlayLand.setBackgroundColor(getResources().getColor(R.color.trans_grey));
