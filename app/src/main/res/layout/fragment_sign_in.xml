@@ -196,9 +196,11 @@
         android:text="@string/forgot_password"
         android:textColor="@android:color/white"
         android:textSize="15sp"
+        app:layout_constraintBottom_toTopOf="@+id/createAccountBtn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/boardingPass" />
+        app:layout_constraintTop_toBottomOf="@+id/boardingPass"
+        app:layout_constraintVertical_bias="1.0" />
 
     <Button
         android:id="@+id/createAccountBtn"
@@ -215,6 +217,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/forgotPasswordBtn" />
+        app:layout_constraintTop_toBottomOf="@+id/forgotPasswordBtn"
+        app:layout_constraintVertical_bias="0.0" />
 
 </android.support.constraint.ConstraintLayout>

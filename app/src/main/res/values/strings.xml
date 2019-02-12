@@ -66,5 +66,7 @@
     <string name="recently_watched">RECENTLY WATCHED</string>
     <string name="my_favourites">MY FAVOURITES</string>
 
+    <string name="no_connection">No internet connection - videos are unavailable offline.</string>
+
 
 </resources>

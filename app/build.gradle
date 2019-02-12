@@ -8,11 +8,15 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "uk.airbyte.fwc"
-        minSdkVersion 26
+        minSdkVersion 24
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
     buildTypes {
         debug {
@@ -33,6 +37,8 @@ android {
 realm {
     syncEnabled = true
 }
+
+
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])

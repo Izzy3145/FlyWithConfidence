@@ -5,6 +5,7 @@ import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -14,7 +15,6 @@ import android.support.v4.content.ContextCompat;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.BulletSpan;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -106,7 +106,7 @@ public class ModuleFragment extends Fragment {
 
         ((MainActivity) getActivity()).hideNavBar();
 
-        getListOfModules();
+        getModulesFromRealm();
         canView = mModule.getCanView();
 
         if(canView) {
@@ -123,7 +123,6 @@ public class ModuleFragment extends Fragment {
                         favouriteButtonToggle();
                     } else {
                         isFavourite = true;
-                        //Toast.makeText(getActivity(), "Module favourited: " + isFavourite, Toast.LENGTH_SHORT).show();
                         favouriteButtonToggle();
                     }
                     mModuleViewModel.setFavourite(isFavourite, mModule);
@@ -138,7 +137,6 @@ public class ModuleFragment extends Fragment {
                         favouriteButtonToggle();
                     } else {
                         isFavourite = true;
-                        //Toast.makeText(getActivity(), "Module favourited: " + isFavourite, Toast.LENGTH_SHORT).show();
                         favouriteButtonToggle();
                     }
                     mModuleViewModel.setFavourite(isFavourite, mModule);
@@ -163,6 +161,9 @@ public class ModuleFragment extends Fragment {
         } else {
             unlockedModuleGroup.setVisibility(View.GONE);
             lockedModuleGroup.setVisibility(View.VISIBLE);
+            if(android.os.Build.VERSION.SDK_INT <= Build.VERSION_CODES.N){
+                removeFavouriteBtn.setVisibility(View.GONE);
+            }
 
                 unlockTopicBtn.setOnClickListener(new View.OnClickListener(){
                     @Override
@@ -209,7 +210,7 @@ public class ModuleFragment extends Fragment {
         }
     }
 
-    public void getListOfModules() {
+    public void getModulesFromRealm() {
         mModule = mModuleViewModel.getModuleFromId(selectedModuleID);
         topicID = mModule.getTopic().getId();
         modulesInTopic = new ArrayList<>(mModuleViewModel.getModulesForTopic(topicID));
@@ -219,9 +220,14 @@ public class ModuleFragment extends Fragment {
     public void displayModuleInfo(Module module) {
         if(canView) {
             if (module != null) {
+                String description = module.getDescription();
+                String notes = module.getNotes();
+                Boolean isFavourite = module.getFavourited();
+                String video = module.getMedia().getVideo1080();
+
                 moduleIntroTv.setText(module.getDescription());
                 moduleNotesTv.setText(module.getNotes());
-                isFavourite = mModule.getFavourited();
+                isFavourite = module.getFavourited();
                 mVideoViewModel.select(new ShowPlay(module.getId(), null, null,
                         module.getMedia().getVideo1080(), module.getCurrentWindow(), module.getPlayerPosition(), false));
 
@@ -233,7 +239,7 @@ public class ModuleFragment extends Fragment {
                 String bulletNote =  module.getBullets().get(i);
                 bulletsList.add(bulletNote);
             }*/
-                ArrayList<String> bulletsList = new ArrayList<>();
+                ArrayList<String> bulletsList = new ArrayList<>(0);
                 bulletsList.add("Test 1");
                 bulletsList.add("Test 2");
                 bulletsList.add("Test 3");
@@ -277,15 +283,10 @@ public class ModuleFragment extends Fragment {
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
         ((MainActivity) getActivity()).hideNavBar();
-        getListOfModules();
+        getModulesFromRealm();
         displayModuleInfo(mModule);
     }
 
@@ -293,7 +294,6 @@ public class ModuleFragment extends Fragment {
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putString(Const.MODULE_ID, selectedModuleID);
-        Log.d(TAG, "moduleID to outState: " + selectedModuleID);
     }
 
     @Override

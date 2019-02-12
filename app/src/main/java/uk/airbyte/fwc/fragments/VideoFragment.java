@@ -7,6 +7,8 @@ import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.PorterDuff;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -14,6 +16,7 @@ import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -44,6 +47,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import uk.airbyte.fwc.MainActivity;
@@ -525,6 +529,11 @@ public class VideoFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        if(!isNetworkAvailable()){
+            View view = getActivity().findViewById(R.id.home_constraint);
+            Snackbar noConnectionSnackbar = Snackbar.make(view, "No internet connection", Snackbar.LENGTH_SHORT);
+            noConnectionSnackbar.show();
+        }
         passShowPlayObj(mShowPlay);
         if(isIntro){
             setUpIntroVidUI();
@@ -607,5 +616,12 @@ public class VideoFragment extends Fragment {
 
     public interface IntroVidListener{
         void setIntroVidPosition(long inPosition);
+    }
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null;
     }
 }
